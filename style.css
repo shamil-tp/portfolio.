@@ -223,8 +223,8 @@ html {
 .profile-container {
     position: relative;
     width: 100%;
-    max-width: 400px;
-    margin: 0 auto 3rem;
+    max-width: 350px;
+    margin: 0 auto;
     z-index: 1;
 }
 
@@ -270,9 +270,7 @@ html {
     position: relative;
     transition: var(--transition);
     z-index: 2;
-    margin-top: -4rem;
-    /* Overlap image slightly */
-    margin-left: 2rem;
+    margin-top: 2rem;
 }
 
 .code-block:hover {
@@ -401,16 +399,24 @@ pre {
     border-radius: 2px;
 }
 
-/* About Overlay */
-.about-text {
-    max-width: 800px;
+/* About Section Grid */
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1000px;
     margin: 0 auto;
+}
+
+.about-text {
     background: var(--bg-color);
     padding: 3rem;
     border: 2px solid var(--border-color);
-    text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 500;
+    text-align: left;
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 1);
 }
 
 /* Skills Grid */
@@ -588,6 +594,35 @@ pre {
     margin-top: auto;
 }
 
+.contributions {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    border-top: 2px solid var(--border-color);
+    padding-top: 1.5rem;
+}
+
+.contributions ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.contributions li {
+    position: relative;
+    padding-left: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.6rem;
+    line-height: 1.5;
+}
+
+.contributions li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+}
+
 /* Education */
 .education-grid {
     max-width: 800px;
@@ -762,10 +797,11 @@ footer {
 
     .profile-container {
         max-width: 300px;
+        margin: 0 auto;
     }
 
     .code-block {
-        margin-top: -2rem;
+        margin-top: 2rem;
         margin-left: 0;
         width: 100%;
     }
@@ -806,6 +842,11 @@ footer {
     .section-title {
         font-size: 2rem;
         margin-bottom: 3rem;
+    }
+
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
     }
 
     .about-text {
