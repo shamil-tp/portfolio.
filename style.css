@@ -31,9 +31,35 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Cursor Glow Effect Removed for Brutalism */
-.cursor-glow {
-    display: none;
+/* Custom Brutalist Cursor */
+body,
+a,
+button,
+.details-toggle-btn {
+    cursor: none !important;
+}
+
+.custom-cursor {
+    width: 20px;
+    height: 20px;
+    border: 3px solid var(--text-primary);
+    background: transparent;
+    border-radius: 0;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.15s ease, height 0.15s ease, background-color 0.15s ease, border-radius 0.15s ease;
+    mix-blend-mode: difference;
+    left: 0;
+    top: 0;
+}
+
+.custom-cursor.hovering {
+    width: 40px;
+    height: 40px;
+    background: var(--bg-color);
+    border-radius: 50%;
 }
 
 /* Navbar */
@@ -88,11 +114,11 @@ html {
     content: '';
     position: absolute;
     width: 0;
-    height: 2px;
-    bottom: 0;
+    height: 3px;
+    bottom: -2px;
     left: 0;
     background-color: var(--accent);
-    transition: width 0.3s ease;
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav-links a:hover::after {
@@ -160,17 +186,28 @@ html {
 
 .btn {
     padding: 1rem 2.5rem;
-    border: 2px solid var(--border-color);
+    border: 3px solid var(--border-color);
     border-radius: 0;
     /* Zero organic curves */
     text-decoration: none;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    transition: var(--transition);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);
+}
+
+.btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 1);
+}
+
+.btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 1);
 }
 
 .btn-primary {
@@ -179,12 +216,12 @@ html {
 }
 
 .btn-primary:hover {
-    background: transparent;
+    background: var(--bg-color);
     color: var(--text-primary);
 }
 
 .btn-outline {
-    background: transparent;
+    background: var(--bg-color);
     color: var(--text-primary);
 }
 
@@ -429,14 +466,14 @@ pre {
 .skill-category {
     background: var(--card-bg);
     padding: 2.5rem;
-    border: 2px solid var(--border-color);
-    transition: var(--transition);
+    border: 3px solid var(--border-color);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);
 }
 
 .skill-category:hover {
-    transform: translate(-4px, -4px);
-    box-shadow: 10px 10px 0px rgba(0, 0, 0, 1);
+    transform: translate(-6px, -6px) scale(1.02);
+    box-shadow: 14px 14px 0px rgba(0, 0, 0, 1);
 }
 
 .skill-category h3 {
@@ -456,6 +493,16 @@ pre {
     font-size: 0.95rem;
     font-weight: 600;
     border: 2px solid var(--border-color);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: default;
+    display: inline-block;
+}
+
+.skill-tags span:hover {
+    transform: translateY(2px);
+    background: var(--text-primary);
+    color: var(--bg-color);
+    box-shadow: inset 3px 3px 0px rgba(0, 0, 0, 0.4);
 }
 
 /* Timeline */
@@ -481,12 +528,33 @@ pre {
     position: absolute;
     left: -29px;
     top: 5px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.timeline-item:hover .timeline-dot {
+    background: var(--accent);
+    transform: scale(1.4);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
 }
 
 .timeline-date {
     color: var(--accent);
     font-weight: 500;
     margin-bottom: 0.5rem;
+}
+
+.timeline-content {
+    border: 3px solid transparent;
+    padding: 1.5rem;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    background: transparent;
+}
+
+.timeline-item:hover .timeline-content {
+    border-color: var(--border-color);
+    background: #fff;
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 1);
 }
 
 .timeline-content h3 {
@@ -775,8 +843,14 @@ pre {
 .edu-card {
     background: var(--card-bg);
     padding: 2.5rem;
-    border: 2px solid var(--border-color);
+    border: 3px solid var(--border-color);
     box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.edu-card:hover {
+    transform: translate(-6px, -6px) scale(1.02);
+    box-shadow: 14px 14px 0px rgba(0, 0, 0, 1);
 }
 
 .edu-card h3 {

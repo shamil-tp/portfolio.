@@ -114,4 +114,21 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Start typing after initial delay
     setTimeout(type, 2000);
+
+    // Custom Brutalist Cursor Logic
+    const cursor = document.createElement('div');
+    cursor.classList.add('custom-cursor');
+    document.body.appendChild(cursor);
+
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+
+    const clickables = document.querySelectorAll('a, button, .details-toggle-btn, .project-card, .skill-category, .edu-card, .timeline-content, .skill-tags span');
+    
+    clickables.forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+    });
 });
