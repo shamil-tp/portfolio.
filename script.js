@@ -115,34 +115,45 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start typing after initial delay
     setTimeout(type, 2000);
 
-    // Matrix Scramble Logo
-    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const logoText = document.querySelector('.logo-text');
+    // Matrix Scramble Logo & Contact Links
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$*";
+    const scrambleElements = document.querySelectorAll('.logo-text, .scramble-text');
     
-    if (logoText) {
-        logoText.addEventListener('mouseover', event => {
+    scrambleElements.forEach(el => {
+        el.addEventListener('mouseover', event => {
             let iteration = 0;
             let interval = null;
-            clearInterval(interval);
+            clearInterval(el.dataset.intervalId); // Clear previous if any
             
-            interval = setInterval(() => {
-                event.target.innerText = event.target.innerText
+            // For contact links, we want to scramble text but preserve the icon child if it exists.
+            // A simple way to handle this without losing the icon is to scramble a text node wrapper, 
+            // but since we keep it brutalist and simple, we'll just rewrite the innerText and prepend the icon HTML back if needed.
+            // To be safe, we'll just scramble the innerText completely.
+            const iconHTML = event.target.querySelector('i') ? event.target.querySelector('i').outerHTML + " " : "";
+            const targetText = event.target.dataset.value;
+            
+            const newInterval = setInterval(() => {
+                const scrambled = targetText
                     .split("")
                     .map((letter, index) => {
                         if (index < iteration) {
-                            return event.target.dataset.value[index];
+                            return targetText[index];
                         }
-                        return letters[Math.floor(Math.random() * 26)];
+                        return letters[Math.floor(Math.random() * letters.length)];
                     })
                     .join("");
+                
+                event.target.innerHTML = iconHTML + scrambled;
                     
-                if (iteration >= event.target.dataset.value.length) { 
-                    clearInterval(interval);
+                if (iteration >= targetText.length) { 
+                    clearInterval(newInterval);
                 }
                 iteration += 1 / 3;
             }, 30);
+            
+            el.dataset.intervalId = newInterval;
         });
-    }
+    });
 
     // Magnetic Buttons
     const magneticBtns = document.querySelectorAll('.btn');

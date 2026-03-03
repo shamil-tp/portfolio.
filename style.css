@@ -152,22 +152,36 @@ button,
     font-weight: 500;
     transition: var(--transition);
     position: relative;
-    padding-bottom: 5px;
+    padding: 0 5px;
+}
+
+.nav-links a::before,
+.nav-links a::after {
+    position: absolute;
+    opacity: 0;
+    font-weight: 700;
+    color: var(--accent);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    top: 50%;
+    margin-top: -12px;
+}
+
+.nav-links a::before {
+    content: '[';
+    left: -15px;
+    transform: translateX(10px);
 }
 
 .nav-links a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 3px;
-    bottom: -2px;
-    left: 0;
-    background-color: var(--accent);
-    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    content: ']';
+    right: -15px;
+    transform: translateX(-10px);
 }
 
+.nav-links a:hover::before,
 .nav-links a:hover::after {
-    width: 100%;
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .nav-links a:hover {
@@ -409,7 +423,7 @@ button,
     transition: var(--transition);
 }
 
-.profile-container::after {
+.profile-container::before {
     content: '';
     position: absolute;
     top: 20px;
@@ -421,13 +435,48 @@ button,
     transition: var(--transition);
 }
 
-.profile-container:hover .profile-img {
-    transform: translate(-5px, -5px);
-    box-shadow: 21px 21px 0px rgba(0, 0, 0, 1);
-    filter: grayscale(80%) contrast(1.1);
+.profile-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
 }
 
 .profile-container:hover::after {
+    opacity: 1;
+    animation: scanline 2s linear infinite;
+}
+
+@keyframes scanline {
+    0% {
+        top: 0;
+    }
+
+    50% {
+        top: calc(100% - 4px);
+    }
+
+    100% {
+        top: 0;
+    }
+}
+
+.profile-container:hover .profile-img {
+    transform: translate(-5px, -5px);
+    box-shadow: 21px 21px 0px rgba(0, 0, 0, 1);
+    filter: grayscale(80%) contrast(1.1) sepia(20%) hue-rotate(90deg);
+    /* slight green/analytical tint */
+}
+
+.profile-container:hover::before {
     transform: translate(5px, 5px);
 }
 
@@ -601,11 +650,59 @@ pre {
     border: 3px solid var(--border-color);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* HUD Grid Background */
+.skill-category::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: linear-gradient(var(--border-color) 1px, transparent 1px), linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* HUD Target Crosshairs */
+.skill-category::after {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    pointer-events: none;
+    z-index: 1;
+    border: 2px solid transparent;
+    transition: border-color 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(0.95);
+}
+
+.skill-category>* {
+    position: relative;
+    z-index: 2;
+    /* keep text above grids */
 }
 
 .skill-category:hover {
     transform: translate(-6px, -6px) scale(1.02);
     box-shadow: 14px 14px 0px rgba(0, 0, 0, 1);
+}
+
+.skill-category:hover::before {
+    opacity: 0.1;
+    transform: translateY(0);
+}
+
+.skill-category:hover::after {
+    border-color: var(--accent);
+    transform: scale(1);
+    clip-path: polygon(0% 0%, 15px 0%, 15px 2px, 2px 2px, 2px 15px, 0% 15px,
+            0% calc(100% - 15px), 2px calc(100% - 15px), 2px calc(100% - 2px), 15px calc(100% - 2px), 15px 100%, 0% 100%,
+            100% 100%, calc(100% - 15px) 100%, calc(100% - 15px) calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) calc(100% - 15px), 100% calc(100% - 15px),
+            100% 0%, calc(100% - 15px) 0%, calc(100% - 15px) 2px, calc(100% - 2px) 2px, calc(100% - 2px) 15px, 100% 15px);
 }
 
 .skill-category h3 {
@@ -758,11 +855,23 @@ pre {
     display: flex;
     flex-direction: column;
     transform-style: preserve-3d;
+    transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .project-card:hover {
     box-shadow: 18px 18px 0px rgba(0, 0, 0, 1);
     z-index: 10;
+}
+
+.project-card:hover .project-content {
+    transform: translate(-4px, -4px) scale(1.01);
+}
+
+.project-card:hover .project-content h3 {
+    background-size: 100% 100%;
+    color: rgb(71, 71, 71);
+    font-size: 2.5rem;
+    font-weight: 300;
 }
 
 .project-content {
@@ -1009,11 +1118,32 @@ pre {
     box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);
     transition: box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.1s ease;
     transform-style: preserve-3d;
+    position: relative;
+}
+
+.edu-card::after {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    pointer-events: none;
+    z-index: 1;
+    border: 2px solid transparent;
+    transition: border-color 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(0.95);
 }
 
 .edu-card:hover {
     box-shadow: 14px 14px 0px rgba(0, 0, 0, 1);
     z-index: 10;
+}
+
+.edu-card:hover::after {
+    border-color: var(--accent);
+    transform: scale(1);
+    clip-path: polygon(0% 0%, 15px 0%, 15px 2px, 2px 2px, 2px 15px, 0% 15px,
+            0% calc(100% - 15px), 2px calc(100% - 15px), 2px calc(100% - 2px), 15px calc(100% - 2px), 15px 100%, 0% 100%,
+            100% 100%, calc(100% - 15px) 100%, calc(100% - 15px) calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) calc(100% - 15px), 100% calc(100% - 15px),
+            100% 0%, calc(100% - 15px) 0%, calc(100% - 15px) 2px, calc(100% - 2px) 2px, calc(100% - 2px) 15px, 100% 15px);
 }
 
 .edu-card h3 {
@@ -1052,9 +1182,37 @@ pre {
     color: var(--text-secondary);
 }
 
+.contact-details p {
+    margin-bottom: 0;
+    cursor: default;
+}
+
 .contact-details i {
     color: var(--accent);
     margin-right: 0.5rem;
+}
+
+/* Blinking Terminal Cursor */
+.blinking-cursor {
+    display: inline-block;
+    width: 10px;
+    height: 1.2em;
+    background-color: var(--accent);
+    vertical-align: text-bottom;
+    margin-left: 5px;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
 }
 
 /* Footer */
