@@ -5,6 +5,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelector('.nav-links');
     const links = document.querySelectorAll('.nav-links li');
 
+    const red_button = document.getElementById('red_button');
+    const yellow_button = document.getElementById('yellow_button');
+    const green_button = document.getElementById('green_button');
+    const code = document.getElementById('code');
+
+    red_button.addEventListener('click', () => {
+        code.style.display = 'none';
+    });
+
+    yellow_button.addEventListener('click', () => {
+        code.style.display = 'block';
+    });
+
+    green_button.addEventListener('click', () => {
+        code.style.display = 'block';
+    });
+
     hamburger.addEventListener('click', () => {
         navLinks.classList.toggle('open');
         hamburger.classList.toggle('toggle');
@@ -49,6 +66,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     revealElements.forEach(el => {
         revealObserver.observe(el);
+    });
+
+    // Project Cards Accordion Logic
+    const toggleButtons = document.querySelectorAll('.details-toggle-btn');
+    
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            button.classList.toggle('active');
+            const contributionsDiv = button.nextElementSibling;
+            
+            if (contributionsDiv && contributionsDiv.classList.contains('contributions')) {
+                contributionsDiv.classList.toggle('collapsed');
+            }
+        });
     });
 
     // Typing Effect

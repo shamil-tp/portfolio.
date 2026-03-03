@@ -580,22 +580,75 @@ pre {
     flex-grow: 1;
 }
 
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.header-main {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.folder-icon {
+    font-size: 2.5rem;
+    color: var(--accent);
+}
+
 .project-title {
     font-size: 1.8rem;
     font-weight: 800;
-    margin-bottom: 1rem;
+    margin: 0;
     color: var(--text-primary);
 }
 
 .project-desc {
     color: var(--text-secondary);
     line-height: 1.6;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     font-weight: 500;
     font-size: 1.05rem;
 }
 
-/* Badges System */
+/* Accordion Toggle Element */
+.details-toggle-btn {
+    background: transparent;
+    border: 2px solid var(--border-color);
+    padding: 0.8rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    color: var(--text-primary);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+    transition: all 0.25s ease;
+    margin-bottom: 1rem;
+    margin-right: auto;
+}
+
+.details-toggle-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);
+    background: var(--text-primary);
+    color: var(--bg-color);
+}
+
+.details-toggle-btn.active i {
+    transform: rotate(-180deg);
+}
+
+.details-toggle-btn i {
+    transition: transform 0.3s ease;
+}
+
+/* Base Badges styling */
 .tech-stack-badges {
     display: flex;
     flex-wrap: wrap;
@@ -667,15 +720,31 @@ pre {
 }
 
 .contributions {
-    margin-top: auto;
-    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
     border-top: 2px dashed var(--border-color);
     padding-top: 1.5rem;
+
+    /* Reveal logic */
+    max-height: 300px;
+    opacity: 1;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0, 1, 0, 1), opacity 0.3s ease-in-out, margin 0.3s ease, padding 0.3s ease, border-top 0.3s ease;
+}
+
+.contributions.collapsed {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    border-top-color: transparent;
 }
 
 .contributions ul {
     list-style: none;
     padding-left: 0;
+    margin: 0;
 }
 
 .contributions li {
