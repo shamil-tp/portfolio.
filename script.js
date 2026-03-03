@@ -68,8 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
         revealObserver.observe(el);
     });
 
-    // Project Cards Accordion Logic
+    // Project Cards Accordion Logic & Data Decryption
     const toggleButtons = document.querySelectorAll('.details-toggle-btn');
+    const lettersPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$*";
     
     toggleButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -77,7 +78,41 @@ document.addEventListener('DOMContentLoaded', () => {
             const contributionsDiv = button.nextElementSibling;
             
             if (contributionsDiv && contributionsDiv.classList.contains('contributions')) {
-                contributionsDiv.classList.toggle('collapsed');
+                const isOpening = contributionsDiv.classList.toggle('collapsed') === false;
+                
+                // Trigger Data Payload Decryption on Open
+                if (isOpening) {
+                    const listItems = contributionsDiv.querySelectorAll('li');
+                    listItems.forEach(li => {
+                        // Store original text if not already saved
+                        if (!li.dataset.originalText) {
+                            li.dataset.originalText = li.innerText;
+                        }
+                        
+                        const targetText = li.dataset.originalText;
+                        let iteration = 0;
+                        clearInterval(li.dataset.intervalId);
+                        
+                        const newInterval = setInterval(() => {
+                            li.innerText = targetText
+                                .split("")
+                                .map((letter, index) => {
+                                    if (index < iteration) {
+                                        return targetText[index];
+                                    }
+                                    return lettersPool[Math.floor(Math.random() * lettersPool.length)];
+                                })
+                                .join("");
+                                
+                            if (iteration >= targetText.length) { 
+                                clearInterval(newInterval);
+                            }
+                            iteration += 1 / 2; // Decrypt speed
+                        }, 25);
+                        
+                        li.dataset.intervalId = newInterval;
+                    });
+                }
             }
         });
     });
@@ -278,5 +313,17 @@ document.addEventListener('DOMContentLoaded', () => {
             // Clean up particle
             setTimeout(() => p.remove(), 600);
         }
+    });
+
+    // Global Coordinate HUD Tracker
+    const trackerHUD = document.createElement('div');
+    trackerHUD.classList.add('global-hud-tracker');
+    trackerHUD.innerText = '[ TRGT // X: 000 | Y: 000 ]';
+    document.body.appendChild(trackerHUD);
+
+    window.addEventListener('mousemove', (e) => {
+        const x = String(e.clientX).padStart(3, '0');
+        const y = String(e.clientY).padStart(3, '0');
+        trackerHUD.innerText = `[ TRGT // X: ${x} | Y: ${y} ]`;
     });
 });
