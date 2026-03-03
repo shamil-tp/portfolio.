@@ -6,9 +6,16 @@
 document.addEventListener("DOMContentLoaded", () => {
     // 1. Subtle Audio Feedback Setup
     const AudioContext = window.AudioContext || window.webkitAudioContext;
-    const audioCtx = AudioContext ? new AudioContext() : null;
+    let audioCtx = null;
+
+    function initAudio() {
+        if (!audioCtx && AudioContext) {
+            audioCtx = new AudioContext();
+        }
+    }
 
     function playTinyBlip() {
+        initAudio(); // initialize on first click to bypass autoplay restrictions
         if (!audioCtx) return;
         try {
             if (audioCtx.state === 'suspended') {
@@ -17,48 +24,44 @@ document.addEventListener("DOMContentLoaded", () => {
             const oscillator = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
             
-            // A very low, subtle sine wave
+            // A slightly more audible frequency
             oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(400, audioCtx.currentTime);
-            oscillator.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.05);
+            oscillator.frequency.setValueAtTime(600, audioCtx.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.1);
             
-            // Extremely low volume, barely perceptible
+            // Subtle, perceptible click
             gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-            gainNode.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.01);
-            gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.05);
+            gainNode.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 0.02);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
             
             oscillator.connect(gainNode);
             gainNode.connect(audioCtx.destination);
             
             oscillator.start();
-            oscillator.stop(audioCtx.currentTime + 0.06);
+            oscillator.stop(audioCtx.currentTime + 0.15);
         } catch(e) {
-            // Silently fail if audio contexts are blocked
+            console.error(e);
         }
     }
 
     // 2. Global Subtle Theme Shift
-    // We only trigger this if the user clicks empty space, NOT a link, button, or interactive card element.
-    const interactiveSelectors = 'a, button, input, textarea, select, .project-card, .skill-category, .edu-card, .details-toggle-btn, .skill-tags span';
+    const interactiveSelectors = 'a, button, input, textarea, select, .project-card, .skill-category, .edu-card, .details-toggle-btn, .skill-tags span, nav, .navbar';
 
-    document.body.addEventListener('click', (e) => {
-        // Find if the click hit an interactive element or one of its children
+    // Attach to documentElement to ensure it captures clicks absolutely everywhere
+    document.documentElement.addEventListener('click', (e) => {
         const isInteractive = e.target.closest(interactiveSelectors);
 
         if (!isInteractive) {
             // Play the subtle audio blip
             playTinyBlip();
 
-            // Trigger the CSS theme shift on the body
+            // Trigger the CSS theme shift on the body (now includes scale pop)
             document.body.setAttribute('data-theme-shift', 'active');
 
-            // Remove it after a very short delay to let the CSS transition smoothly resettle it
+            // Remove it quickly so the CSS ease-out starts immediately
             setTimeout(() => {
                 document.body.removeAttribute('data-theme-shift');
             }, 100); 
-            // The 100ms JS timeout simply removes the attribute. 
-            // The actual CSS will have a long `transition` property (e.g., 2s) attached to the base body tag, 
-            // so removing the attribute initiates a 2-second ease-out back to normal.
         }
     });
 });
