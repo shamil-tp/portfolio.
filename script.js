@@ -251,34 +251,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let mouseX = 0, mouseY = 0;
     let outlineX = 0, outlineY = 0;
+    let isTouch = window.matchMedia("(pointer: coarse)").matches;
 
-    window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        
-        // Exact snapping for inner dot
-        cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-    });
+    if (!isTouch) {
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
 
-    function animateCursor() {
-        let distX = mouseX - outlineX;
-        let distY = mouseY - outlineY;
-        
-        // Spring physics trailing
-        outlineX = outlineX + distX * 0.18;
-        outlineY = outlineY + distY * 0.18;
-        
-        // Calculate velocity for subtle rotation
-        let velX = Math.abs(distX);
-        let velY = Math.abs(distY);
-        let rotation = (velX + velY) * 0.6; // subtle spin
-        
-        // Use modulus or continuous accumulation if desired, here just mapped to outline position x for an endless rotation feel as you move
-        cursorOutline.style.transform = `translate(${outlineX}px, ${outlineY}px) rotate(${outlineX * 0.3}deg)`;
-        
-        requestAnimationFrame(animateCursor);
+        function animateCursor() {
+            let distX = mouseX - outlineX;
+            let distY = mouseY - outlineY;
+            
+            // Spring physics trailing
+            outlineX = outlineX + distX * 0.18;
+            outlineY = outlineY + distY * 0.18;
+            
+            // Set exact CSS variables for positioning to avoid transform conflicts
+            cursorDot.style.left = `${mouseX}px`;
+            cursorDot.style.top = `${mouseY}px`;
+            cursorOutline.style.left = `${outlineX}px`;
+            cursorOutline.style.top = `${outlineY}px`;
+            
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+    } else {
+        cursorDot.style.display = 'none';
+        cursorOutline.style.display = 'none';
+        document.body.style.cursor = 'auto';
     }
-    animateCursor();
 
     const clickables = document.querySelectorAll('a, button, .details-toggle-btn, .project-card, .skill-category, .edu-card, .timeline-content, .skill-tags span');
     

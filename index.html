@@ -10,6 +10,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script>
+        // Redirect mobile and touch devices to the dedicated Mobile Terminal HUD
+        if (window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            window.location.replace("mobile.html");
+        }
+    </script>
 </head>
 <body>
     <!-- Terminal Boot Preloader -->
@@ -92,7 +98,7 @@ const developer = {
                 <div class="profile-container reveal from-left delay-1">
                     <img src="myProfileImg.jpeg" alt="Shamil TP Profile" class="profile-img">
                 </div>
-                <div class="about-text reveal from-right delay-2">
+                <div class="about-text reveal from-right delay-2" id="about-me-text">
                     <p>I am a developer motivated by a sincere interest in the fundamental workings of the internet. Although I can create responsive frontends, my area of expertise is the <strong>backend</strong>, where data efficiency, server architecture, and logic come together.</p>
                     <p>I enjoy working with low-level details because memory and performance optimization can have a noticeable impact. I see myself as a hands-on developer who enjoys the process of improving the speed and dependability of systems.<span class="blinking-cursor"></span></p>
                 </div>

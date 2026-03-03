@@ -1,0 +1,314 @@
+/* Root Variables copied from main */
+:root {
+    --bg-color: #111111;
+    --text-primary: #f5f5f5;
+    --text-secondary: #a0a0a0;
+    --accent: #5eff00;
+    /* Toxic Green */
+    --border-color: #333333;
+    --nav-bg: rgba(17, 17, 17, 0.95);
+    --card-bg: #111111;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Space Mono', monospace;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    padding: 0 1rem;
+    transition: filter 2s ease-out, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: center top;
+}
+
+body[data-theme-shift="active"] {
+    transition: filter 0.05s linear, transform 0.05s ease-out !important;
+    filter: hue-rotate(15deg) brightness(0.95);
+    transform: scale(0.995);
+}
+
+.theme-shifting,
+.theme-shifting * {
+    transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease, fill 1.5s ease !important;
+}
+
+/* Typography Constraints */
+h1.glitch-title {
+    font-size: 3rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -2px;
+    margin-bottom: 0.5rem;
+}
+
+h2.section-title {
+    font-size: 1.8rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+/* Mobile Header */
+.mobile-header {
+    padding: 1rem 0;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.highlight {
+    color: var(--accent);
+}
+
+/* Main Sections */
+.mobile-section {
+    padding: 3rem 0;
+    border-bottom: 2px solid var(--border-color);
+}
+
+/* Base Terminal Preloader */
+#terminal-preloader {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-color);
+    z-index: 20000;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: var(--accent);
+    transition: opacity 0.5s ease-out;
+}
+
+#boot-text {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+/* Data Stream Scroll Tracker */
+#sys-mem-tracker {
+    position: fixed;
+    right: 5px;
+    top: 20%;
+    bottom: 20%;
+    width: 4px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    z-index: 9990;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#sys-fill {
+    width: 100%;
+    height: 0%;
+    background: var(--text-primary);
+    transition: height 0.1s ease;
+}
+
+#sys-percent {
+    position: absolute;
+    bottom: -25px;
+    right: 0px;
+    font-size: 0.6rem;
+    color: var(--text-secondary);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+}
+
+/* Profile Image */
+.profile-container {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    position: relative;
+    border: 3px solid var(--text-primary);
+    overflow: hidden;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+}
+
+.profile-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: grayscale(100%) contrast(1.2);
+    transition: filter 0.8s ease-out;
+}
+
+.profile-img.scanned {
+    filter: grayscale(0%) contrast(1.1);
+}
+
+/* Touch Scanline */
+.profile-container.scanning::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, var(--accent) 50%, transparent);
+    animation: touch-scan 0.8s ease-in-out forwards;
+    z-index: 5;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+}
+
+@keyframes touch-scan {
+    0% {
+        top: -100%;
+    }
+
+    100% {
+        top: 100%;
+    }
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--text-primary);
+    background: var(--bg-color);
+    color: var(--text-primary);
+    cursor: pointer;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+    transition: all 0.2s ease;
+    margin: 0.5rem 0;
+}
+
+.btn.primary-btn {
+    background: var(--text-primary);
+    color: var(--bg-color);
+}
+
+.btn:active {
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 1);
+    transform: translate(4px, 4px);
+}
+
+/* Project Cards */
+.mobile-projects {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.project-card {
+    background: #FFFFFF;
+    border: 3px solid var(--border-color);
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.project-title {
+    color: #111;
+    font-weight: 900;
+}
+
+.project-desc {
+    color: #333;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+/* Crosshairs triggered by JS Intersection Observer on mobile */
+.project-card::before,
+.project-card::after {
+    content: '';
+    position: absolute;
+    background: var(--accent);
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-card::before {
+    height: 2px;
+    width: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.project-card::after {
+    width: 2px;
+    height: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.project-card.in-view::before {
+    opacity: 1;
+    width: 80%;
+}
+
+.project-card.in-view::after {
+    opacity: 1;
+    height: 80%;
+}
+
+/* Tags */
+.skill-tags {
+    margin-top: 1rem;
+}
+
+.skill-tags span {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    margin: 0.3rem;
+    font-size: 0.8rem;
+    border: 1px solid var(--border-color);
+}
+
+.tech-stack-badges {
+    margin: 1rem 0;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+    background: var(--bg-color);
+    color: var(--text-primary);
+    border: 1px solid var(--text-secondary);
+    margin: 0.2rem;
+}
+
+/* Footer */
+.mobile-footer {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.social-links a {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    margin: 0 1rem;
+}

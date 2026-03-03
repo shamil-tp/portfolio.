@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shamil TP - Mobile Terminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <!-- Terminal Boot Preloader -->
+    <div id="terminal-preloader">
+        <div class="terminal-content">
+            <p id="boot-text"></p><span class="blinking-cursor"></span>
+        </div>
+    </div>
+
+    <!-- Data Stream Scroll Tracker -->
+    <div id="sys-mem-tracker">
+        <div id="sys-fill"></div>
+        <span id="sys-percent">SYS.MEM.[000%]</span>
+    </div>
+
+    <header class="mobile-header">
+        <a href="#" class="logo"><span class="logo-text" data-value="shamiltp">shamiltp</span><span class="highlight">.me</span></a>
+    </header>
+
+    <main class="mobile-main">
+        <!-- Hero Section -->
+        <section class="mobile-hero">
+            <p class="greeting">[ GREETINGS, ROOT USER ]</p>
+            <h1 class="glitch-title" data-text="Shamil TP">Shamil TP</h1>
+            <h2 class="role"><span>Full Stack</span> Web Developer</h2>
+            <div class="mobile-hero-buttons">
+                <a href="#projects" class="btn primary-btn">[ VIEW DEPLOYMENTS ]</a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="mobile-section">
+            <h2 class="section-title">SYSTEM.INFO</h2>
+            <div class="profile-container">
+                <!-- Tap image to scan -->
+                <img src="myProfileImg.jpeg" alt="Shamil TP Profile" class="profile-img">
+            </div>
+            <div class="about-text">
+                <p>I am a developer motivated by a sincere interest in the fundamental workings of the internet. Although I can create responsive frontends, my area of expertise is the <strong>backend</strong>, where data efficiency, server architecture, and logic come together.</p>
+                <p>I enjoy working with low-level details because memory and performance optimization can have a noticeable impact. I see myself as a hands-on developer who enjoys the process of improving the speed and dependability of systems.<span class="blinking-cursor"></span></p>
+            </div>
+            <div class="contact-details">
+                <p><i class="bi bi-geo-alt-fill"></i> <span class="scramble-text" data-value="Kerala, India">Kerala, India</span></p>
+                <p><i class="bi bi-envelope-fill"></i> <a href="mailto:shamiltp1234@gmail.com" class="scramble-text" data-value="shamiltp1234@gmail.com">shamiltp1234@gmail.com</a></p>
+                <p><i class="bi bi-telephone-fill"></i> <a href="tel:+917994042845" class="scramble-text" data-value="+91 7994042845">+91 7994042845</a></p>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="mobile-section">
+            <h2 class="section-title">CORE.ASSETS</h2>
+            <div class="skill-category">
+                <h3>Backend & Core</h3>
+                <div class="skill-tags">
+                    <span>Node.js</span>
+                    <span>Express.js</span>
+                    <span>REST APIs</span>
+                    <span>TypeScript</span>
+                    <span>NoSQL</span>
+                    <span>SQL</span>
+                    <span>MongoDB</span>
+                    <span>PostgreSQL</span>
+                    <span>AWS</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3>Frontend & Utilities</h3>
+                <div class="skill-tags">
+                    <span>React.js</span>
+                    <span>EJS</span>
+                    <span>HTML5</span>
+                    <span>CSS3</span>
+                    <span>Tailwind CSS</span>
+                    <span>Helmet / Zod</span>
+                    <span>Docker</span>
+                    <span>Git & GitHub</span>
+                    <span>Postman</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="mobile-section">
+            <h2 class="section-title">DEPLOYMENTS</h2>
+            <div class="mobile-projects">
+                
+                <div class="project-card">
+                    <div class="project-header">
+                        <i class="bi bi-folder-fill folder-icon"></i>
+                        <h3 class="project-title">LUME</h3>
+                    </div>
+                    <p class="project-desc">An advanced, production-ready media streaming platform built to handle heavy file operations and low-latency delivery.</p>
+                    <div class="tech-stack-badges">
+                        <span class="badge badge-accent">tus</span>
+                        <span class="badge badge-info">FFmpeg</span>
+                        <span class="badge badge-warning">HLS</span>
+                        <span class="badge badge-error">Cloudflare R2</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/shamil-tp/LUME.git" target="_blank" class="btn secondary-btn">[ SRC ]</a>
+                        <a href="https://lume-one.vercel.app/" target="_blank" class="btn primary-btn">[ INIT ]</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <i class="bi bi-folder-fill folder-icon"></i>
+                        <h3 class="project-title">N-jin</h3>
+                    </div>
+                    <p class="project-desc">A powerful, scalable localized search engine powered by a custom-built distributed web crawler.</p>
+                    <div class="tech-stack-badges">
+                        <span class="badge badge-accent">Crawler</span>
+                        <span class="badge badge-info">Web Scraping</span>
+                        <span class="badge badge-warning">ElasticSearch</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/shamil-tp/web-crawler.git" target="_blank" class="btn secondary-btn">[ SRC ]</a>
+                        <a href="https://magnificent-recreation-production.up.railway.app/" target="_blank" class="btn primary-btn">[ INIT ]</a>
+                    </div>
+                </div>
+
+            </div>
+            <div style="margin-top:2rem; text-align:center;">
+                <a href="myprojects.html" class="btn primary-btn">[ ACCESS FULL ARCHIVE ]</a>
+            </div>
+        </section>
+        
+        <!-- Experience & Edu -->
+        <section id="experience" class="mobile-section">
+            <h2 class="section-title">LOGS</h2>
+            
+            <div class="edu-card">
+                <div class="edu-date">Nov 2023 - Present</div>
+                <h3>Freelance Full Stack Developer</h3>
+                <h4>Independent Clients</h4>
+                <p>Architected completely custom automated client workflows & CRM portals.</p>
+            </div>
+            
+            <div class="edu-card">
+                <div class="edu-date">Dec 2024 - Mar 2025</div>
+                <h3>Full Stack Intern</h3>
+                <h4>Fugipie Technologies</h4>
+                <p>Built secure authentication, strict RESTful interfaces, and DDOS mitigation.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mobile-footer">
+        <div class="social-links">
+            <a href="https://github.com/shamil-tp" target="_blank" aria-label="GitHub"><i class="bi bi-github"></i></a>
+            <a href="https://linkedin.com/in/shamil-tp" target="_blank" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+            <a href="https://x.com/ShamilTp6" target="_blank" aria-label="X (Twitter)"><i class="bi bi-twitter-x"></i></a>
+        </div>
+        <p>&copy; 2025 Shamil TP | ALL SYSTEMS NOMINAL</p>
+    </footer>
+
+    <script src="mobile.js"></script>
+</body>
+</html>
