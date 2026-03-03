@@ -115,6 +115,83 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start typing after initial delay
     setTimeout(type, 2000);
 
+    // Matrix Scramble Logo
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const logoText = document.querySelector('.logo-text');
+    
+    if (logoText) {
+        logoText.addEventListener('mouseover', event => {
+            let iteration = 0;
+            let interval = null;
+            clearInterval(interval);
+            
+            interval = setInterval(() => {
+                event.target.innerText = event.target.innerText
+                    .split("")
+                    .map((letter, index) => {
+                        if (index < iteration) {
+                            return event.target.dataset.value[index];
+                        }
+                        return letters[Math.floor(Math.random() * 26)];
+                    })
+                    .join("");
+                    
+                if (iteration >= event.target.dataset.value.length) { 
+                    clearInterval(interval);
+                }
+                iteration += 1 / 3;
+            }, 30);
+        });
+    }
+
+    // Magnetic Buttons
+    const magneticBtns = document.querySelectorAll('.btn');
+    magneticBtns.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = (e.clientX - rect.left) - rect.width / 2;
+            const y = (e.clientY - rect.top) - rect.height / 2;
+            
+            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        });
+        
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = `translate(0px, 0px)`;
+        });
+    });
+
+    // 3D Perspective Tilt Cards
+    const tiltElements = document.querySelectorAll('.project-card, .edu-card');
+    tiltElements.forEach(el => {
+        el.addEventListener('mousemove', (e) => {
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = ((y - centerY) / centerY) * -8; // Max 8 deg
+            const rotateY = ((x - centerX) / centerX) * 8;
+            
+            el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            el.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        });
+    });
+
+    // Parallax Code Block
+    const parallaxBlock = document.querySelector('.code-block');
+    window.addEventListener('mousemove', (e) => {
+        if (!parallaxBlock) return;
+        const x = (window.innerWidth / 2 - e.pageX) / 25;
+        const y = (window.innerHeight / 2 - e.pageY) / 25;
+        parallaxBlock.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+
     // Fun Brutalist Cursor System
     const cursorDot = document.createElement('div');
     cursorDot.classList.add('cursor-dot');

@@ -204,7 +204,95 @@ button,
     font-weight: 700;
     margin-bottom: 1rem;
     letter-spacing: -0.02em;
-    /* Negative tracking for headers */
+    position: relative;
+    display: inline-block;
+}
+
+.hero-content h1:hover::before,
+.hero-content h1:hover::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color);
+}
+
+.hero-content h1:hover::before {
+    left: 2px;
+    text-shadow: -2px 0 red;
+    animation: glitch-anim 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+}
+
+.hero-content h1:hover::after {
+    left: -2px;
+    text-shadow: -2px 0 blue;
+    animation: glitch-anim2 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite reverse;
+}
+
+@keyframes glitch-anim {
+    0% {
+        clip: rect(10px, 9999px, 44px, 0);
+        transform: skew(0.3deg);
+    }
+
+    20% {
+        clip: rect(62px, 9999px, 92px, 0);
+        transform: skew(0.5deg);
+    }
+
+    40% {
+        clip: rect(31px, 9999px, 14px, 0);
+        transform: skew(-0.3deg);
+    }
+
+    60% {
+        clip: rect(89px, 9999px, 5px, 0);
+        transform: skew(0.5deg);
+    }
+
+    80% {
+        clip: rect(12px, 9999px, 77px, 0);
+        transform: skew(-0.3deg);
+    }
+
+    100% {
+        clip: rect(56px, 9999px, 11px, 0);
+        transform: skew(0.3deg);
+    }
+}
+
+@keyframes glitch-anim2 {
+    0% {
+        clip: rect(80px, 9999px, 11px, 0);
+        transform: skew(-0.3deg);
+    }
+
+    20% {
+        clip: rect(14px, 9999px, 49px, 0);
+        transform: skew(0.3deg);
+    }
+
+    40% {
+        clip: rect(55px, 9999px, 73px, 0);
+        transform: skew(-0.5deg);
+    }
+
+    60% {
+        clip: rect(2px, 9999px, 99px, 0);
+        transform: skew(0.5deg);
+    }
+
+    80% {
+        clip: rect(97px, 9999px, 23px, 0);
+        transform: skew(-0.3deg);
+    }
+
+    100% {
+        clip: rect(33px, 9999px, 5px, 0);
+        transform: skew(0.3deg);
+    }
 }
 
 .hero-content h2 {
@@ -238,7 +326,7 @@ button,
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.1s ease;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -246,12 +334,11 @@ button,
 }
 
 .btn:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 8px 8px 0px rgba(0, 0, 0, 1);
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 1);
+    z-index: 10;
 }
 
 .btn:active {
-    transform: translate(4px, 4px);
     box-shadow: 0px 0px 0px rgba(0, 0, 0, 1);
 }
 
@@ -543,11 +630,30 @@ pre {
     display: inline-block;
 }
 
-.skill-tags span:hover {
-    transform: translateY(2px);
+.skill-tags span {
+    background: transparent;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: 2px solid var(--border-color);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: default;
+    display: inline-block;
+    transform-origin: center;
+}
+
+.skill-tags span:nth-child(odd):hover {
+    transform: translateY(-2px) rotate(-4deg);
     background: var(--text-primary);
     color: var(--bg-color);
-    box-shadow: inset 3px 3px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+}
+
+.skill-tags span:nth-child(even):hover {
+    transform: translateY(-2px) rotate(6deg);
+    background: var(--text-primary);
+    color: var(--bg-color);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
 }
 
 /* Timeline */
@@ -605,6 +711,16 @@ pre {
 .timeline-content h3 {
     font-size: 1.5rem;
     margin-bottom: 0.3rem;
+    display: inline-block;
+    background: linear-gradient(120deg, var(--text-primary) 0%, var(--text-primary) 100%);
+    background-repeat: no-repeat;
+    background-size: 0% 100%;
+    transition: background-size 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.1s ease;
+}
+
+.timeline-item:hover .timeline-content h3 {
+    background-size: 100% 100%;
+    color: var(--bg-color);
 }
 
 .timeline-content h4 {
@@ -637,15 +753,16 @@ pre {
     background: #FFFFFF;
     border: 3px solid var(--border-color);
     box-shadow: 8px 8px 0px rgba(0, 0, 0, 1);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.1s ease;
     position: relative;
     display: flex;
     flex-direction: column;
+    transform-style: preserve-3d;
 }
 
 .project-card:hover {
-    transform: translate(-4px, -4px) scale(1.01);
-    box-shadow: 16px 16px 0px rgba(0, 0, 0, 1);
+    box-shadow: 18px 18px 0px rgba(0, 0, 0, 1);
+    z-index: 10;
 }
 
 .project-content {
@@ -890,12 +1007,13 @@ pre {
     padding: 2.5rem;
     border: 3px solid var(--border-color);
     box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.1s ease;
+    transform-style: preserve-3d;
 }
 
 .edu-card:hover {
-    transform: translate(-6px, -6px) scale(1.02);
     box-shadow: 14px 14px 0px rgba(0, 0, 0, 1);
+    z-index: 10;
 }
 
 .edu-card h3 {
