@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const green_button = document.getElementById('green_button');
     const code = document.getElementById('code');
 
+    // Removed manual about_me_text color script snippet in favor of custom-interact.js
+
     red_button.addEventListener('click', () => {
         code.style.display = 'none';
     });
