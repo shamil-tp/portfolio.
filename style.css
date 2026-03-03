@@ -39,27 +39,72 @@ button,
     cursor: none !important;
 }
 
-.custom-cursor {
-    width: 20px;
-    height: 20px;
-    border: 3px solid var(--text-primary);
-    background: transparent;
-    border-radius: 0;
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--text-primary);
     position: fixed;
+    top: -4px;
+    left: -4px;
     pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width 0.15s ease, height 0.15s ease, background-color 0.15s ease, border-radius 0.15s ease;
-    mix-blend-mode: difference;
-    left: 0;
-    top: 0;
+    z-index: 10000;
+    border-radius: 50%;
+    transition: transform 0.15s ease-out;
 }
 
-.custom-cursor.hovering {
+.cursor-outline {
     width: 40px;
     height: 40px;
+    border: 3px solid var(--text-primary);
+    position: fixed;
+    top: -20px;
+    left: -20px;
+    pointer-events: none;
+    z-index: 9999;
+    border-radius: 0;
+    transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease, border-radius 0.2s ease;
+}
+
+/* Hovering states */
+.cursor-outline.hovering {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+    left: -30px;
     background: var(--bg-color);
+    /* Matches the background */
+    mix-blend-mode: difference;
+    /* Inverts color */
     border-radius: 50%;
+    /* geometric morphing */
+}
+
+.cursor-dot.hovering {
+    transform: scale(0);
+    /* hides inner dot */
+}
+
+/* Click particles */
+.cursor-particle {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: var(--text-primary);
+    pointer-events: none;
+    z-index: 9998;
+    animation: explode 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes explode {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(0) rotate(180deg);
+        opacity: 0;
+    }
 }
 
 /* Navbar */

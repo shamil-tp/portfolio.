@@ -115,20 +115,80 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start typing after initial delay
     setTimeout(type, 2000);
 
-    // Custom Brutalist Cursor Logic
-    const cursor = document.createElement('div');
-    cursor.classList.add('custom-cursor');
-    document.body.appendChild(cursor);
+    // Fun Brutalist Cursor System
+    const cursorDot = document.createElement('div');
+    cursorDot.classList.add('cursor-dot');
+    document.body.appendChild(cursorDot);
 
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
+    const cursorOutline = document.createElement('div');
+    cursorOutline.classList.add('cursor-outline');
+    document.body.appendChild(cursorOutline);
+
+    let mouseX = 0, mouseY = 0;
+    let outlineX = 0, outlineY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        // Exact snapping for inner dot
+        cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
     });
+
+    function animateCursor() {
+        let distX = mouseX - outlineX;
+        let distY = mouseY - outlineY;
+        
+        // Spring physics trailing
+        outlineX = outlineX + distX * 0.18;
+        outlineY = outlineY + distY * 0.18;
+        
+        // Calculate velocity for subtle rotation
+        let velX = Math.abs(distX);
+        let velY = Math.abs(distY);
+        let rotation = (velX + velY) * 0.6; // subtle spin
+        
+        // Use modulus or continuous accumulation if desired, here just mapped to outline position x for an endless rotation feel as you move
+        cursorOutline.style.transform = `translate(${outlineX}px, ${outlineY}px) rotate(${outlineX * 0.3}deg)`;
+        
+        requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
 
     const clickables = document.querySelectorAll('a, button, .details-toggle-btn, .project-card, .skill-category, .edu-card, .timeline-content, .skill-tags span');
     
     clickables.forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+        el.addEventListener('mouseenter', () => {
+            cursorOutline.classList.add('hovering');
+            cursorDot.classList.add('hovering');
+        });
+        el.addEventListener('mouseleave', () => {
+            cursorOutline.classList.remove('hovering');
+            cursorDot.classList.remove('hovering');
+        });
+    });
+
+    // Particle explosion on click
+    window.addEventListener('click', (e) => {
+        for (let i = 0; i < 6; i++) {
+            const p = document.createElement('div');
+            p.classList.add('cursor-particle');
+            document.body.appendChild(p);
+            
+            p.style.left = e.clientX + 'px';
+            p.style.top = e.clientY + 'px';
+            
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = 30 + Math.random() * 45; // Explosion distance
+            
+            const tx = Math.cos(angle) * velocity;
+            const ty = Math.sin(angle) * velocity;
+            
+            p.style.setProperty('--tx', `${tx}px`);
+            p.style.setProperty('--ty', `${ty}px`);
+            
+            // Clean up particle
+            setTimeout(() => p.remove(), 600);
+        }
     });
 });
