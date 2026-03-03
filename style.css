@@ -474,13 +474,13 @@ button,
 .profile-container:hover .profile-img {
     transform: translate(-5px, -5px);
     box-shadow: 21px 21px 0px rgba(0, 0, 0, 1);
-    /* Snaps to 50% grayscale after the scanline duration (approx 1s delay) */
-    animation: snap-half-color 0.1s linear 1.2s forwards;
+    /* Snaps to original full color after the scanline duration (approx 1s delay) */
+    animation: snap-full-color 0.1s linear 1.2s forwards;
 }
 
-@keyframes snap-half-color {
+@keyframes snap-full-color {
     to {
-        filter: grayscale(50%) contrast(1.1) sepia(20%) hue-rotate(90deg);
+        filter: grayscale(0%) contrast(1.1);
     }
 }
 

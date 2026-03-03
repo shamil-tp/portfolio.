@@ -322,8 +322,36 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.appendChild(trackerHUD);
 
     window.addEventListener('mousemove', (e) => {
+        // Update Coordinate Tracker
         const x = String(e.clientX).padStart(3, '0');
         const y = String(e.clientY).padStart(3, '0');
         trackerHUD.innerText = `[ TRGT // X: ${x} | Y: ${y} ]`;
+
+        // Update Interactive Glow Grid
+        if (window.gridOverlay) {
+            window.gridOverlay.style.setProperty('--mouse-x', `${e.clientX}px`);
+            window.gridOverlay.style.setProperty('--mouse-y', `${e.clientY}px`);
+        }
+    });
+
+    // Project Card Focus Lock
+    const projectCards = document.querySelectorAll('.project-card');
+    projectCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            // Check if mouse is near perfect center (within a 60px bounding box)
+            const diffX = Math.abs(e.clientX - centerX);
+            const diffY = Math.abs(e.clientY - centerY);
+            
+            if (diffX < 30 && diffY < 30) {
+                card.classList.add('focus-locked');
+            } else {
+                card.classList.remove('focus-locked');
+            }
+        });
+        card.addEventListener('mouseleave', () => card.classList.remove('focus-locked'));
     });
 });
