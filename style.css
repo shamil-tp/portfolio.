@@ -1486,3 +1486,13 @@ footer {
     letter-spacing: 1px;
     opacity: 0.8;
 }
+
+/* Smooth Global Theme Shifting */
+.theme-shifting,
+.theme-shifting * {
+    transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease, fill 1.5s ease, opacity 1.5s ease !important;
+}
+
+body {
+    transform-origin: center top;
+}

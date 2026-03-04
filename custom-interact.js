@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Give a tiny physical scale pop to fulfill "feeling the change"
             document.body.style.transform = 'scale(0.995)';
             setTimeout(() => {
-                document.body.style.transform = 'scale(1)';
+                document.body.style.transform = '';
             }, 100);
 
             // Remove transition override after 1.5s so normal CSS hover effects return properly
