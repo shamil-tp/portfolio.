@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Rendering Library | Shamil TP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --bg-color: #F5F2EB;
+            --card-bg: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #333333;
+            --border-color: #000000;
+            --nav-bg: rgba(245, 242, 235, 0.95);
+            --font-main: 'Outfit', 'Helvetica Neue', sans-serif;
+            --font-mono: 'Space Mono', 'Fira Code', monospace;
+            --transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-main); line-height: 1.5; font-size: 15px; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+        .navbar { background: var(--nav-bg); border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 60px; }
+        .back-link { font-weight: 800; font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.4rem; transition: var(--transition); text-transform: uppercase; }
+        .back-link:hover { text-decoration: underline; }
+        .nav-links { display: flex; list-style: none; gap: 1.5rem; }
+        .nav-links a { font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.9rem; font-weight: 700; }
+        .nav-links a:hover { color: var(--text-primary); text-decoration: underline; }
+
+        .project-header { background: var(--bg-color); padding: 4rem 0 3rem 0; border-bottom: 2px solid var(--border-color); margin-bottom: 3rem; }
+        .header-container { display: flex; align-items: center; gap: 1.5rem; }
+        .header-icon { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border: 2px solid var(--border-color); background: var(--card-bg); box-shadow: 4px 4px 0px rgba(0,0,0,1); flex-shrink: 0; }
+        .project-title { font-size: 2.8rem; font-weight: 900; margin-bottom: 0.3rem; letter-spacing: -1px; text-transform: uppercase; line-height: 1; }
+        .project-subtitle { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; background: var(--text-primary); color: var(--bg-color); display: inline-block; padding: 0.3rem 0.6rem; margin-top: 0.3rem; }
+
+        .content-grid { display: grid; grid-template-columns: 7fr 3fr; gap: 2.5rem; padding-bottom: 5rem; align-items: start; }
+        .content-section { margin-bottom: 2.5rem; }
+        .content-section:last-child { margin-bottom: 0; }
+        .section-heading { font-size: 1.6rem; font-weight: 900; margin-bottom: 1.2rem; border-bottom: 3px solid var(--border-color); padding-bottom: 0.3rem; text-transform: uppercase; }
+
+        .prose p { margin-bottom: 1rem; font-size: 1.05rem; line-height: 1.6; font-weight: 500; }
+        .prose p:last-child { margin-bottom: 0; }
+        .prose strong { font-weight: 800; }
+
+        .feature-list { list-style: none; padding-left: 0; margin-top: 1rem; }
+        .feature-list li { margin-bottom: 1rem; line-height: 1.5; font-size: 1rem; position: relative; padding-left: 1.2rem; font-weight: 500; }
+        .feature-list li::before { content: '→'; position: absolute; left: 0; font-family: var(--font-mono); font-weight: 900; }
+
+        .code-block { background: #111; border: 2px solid var(--border-color); padding: 1.5rem; overflow-x: auto; box-shadow: 6px 6px 0px rgba(0,0,0,1); margin-top: 1.2rem; }
+        .code-block pre { font-family: var(--font-mono); font-size: 0.88rem; color: #f8f8f2; line-height: 1.6; }
+        /* Syntax colours */
+        .tok-comment { color: #6272a4; }
+        .tok-string { color: #f1fa8c; }
+        .tok-key { color: #8be9fd; }
+        .tok-fn { color: #50fa7b; }
+        .tok-kw { color: #ff79c6; }
+        .tok-num { color: #bd93f9; }
+
+        .sidebar-widget { background: var(--card-bg); border: 2px solid var(--border-color); padding: 1.5rem; margin-bottom: 2rem; box-shadow: 6px 6px 0px rgba(0,0,0,1); }
+        .sidebar-widget:last-child { margin-bottom: 0; }
+        .widget-title { font-size: 1.2rem; font-weight: 900; margin-bottom: 1.2rem; text-transform: uppercase; border-bottom: 2px solid var(--border-color); padding-bottom: 0.4rem; }
+
+        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .metric-item { display: flex; flex-direction: column; border-left: 3px solid var(--text-primary); padding-left: 0.8rem; }
+        .m-val { font-family: var(--font-mono); font-size: 1.8rem; font-weight: 900; line-height: 1; margin-bottom: 0.2rem; }
+        .m-label { font-size: 0.75rem; text-transform: uppercase; font-weight: 800; color: var(--text-secondary); }
+
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .tag { font-family: var(--font-mono); background: var(--card-bg); padding: 0.4rem 0.8rem; border: 2px solid var(--border-color); font-size: 0.85rem; font-weight: 700; box-shadow: 2px 2px 0px rgba(0,0,0,1); transition: var(--transition); text-transform: uppercase; }
+        .tag:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0px rgba(0,0,0,1); background: var(--text-primary); color: var(--bg-color); }
+
+        .footer { border-top: 2px solid var(--border-color); padding: 2rem 0; text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; }
+
+        .info-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .info-table tr { border-bottom: 1px solid #ccc; }
+        .info-table tr:last-child { border-bottom: none; }
+        .info-table td { padding: 0.6rem 0.5rem; font-size: 0.95rem; font-weight: 500; vertical-align: top; }
+        .info-table td:first-child { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; color: var(--text-secondary); width: 42%; }
+
+        .section-divider { border: none; border-top: 2px dashed #bbb; margin: 2.5rem 0; }
+
+        .link-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; border: 2px solid var(--border-color); padding: 0.5rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; transition: var(--transition); text-transform: uppercase; margin-top: 0.8rem; margin-right: 0.6rem; }
+        .link-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; background: var(--text-primary); color: var(--bg-color); }
+        .link-btn.primary { background: var(--text-primary); color: var(--bg-color); }
+        .link-btn.primary:hover { background: var(--bg-color); color: var(--text-primary); }
+
+        .custom-metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px dashed #bbb; }
+        .custom-metric-row:last-child { border-bottom: none; }
+        .cm-label { font-weight: 600; color: var(--text-secondary); flex: 1; font-size: 0.9rem; }
+        .cm-val { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; text-align: right; }
+        .cm-note { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary); text-align: right; }
+
+        .scorecard { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.7rem; }
+        .score-row { display: flex; align-items: center; gap: 0.8rem; }
+        .score-label { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; width: 145px; flex-shrink: 0; }
+        .score-bar-wrap { flex: 1; height: 14px; border: 2px solid var(--border-color); background: var(--bg-color); }
+        .score-bar { height: 100%; background: var(--text-primary); }
+        .score-num { font-family: var(--font-mono); font-weight: 900; font-size: 0.85rem; width: 28px; text-align: right; }
+
+        .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
+        .skill-card { border: 2px solid var(--border-color); padding: 0.9rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0px rgba(0,0,0,1); transition: var(--transition); }
+        .skill-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0px rgba(0,0,0,1); }
+        .skill-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .skill-desc { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; line-height: 1.4; }
+
+        /* Zero-dep badge — hero */
+        .zero-dep-hero { border: 2px solid var(--border-color); padding: 1.5rem 2rem; background: var(--text-primary); color: var(--bg-color); box-shadow: 6px 6px 0 #555; margin: 1.2rem 0; display: flex; align-items: center; gap: 1.5rem; }
+        .zero-big { font-family: var(--font-mono); font-size: 3.5rem; font-weight: 900; line-height: 1; flex-shrink: 0; }
+        .zero-text strong { font-weight: 900; font-size: 1.1rem; display: block; margin-bottom: 0.3rem; }
+        .zero-text span { font-size: 0.88rem; opacity: 0.82; font-weight: 500; line-height: 1.5; display: block; }
+
+        /* Theme showcase grid */
+        .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.7rem; margin-top: 1rem; }
+        .theme-card { border: 2px solid var(--border-color); padding: 0.7rem 0.9rem; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; box-shadow: 3px 3px 0 #000; transition: var(--transition); cursor: default; }
+        .theme-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; }
+        /* Individual theme colours */
+        .th-tokyo { background: #1a1b26; color: #a9b1d6; border-color: #7aa2f7; }
+        .th-dracula { background: #282a36; color: #f8f8f2; border-color: #bd93f9; }
+        .th-nord { background: #2e3440; color: #eceff4; border-color: #88c0d0; }
+        .th-solarized { background: #002b36; color: #839496; border-color: #268bd2; }
+        .th-monokai { background: #272822; color: #f8f8f2; border-color: #a6e22e; }
+        .th-github { background: #ffffff; color: #24292e; border-color: #0366d6; }
+        .th-forest { background: #1b2d1b; color: #a8d8a8; border-color: #4caf50; }
+        .th-ocean { background: #0d1117; color: #58a6ff; border-color: #1f6feb; }
+        .th-sunset { background: #2d1b1b; color: #ffb347; border-color: #ff6b35; }
+        .th-paper { background: #faf8f1; color: #333; border-color: #999; }
+        .th-midnight { background: #0a0a0f; color: #c0c0d0; border-color: #6060a0; }
+        .th-sepia { background: #f4ecd8; color: #5b4636; border-color: #8b6914; }
+        .th-neon { background: #0d0d0d; color: #39ff14; border-color: #ff00ff; }
+        .th-aurora { background: #1a1a2e; color: #e0aaff; border-color: #c77dff; }
+        .th-minimal { background: #fafafa; color: #111; border-color: #111; }
+        .th-more { background: var(--bg-color); color: var(--text-primary); border: 2px dashed var(--border-color); display: flex; align-items: center; justify-content: center; }
+
+        /* MIT badge */
+        .mit-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; border: 2px solid var(--border-color); padding: 0.35rem 0.8rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; text-transform: uppercase; margin-top: 0.8rem; transition: var(--transition); }
+        .mit-badge:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; background: var(--text-primary); color: var(--bg-color); }
+
+        /* How it renders flow */
+        .render-flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 0.5rem; align-items: center; margin-top: 1.2rem; }
+        .rf-box { border: 2px solid var(--border-color); padding: 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; text-align: center; }
+        .rf-icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
+        .rf-title { font-weight: 800; font-size: 0.9rem; margin-bottom: 0.2rem; }
+        .rf-desc { font-size: 0.78rem; color: var(--text-secondary); font-weight: 500; }
+        .rf-arrow { font-family: var(--font-mono); font-weight: 900; font-size: 1.5rem; color: var(--text-secondary); text-align: center; }
+
+        /* Collab card */
+        .collab-card { border: 2px solid var(--border-color); padding: 1.2rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-bottom: 1rem; transition: var(--transition); }
+        .collab-card:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #000; }
+        .collab-card:last-child { margin-bottom: 0; }
+        .collab-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.8rem; }
+        .collab-avatar { width: 44px; height: 44px; border: 2px solid #000; background: #000; color: #F5F2EB; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 900; font-size: 1rem; flex-shrink: 0; }
+        .collab-name { font-weight: 800; font-size: 1rem; }
+        .collab-role { font-size: 0.82rem; color: var(--text-secondary); font-family: var(--font-mono); margin-top: 0.1rem; }
+        .collab-work { font-size: 0.88rem; font-weight: 500; color: var(--text-primary); line-height: 1.5; margin-bottom: 0.8rem; padding-left: 0.8rem; border-left: 3px solid var(--border-color); }
+        .collab-links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .collab-link { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; border: 2px solid var(--border-color); padding: 0.3rem 0.7rem; background: var(--bg-color); box-shadow: 2px 2px 0 #000; transition: var(--transition); display: inline-flex; align-items: center; gap: 0.3rem; }
+        .collab-link:hover { background: var(--text-primary); color: var(--bg-color); transform: translate(-1px,-1px); box-shadow: 3px 3px 0 #000; }
+
+        /* Test link box */
+        .test-link-box { border: 2px solid var(--border-color); padding: 1.2rem 1.4rem; background: var(--card-bg); box-shadow: 5px 5px 0 #000; margin-top: 1.2rem; }
+        .tl-label { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; color: var(--text-secondary); }
+        .tl-url { font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; word-break: break-all; line-height: 1.6; }
+        .tl-note { font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; font-weight: 500; }
+        .tl-params { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+        .tl-param { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; border: 1.5px solid var(--border-color); padding: 0.2rem 0.5rem; background: var(--bg-color); }
+        .tl-param span { color: var(--text-secondary); }
+
+        @media (max-width: 900px) {
+            .content-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .theme-grid { grid-template-columns: repeat(2, 1fr); }
+            .render-flow { grid-template-columns: 1fr; }
+            .rf-arrow { transform: rotate(90deg); }
+            .score-label { width: 115px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="mycontributions.html" class="back-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <ul class="nav-links"><li><a href="../index.html">Home</a></li></ul>
+        </div>
+    </nav>
+
+    <header class="project-header">
+        <div class="container header-container">
+            <div class="header-icon"><i class="bi bi-file-earmark-code"></i></div>
+            <div class="header-info">
+                <h1 class="project-title">Blog Rendering Library</h1>
+                <p class="project-subtitle">Zero-Dependency Vanilla JS · 15+ Custom Themes · MIT Open Source</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container content-grid">
+
+            <!-- ═══════════════ MAIN COLUMN ═══════════════ -->
+            <div class="main-column">
+
+                <!-- 1. OVERVIEW -->
+                <section class="content-section">
+                    <h2 class="section-heading">Project Overview</h2>
+                    <div class="prose">
+                        <p>The <strong>Blog Rendering Library</strong> is the engine that powers every blog post on Blogify. It is a standalone, open-source JavaScript library written entirely in <strong>vanilla JS with zero npm dependencies</strong> — no React, no Vue, no third-party parsers. Just pure JavaScript and direct DOM manipulation.</p>
+                        <p>The library accepts a <strong>URL slug and theme name as query parameters</strong>, fetches the corresponding blog post JSON from the Blogify database, and renders it as fully styled semantic HTML in the browser — complete with typography, spacing, code blocks, images, and more — all controlled by the active theme.</p>
+                        <p>With <strong>15+ hand-crafted custom themes</strong> (from Tokyo Night to Dracula to Sepia to Neon), the library gives every Blogify blog post a distinct visual identity — switchable simply by changing a single URL query parameter.</p>
+                    </div>
+
+                    <!-- Zero dep hero -->
+                    <div class="zero-dep-hero">
+                        <div class="zero-big">0</div>
+                        <div class="zero-text">
+                            <strong>Zero npm Dependencies</strong>
+                            <span>No React. No Vue. No third-party parsers.<br>Pure vanilla JavaScript — direct DOM manipulation only.<br>The entire library ships as a single <code style="background:rgba(255,255,255,0.15);padding:0.1rem 0.3rem;">library_V2.js</code> file.</span>
+                        </div>
+                    </div>
+
+                    <table class="info-table">
+                        <tr><td>Project Type</td><td>Standalone Open-Source JavaScript Library</td></tr>
+                        <tr><td>Language</td><td>100% Vanilla JavaScript — zero dependencies</td></tr>
+                        <tr><td>Built For</td><td>Blogify Platform (JSON blog content rendering)</td></tr>
+                        <tr><td>Themes</td><td>15+ custom hand-crafted themes</td></tr>
+                        <tr><td>Library File</td><td><code>library_V2.js</code> — single file, self-contained</td></tr>
+                        <tr><td>Deployment</td><td>GitHub Pages via GitHub Actions workflow</td></tr>
+                        <tr><td>License</td><td><strong>MIT License</strong> — Open Source ✅ (co-credited: Shamil TP, Sinan Rahman K, Muhammed Ranfees K)</td></tr>
+                        <tr><td>Stars</td><td>⭐ 7</td></tr>
+                        <tr><td>Forks</td><td>🔀 1</td></tr>
+                        <tr><td>Total Commits</td><td>17 commits on main</td></tr>
+                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/blog-Rendering-Library" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">github.com/shamil-tp/blog-Rendering-Library</a></td></tr>
+                        <tr><td>Test Demo Link</td><td><a href="https://shamil-tp.github.io/blog-Rendering-Library/?slug=messis-world-cup-glory-48qNNV&theme=tokyo_night" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">GitHub Pages — Tokyo Night Demo</a></td></tr>
+                    </table>
+
+                    <a href="https://github.com/shamil-tp/blog-Rendering-Library?tab=MIT-1-ov-file#readme" target="_blank" class="mit-badge">
+                        <i class="bi bi-file-earmark-text"></i> MIT License — Open Source
+                        <i class="bi bi-box-arrow-up-right" style="font-size:0.75rem;"></i>
+                    </a>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 2. HOW IT WORKS -->
+                <section class="content-section">
+                    <h2 class="section-heading">How The Library Works</h2>
+                    <div class="prose">
+                        <p>The library operates entirely in the browser — no server-side rendering, no build step. The rendering pipeline is triggered by URL query parameters, making theme-switching and content delivery completely URL-driven.</p>
+                    </div>
+
+                    <!-- Render flow -->
+                    <div class="render-flow">
+                        <div class="rf-box">
+                            <div class="rf-icon">🔗</div>
+                            <div class="rf-title">URL Parameters</div>
+                            <div class="rf-desc">?slug=post-id &theme=tokyo_night passed in the URL query string</div>
+                        </div>
+                        <div class="rf-arrow">→</div>
+                        <div class="rf-box">
+                            <div class="rf-icon">📡</div>
+                            <div class="rf-title">API Fetch</div>
+                            <div class="rf-desc">library_V2.js fetches JSON blog content from Blogify API using the slug</div>
+                        </div>
+                        <div class="rf-arrow">→</div>
+                        <div class="rf-box">
+                            <div class="rf-icon">🎨</div>
+                            <div class="rf-title">DOM Render</div>
+                            <div class="rf-desc">JSON blocks parsed → semantic HTML constructed via pure DOM manipulation → theme applied</div>
+                        </div>
+                    </div>
+
+                    <div class="prose" style="margin-top:1.4rem;">
+                        <p>The library reads the <code style="font-family:var(--font-mono);font-size:0.9em;">?slug</code> parameter to identify the blog post and calls the Blogify backend API to fetch its JSON content. It then reads the <code style="font-family:var(--font-mono);font-size:0.9em;">?theme</code> parameter, applies the matching theme's CSS variables and class system, and renders the full blog post by iterating over each JSON block — creating corresponding DOM elements for headings, paragraphs, images, code blocks, quotes, lists, and dividers — entirely through <strong>direct DOM manipulation</strong> with no framework involvement.</p>
+                    </div>
+
+                    <!-- Test link -->
+                    <div class="test-link-box">
+                        <div class="tl-label">🧪 Live Test Link — Tokyo Night Theme</div>
+                        <div class="tl-url">
+                            <a href="https://shamil-tp.github.io/blog-Rendering-Library/?slug=messis-world-cup-glory-48qNNV&theme=tokyo_night" target="_blank" style="text-decoration:underline;font-weight:700;">
+                                shamil-tp.github.io/blog-Rendering-Library/<br>?slug=messis-world-cup-glory-48qNNV&theme=tokyo_night
+                            </a>
+                        </div>
+                        <div class="tl-note">Not a live production link — a test render demonstrating the library working against real Blogify data in the Tokyo Night theme.</div>
+                        <div class="tl-params">
+                            <div class="tl-param"><span>slug=</span>messis-world-cup-glory-48qNNV</div>
+                            <div class="tl-param"><span>theme=</span>tokyo_night</div>
+                        </div>
+                    </div>
+
+                    <div class="prose" style="margin-top:1.2rem;">
+                        <p>To switch to any other theme, simply change the <code style="font-family:var(--font-mono);font-size:0.9em;">theme=</code> query parameter. The same blog post will render with a completely different visual identity — typography, background, colours, code highlighting, and spacing all change with a single URL parameter swap.</p>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 3. THEMES SHOWCASE -->
+                <section class="content-section">
+                    <h2 class="section-heading">15+ Custom Themes</h2>
+                    <div class="prose">
+                        <p>Every theme was hand-crafted — not generated or copied. Each defines a complete visual system: background colours, text colours, typographic scale, code block syntax highlighting, blockquote styling, and spacing. All switchable via a single URL query parameter: <code style="font-family:var(--font-mono);font-size:0.9em;">?theme=theme_name</code></p>
+                    </div>
+
+                    <div class="theme-grid">
+                        <div class="theme-card th-tokyo">Tokyo Night</div>
+                        <div class="theme-card th-dracula">Dracula</div>
+                        <div class="theme-card th-nord">Nord</div>
+                        <div class="theme-card th-solarized">Solarized Dark</div>
+                        <div class="theme-card th-monokai">Monokai</div>
+                        <div class="theme-card th-github">GitHub Light</div>
+                        <div class="theme-card th-forest">Forest</div>
+                        <div class="theme-card th-ocean">Ocean Dark</div>
+                        <div class="theme-card th-sunset">Sunset</div>
+                        <div class="theme-card th-paper">Paper</div>
+                        <div class="theme-card th-midnight">Midnight</div>
+                        <div class="theme-card th-sepia">Sepia</div>
+                        <div class="theme-card th-neon">Neon</div>
+                        <div class="theme-card th-aurora">Aurora</div>
+                        <div class="theme-card th-minimal">Minimal</div>
+                        <div class="theme-card th-more">+ more</div>
+                    </div>
+
+                    <p style="font-family:var(--font-mono);font-size:0.78rem;font-weight:700;margin-top:0.8rem;color:var(--text-secondary);">* Theme names above are representative — exact names as implemented in library_V2.js</p>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 4. TOOLS USED -->
+                <section class="content-section">
+                    <h2 class="section-heading">Tools & Technologies</h2>
+                    <table class="info-table" style="margin-top:0.5rem;">
+                        <tr><td>Core Language</td><td><strong>Vanilla JavaScript (ES6+)</strong> — zero dependencies, single library file</td></tr>
+                        <tr><td>DOM API</td><td><strong>Pure DOM Manipulation</strong> — document.createElement, appendChild, setAttribute, classList</td></tr>
+                        <tr><td>Data Source</td><td><strong>Blogify REST API</strong> — JSON blog content fetched via fetch() using slug</td></tr>
+                        <tr><td>Theming System</td><td><strong>CSS Variables + Class injection</strong> — 15+ themes, URL-parameter-driven</td></tr>
+                        <tr><td>Entry Point</td><td><strong>index.html</strong> — minimal HTML shell that bootstraps the library</td></tr>
+                        <tr><td>Library File</td><td><strong>library_V2.js</strong> — the entire rendering engine in a single file</td></tr>
+                        <tr><td>CI/CD</td><td><strong>GitHub Actions</strong> (.github/workflows) — auto-deploys to GitHub Pages on push</td></tr>
+                        <tr><td>Deployment</td><td><strong>GitHub Pages</strong> — free static hosting, URL-based access</td></tr>
+                        <tr><td>License</td><td><strong>MIT</strong> — permissive open-source, free to use, modify, distribute</td></tr>
+                    </table>
+
+                    <div style="margin-top:1.4rem;">
+                        <p style="font-family:var(--font-mono);font-size:0.8rem;font-weight:700;text-transform:uppercase;margin-bottom:0.6rem;">Language Breakdown</p>
+                        <div style="height:18px;border:2px solid #000;display:flex;overflow:hidden;box-shadow:3px 3px 0 #000;">
+                            <div style="width:93.8%;background:#000;" title="JavaScript 93.8%"></div>
+                            <div style="width:6.2%;background:#888;" title="HTML 6.2%"></div>
+                        </div>
+                        <div style="display:flex;gap:1.5rem;margin-top:0.5rem;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;">
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#000;border:1px solid #000;margin-right:4px;"></span>JavaScript 93.8%</span>
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#888;border:1px solid #000;margin-right:4px;"></span>HTML 6.2%</span>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 5. SKILLS ACHIEVED -->
+                <section class="content-section">
+                    <h2 class="section-heading">Skills Achieved</h2>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <div class="skill-name">Vanilla JS Library Design</div>
+                            <div class="skill-desc">Architecting a reusable, self-contained JS library with no framework or build tools required</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Pure DOM Manipulation</div>
+                            <div class="skill-desc">createElement, appendChild, setAttribute, classList, textContent — direct browser API mastery</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">JSON-to-HTML Rendering</div>
+                            <div class="skill-desc">Parsing structured JSON block arrays and constructing full semantic HTML document trees</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">URL Parameter API Design</div>
+                            <div class="skill-desc">Building URL-driven behaviour — slug and theme as query params, URLSearchParams API</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">CSS Theming Architecture</div>
+                            <div class="skill-desc">Designing 15+ complete visual themes using CSS variables — switchable at runtime</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Zero-Dependency Engineering</div>
+                            <div class="skill-desc">Delivering full functionality with no npm packages — understanding what browsers natively provide</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">GitHub Actions CI/CD</div>
+                            <div class="skill-desc">Automated deployment pipeline to GitHub Pages on every push to main</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Open Source Publishing</div>
+                            <div class="skill-desc">MIT licensing, clean public repo, real-world usability as a standalone importable library</div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 6. KEY FEATURES -->
+                <section class="content-section">
+                    <h2 class="section-heading">Key Features</h2>
+                    <ul class="feature-list">
+                        <li><strong>Zero Dependencies:</strong> The entire library is a single <code style="font-family:var(--font-mono);">library_V2.js</code> file — no npm install, no node_modules, no bundler required. Just include it and it works.</li>
+                        <li><strong>JSON Block Rendering:</strong> Parses Blogify's structured JSON content format (headings, paragraphs, images, quotes, code, lists, dividers) into fully styled semantic HTML.</li>
+                        <li><strong>15+ Custom Themes:</strong> Hand-crafted visual themes switchable via a single URL query parameter — Tokyo Night, Dracula, Nord, Solarized, Monokai, GitHub Light, Sepia, Neon, Aurora, Forest, Ocean, Midnight, Paper, Sunset, Minimal, and more.</li>
+                        <li><strong>URL-Parameter Driven:</strong> <code style="font-family:var(--font-mono);">?slug=post-id&theme=theme_name</code> — completely URL-addressable renders. Share a link to any blog post in any theme.</li>
+                        <li><strong>Pure DOM Manipulation:</strong> No virtual DOM, no diffing algorithm, no framework overhead. Direct browser DOM API — lightweight and fast.</li>
+                        <li><strong>GitHub Actions Deployment:</strong> Automated CI/CD pipeline deploys to GitHub Pages on every push — zero manual deployment steps.</li>
+                        <li><strong>MIT Licensed:</strong> Open-source under MIT — free to use, fork, modify, and distribute. Co-credited to all three contributors.</li>
+                        <li><strong>Blogify Integration:</strong> Directly consumes Blogify's REST API using the slug as the key — tight integration with the parent platform's data format.</li>
+                        <li><strong>V2 Architecture:</strong> The current <code style="font-family:var(--font-mono);">library_V2.js</code> naming indicates a deliberate second version — improved over the initial implementation.</li>
+                    </ul>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 7. MY CONTRIBUTION -->
+                <section class="content-section">
+                    <h2 class="section-heading">My Contribution</h2>
+                    <div class="prose">
+                        <p>This is a <strong>near-solo project</strong> — every line of the library itself was written by shamil-tp. Ranfees K contributed a single layout bug fix. The entire rendering engine, all 15+ themes, the URL parameter system, the JSON block parser, and the GitHub Actions deployment pipeline were built by me from scratch.</p>
+                    </div>
+                    <ul class="feature-list" style="margin-top:1rem;">
+                        <li><strong>library_V2.js — Complete Authorship:</strong> Designed and wrote the entire rendering library — JSON parser, DOM constructor, block type handlers, theme injection system.</li>
+                        <li><strong>15+ Custom Themes:</strong> Hand-crafted every single theme — defining colour palettes, typography, code block styling, spacing, and visual hierarchy for 15+ distinct visual identities.</li>
+                        <li><strong>URL Parameter System:</strong> Built the slug + theme query parameter architecture — making the library fully URL-addressable and embeddable.</li>
+                        <li><strong>GitHub Actions Pipeline:</strong> Set up the .github/workflows CI/CD configuration for automatic GitHub Pages deployment.</li>
+                        <li><strong>Blogify API Integration:</strong> Wired the library to the Blogify REST API — fetch by slug, parse response, render to DOM.</li>
+                        <li><strong>V2 Refactor:</strong> Iterated from the initial version to a cleaner, more robust V2 architecture — better block type coverage, improved theme system.</li>
+                    </ul>
+
+                    <a href="https://github.com/shamil-tp/blog-Rendering-Library" target="_blank" class="link-btn primary"><i class="bi bi-github"></i> GitHub Repo</a>
+                    <a href="https://shamil-tp.github.io/blog-Rendering-Library/?slug=messis-world-cup-glory-48qNNV&theme=tokyo_night" target="_blank" class="link-btn"><i class="bi bi-play-circle"></i> Test Demo</a>
+                    <a href="https://github.com/shamil-tp/blog-Rendering-Library/commits/main" target="_blank" class="link-btn"><i class="bi bi-clock-history"></i> All Commits</a>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 8. FOLDER STRUCTURE -->
+                <section class="content-section">
+                    <h2 class="section-heading">Folder Structure</h2>
+                    <div class="code-block">
+                        <pre><code>blog-Rendering-Library/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml         # GitHub Actions → auto-deploy to GitHub Pages
+│
+├── index.html                 # Minimal HTML shell — bootstraps the library
+├── library_V2.js              # ★ The entire rendering library — single file
+│                              #   • URL param reader (?slug, ?theme)
+│                              #   • Blogify API fetch (by slug)
+│                              #   • JSON block parser
+│                              #   • DOM constructor (createElement chains)
+│                              #   • 15+ theme definitions + injector
+│                              #   • Block handlers: heading, paragraph,
+│                              #     image, quote, code, list, divider
+├── LICENSE                    # MIT License (Shamil TP, Sinan Rahman K,
+│                              #              Muhammed Ranfees K)
+└── README.md</code></pre>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 9. COLLABORATORS -->
+                <section class="content-section">
+                    <h2 class="section-heading">Collaborators</h2>
+                    <div class="prose" style="margin-bottom:1.2rem;">
+                        <p>Primarily a <strong>solo-built library</strong>. Ranfees K contributed a layout bug fix. All three names are co-credited in the MIT license as the library is the core engine of the Blogify platform they built together.</p>
+                    </div>
+
+                    <div class="collab-card">
+                        <div class="collab-top">
+                            <div class="collab-avatar">ST</div>
+                            <div>
+                                <div class="collab-name">shamil-tp <span style="font-family:var(--font-mono);font-size:0.73rem;background:#000;color:#F5F2EB;padding:0.15rem 0.4rem;margin-left:0.4rem;">PRIMARY AUTHOR</span></div>
+                                <div class="collab-role">Built everything — library, themes, CI/CD, integration</div>
+                            </div>
+                        </div>
+                        <div class="collab-work">Wrote the entire library_V2.js from scratch — JSON block parser, DOM renderer, all 15+ themes, URL parameter system, Blogify API integration, and GitHub Actions deployment pipeline. Every feature, every theme, every line of core code.</div>
+                        <div class="collab-links">
+                            <a href="https://github.com/shamil-tp" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                        </div>
+                    </div>
+
+                    <div class="collab-card">
+                        <div class="collab-top">
+                            <div class="collab-avatar">RK</div>
+                            <div>
+                                <div class="collab-name">Muhammed Ranfees K</div>
+                                <div class="collab-role">Contributor — Layout Bug Fix</div>
+                            </div>
+                        </div>
+                        <div class="collab-work">Identified and fixed a layout issue in the rendered output — improving the visual consistency of the library's HTML output. Co-credited in the MIT license.</div>
+                        <div class="collab-links">
+                            <a href="https://github.com/Ranfees" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/muhammed-ranfees-k-158836348" target="_blank" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                        </div>
+                    </div>
+
+                    <div class="collab-card">
+                        <div class="collab-top">
+                            <div class="collab-avatar">SR</div>
+                            <div>
+                                <div class="collab-name">Sinan Rahman K</div>
+                                <div class="collab-role">MIT Co-Credit — Blogify Platform</div>
+                            </div>
+                        </div>
+                        <div class="collab-work">Co-credited in the MIT license as a member of the Blogify platform team. The library serves as the rendering engine for the collaborative Blogify project they built together.</div>
+                        <div class="collab-links">
+                            <a href="https://github.com/sinanrahman" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/sinan-k-rahman" target="_blank" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- ═══════════════ SIDEBAR ═══════════════ -->
+            <aside class="sidebar-column">
+
+                <!-- Repo Metrics -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Repo Metrics</h3>
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <span class="m-val">⭐ 7</span>
+                            <span class="m-label">GitHub Stars</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">🔀 1</span>
+                            <span class="m-label">Forks</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">17</span>
+                            <span class="m-label">Commits</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">0</span>
+                            <span class="m-label">npm Deps</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">15+</span>
+                            <span class="m-label">Themes</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">MIT</span>
+                            <span class="m-label">License</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Metrics -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Custom Metrics</h3>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Dependency Weight</div>
+                            <div class="cm-note">vs avg JS library</div>
+                        </div>
+                        <div class="cm-val">0 KB</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Theme Variety</div>
+                            <div class="cm-note">dark + light + colour</div>
+                        </div>
+                        <div class="cm-val">15+</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Files in Library</div>
+                            <div class="cm-note">everything in 1 file</div>
+                        </div>
+                        <div class="cm-val">1 JS</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Ownership</div>
+                            <div class="cm-note">shamil-tp sole author</div>
+                        </div>
+                        <div class="cm-val">~99%</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Deploy Method</div>
+                            <div class="cm-note">GitHub Actions → Pages</div>
+                        </div>
+                        <div class="cm-val">Auto</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Framework Used</div>
+                            <div class="cm-note">none — pure browser</div>
+                        </div>
+                        <div class="cm-val">None</div>
+                    </div>
+                </div>
+
+                <!-- Scorecard -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Project Scorecard</h3>
+                    <div class="scorecard">
+                        <div class="score-row">
+                            <span class="score-label">Originality</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">JS Mastery</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Design Craft</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Open Source</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Portfolio Score</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Uniqueness</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tech Stack -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Tech Stack</h3>
+                    <div class="tag-cloud">
+                        <span class="tag">Vanilla JS</span>
+                        <span class="tag">DOM API</span>
+                        <span class="tag">CSS Variables</span>
+                        <span class="tag">Fetch API</span>
+                        <span class="tag">URL Params</span>
+                        <span class="tag">GitHub Pages</span>
+                        <span class="tag">GitHub Actions</span>
+                        <span class="tag">MIT License</span>
+                        <span class="tag">HTML5</span>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Quick Links</h3>
+                    <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                        <a href="https://github.com/shamil-tp/blog-Rendering-Library" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-github"></i> GitHub Repo</a>
+                        <a href="https://shamil-tp.github.io/blog-Rendering-Library/?slug=messis-world-cup-glory-48qNNV&theme=tokyo_night" target="_blank" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-play-circle"></i> Tokyo Night Demo</a>
+                        <a href="https://github.com/shamil-tp/blog-Rendering-Library/blob/main/library_V2.js" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-file-earmark-code"></i> library_V2.js</a>
+                        <a href="https://github.com/shamil-tp/blog-Rendering-Library/commits/main" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-clock-history"></i> All Commits</a>
+                        <a href="https://github.com/shamil-tp/blog-Rendering-Library?tab=MIT-1-ov-file#readme" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-file-earmark-text"></i> MIT License</a>
+                        <a href="https://blogify-7mdx.vercel.app" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-pencil-square"></i> Blogify Platform</a>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Shamil TP. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

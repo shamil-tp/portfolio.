@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoffeeCat Details | Shamil TP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --bg-color: #F5F2EB;
+            --card-bg: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #333333;
+            --border-color: #000000;
+            --nav-bg: rgba(245, 242, 235, 0.95);
+            --font-main: 'Outfit', 'Helvetica Neue', sans-serif;
+            --font-mono: 'Space Mono', 'Fira Code', monospace;
+            --transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-main); line-height: 1.5; font-size: 15px; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+        .navbar { background: var(--nav-bg); border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 60px; }
+        .back-link { font-weight: 800; font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.4rem; transition: var(--transition); text-transform: uppercase; }
+        .back-link:hover { text-decoration: underline; }
+        .nav-links { display: flex; list-style: none; gap: 1.5rem; }
+        .nav-links a { font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.9rem; font-weight: 700; }
+        .nav-links a:hover { color: var(--text-primary); text-decoration: underline; }
+
+        .project-header { background: var(--bg-color); padding: 4rem 0 3rem 0; border-bottom: 2px solid var(--border-color); margin-bottom: 3rem; }
+        .header-container { display: flex; align-items: center; gap: 1.5rem; }
+        .header-icon { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border: 2px solid var(--border-color); background: var(--card-bg); box-shadow: 4px 4px 0px rgba(0,0,0,1); flex-shrink: 0; }
+        .project-title { font-size: 2.8rem; font-weight: 900; margin-bottom: 0.3rem; letter-spacing: -1px; text-transform: uppercase; line-height: 1; }
+        .project-subtitle { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; background: var(--text-primary); color: var(--bg-color); display: inline-block; padding: 0.3rem 0.6rem; margin-top: 0.3rem; }
+
+        .content-grid { display: grid; grid-template-columns: 7fr 3fr; gap: 2.5rem; padding-bottom: 5rem; align-items: start; }
+        .content-section { margin-bottom: 2.5rem; }
+        .content-section:last-child { margin-bottom: 0; }
+        .section-heading { font-size: 1.6rem; font-weight: 900; margin-bottom: 1.2rem; border-bottom: 3px solid var(--border-color); padding-bottom: 0.3rem; text-transform: uppercase; }
+
+        .prose p { margin-bottom: 1rem; font-size: 1.05rem; line-height: 1.6; font-weight: 500; }
+        .prose p:last-child { margin-bottom: 0; }
+        .prose strong { font-weight: 800; }
+
+        .feature-list { list-style: none; padding-left: 0; margin-top: 1rem; }
+        .feature-list li { margin-bottom: 1rem; line-height: 1.5; font-size: 1rem; position: relative; padding-left: 1.2rem; font-weight: 500; }
+        .feature-list li::before { content: '→'; position: absolute; left: 0; font-family: var(--font-mono); font-weight: 900; }
+
+        .code-block { background: #111; border: 2px solid var(--border-color); padding: 1.5rem; overflow-x: auto; box-shadow: 6px 6px 0px rgba(0,0,0,1); margin-top: 1.2rem; }
+        .code-block pre { font-family: var(--font-mono); font-size: 0.88rem; color: #f8f8f2; line-height: 1.6; }
+
+        .sidebar-widget { background: var(--card-bg); border: 2px solid var(--border-color); padding: 1.5rem; margin-bottom: 2rem; box-shadow: 6px 6px 0px rgba(0,0,0,1); }
+        .sidebar-widget:last-child { margin-bottom: 0; }
+        .widget-title { font-size: 1.2rem; font-weight: 900; margin-bottom: 1.2rem; text-transform: uppercase; border-bottom: 2px solid var(--border-color); padding-bottom: 0.4rem; }
+
+        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .metric-item { display: flex; flex-direction: column; border-left: 3px solid var(--text-primary); padding-left: 0.8rem; }
+        .m-val { font-family: var(--font-mono); font-size: 1.8rem; font-weight: 900; line-height: 1; margin-bottom: 0.2rem; }
+        .m-label { font-size: 0.75rem; text-transform: uppercase; font-weight: 800; color: var(--text-secondary); }
+
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .tag { font-family: var(--font-mono); background: var(--card-bg); padding: 0.4rem 0.8rem; border: 2px solid var(--border-color); font-size: 0.85rem; font-weight: 700; box-shadow: 2px 2px 0px rgba(0,0,0,1); transition: var(--transition); text-transform: uppercase; }
+        .tag:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0px rgba(0,0,0,1); background: var(--text-primary); color: var(--bg-color); }
+
+        .footer { border-top: 2px solid var(--border-color); padding: 2rem 0; text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; }
+
+        .info-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .info-table tr { border-bottom: 1px solid #ccc; }
+        .info-table tr:last-child { border-bottom: none; }
+        .info-table td { padding: 0.6rem 0.5rem; font-size: 0.95rem; font-weight: 500; vertical-align: top; }
+        .info-table td:first-child { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; color: var(--text-secondary); width: 42%; }
+
+        .section-divider { border: none; border-top: 2px dashed #bbb; margin: 2.5rem 0; }
+
+        .link-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; border: 2px solid var(--border-color); padding: 0.5rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; transition: var(--transition); text-transform: uppercase; margin-top: 0.8rem; margin-right: 0.6rem; }
+        .link-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; background: var(--text-primary); color: var(--bg-color); }
+        .link-btn.primary { background: var(--text-primary); color: var(--bg-color); }
+        .link-btn.primary:hover { background: var(--bg-color); color: var(--text-primary); }
+
+        .custom-metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px dashed #bbb; }
+        .custom-metric-row:last-child { border-bottom: none; }
+        .cm-label { font-weight: 600; color: var(--text-secondary); flex: 1; font-size: 0.9rem; }
+        .cm-val { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; text-align: right; }
+        .cm-note { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary); text-align: right; }
+
+        .scorecard { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.7rem; }
+        .score-row { display: flex; align-items: center; gap: 0.8rem; }
+        .score-label { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; width: 145px; flex-shrink: 0; }
+        .score-bar-wrap { flex: 1; height: 14px; border: 2px solid var(--border-color); background: var(--bg-color); }
+        .score-bar { height: 100%; background: var(--text-primary); }
+        .score-num { font-family: var(--font-mono); font-weight: 900; font-size: 0.85rem; width: 28px; text-align: right; }
+
+        .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
+        .skill-card { border: 2px solid var(--border-color); padding: 0.9rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0px rgba(0,0,0,1); transition: var(--transition); }
+        .skill-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0px rgba(0,0,0,1); }
+        .skill-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .skill-desc { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; line-height: 1.4; }
+
+        /* Hobby banner */
+        .hobby-banner { border: 2px solid var(--border-color); padding: 1.2rem 1.5rem; background: var(--text-primary); color: var(--bg-color); box-shadow: 5px 5px 0 #555; margin: 1.2rem 0; display: flex; align-items: center; gap: 1.2rem; }
+        .hobby-icon { font-size: 2.2rem; flex-shrink: 0; }
+        .hobby-text strong { font-weight: 900; font-size: 1.05rem; display: block; margin-bottom: 0.2rem; }
+        .hobby-text span { font-size: 0.88rem; opacity: 0.82; font-weight: 500; }
+
+        /* Mobile only badge */
+        .mobile-badge { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; border: 2px solid var(--border-color); padding: 0.5rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; text-transform: uppercase; margin-top: 1rem; }
+
+        /* Feature grid — Instagram features */
+        .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
+        .feat-card { border: 2px solid var(--border-color); padding: 0.9rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; transition: var(--transition); display: flex; align-items: flex-start; gap: 0.8rem; }
+        .feat-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; }
+        .feat-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.1rem; }
+        .feat-name { font-weight: 800; font-size: 0.92rem; margin-bottom: 0.15rem; }
+        .feat-desc { font-size: 0.8rem; color: var(--text-secondary); font-weight: 500; line-height: 1.4; }
+
+        /* Delete account callout */
+        .callout { border: 2px solid var(--border-color); padding: 1.1rem 1.3rem; background: var(--bg-color); margin-top: 1.2rem; position: relative; }
+        .callout-label { position: absolute; top: -13px; left: 1rem; background: var(--text-primary); color: var(--bg-color); font-family: var(--font-mono); font-size: 0.72rem; font-weight: 900; padding: 0.15rem 0.6rem; text-transform: uppercase; }
+        .callout p { font-size: 0.92rem; font-weight: 500; line-height: 1.6; color: var(--text-primary); }
+        .callout strong { font-weight: 800; }
+
+        /* Vue mastery banner */
+        .mastery-banner { border: 2px solid var(--border-color); padding: 1.2rem 1.5rem; background: var(--text-primary); color: var(--bg-color); box-shadow: 5px 5px 0 #555; margin: 1.2rem 0; }
+        .mastery-banner p { font-size: 1rem; font-weight: 600; line-height: 1.6; opacity: 0.9; }
+        .mastery-banner strong { font-weight: 900; font-size: 1.1rem; opacity: 1; }
+
+        /* arch layer */
+        .arch-layer { border: 2px solid var(--border-color); padding: 1rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-bottom: 0.6rem; }
+        .arch-layer-title { font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; border-bottom: 1px solid #ccc; padding-bottom: 0.3rem; font-family: var(--font-mono); }
+        .arch-items { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .arch-item { background: var(--bg-color); border: 1.5px solid var(--border-color); padding: 0.25rem 0.6rem; font-size: 0.78rem; font-weight: 700; font-family: var(--font-mono); }
+        .arch-arrow { text-align: center; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); margin: 0.3rem 0; }
+
+        @media (max-width: 900px) {
+            .content-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .score-label { width: 115px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="mycontributions.html" class="back-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <ul class="nav-links"><li><a href="../index.html">Home</a></li></ul>
+        </div>
+    </nav>
+
+    <header class="project-header">
+        <div class="container header-container">
+            <div class="header-icon"><i class="bi bi-chat-heart"></i></div>
+            <div class="header-info">
+                <h1 class="project-title">CoffeeCat</h1>
+                <p class="project-subtitle">Instagram Clone · Vue.js Mastery Project · Mobile-First</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container content-grid">
+
+            <!-- ═══════════════ MAIN COLUMN ═══════════════ -->
+            <div class="main-column">
+
+                <!-- 1. OVERVIEW -->
+                <section class="content-section">
+                    <h2 class="section-heading">Project Overview</h2>
+
+                    <div class="hobby-banner">
+                        <div class="hobby-icon">🎯</div>
+                        <div class="hobby-text">
+                            <strong>Hobby Project — Built for Pure Curiosity</strong>
+                            <span>No client, no deadline, no team. Just shamil-tp exploring Vue.js at full depth — learning by building something real, complex, and actually fun to use on a phone.</span>
+                        </div>
+                    </div>
+
+                    <div class="prose">
+                        <p><strong>CoffeeCat</strong> is a full-featured Instagram clone built entirely as a solo hobby project — driven by genuine curiosity and the desire to master Vue.js by building something real and non-trivial. It is not a tutorial copy. Every feature — real-time messaging, photo posting, likes, comments, follows, profile management, search, and full account deletion — was designed and implemented from scratch.</p>
+                        <p>The project is <strong>deliberately mobile-only</strong>, primarily designed to run beautifully on a phone so it could be shown to friends without needing a laptop. This constraint shaped the entire UI/UX — it's designed the way Instagram actually feels on a phone screen.</p>
+                        <p>Through CoffeeCat, shamil-tp went from Vue.js learner to <strong>Vue.js expert</strong> — mastering Vuex state management, Vue Router, Composition API, component architecture, real-time Socket.io bidirectional communication, Cloudinary media integration, and full MERN stack development at depth.</p>
+                    </div>
+
+                    <div class="mobile-badge">
+                        <i class="bi bi-phone"></i>
+                        Mobile-Only Design — Optimised for Phone Display
+                    </div>
+
+                    <table class="info-table" style="margin-top:1.2rem;">
+                        <tr><td>Project Type</td><td>Full-Stack Social Media Platform (Instagram Clone)</td></tr>
+                        <tr><td>Purpose</td><td>Hobby / Self-Learning — Vue.js mastery project</td></tr>
+                        <tr><td>Design Target</td><td>Mobile-only — primarily for phone display</td></tr>
+                        <tr><td>Repository Owner</td><td>shamil-tp (100% solo)</td></tr>
+                        <tr><td>Real-time</td><td>Socket.io bidirectional chat</td></tr>
+                        <tr><td>Media Storage</td><td>Cloudinary — photo uploads + account deletion cleanup</td></tr>
+                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/coffeeCat" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">github.com/shamil-tp/coffeeCat</a></td></tr>
+                        <tr><td>Live Link</td><td><a href="https://coffee-cat-topaz.vercel.app/login" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">coffee-cat-topaz.vercel.app</a></td></tr>
+                    </table>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 2. HOW IT WORKS -->
+                <section class="content-section">
+                    <h2 class="section-heading">How The Project Works</h2>
+                    <div class="prose">
+                        <p>CoffeeCat is a full MERN stack application — Vue.js SPA frontend communicating with an Express REST API backend, MongoDB for data persistence, Cloudinary for media storage, and Socket.io running a persistent WebSocket layer for real-time chat.</p>
+                    </div>
+
+                    <div style="margin-top:1.2rem;">
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">📱 Frontend — Vue 3 SPA (Mobile-First)</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Vue Router (pages)</span>
+                                <span class="arch-item">Vuex (global state)</span>
+                                <span class="arch-item">Feed View</span>
+                                <span class="arch-item">Post Composer</span>
+                                <span class="arch-item">Profile Page</span>
+                                <span class="arch-item">Chat UI</span>
+                                <span class="arch-item">Search Users</span>
+                                <span class="arch-item">Socket.io client</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ REST API (Axios + JWT) &nbsp;|&nbsp; WebSocket (Socket.io)</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">⚙ Backend — Node.js + Express REST API + Socket.io Server</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Auth routes (JWT)</span>
+                                <span class="arch-item">Post routes</span>
+                                <span class="arch-item">User routes</span>
+                                <span class="arch-item">Chat routes</span>
+                                <span class="arch-item">Socket.io events</span>
+                                <span class="arch-item">Cloudinary upload</span>
+                                <span class="arch-item">Delete account pipeline</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ Mongoose ODM &nbsp;|&nbsp; Cloudinary SDK</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">🗄 Data & Media Layer</div>
+                            <div class="arch-items">
+                                <span class="arch-item">MongoDB — users, posts, comments, follows, chats</span>
+                                <span class="arch-item">Cloudinary — photo storage + CDN</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 3. FEATURES -->
+                <section class="content-section">
+                    <h2 class="section-heading">Features</h2>
+                    <div class="prose">
+                        <p>A complete social media feature set — not a stripped-down demo. Every feature that makes Instagram actually usable is here, including a thoughtfully designed account deletion system that cleans up data across both MongoDB and Cloudinary.</p>
+                    </div>
+
+                    <div class="feature-grid">
+                        <div class="feat-card">
+                            <div class="feat-icon">💬</div>
+                            <div>
+                                <div class="feat-name">Real-Time Bidirectional Chat</div>
+                                <div class="feat-desc">Socket.io WebSocket connection — live messaging between users, instant delivery, no polling</div>
+                            </div>
+                        </div>
+                        <div class="feat-card">
+                            <div class="feat-icon">📸</div>
+                            <div>
+                                <div class="feat-name">Photo Posting</div>
+                                <div class="feat-desc">Upload photos from phone, stored on Cloudinary CDN, displayed in feed and profile grid</div>
+                            </div>
+                        </div>
+                        <div class="feat-card">
+                            <div class="feat-icon">❤️</div>
+                            <div>
+                                <div class="feat-name">Liking Posts</div>
+                                <div class="feat-desc">Like / unlike posts with live count updates, stored in MongoDB</div>
+                            </div>
+                        </div>
+                        <div class="feat-card">
+                            <div class="feat-icon">💭</div>
+                            <div>
+                                <div class="feat-name">Commenting on Posts</div>
+                                <div class="feat-desc">Add and view comments on any post, threaded under each photo</div>
+                            </div>
+                        </div>
+                        <div class="feat-card">
+                            <div class="feat-icon">👥</div>
+                            <div>
+                                <div class="feat-name">Following Users</div>
+                                <div class="feat-desc">Follow / unfollow users — feed updates to show followed users' posts</div>
+                            </div>
+                        </div>
+                        <div class="feat-card">
+                            <div class="feat-icon">👣</div>
+                            <div>
+                                <div class="feat-name">Followers & Following Lists</div>
+                                <div class="feat-desc">View who follows you and who you follow — full social graph visible on profiles</div>
+                            </div>
+                        </div>
+                        <div class="feat-card">
+                            <div class="feat-icon">🔍</div>
+                            <div>
+                                <div class="feat-name">User Search</div>
+                                <div class="feat-desc">Search for users by name or username — discover and navigate to profiles</div>
+                            </div>
+                        </div>
+                        <div class="feat-card">
+                            <div class="feat-icon">✏️</div>
+                            <div>
+                                <div class="feat-name">Profile Management</div>
+                                <div class="feat-desc">Update profile photo, bio, username — changes reflected across the app via Vuex</div>
+                            </div>
+                        </div>
+                        <div class="feat-card">
+                            <div class="feat-icon">🗑️</div>
+                            <div>
+                                <div class="feat-name">Delete Post</div>
+                                <div class="feat-desc">Remove a post — deletes from MongoDB and purges the image from Cloudinary</div>
+                            </div>
+                        </div>
+                        <div class="feat-card">
+                            <div class="feat-icon">📱</div>
+                            <div>
+                                <div class="feat-name">Mobile-Only UI</div>
+                                <div class="feat-desc">Designed exclusively for phone screens — can be shown to friends directly from your phone</div>
+                            </div>
+                        </div>
+                        <div class="feat-card">
+                            <div class="feat-icon">💾</div>
+                            <div>
+                                <div class="feat-name">Vuex State Management</div>
+                                <div class="feat-desc">Centralised global state — auth, feed, profile, chat, search all managed through Vuex stores</div>
+                            </div>
+                        </div>
+                        <div class="feat-card">
+                            <div class="feat-icon">⚡</div>
+                            <div>
+                                <div class="feat-name">Real-Time Messaging</div>
+                                <div class="feat-desc">Messages appear instantly for both users without page refresh — true bidirectional Socket.io events</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delete account callout -->
+                    <div class="callout" style="margin-top:1.4rem;">
+                        <div class="callout-label">⚠ Thoughtful Feature — Account Deletion</div>
+                        <p>Account deletion is not just a database flag — it is a <strong>full cascading cleanup pipeline</strong>. Deleting your account removes: your user document from MongoDB, all your posts and their Cloudinary images, all your comments, all your likes, and all your follow relationships. <strong>Chat messages are deliberately preserved</strong> for the person on the other side of the conversation — because their conversation history belongs to them too. This nuanced design decision shows real product thinking.</p>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 4. VUE MASTERY -->
+                <section class="content-section">
+                    <h2 class="section-heading">The Vue.js Mastery Journey</h2>
+
+                    <div class="mastery-banner">
+                        <p><strong>"I became an expert in Vue.js through this project."</strong><br>
+                        CoffeeCat was not a guided tutorial — it was a self-directed deep dive. Building a full Instagram clone with real-time chat, Vuex state management, Vue Router, and Cloudinary integration forced mastery of Vue.js at every level — components, reactivity, lifecycle hooks, composables, stores, and the full ecosystem.</p>
+                    </div>
+
+                    <div class="prose">
+                        <p>The progression through CoffeeCat covered every meaningful area of Vue.js development — from basic component authoring to complex Vuex store design, from simple route navigation to authenticated guards, from static templates to reactive real-time UI driven by Socket.io events. The mobile-only constraint meant every component had to be designed thoughtfully for touch interaction and small screen layouts — a discipline that sharpens frontend skills significantly.</p>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 5. TOOLS USED -->
+                <section class="content-section">
+                    <h2 class="section-heading">Tools & Technologies</h2>
+                    <table class="info-table" style="margin-top:0.5rem;">
+                        <tr><td>Frontend Framework</td><td><strong>Vue 3</strong> — Composition API, reactive components, mobile-first SPA</td></tr>
+                        <tr><td>State Management</td><td><strong>Vuex</strong> — Centralised store for auth, feed, posts, chat, profile</td></tr>
+                        <tr><td>Routing</td><td><strong>Vue Router</strong> — SPA navigation, authenticated route guards</td></tr>
+                        <tr><td>Real-Time</td><td><strong>Socket.io</strong> — Bidirectional WebSocket chat, live messaging events</td></tr>
+                        <tr><td>Backend Runtime</td><td><strong>Node.js + Express.js</strong> — REST API + Socket.io server</td></tr>
+                        <tr><td>Database</td><td><strong>MongoDB + Mongoose</strong> — Users, posts, comments, likes, follows, chats</td></tr>
+                        <tr><td>Media Storage</td><td><strong>Cloudinary</strong> — Photo CDN upload, deletion, profile images</td></tr>
+                        <tr><td>Authentication</td><td><strong>JWT</strong> — Stateless token-based auth</td></tr>
+                        <tr><td>HTTP Client</td><td><strong>Axios</strong> — API communication with token interceptors</td></tr>
+                        <tr><td>Design Target</td><td><strong>Mobile-Only</strong> — CSS designed exclusively for phone screens</td></tr>
+                        <tr><td>Version Control</td><td><strong>Git + GitHub</strong></td></tr>
+                    </table>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 6. SKILLS ACHIEVED -->
+                <section class="content-section">
+                    <h2 class="section-heading">Skills Achieved</h2>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <div class="skill-name">Vue 3 — Expert Level</div>
+                            <div class="skill-desc">Composition API, reactive refs/computed, lifecycle hooks, component design patterns, custom events</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Vuex State Management</div>
+                            <div class="skill-desc">Modular store design, actions, mutations, getters, namespaced modules, state normalisation</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Vue Router</div>
+                            <div class="skill-desc">Nested routes, navigation guards, programmatic navigation, authenticated route protection</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Socket.io Real-Time</div>
+                            <div class="skill-desc">Bidirectional WebSocket events, room management, live message delivery, connection lifecycle</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Cloudinary Integration</div>
+                            <div class="skill-desc">Photo upload pipeline, CDN URL management, image deletion on post/account removal</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Social Graph Design</div>
+                            <div class="skill-desc">Followers/following data modelling, feed construction from social graph, relationship queries</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Cascading Data Deletion</div>
+                            <div class="skill-desc">Account deletion pipeline — MongoDB cascade + Cloudinary cleanup + partial chat preservation</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Mobile-First CSS</div>
+                            <div class="skill-desc">Designing exclusively for phone screens — touch targets, mobile layouts, phone viewport mastery</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Full MERN Stack</div>
+                            <div class="skill-desc">Vue + Node + Express + MongoDB — full end-to-end ownership of every layer</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Self-Directed Learning</div>
+                            <div class="skill-desc">Learning by building — no tutorials, no hand-holding. Research → implement → iterate on real features</div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 7. MY CONTRIBUTION -->
+                <section class="content-section">
+                    <h2 class="section-heading">My Contribution</h2>
+                    <div class="prose">
+                        <p>CoffeeCat is a <strong>100% solo project</strong> — every component, every API route, every Vuex store, every Socket.io event, every theme decision, every product feature was designed and built by shamil-tp alone. No contributors, no team. Pure solo exploration driven by curiosity.</p>
+                    </div>
+                    <ul class="feature-list" style="margin-top:1rem;">
+                        <li><strong>Entire Vue.js Frontend:</strong> All components, all views, all Vuex modules, Vue Router configuration, mobile-first CSS — built from scratch.</li>
+                        <li><strong>Real-Time Chat System:</strong> Full Socket.io integration — server-side event handlers and client-side listeners for bidirectional live messaging.</li>
+                        <li><strong>Complete Backend API:</strong> All Express routes, controllers, and middleware for auth, posts, users, comments, likes, follows, chat, and media.</li>
+                        <li><strong>Cloudinary Pipeline:</strong> Photo upload on post creation, image deletion on post removal, full media cleanup on account deletion.</li>
+                        <li><strong>Account Deletion System:</strong> Designed and built the cascading delete pipeline — MongoDB multi-collection cleanup + Cloudinary purge + intentional chat message preservation.</li>
+                        <li><strong>Product Design:</strong> All UX decisions — the mobile-only constraint, the social features scope, the chat preservation policy — were made and implemented by shamil-tp alone.</li>
+                    </ul>
+
+                    <a href="https://github.com/shamil-tp/coffeeCat" target="_blank" class="link-btn primary"><i class="bi bi-github"></i> GitHub Repo</a>
+                    <a href="https://coffee-cat-topaz.vercel.app/login" target="_blank" class="link-btn"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
+                    <a href="https://github.com/shamil-tp/coffeeCat/commits/main" target="_blank" class="link-btn"><i class="bi bi-clock-history"></i> Commit History</a>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 8. FOLDER STRUCTURE -->
+                <section class="content-section">
+                    <h2 class="section-heading">Folder Structure</h2>
+                    <div class="code-block">
+                        <pre><code>coffeeCat/
+├── backend/
+│   ├── index.js                    # Express + Socket.io server bootstrap
+│   ├── config/
+│   │   ├── db.js                   # MongoDB connection
+│   │   └── cloudinary.js           # Cloudinary SDK config
+│   ├── controllers/
+│   │   ├── authController.js       # Register, login, JWT
+│   │   ├── postController.js       # Create, delete post + Cloudinary
+│   │   ├── userController.js       # Profile, follow, search, delete account
+│   │   ├── commentController.js    # Add, fetch comments
+│   │   ├── likeController.js       # Like / unlike posts
+│   │   └── chatController.js       # Chat history fetch
+│   ├── middleware/
+│   │   └── authMiddleware.js       # JWT verification guard
+│   ├── models/
+│   │   ├── User.js                 # User schema + social graph
+│   │   ├── Post.js                 # Post schema + Cloudinary ref
+│   │   ├── Comment.js              # Comment schema
+│   │   ├── Like.js                 # Like schema
+│   │   ├── Follow.js               # Follow relationship schema
+│   │   └── Message.js              # Chat message schema
+│   ├── routes/
+│   │   └── [auth, post, user, comment, like, chat]Routes.js
+│   └── socket/
+│       └── socketHandler.js        # Socket.io bidirectional event handlers
+│
+└── frontend/
+    └── src/
+        ├── components/             # Reusable UI: PostCard, ChatBubble,
+        │                           # UserCard, CommentList, LikeButton…
+        ├── views/                  # Feed, Profile, Explore, Chat,
+        │                           # Login, Register, Settings
+        ├── router/
+        │   └── index.js            # Vue Router + auth guards
+        ├── store/                  # Vuex modules
+        │   ├── auth.js
+        │   ├── posts.js
+        │   ├── users.js
+        │   ├── chat.js
+        │   └── index.js
+        ├── services/
+        │   └── api.js              # Axios instance + token interceptor
+        └── socket/
+            └── socket.js           # Socket.io client instance</code></pre>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- ═══════════════ SIDEBAR ═══════════════ -->
+            <aside class="sidebar-column">
+
+                <!-- Repo Metrics -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Repo Metrics</h3>
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <span class="m-val">100%</span>
+                            <span class="m-label">Solo Built</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">12</span>
+                            <span class="m-label">Core Features</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">📱</span>
+                            <span class="m-label">Mobile Only</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">RT</span>
+                            <span class="m-label">Real-Time Chat</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">6</span>
+                            <span class="m-label">DB Collections</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">5</span>
+                            <span class="m-label">Vuex Modules</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Metrics -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Custom Metrics</h3>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Feature Completeness</div>
+                            <div class="cm-note">vs real Instagram</div>
+                        </div>
+                        <div class="cm-val">High</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Real-Time Channels</div>
+                            <div class="cm-note">Socket.io events</div>
+                        </div>
+                        <div class="cm-val">2-way</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Delete Cascade Depth</div>
+                            <div class="cm-note">collections + CDN</div>
+                        </div>
+                        <div class="cm-val">Full</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Vue Skill Before</div>
+                            <div class="cm-note">→ after project</div>
+                        </div>
+                        <div class="cm-val">→ Expert</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Motivation</div>
+                            <div class="cm-note">pure curiosity</div>
+                        </div>
+                        <div class="cm-val">🔥 Hobby</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Media Platforms</div>
+                            <div class="cm-note">MongoDB + Cloudinary</div>
+                        </div>
+                        <div class="cm-val">2</div>
+                    </div>
+                </div>
+
+                <!-- Scorecard -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Project Scorecard</h3>
+                    <div class="scorecard">
+                        <div class="score-row">
+                            <span class="score-label">Feature Depth</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Vue Mastery</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Real-Time Tech</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Product Thinking</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Solo Ownership</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Portfolio Score</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tech Stack -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Tech Stack</h3>
+                    <div class="tag-cloud">
+                        <span class="tag">Vue 3</span>
+                        <span class="tag">Vuex</span>
+                        <span class="tag">Vue Router</span>
+                        <span class="tag">Socket.io</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Express.js</span>
+                        <span class="tag">MongoDB</span>
+                        <span class="tag">Mongoose</span>
+                        <span class="tag">Cloudinary</span>
+                        <span class="tag">JWT</span>
+                        <span class="tag">Axios</span>
+                        <span class="tag">Mobile CSS</span>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Quick Links</h3>
+                    <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                        <a href="https://github.com/shamil-tp/coffeeCat" target="_blank" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-github"></i> GitHub Repo</a>
+                        <a href="https://coffee-cat-topaz.vercel.app/login" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
+                        <a href="https://github.com/shamil-tp/coffeeCat/commits/main" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-clock-history"></i> Commit History</a>
+                        <a href="https://github.com/shamil-tp/coffeeCat/tree/main/frontend" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Frontend</a>
+                        <a href="https://github.com/shamil-tp/coffeeCat/tree/main/backend" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Backend</a>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Shamil TP. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

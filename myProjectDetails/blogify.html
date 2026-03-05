@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogify Details | Shamil TP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --bg-color: #F5F2EB;
+            --card-bg: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #333333;
+            --border-color: #000000;
+            --nav-bg: rgba(245, 242, 235, 0.95);
+            --font-main: 'Outfit', 'Helvetica Neue', sans-serif;
+            --font-mono: 'Space Mono', 'Fira Code', monospace;
+            --transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-main); line-height: 1.5; font-size: 15px; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+        .navbar { background: var(--nav-bg); border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 60px; }
+        .back-link { font-weight: 800; font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.4rem; transition: var(--transition); text-transform: uppercase; }
+        .back-link:hover { text-decoration: underline; }
+        .nav-links { display: flex; list-style: none; gap: 1.5rem; }
+        .nav-links a { font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.9rem; font-weight: 700; }
+        .nav-links a:hover { color: var(--text-primary); text-decoration: underline; }
+
+        .project-header { background: var(--bg-color); padding: 4rem 0 3rem 0; border-bottom: 2px solid var(--border-color); margin-bottom: 3rem; }
+        .header-container { display: flex; align-items: center; gap: 1.5rem; }
+        .header-icon { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border: 2px solid var(--border-color); background: var(--card-bg); box-shadow: 4px 4px 0px rgba(0,0,0,1); flex-shrink: 0; }
+        .project-title { font-size: 2.8rem; font-weight: 900; margin-bottom: 0.3rem; letter-spacing: -1px; text-transform: uppercase; line-height: 1; }
+        .project-subtitle { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; background: var(--text-primary); color: var(--bg-color); display: inline-block; padding: 0.3rem 0.6rem; margin-top: 0.3rem; }
+
+        .content-grid { display: grid; grid-template-columns: 7fr 3fr; gap: 2.5rem; padding-bottom: 5rem; align-items: start; }
+        .content-section { margin-bottom: 2.5rem; }
+        .content-section:last-child { margin-bottom: 0; }
+        .section-heading { font-size: 1.6rem; font-weight: 900; margin-bottom: 1.2rem; border-bottom: 3px solid var(--border-color); padding-bottom: 0.3rem; text-transform: uppercase; }
+
+        .prose p { margin-bottom: 1rem; font-size: 1.05rem; line-height: 1.6; font-weight: 500; }
+        .prose p:last-child { margin-bottom: 0; }
+        .prose strong { font-weight: 800; }
+
+        .feature-list { list-style: none; padding-left: 0; margin-top: 1rem; }
+        .feature-list li { margin-bottom: 1rem; line-height: 1.5; font-size: 1rem; position: relative; padding-left: 1.2rem; font-weight: 500; }
+        .feature-list li::before { content: '→'; position: absolute; left: 0; font-family: var(--font-mono); font-weight: 900; }
+
+        .code-block { background: #111; border: 2px solid var(--border-color); padding: 1.5rem; overflow-x: auto; box-shadow: 6px 6px 0px rgba(0,0,0,1); margin-top: 1.2rem; }
+        .code-block pre { font-family: var(--font-mono); font-size: 0.88rem; color: #f8f8f2; line-height: 1.6; }
+
+        .sidebar-widget { background: var(--card-bg); border: 2px solid var(--border-color); padding: 1.5rem; margin-bottom: 2rem; box-shadow: 6px 6px 0px rgba(0,0,0,1); }
+        .sidebar-widget:last-child { margin-bottom: 0; }
+        .widget-title { font-size: 1.2rem; font-weight: 900; margin-bottom: 1.2rem; text-transform: uppercase; border-bottom: 2px solid var(--border-color); padding-bottom: 0.4rem; }
+
+        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .metric-item { display: flex; flex-direction: column; border-left: 3px solid var(--text-primary); padding-left: 0.8rem; }
+        .m-val { font-family: var(--font-mono); font-size: 1.8rem; font-weight: 900; line-height: 1; margin-bottom: 0.2rem; }
+        .m-label { font-size: 0.75rem; text-transform: uppercase; font-weight: 800; color: var(--text-secondary); }
+
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .tag { font-family: var(--font-mono); background: var(--card-bg); padding: 0.4rem 0.8rem; border: 2px solid var(--border-color); font-size: 0.85rem; font-weight: 700; box-shadow: 2px 2px 0px rgba(0,0,0,1); transition: var(--transition); text-transform: uppercase; }
+        .tag:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0px rgba(0,0,0,1); background: var(--text-primary); color: var(--bg-color); }
+
+        .footer { border-top: 2px solid var(--border-color); padding: 2rem 0; text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; }
+
+        /* MIT badge */
+        .mit-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; border: 2px solid var(--border-color); padding: 0.35rem 0.8rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; text-transform: uppercase; margin-top: 0.8rem; }
+        .mit-badge .mit-dot { width: 10px; height: 10px; background: var(--text-primary); border-radius: 0; flex-shrink: 0; }
+
+        /* ── EXTRAS ── */
+        .info-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .info-table tr { border-bottom: 1px solid #ccc; }
+        .info-table tr:last-child { border-bottom: none; }
+        .info-table td { padding: 0.6rem 0.5rem; font-size: 0.95rem; font-weight: 500; vertical-align: top; }
+        .info-table td:first-child { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; color: var(--text-secondary); width: 42%; }
+
+        .section-divider { border: none; border-top: 2px dashed #bbb; margin: 2.5rem 0; }
+
+        .link-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; border: 2px solid var(--border-color); padding: 0.5rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; transition: var(--transition); text-transform: uppercase; margin-top: 0.8rem; margin-right: 0.6rem; }
+        .link-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; background: var(--text-primary); color: var(--bg-color); }
+        .link-btn.primary { background: var(--text-primary); color: var(--bg-color); }
+        .link-btn.primary:hover { background: var(--bg-color); color: var(--text-primary); }
+
+        .custom-metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px dashed #bbb; }
+        .custom-metric-row:last-child { border-bottom: none; }
+        .cm-label { font-weight: 600; color: var(--text-secondary); flex: 1; font-size: 0.9rem; }
+        .cm-val { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; text-align: right; }
+        .cm-note { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary); text-align: right; }
+
+        .scorecard { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.7rem; }
+        .score-row { display: flex; align-items: center; gap: 0.8rem; }
+        .score-label { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; width: 145px; flex-shrink: 0; }
+        .score-bar-wrap { flex: 1; height: 14px; border: 2px solid var(--border-color); background: var(--bg-color); }
+        .score-bar { height: 100%; background: var(--text-primary); }
+        .score-num { font-family: var(--font-mono); font-weight: 900; font-size: 0.85rem; width: 28px; text-align: right; }
+
+        .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
+        .skill-card { border: 2px solid var(--border-color); padding: 0.9rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0px rgba(0,0,0,1); transition: var(--transition); }
+        .skill-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0px rgba(0,0,0,1); }
+        .skill-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .skill-desc { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; line-height: 1.4; }
+
+        /* Security layer cards */
+        .security-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-top: 1rem; }
+        .sec-card { border: 2px solid var(--border-color); padding: 1rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; transition: var(--transition); position: relative; overflow: hidden; }
+        .sec-card::before { content: '🔒'; position: absolute; top: 0.6rem; right: 0.8rem; font-size: 1rem; opacity: 0.15; }
+        .sec-card:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #000; }
+        .sec-card:hover::before { opacity: 0.4; }
+        .sec-title { font-weight: 900; font-size: 0.92rem; margin-bottom: 0.3rem; font-family: var(--font-mono); text-transform: uppercase; }
+        .sec-pkg { display: inline-block; font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; background: var(--text-primary); color: var(--bg-color); padding: 0.1rem 0.45rem; margin-bottom: 0.4rem; }
+        .sec-desc { font-size: 0.83rem; color: var(--text-secondary); font-weight: 500; line-height: 1.45; }
+
+        /* OWASP banner */
+        .owasp-banner { border: 2px solid var(--border-color); padding: 1.2rem 1.5rem; background: var(--text-primary); color: var(--bg-color); box-shadow: 5px 5px 0 #555; margin: 1.2rem 0; display: flex; align-items: center; gap: 1.2rem; }
+        .owasp-icon { font-size: 2.2rem; flex-shrink: 0; }
+        .owasp-text strong { font-weight: 900; font-size: 1.05rem; display: block; margin-bottom: 0.2rem; }
+        .owasp-text span { font-size: 0.88rem; opacity: 0.82; font-weight: 500; }
+
+        /* Teaser box */
+        .teaser-box { border: 2px dashed var(--border-color); padding: 1.4rem 1.5rem; background: var(--bg-color); margin-top: 1.2rem; position: relative; }
+        .teaser-label { position: absolute; top: -13px; left: 1rem; background: var(--text-primary); color: var(--bg-color); font-family: var(--font-mono); font-size: 0.72rem; font-weight: 900; padding: 0.15rem 0.6rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .teaser-title { font-size: 1.3rem; font-weight: 900; margin-bottom: 0.5rem; }
+        .teaser-desc { font-size: 0.95rem; font-weight: 500; line-height: 1.6; color: var(--text-secondary); }
+        .teaser-desc strong { color: var(--text-primary); font-weight: 800; }
+
+        /* Collab card */
+        .collab-card { border: 2px solid var(--border-color); padding: 1.2rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-bottom: 1rem; transition: var(--transition); }
+        .collab-card:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #000; }
+        .collab-card:last-child { margin-bottom: 0; }
+        .collab-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.8rem; }
+        .collab-avatar { width: 44px; height: 44px; border: 2px solid #000; background: #000; color: #F5F2EB; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 900; font-size: 1rem; flex-shrink: 0; }
+        .collab-name { font-weight: 800; font-size: 1rem; }
+        .collab-role { font-size: 0.82rem; color: var(--text-secondary); font-family: var(--font-mono); margin-top: 0.1rem; }
+        .collab-work { font-size: 0.88rem; font-weight: 500; color: var(--text-primary); line-height: 1.5; margin-bottom: 0.8rem; padding-left: 0.8rem; border-left: 3px solid var(--border-color); }
+        .collab-links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .collab-link { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; border: 2px solid var(--border-color); padding: 0.3rem 0.7rem; background: var(--bg-color); box-shadow: 2px 2px 0 #000; transition: var(--transition); display: inline-flex; align-items: center; gap: 0.3rem; }
+        .collab-link:hover { background: var(--text-primary); color: var(--bg-color); transform: translate(-1px,-1px); box-shadow: 3px 3px 0 #000; }
+
+        /* arch */
+        .arch-layer { border: 2px solid var(--border-color); padding: 1rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-bottom: 0.6rem; }
+        .arch-layer-title { font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; border-bottom: 1px solid #ccc; padding-bottom: 0.3rem; font-family: var(--font-mono); }
+        .arch-items { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .arch-item { background: var(--bg-color); border: 1.5px solid var(--border-color); padding: 0.25rem 0.6rem; font-size: 0.78rem; font-weight: 700; font-family: var(--font-mono); }
+        .arch-arrow { text-align: center; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); margin: 0.3rem 0; }
+
+        @media (max-width: 900px) {
+            .content-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+            .security-grid { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .score-label { width: 115px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="mycontributions.html" class="back-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <ul class="nav-links"><li><a href="../index.html">Home</a></li></ul>
+        </div>
+    </nav>
+
+    <header class="project-header">
+        <div class="container header-container">
+            <div class="header-icon"><i class="bi bi-pencil-square"></i></div>
+            <div class="header-info">
+                <h1 class="project-title">Blogify</h1>
+                <p class="project-subtitle">Collaborative Blogging Platform · OWASP 2025 Secured</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container content-grid">
+
+            <!-- ═══════════════ MAIN COLUMN ═══════════════ -->
+            <div class="main-column">
+
+                <!-- 1. OVERVIEW -->
+                <section class="content-section">
+                    <h2 class="section-heading">Project Overview</h2>
+                    <div class="prose">
+                        <p><strong>Blogify</strong> is a full-stack collaborative blogging platform that lets users create, publish, and share rich blog content — powered by a <strong>custom-built blog rendering library</strong> written entirely in vanilla JavaScript with zero external dependencies. The editor experience mirrors WordPress's draggable block-based composition, giving writers a smooth, intuitive authoring flow.</p>
+                        <p>What sets Blogify apart from typical CRUD blog apps is its <strong>enterprise-grade backend security architecture</strong> — built from scratch following <strong>OWASP 2025 guidelines</strong>, featuring layered defences including Helmet, HPP, rate limiting, Argon2 password hashing, Zod schema validation, and a dual access/refresh token system for secure API resource access.</p>
+                        <p>Led by shamil-tp, built by a focused 3-person team, and live on Vercel — Blogify is a platform that takes both the <strong>writing experience</strong> and <strong>backend security</strong> as first-class concerns.</p>
+                    </div>
+
+                    <table class="info-table" style="margin-top:1.4rem;">
+                        <tr><td>Project Type</td><td>Full-Stack Blogging Platform</td></tr>
+                        <tr><td>Domain</td><td>Content Management / Publishing / Web Security</td></tr>
+                        <tr><td>Repository Owner</td><td>shamil-tp (Lead Developer)</td></tr>
+                        <tr><td>Team Size</td><td>3 members (shamil-tp · Sinan Rahman K · Muhammed Ranfees K)</td></tr>
+                        <tr><td>Total Commits</td><td><strong>131 commits</strong> on main branch</td></tr>
+                        <tr><td>Stars</td><td>⭐ 7</td></tr>
+                        <tr><td>Forks</td><td>🔀 1</td></tr>
+                        <tr><td>Open Pull Requests</td><td>1</td></tr>
+                        <tr><td>License</td><td><strong>MIT License</strong> — Open Source ✅</td></tr>
+                        <tr><td>Security Standard</td><td>OWASP 2025 Guidelines</td></tr>
+                        <tr><td>Backend Version</td><td>Express 5.2.1 (latest)</td></tr>
+                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/Blogify" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">github.com/shamil-tp/Blogify</a></td></tr>
+                        <tr><td>Live Link</td><td><a href="https://blogify-7mdx.vercel.app" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">blogify-7mdx.vercel.app</a></td></tr>
+                    </table>
+                </section>
+
+
+                    <!-- Language Bar -->
+                    <div style="margin-top:1.4rem;">
+                        <p style="font-family:var(--font-mono);font-size:0.8rem;font-weight:700;text-transform:uppercase;margin-bottom:0.6rem;">Language Breakdown</p>
+                        <div style="height:18px;border:2px solid #000;display:flex;overflow:hidden;box-shadow:3px 3px 0 #000;">
+                            <div style="width:94.6%;background:#000;" title="JavaScript 94.6%"></div>
+                            <div style="width:3.0%;background:#777;" title="HTML 3.0%"></div>
+                            <div style="width:2.4%;background:#aaa;" title="CSS 2.4%"></div>
+                        </div>
+                        <div style="display:flex;gap:1.5rem;margin-top:0.5rem;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;">
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#000;border:1px solid #000;margin-right:4px;"></span>JavaScript 94.6%</span>
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#777;border:1px solid #000;margin-right:4px;"></span>HTML 3.0%</span>
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#aaa;border:1px solid #000;margin-right:4px;"></span>CSS 2.4%</span>
+                        </div>
+                    </div>
+
+                    <!-- MIT Badge -->
+                    <div style="margin-top:1rem;">
+                        <a href="https://github.com/shamil-tp/Blogify?tab=MIT-1-ov-file#readme" target="_blank" class="mit-badge">
+                            <span class="mit-dot"></span>
+                            MIT License — Open Source Project
+                            <i class="bi bi-box-arrow-up-right" style="font-size:0.75rem;"></i>
+                        </a>
+                    </div>
+
+                <hr class="section-divider">
+
+                <!-- 2. HOW IT WORKS -->
+                <section class="content-section">
+                    <h2 class="section-heading">How The Project Works</h2>
+                    <div class="prose">
+                        <p>Blogify is a decoupled full-stack platform — the React SPA frontend communicates with a hardened Express REST API backend, with all content serialised as structured JSON and rendered through a custom vanilla JS parsing library.</p>
+                    </div>
+
+                    <div style="margin-top:1.2rem;">
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">🖥 Frontend — React SPA (Vercel)</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Draggable Block Editor</span>
+                                <span class="arch-item">Google OAuth2 Login</span>
+                                <span class="arch-item">Blog Feed & Discovery</span>
+                                <span class="arch-item">Custom Render Library</span>
+                                <span class="arch-item">Access/Refresh Token mgmt</span>
+                                <span class="arch-item">Multiple Themes</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ REST API · Bearer Access Token · Refresh Token rotation</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">⚙ Backend — Express 5 REST API</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Helmet (HTTP headers)</span>
+                                <span class="arch-item">HPP (param pollution)</span>
+                                <span class="arch-item">Rate Limiter</span>
+                                <span class="arch-item">Zod Validation</span>
+                                <span class="arch-item">CORS Policy</span>
+                                <span class="arch-item">JWT Middleware</span>
+                                <span class="arch-item">Google OAuth2</span>
+                                <span class="arch-item">Argon2 Hashing</span>
+                                <span class="arch-item">Slug generation</span>
+                                <span class="arch-item">NanoID</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ Mongoose ODM</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">🗄 Data Layer — MongoDB</div>
+                            <div class="arch-items">
+                                <span class="arch-item">users</span>
+                                <span class="arch-item">blogs (JSON content)</span>
+                                <span class="arch-item">refresh tokens</span>
+                                <span class="arch-item">slugs</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="prose" style="margin-top:1.2rem;">
+                        <p>The blog editor serialises content as <strong>structured JSON blocks</strong> — headings, paragraphs, images, quotes, lists — which are stored in MongoDB as-is. On the reader side, the <strong>custom vanilla JS rendering library</strong> parses this JSON and constructs styled HTML through pure DOM manipulation, with zero npm dependencies.</p>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 3. SECURITY ARCHITECTURE — THE CENTREPIECE -->
+                <section class="content-section">
+                    <h2 class="section-heading">Security Architecture</h2>
+                    <div class="prose">
+                        <p>The backend security layer was <strong>entirely designed and implemented by shamil-tp</strong>, following the OWASP 2025 Top 10 guidelines to understand and apply real-world secure development practices. This is not boilerplate — every package has a specific threat it mitigates.</p>
+                    </div>
+
+                    <div class="owasp-banner">
+                        <div class="owasp-icon"><i class="bi bi-shield-lock-fill"></i></div>
+                        <div class="owasp-text">
+                            <strong>OWASP 2025 Guidelines Followed</strong>
+                            <span>Backend designed against the OWASP Top 10 — injection, broken auth, security misconfiguration, rate limiting, and more. Real security research, not tutorial code.</span>
+                        </div>
+                    </div>
+
+                    <div class="security-grid">
+                        <div class="sec-card">
+                            <div class="sec-title">HTTP Header Security</div>
+                            <span class="sec-pkg">helmet ^8.1.0</span>
+                            <div class="sec-desc">Sets secure HTTP response headers — prevents clickjacking, MIME sniffing, XSS via CSP, and forces HTTPS via HSTS. First line of defence.</div>
+                        </div>
+                        <div class="sec-card">
+                            <div class="sec-title">HTTP Param Pollution</div>
+                            <span class="sec-pkg">hpp ^0.2.3</span>
+                            <div class="sec-desc">Prevents HTTP Parameter Pollution attacks — attackers sending duplicate query params to confuse middleware or bypass validation logic.</div>
+                        </div>
+                        <div class="sec-card">
+                            <div class="sec-title">Rate Limiting</div>
+                            <span class="sec-pkg">express-rate-limit ^8.2.1</span>
+                            <div class="sec-desc">Throttles requests per IP — protects against brute-force attacks on auth endpoints, credential stuffing, and API abuse/DoS attempts.</div>
+                        </div>
+                        <div class="sec-card">
+                            <div class="sec-title">Schema Validation</div>
+                            <span class="sec-pkg">zod ^4.3.6</span>
+                            <div class="sec-desc">Runtime schema validation on all incoming request bodies — rejects malformed, unexpected, or oversized payloads before they reach business logic.</div>
+                        </div>
+                        <div class="sec-card">
+                            <div class="sec-title">Password Hashing</div>
+                            <span class="sec-pkg">argon2 ^0.44.0</span>
+                            <div class="sec-desc">Argon2id — the winner of the Password Hashing Competition. Memory-hard algorithm, resistant to GPU brute-force and side-channel attacks. Stronger than bcrypt.</div>
+                        </div>
+                        <div class="sec-card">
+                            <div class="sec-title">Dual Token Auth</div>
+                            <span class="sec-pkg">jsonwebtoken ^9.0.3</span>
+                            <div class="sec-desc">Short-lived access tokens for API resource access + long-lived refresh tokens for silent renewal. Refresh token rotation prevents replay attacks and token theft.</div>
+                        </div>
+                        <div class="sec-card">
+                            <div class="sec-title">Google OAuth2</div>
+                            <span class="sec-pkg">google-auth-library ^10.5.0</span>
+                            <div class="sec-desc">Server-side Google ID token verification — no client-side trust. Validates token signature, audience, and expiry against Google's public keys.</div>
+                        </div>
+                        <div class="sec-card">
+                            <div class="sec-title">CORS Policy</div>
+                            <span class="sec-pkg">cors ^2.8.6</span>
+                            <div class="sec-desc">Strictly configured cross-origin resource sharing — only whitelisted origins can access the API. Prevents CSRF and unauthorised cross-origin API access.</div>
+                        </div>
+                        <div class="sec-card">
+                            <div class="sec-title">Unique ID Generation</div>
+                            <span class="sec-pkg">nanoid ^3.3.11</span>
+                            <div class="sec-desc">Cryptographically secure, URL-safe unique IDs — unpredictable resource identifiers to prevent enumeration attacks on blog and user resources.</div>
+                        </div>
+                        <div class="sec-card">
+                            <div class="sec-title">SEO-Safe Slugs</div>
+                            <span class="sec-pkg">slugify ^1.6.6</span>
+                            <div class="sec-desc">Sanitised URL slug generation for blog posts — normalises special characters, prevents path traversal or injection via crafted blog titles in URLs.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 4. CUSTOM RENDER LIBRARY TEASER -->
+                <section class="content-section">
+                    <h2 class="section-heading">Custom Blog Rendering Library</h2>
+                    <div class="prose">
+                        <p>Blogify's blog posts are not stored as raw HTML — they are serialised as <strong>structured JSON block arrays</strong>, and rendered on the client side by a custom-built vanilla JavaScript library that parses this JSON into styled, semantic HTML through pure DOM manipulation.</p>
+                    </div>
+
+                    <div class="teaser-box">
+                        <div class="teaser-label">⚡ Coming Soon — Standalone Project</div>
+                        <div class="teaser-title">The Rendering Library</div>
+                        <div class="teaser-desc">
+                            Built with <strong>zero npm dependencies</strong> — no React, no Vue, no third-party parsers. Pure vanilla JavaScript and direct DOM manipulation. The library takes a JSON block structure (headings, paragraphs, images, quotes, lists, code blocks) and constructs the full blog HTML in the browser.
+                            <br><br>
+                            <strong>Why build it from scratch?</strong> Full control over the render output, zero bundle weight overhead, and the ability to support custom Blogify-specific block types that no generic library could handle. The result is a fast, dependency-free rendering engine that powers every blog post on the platform.
+                            <br><br>
+                            <em style="font-family:var(--font-mono);font-size:0.82rem;">This library is being extracted into its own standalone open-source project — watch this space. 👀</em>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 5. TOOLS USED -->
+                <section class="content-section">
+                    <h2 class="section-heading">Tools & Technologies</h2>
+
+                    <table class="info-table" style="margin-top:0.5rem;">
+                        <tr><td>Frontend Framework</td><td><strong>React.js</strong> — Draggable block editor, blog feed, reader view</td></tr>
+                        <tr><td>Backend Framework</td><td><strong>Express.js 5.2.1</strong> (latest) — REST API with full security middleware stack</td></tr>
+                        <tr><td>Database</td><td><strong>MongoDB</strong> + <strong>Mongoose 9.1.5</strong> — Blog content, users, tokens</td></tr>
+                        <tr><td>Authentication</td><td><strong>JWT</strong> (access + refresh) + <strong>Google OAuth2</strong></td></tr>
+                        <tr><td>Password Hashing</td><td><strong>Argon2id</strong> — Memory-hard, GPU-resistant hashing</td></tr>
+                        <tr><td>Validation</td><td><strong>Zod 4.3.6</strong> — Full runtime schema validation on all inputs</td></tr>
+                        <tr><td>Security Middleware</td><td><strong>Helmet</strong> · <strong>HPP</strong> · <strong>express-rate-limit</strong> · <strong>CORS</strong></td></tr>
+                        <tr><td>ID Generation</td><td><strong>NanoID</strong> — Cryptographically secure unique IDs</td></tr>
+                        <tr><td>Slug Generation</td><td><strong>Slugify</strong> — SEO-safe sanitised URL slugs</td></tr>
+                        <tr><td>Custom Library</td><td><strong>Vanilla JS</strong> — Zero-dependency blog rendering engine</td></tr>
+                        <tr><td>Dev Tools</td><td><strong>Nodemon</strong> — Hot reload for development</td></tr>
+                        <tr><td>Deployment</td><td><strong>Vercel</strong> — Frontend live at blogify-7mdx.vercel.app</td></tr>
+                        <tr><td>Security Standard</td><td><strong>OWASP 2025 Top 10</strong> — Followed throughout backend design</td></tr>
+                        <tr><td>Version Control</td><td><strong>Git + GitHub</strong> — ⭐7 · 🔀1 fork · 1 open PR</td></tr>
+                    </table>
+
+                    <div style="margin-top:1.4rem;">
+                        <p style="font-family:var(--font-mono);font-size:0.8rem;font-weight:700;text-transform:uppercase;margin-bottom:0.5rem;">Backend Dependency Count</p>
+                        <div class="code-block" style="margin-top:0;">
+                            <pre><code>Production dependencies  →  13 packages
+Dev dependencies         →   1 package  (nodemon)
+Zero unnecessary bloat — every dep has a specific security or functional role.</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 6. SKILLS ACHIEVED -->
+                <section class="content-section">
+                    <h2 class="section-heading">Skills Achieved</h2>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <div class="skill-name">OWASP Secure Dev</div>
+                            <div class="skill-desc">Studied and applied OWASP 2025 Top 10 guidelines across the entire backend security stack</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Dual Token Auth</div>
+                            <div class="skill-desc">Access + refresh token architecture, rotation strategy, secure storage, replay attack prevention</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Argon2 Password Security</div>
+                            <div class="skill-desc">Memory-hard hashing, PHC winner, GPU-resistance — understanding modern password security</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Zod Schema Validation</div>
+                            <div class="skill-desc">Runtime type-safe validation on all API input boundaries — preventing injection and malformed data</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">HTTP Security Headers</div>
+                            <div class="skill-desc">Helmet configuration — CSP, HSTS, X-Frame-Options, MIME sniffing prevention</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Rate Limiting Strategy</div>
+                            <div class="skill-desc">Per-route throttling, IP-based limits, brute-force protection on auth endpoints</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Google OAuth2 (Server-side)</div>
+                            <div class="skill-desc">ID token verification, signature validation, audience checks via google-auth-library</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Vanilla JS DOM Engineering</div>
+                            <div class="skill-desc">Zero-dependency library building, JSON-to-HTML rendering, pure DOM manipulation at scale</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">React Drag-and-Drop UI</div>
+                            <div class="skill-desc">Draggable block editor — reorderable content blocks, WordPress-style composition</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Express 5 API Design</div>
+                            <div class="skill-desc">Latest Express 5, async error handling, structured middleware pipeline</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">MongoDB Content Modelling</div>
+                            <div class="skill-desc">JSON block storage for rich content, user schemas, token management collections</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Team Leadership</div>
+                            <div class="skill-desc">Led a 3-person team — task delegation, code review, architecture decisions, GitHub management</div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 7. KEY FEATURES -->
+                <section class="content-section">
+                    <h2 class="section-heading">Key Features</h2>
+                    <ul class="feature-list">
+                        <li><strong>Draggable Block Editor:</strong> WordPress-style drag-and-drop blog composition — reorderable content blocks including headings, paragraphs, images, quotes, lists, and code blocks.</li>
+                        <li><strong>Custom Rendering Library:</strong> Zero-dependency vanilla JS library parses structured JSON blog content into semantic, styled HTML — no React, no third-party parser. Pure DOM manipulation.</li>
+                        <li><strong>OWASP 2025 Security:</strong> Backend built from scratch following OWASP 2025 Top 10 — layered defences against injection, broken auth, security misconfiguration, and more.</li>
+                        <li><strong>Argon2id Password Hashing:</strong> PHC-winning memory-hard algorithm — significantly more secure than bcrypt, resistant to GPU-accelerated cracking.</li>
+                        <li><strong>Dual Token System:</strong> Short-lived access tokens + rotating refresh tokens — secure, silent session renewal without re-authentication.</li>
+                        <li><strong>Google OAuth2 (Server-side verified):</strong> ID token verified server-side via google-auth-library — no client-side trust. Signature and audience validated against Google's public keys.</li>
+                        <li><strong>Zod Request Validation:</strong> All incoming API payloads validated against strict Zod schemas — malformed, unexpected, or oversized data rejected before hitting business logic.</li>
+                        <li><strong>HTTP Parameter Pollution Protection:</strong> HPP middleware prevents attackers from sending duplicate query parameters to confuse middleware chains.</li>
+                        <li><strong>Rate Limiting:</strong> Per-IP request throttling on all endpoints — brute-force and credential stuffing attacks mitigated at the API layer.</li>
+                        <li><strong>Blog Themes:</strong> Multiple design themes for blog presentation — designed by Ranfees K, giving authors visual identity for their content.</li>
+                        <li><strong>SEO-Safe Blog URLs:</strong> Slugified, sanitised blog post URLs via nanoid + slugify — human-readable, collision-resistant, and injection-safe.</li>
+                        <li><strong>Collaborative Debugging:</strong> All three team members actively participated in debugging sessions — improving code quality and resilience across both frontend and backend.</li>
+                    </ul>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 8. MY CONTRIBUTION -->
+                <section class="content-section">
+                    <h2 class="section-heading">My Contribution</h2>
+                    <div class="prose">
+                        <p>As <strong>Lead Developer</strong> on a 3-person team, I owned the backend entirely and drove the overall architecture. The security layer — Blogify's defining characteristic — was designed and implemented exclusively by me after studying OWASP 2025 guidelines.</p>
+                    </div>
+                    <ul class="feature-list" style="margin-top:1rem;">
+                        <li><strong>Backend Architecture (100% ownership):</strong> Designed and built the entire Express 5 REST API — routes, controllers, middleware pipeline, error handling, and MongoDB schema design.</li>
+                        <li><strong>Complete Security Layer:</strong> Implemented all 10 security measures — Helmet, HPP, rate limiting, Zod validation, Argon2 hashing, dual JWT token system, Google OAuth2 server verification, CORS, NanoID, and Slugify — following OWASP 2025 guidelines throughout.</li>
+                        <li><strong>OWASP 2025 Research:</strong> Studied the OWASP 2025 Top 10 and systematically applied each relevant guideline to the backend codebase — turning security research into real implementation.</li>
+                        <li><strong>Dual Token Auth System:</strong> Designed the access + refresh token lifecycle — generation, rotation, storage, validation, and revocation logic.</li>
+                        <li><strong>JSON Content Schema:</strong> Defined the block-based JSON content format that the editor serialises and the rendering library consumes.</li>
+                        <li><strong>Team Leadership:</strong> Led the 3-member team — assigned responsibilities, reviewed code, resolved conflicts, managed the GitHub repository and PR workflow.</li>
+                        <li><strong>Collaborative Debugging:</strong> Participated in joint debugging sessions with Sinan and Ranfees across frontend auth flows and theme rendering issues.</li>
+                    </ul>
+
+                    <a href="https://github.com/shamil-tp/Blogify" target="_blank" class="link-btn primary"><i class="bi bi-github"></i> GitHub Repo</a>
+                    <a href="https://blogify-7mdx.vercel.app" target="_blank" class="link-btn"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
+                    <a href="https://github.com/shamil-tp/Blogify/commits/main" target="_blank" class="link-btn"><i class="bi bi-clock-history"></i> Commit History</a>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 9. FOLDER STRUCTURE -->
+                <section class="content-section">
+                    <h2 class="section-heading">Folder Structure</h2>
+                    <div class="code-block">
+                        <pre><code>Blogify/
+├── backend/                        # Express 5 REST API (shamil-tp)
+│   ├── index.js                    # App entry — middleware pipeline + server
+│   ├── config/
+│   │   └── db.js                   # MongoDB connection
+│   ├── controllers/
+│   │   ├── authController.js       # Register, login, OAuth2, token refresh
+│   │   └── blogController.js       # CRUD operations for blog posts
+│   ├── middlewares/
+│   │   ├── authMiddleware.js       # JWT access token verification
+│   │   ├── rateLimiter.js          # express-rate-limit config
+│   │   ├── validate.js             # Zod schema validation middleware
+│   │   └── security.js            # Helmet + HPP + CORS configuration
+│   ├── models/
+│   │   ├── User.js                 # User schema (OAuth + local)
+│   │   ├── Blog.js                 # Blog schema (JSON block content)
+│   │   └── Token.js                # Refresh token store
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   └── blogRoutes.js
+│   ├── utils/
+│   │   ├── tokenUtils.js           # JWT generation + refresh rotation
+│   │   └── slugUtils.js            # NanoID + Slugify slug generation
+│   └── package.json                # 13 prod deps · 1 dev dep
+│
+└── frontend/                       # React SPA (Sinan + Ranfees + shamil-tp)
+    ├── src/
+    │   ├── components/
+    │   │   ├── Editor/             # Draggable block editor components
+    │   │   ├── Reader/             # Blog reading view
+    │   │   └── UI/                 # Shared UI components
+    │   ├── lib/
+    │   │   └── renderer.js         # ★ Custom vanilla JS render library
+    │   ├── pages/
+    │   │   ├── Home.jsx
+    │   │   ├── Write.jsx           # Block editor page
+    │   │   ├── Blog.jsx            # Reader page
+    │   │   └── Auth.jsx
+    │   ├── services/
+    │   │   └── api.js              # Axios with token interceptors
+    │   └── themes/                 # Blog presentation themes (Ranfees)
+    └── package.json</code></pre>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 10. COLLABORATORS -->
+                <section class="content-section">
+                    <h2 class="section-heading">Collaborators</h2>
+                    <div class="prose" style="margin-bottom:1.2rem;">
+                        <p>A <strong>3-person team</strong> with clearly defined ownership — security backend (shamil-tp), frontend auth & Google OAuth2 (Sinan), UI design & themes (Ranfees) — with all three collaborating on debugging throughout.</p>
+                    </div>
+
+                    <div class="collab-card">
+                        <div class="collab-top">
+                            <div class="collab-avatar">ST</div>
+                            <div>
+                                <div class="collab-name">shamil-tp <span style="font-family:var(--font-mono);font-size:0.73rem;background:#000;color:#F5F2EB;padding:0.15rem 0.4rem;margin-left:0.4rem;">LEAD</span></div>
+                                <div class="collab-role">Lead Developer · Backend Architecture · Security</div>
+                            </div>
+                        </div>
+                        <div class="collab-work">Full backend ownership — Express API, OWASP 2025 security layer (Helmet, HPP, rate limiting, Argon2, Zod, dual JWT, Google OAuth2 server verification), MongoDB schema design, JSON content format, token lifecycle, team leadership, and collaborative debugging.</div>
+                        <div class="collab-links">
+                            <a href="https://github.com/shamil-tp" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                        </div>
+                    </div>
+
+                    <div class="collab-card">
+                        <div class="collab-top">
+                            <div class="collab-avatar">SR</div>
+                            <div>
+                                <div class="collab-name">Sinan Rahman K</div>
+                                <div class="collab-role">Frontend Developer · Security · Google OAuth2</div>
+                            </div>
+                        </div>
+                        <div class="collab-work">Focused heavily on frontend security implementation and the Google OAuth2 client-side integration — connecting the React app to the server-side OAuth2 verification flow. Collaborative debugging partner.</div>
+                        <div class="collab-links">
+                            <a href="https://github.com/sinanrahman" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/sinan-k-rahman" target="_blank" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                        </div>
+                    </div>
+
+                    <div class="collab-card">
+                        <div class="collab-top">
+                            <div class="collab-avatar">RK</div>
+                            <div>
+                                <div class="collab-name">Muhammed Ranfees K</div>
+                                <div class="collab-role">UI Designer · Frontend Developer · Themes</div>
+                            </div>
+                        </div>
+                        <div class="collab-work">Designed and built the visual design system and multiple blog presentation themes — giving Blogify its distinct aesthetic and giving authors visual identity choices for their content. Collaborative debugging partner.</div>
+                        <div class="collab-links">
+                            <a href="https://github.com/Ranfees" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/muhammed-ranfees-k-158836348" target="_blank" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- ═══════════════ SIDEBAR ═══════════════ -->
+            <aside class="sidebar-column">
+
+                <!-- Repo Metrics -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Repo Metrics</h3>
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <span class="m-val">⭐ 7</span>
+                            <span class="m-label">GitHub Stars</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">🔀 1</span>
+                            <span class="m-label">Forks</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">131</span>
+                            <span class="m-label">Total Commits</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">MIT</span>
+                            <span class="m-label">License</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">10</span>
+                            <span class="m-label">Security Layers</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">13</span>
+                            <span class="m-label">Prod Deps</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">3</span>
+                            <span class="m-label">Team Members</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">0</span>
+                            <span class="m-label">Renderer Deps</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Metrics -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Custom Metrics</h3>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Security Dep Ratio</div>
+                            <div class="cm-note">security pkgs / total deps</div>
+                        </div>
+                        <div class="cm-val">62%</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">OWASP Coverage</div>
+                            <div class="cm-note">Top 10 guidelines applied</div>
+                        </div>
+                        <div class="cm-val">High</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Render Library Size</div>
+                            <div class="cm-note">zero npm dependencies</div>
+                        </div>
+                        <div class="cm-val">0 deps</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Auth Attack Vectors</div>
+                            <div class="cm-note">mitigated by design</div>
+                        </div>
+                        <div class="cm-val">6+</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Express Version</div>
+                            <div class="cm-note">5.2.1 — latest major</div>
+                        </div>
+                        <div class="cm-val">v5</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Argon2 vs bcrypt</div>
+                            <div class="cm-note">memory-hard advantage</div>
+                        </div>
+                        <div class="cm-val">↑ safer</div>
+                    </div>
+                </div>
+
+                <!-- Scorecard -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Project Scorecard</h3>
+                    <div class="scorecard">
+                        <div class="score-row">
+                            <span class="score-label">Security Depth</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Innovation</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Stack Breadth</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Architecture</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Portfolio Score</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Team Leadership</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tech Stack -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Tech Stack</h3>
+                    <div class="tag-cloud">
+                        <span class="tag">React.js</span>
+                        <span class="tag">Express 5</span>
+                        <span class="tag">MongoDB</span>
+                        <span class="tag">Mongoose</span>
+                        <span class="tag">Argon2</span>
+                        <span class="tag">JWT</span>
+                        <span class="tag">Zod</span>
+                        <span class="tag">Helmet</span>
+                        <span class="tag">HPP</span>
+                        <span class="tag">Rate Limit</span>
+                        <span class="tag">Google OAuth2</span>
+                        <span class="tag">NanoID</span>
+                        <span class="tag">Slugify</span>
+                        <span class="tag">CORS</span>
+                        <span class="tag">Vanilla JS</span>
+                        <span class="tag">Vercel</span>
+                        <span class="tag">OWASP 2025</span>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Quick Links</h3>
+                    <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                        <a href="https://github.com/shamil-tp/Blogify" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-github"></i> GitHub Repo</a>
+                        <a href="https://blogify-7mdx.vercel.app" target="_blank" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
+                        <a href="https://github.com/shamil-tp/Blogify/commits/main" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-clock-history"></i> Commit History</a>
+                        <a href="https://github.com/shamil-tp/Blogify/pulls" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-git"></i> Pull Requests</a>
+                        <a href="https://github.com/shamil-tp/Blogify?tab=MIT-1-ov-file#readme" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-file-earmark-text"></i> MIT License</a>
+                        <a href="https://github.com/sinanrahman" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-person"></i> Sinan — GitHub</a>
+                        <a href="https://github.com/Ranfees" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-person"></i> Ranfees — GitHub</a>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Shamil TP. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

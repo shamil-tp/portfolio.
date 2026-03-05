@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skylark Details | Shamil TP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* ── BASE DESIGN SYSTEM ── */
+        :root {
+            --bg-color: #F5F2EB;
+            --card-bg: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #333333;
+            --accent: #000000;
+            --border-color: #000000;
+            --nav-bg: rgba(245, 242, 235, 0.95);
+            --font-main: 'Outfit', 'Helvetica Neue', sans-serif;
+            --font-mono: 'Space Mono', 'Fira Code', monospace;
+            --transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-main); line-height: 1.5; font-size: 15px; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* Navbar */
+        .navbar { background: var(--nav-bg); border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 60px; }
+        .back-link { font-weight: 800; font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.4rem; transition: var(--transition); text-transform: uppercase; }
+        .back-link:hover { text-decoration: underline; }
+        .nav-links { display: flex; list-style: none; gap: 1.5rem; }
+        .nav-links a { font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.9rem; font-weight: 700; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--text-primary); text-decoration: underline; }
+
+        /* Header */
+        .project-header { background: var(--bg-color); padding: 4rem 0 3rem 0; border-bottom: 2px solid var(--border-color); margin-bottom: 3rem; }
+        .header-container { display: flex; align-items: center; gap: 1.5rem; }
+        .header-icon { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--text-primary); border: 2px solid var(--border-color); background: var(--card-bg); box-shadow: 4px 4px 0px rgba(0,0,0,1); flex-shrink: 0; }
+        .project-title { font-size: 2.8rem; font-weight: 900; color: var(--text-primary); margin-bottom: 0.3rem; letter-spacing: -1px; text-transform: uppercase; line-height: 1; }
+        .project-subtitle { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; background: var(--text-primary); color: var(--bg-color); display: inline-block; padding: 0.3rem 0.6rem; margin-top: 0.3rem; }
+
+        /* Main Grid */
+        .content-grid { display: grid; grid-template-columns: 7fr 3fr; gap: 2.5rem; padding-bottom: 5rem; align-items: start; }
+
+        /* Sections */
+        .content-section { margin-bottom: 2.5rem; }
+        .content-section:last-child { margin-bottom: 0; }
+        .section-heading { font-size: 1.6rem; font-weight: 900; color: var(--text-primary); margin-bottom: 1.2rem; border-bottom: 3px solid var(--border-color); padding-bottom: 0.3rem; text-transform: uppercase; }
+
+        /* Prose */
+        .prose p { margin-bottom: 1rem; color: var(--text-primary); font-size: 1.05rem; line-height: 1.6; font-weight: 500; }
+        .prose p:last-child { margin-bottom: 0; }
+        .prose strong { color: var(--text-primary); font-weight: 800; }
+
+        /* Feature list */
+        .feature-list { list-style: none; padding-left: 0; color: var(--text-primary); margin-top: 1rem; }
+        .feature-list li { margin-bottom: 1rem; line-height: 1.5; font-size: 1rem; position: relative; padding-left: 1.2rem; font-weight: 500; }
+        .feature-list li::before { content: '→'; position: absolute; left: 0; font-family: var(--font-mono); font-weight: 900; }
+
+        /* Code block */
+        .code-block { background: #111; border: 2px solid var(--border-color); padding: 1.5rem; overflow-x: auto; box-shadow: 6px 6px 0px rgba(0,0,0,1); margin-top: 1.2rem; }
+        .code-block pre { font-family: var(--font-mono); font-size: 0.9rem; color: #f8f8f2; line-height: 1.5; font-weight: 500; }
+
+        /* Sidebar */
+        .sidebar-widget { background: var(--card-bg); border: 2px solid var(--border-color); padding: 1.5rem; margin-bottom: 2rem; box-shadow: 6px 6px 0px rgba(0,0,0,1); }
+        .sidebar-widget:last-child { margin-bottom: 0; }
+        .widget-title { font-size: 1.2rem; font-weight: 900; color: var(--text-primary); margin-bottom: 1.2rem; text-transform: uppercase; border-bottom: 2px solid var(--border-color); padding-bottom: 0.4rem; }
+
+        /* Metrics */
+        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .metric-item { display: flex; flex-direction: column; border-left: 3px solid var(--text-primary); padding-left: 0.8rem; }
+        .m-val { font-family: var(--font-mono); font-size: 1.8rem; font-weight: 900; color: var(--text-primary); line-height: 1; margin-bottom: 0.2rem; }
+        .m-label { font-size: 0.75rem; text-transform: uppercase; font-weight: 800; color: var(--text-secondary); }
+
+        /* Tags */
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .tag { font-family: var(--font-mono); background: var(--card-bg); color: var(--text-primary); padding: 0.4rem 0.8rem; border: 2px solid var(--border-color); font-size: 0.85rem; font-weight: 700; box-shadow: 2px 2px 0px rgba(0,0,0,1); transition: var(--transition); text-transform: uppercase; }
+        .tag:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0px rgba(0,0,0,1); background: var(--text-primary); color: var(--bg-color); }
+
+        /* Footer */
+        .footer { border-top: 2px solid var(--border-color); padding: 2rem 0; text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; background: var(--bg-color); }
+
+        /* ── EXTRA COMPONENTS ── */
+
+        /* Info table */
+        .info-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .info-table tr { border-bottom: 1px solid #ccc; }
+        .info-table tr:last-child { border-bottom: none; }
+        .info-table td { padding: 0.6rem 0.5rem; font-size: 0.95rem; font-weight: 500; vertical-align: top; }
+        .info-table td:first-child { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; color: var(--text-secondary); width: 42%; padding-right: 0.8rem; }
+
+        /* Data flow steps */
+        .flow-steps { margin-top: 1rem; }
+        .flow-step { display: flex; gap: 1rem; margin-bottom: 1rem; align-items: flex-start; }
+        .step-num { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; background: var(--text-primary); color: var(--bg-color); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .step-text { font-size: 0.98rem; font-weight: 500; line-height: 1.5; padding-top: 0.2rem; }
+        .step-text strong { font-weight: 800; }
+
+        /* Skills grid */
+        .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
+        .skill-card { border: 2px solid var(--border-color); padding: 0.9rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0px rgba(0,0,0,1); transition: var(--transition); }
+        .skill-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0px rgba(0,0,0,1); }
+        .skill-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .skill-desc { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; line-height: 1.4; }
+
+        /* Scorecard */
+        .scorecard { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.7rem; }
+        .score-row { display: flex; align-items: center; gap: 0.8rem; }
+        .score-label { font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; width: 160px; flex-shrink: 0; }
+        .score-bar-wrap { flex: 1; height: 14px; border: 2px solid var(--border-color); background: var(--bg-color); }
+        .score-bar { height: 100%; background: var(--text-primary); }
+        .score-num { font-family: var(--font-mono); font-weight: 900; font-size: 0.85rem; width: 28px; text-align: right; }
+
+        /* Collab card */
+        .collab-card { display: flex; align-items: center; gap: 1rem; padding: 1rem; border: 2px solid var(--border-color); background: var(--card-bg); box-shadow: 3px 3px 0px rgba(0,0,0,1); margin-bottom: 0.8rem; transition: var(--transition); }
+        .collab-card:last-child { margin-bottom: 0; }
+        .collab-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0px rgba(0,0,0,1); }
+        .collab-avatar { width: 42px; height: 42px; border: 2px solid var(--border-color); background: var(--text-primary); color: var(--bg-color); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 900; font-size: 1rem; flex-shrink: 0; }
+        .collab-info { flex: 1; }
+        .collab-name { font-weight: 800; font-size: 0.95rem; }
+        .collab-role { font-size: 0.8rem; color: var(--text-secondary); font-family: var(--font-mono); }
+        .collab-link { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; border: 2px solid var(--border-color); padding: 0.25rem 0.5rem; background: var(--bg-color); box-shadow: 2px 2px 0 #000; transition: var(--transition); }
+        .collab-link:hover { background: var(--text-primary); color: var(--bg-color); }
+
+        /* Link button */
+        .link-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; border: 2px solid var(--border-color); padding: 0.5rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; transition: var(--transition); text-transform: uppercase; margin-top: 0.8rem; margin-right: 0.6rem; }
+        .link-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; background: var(--text-primary); color: var(--bg-color); }
+        .link-btn.primary { background: var(--text-primary); color: var(--bg-color); }
+        .link-btn.primary:hover { background: var(--bg-color); color: var(--text-primary); }
+
+        /* Architecture diagram */
+        .arch-diagram { margin-top: 1.2rem; font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.6; }
+        .arch-box { border: 2px solid var(--border-color); padding: 0.6rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; margin-bottom: 0; display: inline-block; font-weight: 700; }
+        .arch-layer { border: 2px solid var(--border-color); padding: 1rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-bottom: 0.6rem; }
+        .arch-layer-title { font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; border-bottom: 1px solid #ccc; padding-bottom: 0.3rem; }
+        .arch-items { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .arch-item { background: var(--bg-color); border: 1.5px solid var(--border-color); padding: 0.25rem 0.6rem; font-size: 0.78rem; font-weight: 700; }
+        .arch-arrow { text-align: center; font-size: 1.2rem; line-height: 1; margin: 0.2rem 0; color: var(--text-secondary); font-weight: 900; }
+
+        /* Custom metric */
+        .custom-metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px dashed #bbb; font-size: 0.9rem; }
+        .custom-metric-row:last-child { border-bottom: none; }
+        .cm-label { font-weight: 600; color: var(--text-secondary); flex: 1; }
+        .cm-val { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; text-align: right; }
+        .cm-note { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); text-align: right; margin-top: 0.1rem; }
+
+        /* Section divider */
+        .section-divider { border: none; border-top: 2px dashed #bbb; margin: 2.5rem 0; }
+
+        @media (max-width: 900px) {
+            .content-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+            .metric-grid { grid-template-columns: 1fr 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .header-icon { margin: 0 auto; }
+            .score-label { width: 120px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="mycontributions.html" class="back-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="project-header">
+        <div class="container header-container">
+            <div class="header-icon"><i class="bi bi-car-front"></i></div>
+            <div class="header-info">
+                <h1 class="project-title">Skylark</h1>
+                <p class="project-subtitle">Premium Rent-A-Car Platform</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="main-content">
+        <div class="container content-grid">
+
+            <!-- ═══════════════ MAIN COLUMN ═══════════════ -->
+            <div class="main-column">
+
+                <!-- 1. PROJECT OVERVIEW -->
+                <section class="content-section">
+                    <h2 class="section-heading">Project Overview</h2>
+                    <div class="prose">
+                        <p><strong>Skylark</strong> is a full-stack, premium rent-a-car service web application that gives customers an easy, fast, and reliable way to book luxury vehicles online. Targeting the Indian market, it integrates Razorpay — India's leading payment gateway — for secure UPI, card, and net-banking payments.</p>
+                        <p>The platform serves two audiences: <strong>customers</strong> who browse a luxury fleet (BMW, Benz), select rental dates, and pay securely online; and <strong>admins</strong> who manage the entire fleet, resolve customer issues, and analyse revenue through a dedicated portal.</p>
+                    </div>
+
+                    <table class="info-table" style="margin-top:1.4rem;">
+                        <tr><td>Project Type</td><td>Full-Stack Web Application</td></tr>
+                        <tr><td>Domain</td><td>Automotive / Vehicle Rental / E-Commerce</td></tr>
+                        <tr><td>Market</td><td>India (Razorpay payment integration)</td></tr>
+                        <tr><td>Repository Owner</td><td>sinanrahman</td></tr>
+                        <tr><td>Your Role</td><td>Lead Developer — shamil-tp</td></tr>
+                        <tr><td>Total Commits</td><td>23 commits on main branch</td></tr>
+                        <tr><td>Visibility</td><td>Public</td></tr>
+                        <tr><td>GitHub Repo</td><td><a href="https://github.com/sinanrahman/skylark" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">github.com/sinanrahman/skylark</a></td></tr>
+                        <tr><td>Live Link</td><td><a href="https://skylark-frontend-eqdt.onrender.com" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">skylark-frontend-eqdt.onrender.com</a></td></tr>
+                    </table>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 2. PROJECT WORKING -->
+                <section class="content-section">
+                    <h2 class="section-heading">How The Project Works</h2>
+                    <div class="prose">
+                        <p>Skylark operates as a <strong>client-server architecture</strong> split across a Vue.js SPA frontend and a Node.js + Express REST API backend, with MongoDB as the data store and Razorpay handling the payment lifecycle.</p>
+                    </div>
+
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <div class="step-num">1</div>
+                            <div class="step-text">User <strong>browses the fleet</strong> — Vue SPA calls Express REST API to fetch available cars, pricing, and availability windows.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-num">2</div>
+                            <div class="step-text">User <strong>selects a car</strong> and fills the booking form (dates, duration) — frontend submits to API which creates a booking record in MongoDB with status <em>pending</em>.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-num">3</div>
+                            <div class="step-text"><strong>Razorpay Order ID</strong> is generated server-side and returned to the frontend. The Vue app opens the Razorpay Checkout modal.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-num">4</div>
+                            <div class="step-text">User <strong>completes payment</strong> via UPI / card / wallet. Razorpay sends payment signature back to the frontend.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-num">5</div>
+                            <div class="step-text">Frontend passes signature to backend for <strong>cryptographic verification</strong>. On success, booking status is updated to <em>confirmed</em> in MongoDB.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-num">6</div>
+                            <div class="step-text">An <strong>OTP Mailer</strong> workflow fires — confirmation email is sent to the user. Vue app displays the booking confirmation screen.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-num">7</div>
+                            <div class="step-text"><strong>Admin portal</strong> reflects the new booking in real time — fleet availability updates, revenue analytics refresh via Chart.js dashboards.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 3. TOOLS USED -->
+                <section class="content-section">
+                    <h2 class="section-heading">Tools & Technologies</h2>
+                    <div class="prose">
+                        <p>A modern full-stack JavaScript ecosystem across 7 core technologies, with a heavily Vue-dominant codebase (80.4% Vue, 19.4% JS, 0.2% HTML).</p>
+                    </div>
+
+                    <table class="info-table" style="margin-top:1rem;">
+                        <tr><td>Frontend Framework</td><td><strong>Vue 3</strong> — Reactive SPA, component-based architecture, Composition API</td></tr>
+                        <tr><td>Build Tool</td><td><strong>Vite</strong> — Lightning-fast dev server and bundler</td></tr>
+                        <tr><td>State Management</td><td><strong>Pinia</strong> — Modern Vue store replacing Vuex</td></tr>
+                        <tr><td>Routing</td><td><strong>Vue Router</strong> — Client-side SPA navigation</td></tr>
+                        <tr><td>CSS Framework</td><td><strong>Tailwind CSS</strong> — Utility-first responsive styling</td></tr>
+                        <tr><td>Backend Runtime</td><td><strong>Node.js</strong> — Server-side JavaScript execution</td></tr>
+                        <tr><td>Backend Framework</td><td><strong>Express.js</strong> — REST API routing and middleware chain</td></tr>
+                        <tr><td>Database</td><td><strong>MongoDB</strong> — NoSQL document store via Mongoose ODM</td></tr>
+                        <tr><td>Authentication</td><td><strong>JWT</strong> — JSON Web Token-based stateless auth</td></tr>
+                        <tr><td>Payment Gateway</td><td><strong>Razorpay</strong> — Order creation, verification, webhook handling</td></tr>
+                        <tr><td>Data Visualisation</td><td><strong>Chart.js</strong> — Admin analytics and revenue charts</td></tr>
+                        <tr><td>Mailing</td><td><strong>Nodemailer / OTP Mailer</strong> — Booking confirmation & OTP flows</td></tr>
+                        <tr><td>Version Control</td><td><strong>Git + GitHub</strong> — Collaborative development</td></tr>
+                    </table>
+
+                    <!-- Language Breakdown Bar -->
+                    <div style="margin-top:1.4rem;">
+                        <p style="font-family:var(--font-mono);font-size:0.8rem;font-weight:700;text-transform:uppercase;margin-bottom:0.6rem;">Language Breakdown</p>
+                        <div style="height:18px;border:2px solid #000;display:flex;overflow:hidden;box-shadow:3px 3px 0 #000;">
+                            <div style="width:80.4%;background:#000;" title="Vue 80.4%"></div>
+                            <div style="width:19.4%;background:#555;" title="JavaScript 19.4%"></div>
+                            <div style="width:0.2%;background:#aaa;" title="HTML 0.2%"></div>
+                        </div>
+                        <div style="display:flex;gap:1.5rem;margin-top:0.5rem;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;">
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#000;border:1px solid #000;margin-right:4px;"></span>Vue 80.4%</span>
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#555;border:1px solid #000;margin-right:4px;"></span>JavaScript 19.4%</span>
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#aaa;border:1px solid #000;margin-right:4px;"></span>HTML 0.2%</span>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 4. SKILLS ACHIEVED -->
+                <section class="content-section">
+                    <h2 class="section-heading">Skills Achieved</h2>
+                    <div class="prose">
+                        <p>Contributing to Skylark developed a broad and deep full-stack skill profile across both technical and collaborative dimensions.</p>
+                    </div>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <div class="skill-name">Vue 3 Development</div>
+                            <div class="skill-desc">Composition API, component lifecycle, props, emits, v-model, reactive state</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Pinia State Management</div>
+                            <div class="skill-desc">Modular store design, actions, getters, persisted state across routes</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Vue Router Architecture</div>
+                            <div class="skill-desc">Nested routes, route guards, lazy loading, multi-layout routing</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">RESTful API Design</div>
+                            <div class="skill-desc">CRUD endpoints, middleware chains, error handling, status codes</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">MongoDB & Mongoose</div>
+                            <div class="skill-desc">Schema design, relationships, population, validation, queries</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">JWT Authentication</div>
+                            <div class="skill-desc">Token generation, middleware verification, refresh logic, role-based access</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Payment Integration</div>
+                            <div class="skill-desc">Razorpay order creation, HMAC signature verification, webhook handling</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Admin Dashboard Dev</div>
+                            <div class="skill-desc">Analytics views, Chart.js data viz, user/fleet/booking management UI</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Full-Stack Architecture</div>
+                            <div class="skill-desc">Decoupled SPA + REST, MVC pattern, separation of concerns</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Git Collaboration</div>
+                            <div class="skill-desc">Branching strategy, commit hygiene, multi-contributor workflow</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Tailwind CSS</div>
+                            <div class="skill-desc">Utility-first design, responsive layouts, custom theming</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Email & OTP Flows</div>
+                            <div class="skill-desc">Nodemailer integration, OTP generation, transactional email templates</div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 5. KEY FEATURES -->
+                <section class="content-section">
+                    <h2 class="section-heading">Key Features</h2>
+                    <ul class="feature-list">
+                        <li><strong>Online Car Browsing:</strong> Luxury fleet catalogue (BMW, Benz) with images, specs, daily pricing, and real-time availability.</li>
+                        <li><strong>Date-Based Booking System:</strong> Dynamic booking form with date picker, duration calculator, and conflict detection.</li>
+                        <li><strong>Razorpay Payment Integration:</strong> Secure payment via UPI, credit/debit cards, and net banking with server-side order creation and cryptographic verification.</li>
+                        <li><strong>JWT Authentication:</strong> Secure registration, login, OTP email verification, and role-based route access (user vs admin).</li>
+                        <li><strong>Admin Dashboard:</strong> Full fleet management, user overview, booking tracking, issue resolution portal, and revenue analytics with Chart.js.</li>
+                        <li><strong>Issue & Support System:</strong> Customers can raise issues; admins receive and resolve them through a dedicated ticket management interface.</li>
+                        <li><strong>OTP Mailer Workflow:</strong> Automated transactional emails for account verification, booking confirmations, and password resets.</li>
+                        <li><strong>Multi-Layout SPA:</strong> Separate AdminLayout, AuthLayout, and MainLayout for a clean, context-aware user experience.</li>
+                        <li><strong>Revenue Analytics:</strong> Visual revenue reports and fleet utilisation charts built with Chart.js in the admin panel.</li>
+                        <li><strong>Responsive Design:</strong> Tailwind CSS-powered UI works seamlessly across desktop, tablet, and mobile.</li>
+                    </ul>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 6. MY CONTRIBUTION -->
+                <section class="content-section">
+                    <h2 class="section-heading">My Contribution</h2>
+                    <div class="prose">
+                        <p>As one of <strong>3 core team members</strong>, I engineered the entire Vue architecture, the Admin Panel from scratch, and the majority of backend service integrations. The frontend (80.4% of codebase) was the primary development surface.</p>
+                    </div>
+                    <ul class="feature-list" style="margin-top:1rem;">
+                        <li><strong>Vue Architecture:</strong> Built the entire Router structure, multi-layout system (AdminLayout, AuthLayout, MainLayout), and all Pinia state stores — the foundational skeleton of the frontend.</li>
+                        <li><strong>Admin Panel (end-to-end):</strong> Single-handedly crafted the Admin Dashboard, User Management, Fleet Management, Issue Tracker, and Revenue Reports pages.</li>
+                        <li><strong>Backend Service Integrations:</strong> Integrated Razorpay APIs (order + verify), complex Mongoose schemas (Car, User, Issue, Booking), OTP Mailer workflows, and JWT middleware.</li>
+                        <li><strong>Authentication Pages:</strong> Built all auth-facing views — Login, Register, OTP Verification — wired to the backend JWT flow.</li>
+                        <li><strong>Dynamic Booking Logic:</strong> Engineered the intricate multi-step booking flow with date conflict detection, price calculation, and Razorpay checkout trigger.</li>
+                        <li><strong>Frontend Services Layer:</strong> Created the <code>services/</code> module — Axios-based API client with request/response interceptors and token refresh.</li>
+                    </ul>
+
+                    <a href="https://github.com/sinanrahman/skylark/commits/main/?author=shamil-tp" target="_blank" class="link-btn primary"><i class="bi bi-git"></i> View My Commits</a>
+                    <a href="https://github.com/sinanrahman/skylark" target="_blank" class="link-btn"><i class="bi bi-github"></i> Full Repository</a>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 7. SYSTEM STRUCTURE -->
+                <section class="content-section">
+                    <h2 class="section-heading">Folder Structure</h2>
+                    <div class="code-block">
+                        <pre><code>skylark/
+├── backend/
+│   ├── config/          ← DB connection, env config
+│   ├── controllers/     ← Business logic (auth, cars, bookings, payments)
+│   ├── middlewares/     ← JWT auth guard, error handlers
+│   ├── models/          ← Mongoose schemas: User, Car, Booking, Issue
+│   ├── routes/          ← Express route definitions
+│   ├── utils/           ← Razorpay helpers, OTP mailer, token utils
+│   └── index.js         ← Express app entry point
+│
+└── frontend/
+    ├── public/img/      ← Static assets, car images
+    └── src/
+        ├── components/  ← Reusable UI components
+        ├── layouts/     ← AdminLayout, AuthLayout, MainLayout
+        ├── pages/       ← Route-level views (Home, Cars, Booking,
+        │                   Admin/Dashboard, Admin/Users,
+        │                   Admin/Issues, Admin/Reports,
+        │                   Auth/Login, Auth/Register)
+        ├── router/      ← Vue Router config, route guards
+        ├── services/    ← Axios API client + interceptors
+        ├── stores/      ← Pinia stores (auth, cars, bookings)
+        └── main.js      ← Vue app bootstrap</code></pre>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 8. SYSTEM ARCHITECTURE -->
+                <section class="content-section">
+                    <h2 class="section-heading">System Architecture</h2>
+                    <div class="prose">
+                        <p>MVC pattern + REST API architecture + Single Page Application — three established patterns working together for a clean, maintainable, production-grade system.</p>
+                    </div>
+
+                    <div class="arch-diagram">
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">🖥 Client — Vue 3 SPA (Browser)</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Vue Router</span>
+                                <span class="arch-item">Pinia Stores</span>
+                                <span class="arch-item">AdminLayout</span>
+                                <span class="arch-item">AuthLayout</span>
+                                <span class="arch-item">MainLayout</span>
+                                <span class="arch-item">Tailwind CSS</span>
+                                <span class="arch-item">Chart.js</span>
+                                <span class="arch-item">Razorpay JS SDK</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ HTTP / REST API (Axios + JWT Bearer Token)</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">⚙ Server — Node.js + Express REST API</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Auth Routes</span>
+                                <span class="arch-item">Car Routes</span>
+                                <span class="arch-item">Booking Routes</span>
+                                <span class="arch-item">Payment Routes</span>
+                                <span class="arch-item">Issue Routes</span>
+                                <span class="arch-item">JWT Middleware</span>
+                                <span class="arch-item">Controllers</span>
+                                <span class="arch-item">OTP Mailer</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ Mongoose ODM</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">🗄 Data Layer — MongoDB</div>
+                            <div class="arch-items">
+                                <span class="arch-item">users</span>
+                                <span class="arch-item">cars</span>
+                                <span class="arch-item">bookings</span>
+                                <span class="arch-item">issues</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↔ External Services</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">🌐 External Services</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Razorpay Gateway</span>
+                                <span class="arch-item">SMTP / Nodemailer</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="info-table" style="margin-top:1.4rem;">
+                        <tr><td>Architecture Pattern</td><td>MVC (Model-View-Controller)</td></tr>
+                        <tr><td>API Style</td><td>REST — JSON endpoints consumed by the SPA</td></tr>
+                        <tr><td>Frontend Pattern</td><td>SPA — Vue Router handles all client-side navigation</td></tr>
+                        <tr><td>Auth Strategy</td><td>Stateless JWT with role-based guards</td></tr>
+                        <tr><td>Data Coupling</td><td>Fully decoupled — frontend & backend in separate folders</td></tr>
+                    </table>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 9. COLLABORATORS -->
+                <section class="content-section">
+                    <h2 class="section-heading">Collaborators</h2>
+                    <div class="prose" style="margin-bottom:1rem;">
+                        <p>A focused <strong>3-member team</strong> — each owning distinct modules of the application.</p>
+                    </div>
+
+                    <!-- Sinan -->
+                    <div class="collab-card" style="flex-direction:column;align-items:flex-start;gap:0.8rem;padding:1.2rem;">
+                        <div style="display:flex;align-items:center;gap:1rem;width:100%;">
+                            <div class="collab-avatar">SR</div>
+                            <div class="collab-info">
+                                <div class="collab-name">Sinan Rahman K <span style="font-family:var(--font-mono);font-size:0.72rem;background:#000;color:#F5F2EB;padding:0.12rem 0.4rem;margin-left:0.4rem;">REPO OWNER</span></div>
+                                <div class="collab-role">Repository owner</div>
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                            <a href="https://github.com/sinanrahman" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/sinan-k-rahman" target="_blank" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                        </div>
+                    </div>
+
+                    <!-- shamil-tp -->
+                    <div class="collab-card" style="flex-direction:column;align-items:flex-start;gap:0.8rem;padding:1.2rem;margin-top:0.8rem;">
+                        <div style="display:flex;align-items:center;gap:1rem;width:100%;">
+                            <div class="collab-avatar">ST</div>
+                            <div class="collab-info">
+                                <div class="collab-name">shamil-tp <span style="font-family:var(--font-mono);font-size:0.72rem;background:#000;color:#F5F2EB;padding:0.12rem 0.4rem;margin-left:0.4rem;">YOU · LEAD</span></div>
+                                <div class="collab-role">Lead Developer — Vue Architecture, Admin Panel, Backend Integrations</div>
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                            <a href="https://github.com/shamil-tp" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/shamil-tp" target="_blank" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                        </div>
+                    </div>
+
+                    <!-- Salih -->
+                    <div class="collab-card" style="flex-direction:column;align-items:flex-start;gap:0.8rem;padding:1.2rem;margin-top:0.8rem;">
+                        <div style="display:flex;align-items:center;gap:1rem;width:100%;">
+                            <div class="collab-avatar">MS</div>
+                            <div class="collab-info">
+                                <div class="collab-name">Mohammed Salih K</div>
+                                <div class="collab-role">Team Contributor</div>
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                            <a href="https://github.com/salih85" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/mohammed-salih-k" target="_blank" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                        </div>
+                    </div>
+
+                </section>
+
+            </div>
+
+            <!-- ═══════════════ SIDEBAR ═══════════════ -->
+            <aside class="sidebar-column">
+
+                <!-- Contribution Metrics -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Contribution Metrics</h3>
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <span class="m-val">~6.7k</span>
+                            <span class="m-label">Lines Inserted</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">~740</span>
+                            <span class="m-label">Lines Deleted</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">23</span>
+                            <span class="m-label">Total Commits</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">3</span>
+                            <span class="m-label">Team Members</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">80.4%</span>
+                            <span class="m-label">Vue Share</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">4.1×</span>
+                            <span class="m-label">FE/BE Ratio</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Metrics -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Custom Metrics</h3>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Net Code Delta</div>
+                            <div class="cm-note">insertions − deletions</div>
+                        </div>
+                        <div class="cm-val">~5,960</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Churn Rate</div>
+                            <div class="cm-note">deleted ÷ inserted</div>
+                        </div>
+                        <div class="cm-val">11.0%</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Avg Lines / Commit</div>
+                            <div class="cm-note">6700 ÷ 23 commits</div>
+                        </div>
+                        <div class="cm-val">~291</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Tech Breadth Score</div>
+                            <div class="cm-note">7 core technologies</div>
+                        </div>
+                        <div class="cm-val">7 / 10</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Vue Dominance</div>
+                            <div class="cm-note">Vue% of total LOC</div>
+                        </div>
+                        <div class="cm-val">80.4%</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">FE / BE Ratio</div>
+                            <div class="cm-note">Vue% ÷ JS%</div>
+                        </div>
+                        <div class="cm-val">4.1×</div>
+                    </div>
+                </div>
+
+                <!-- Scorecard -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Project Scorecard</h3>
+                    <div class="scorecard">
+                        <div class="score-row">
+                            <span class="score-label">Complexity</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:80%"></div></div>
+                            <span class="score-num">4/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Stack Breadth</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Architecture</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:80%"></div></div>
+                            <span class="score-num">4/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Market Value</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Portfolio Score</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Collaboration</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:80%"></div></div>
+                            <span class="score-num">4/5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tech Stack -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Tech Stack</h3>
+                    <div class="tag-cloud">
+                        <span class="tag">Vue 3</span>
+                        <span class="tag">Vite</span>
+                        <span class="tag">Pinia</span>
+                        <span class="tag">Vue Router</span>
+                        <span class="tag">Tailwind</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Express.js</span>
+                        <span class="tag">MongoDB</span>
+                        <span class="tag">Mongoose</span>
+                        <span class="tag">JWT</span>
+                        <span class="tag">Razorpay</span>
+                        <span class="tag">Chart.js</span>
+                        <span class="tag">Nodemailer</span>
+                        <span class="tag">Axios</span>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Quick Links</h3>
+                    <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                        <a href="https://github.com/sinanrahman/skylark" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-github"></i> GitHub Repo</a>
+                        <a href="https://skylark-frontend-eqdt.onrender.com" target="_blank" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
+                        <a href="https://github.com/sinanrahman/skylark/commits/main/?author=shamil-tp" target="_blank" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-person-check"></i> My Commits</a>
+                        <a href="https://github.com/sinanrahman/skylark/graphs/contributors" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-people"></i> Contributors</a>
+                        <a href="https://github.com/sinanrahman/skylark/tree/main/frontend" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Frontend Folder</a>
+                        <a href="https://github.com/sinanrahman/skylark/tree/main/backend" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Backend Folder</a>
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Shamil TP. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

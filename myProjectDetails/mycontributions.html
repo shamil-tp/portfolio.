@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Contributions | Shamil TP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="mycontributions.css"> -->
+    <style>
+        :root {
+    --bg-color: #F5F2EB;
+    --card-bg: #FFFFFF;
+    --text-primary: #000000;
+    --text-secondary: #333333;
+    --accent: #000000;
+    --border-color: #000000;
+    --nav-bg: rgba(245, 242, 235, 0.95);
+    --font-main: 'Outfit', 'Helvetica Neue', sans-serif;
+    --font-mono: 'Space Mono', 'Fira Code', monospace;
+    --transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s, color 0.2s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    line-height: 1.5;
+    font-size: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* Navbar */
+.navbar {
+    background: var(--nav-bg);
+    border-bottom: 2px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+}
+
+.logo {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    text-transform: lowercase;
+}
+
+.highlight {
+    color: var(--text-primary);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    color: var(--text-secondary);
+    font-weight: 700;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
+}
+
+/* Header */
+.page-header {
+    padding: 4rem 0 3rem;
+    text-align: center;
+}
+
+.page-title {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+}
+
+.page-subtitle {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* Grid */
+.main-content {
+    padding-bottom: 5rem;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.project-card {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: var(--transition);
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);
+    border-radius: 0;
+}
+
+.project-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 9px 9px 0px rgba(0, 0, 0, 1);
+}
+
+/* Brutalist Icon Block */
+.card-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--card-bg);
+    border: 2px solid var(--text-primary);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
+    transition: var(--transition);
+}
+
+.project-card:hover .card-icon {
+    background: var(--text-primary);
+    color: var(--bg-color);
+}
+
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.card-desc {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+/* Footer */
+.footer {
+    border-top: 2px solid var(--border-color);
+    padding: 2rem 0;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    background: var(--bg-color);
+}
+
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2.2rem;
+    }
+
+    .project-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .page-header {
+        padding: 3rem 0 2.5rem;
+    }
+}
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">shamiltp<span class="highlight">.me</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">Project Contributions</h1>
+            <p class="page-subtitle">A detailed breakdown of my architectural decisions, system designs, and code contributions across various projects.</p>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="project-grid">
+                
+                <a href="tutora.html" class="project-card">
+                    <div class="card-icon"><i class="bi bi-journal-bookmark"></i></div>
+                    <div class="card-content">
+                        <h2 class="card-title">Tutora</h2>
+                        <p class="card-desc">Educational Management Platform</p>
+                    </div>
+                </a>
+
+                <a href="skylark.html" class="project-card">
+                    <div class="card-icon"><i class="bi bi-car-front"></i></div>
+                    <div class="card-content">
+                        <h2 class="card-title">Skylark</h2>
+                        <p class="card-desc">Premium Rent-A-Car Service Platform</p>
+                    </div>
+                </a>
+
+                <a href="lume.html" class="project-card">
+                    <div class="card-icon"><i class="bi bi-play-circle"></i></div>
+                    <div class="card-content">
+                        <h2 class="card-title">LUME</h2>
+                        <p class="card-desc">Advanced Media Streaming Platform</p>
+                    </div>
+                </a>
+
+                <a href="njin.html" class="project-card">
+                    <div class="card-icon"><i class="bi bi-search"></i></div>
+                    <div class="card-content">
+                        <h2 class="card-title">N-jin</h2>
+                        <p class="card-desc">Localized Search Engine & Web Crawler</p>
+                    </div>
+                </a>
+
+                <a href="coffeecat.html" class="project-card">
+                    <div class="card-icon"><i class="bi bi-chat-heart"></i></div>
+                    <div class="card-content">
+                        <h2 class="card-title">coffeeCat</h2>
+                        <p class="card-desc">Instagram-WhatsApp Hybrid Chat App</p>
+                    </div>
+                </a>
+
+                <a href="blogify.html" class="project-card">
+                    <div class="card-icon"><i class="bi bi-journal-text"></i></div>
+                    <div class="card-content">
+                        <h2 class="card-title">Blogify</h2>
+                        <p class="card-desc">Secure React Blogging System</p>
+                    </div>
+                </a>
+
+                <a href="osmium.html" class="project-card">
+                    <div class="card-icon"><i class="bi bi-file-zip"></i></div>
+                    <div class="card-content">
+                        <h2 class="card-title">Osmium</h2>
+                        <p class="card-desc">Algorithmic File Compression</p>
+                    </div>
+                </a>
+
+                <a href="blog-rendering-lib.html" class="project-card">
+                    <div class="card-icon"><i class="bi bi-code-slash"></i></div>
+                    <div class="card-content">
+                        <h2 class="card-title">blog-Rendering-Lib</h2>
+                        <p class="card-desc">Vanilla DOM Rendering Engine</p>
+                    </div>
+                </a>
+
+                <a href="emvbazar.html" class="project-card">
+                    <div class="card-icon"><i class="bi bi-cash-coin"></i></div>
+                    <div class="card-content">
+                        <h2 class="card-title">emvBazar</h2>
+                        <p class="card-desc">An elegent debt tracking system</p>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Shamil TP. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

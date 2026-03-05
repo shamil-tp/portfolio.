@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUME Details | Shamil TP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* ── BASE DESIGN SYSTEM ── */
+        :root {
+            --bg-color: #F5F2EB;
+            --card-bg: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #333333;
+            --accent: #000000;
+            --border-color: #000000;
+            --nav-bg: rgba(245, 242, 235, 0.95);
+            --font-main: 'Outfit', 'Helvetica Neue', sans-serif;
+            --font-mono: 'Space Mono', 'Fira Code', monospace;
+            --transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-main); line-height: 1.5; font-size: 15px; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* Navbar */
+        .navbar { background: var(--nav-bg); border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 60px; }
+        .back-link { font-weight: 800; font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.4rem; transition: var(--transition); text-transform: uppercase; }
+        .back-link:hover { text-decoration: underline; }
+        .nav-links { display: flex; list-style: none; gap: 1.5rem; }
+        .nav-links a { font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.9rem; font-weight: 700; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--text-primary); text-decoration: underline; }
+
+        /* Header */
+        .project-header { background: var(--bg-color); padding: 4rem 0 3rem 0; border-bottom: 2px solid var(--border-color); margin-bottom: 3rem; }
+        .header-container { display: flex; align-items: center; gap: 1.5rem; }
+        .header-icon { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--text-primary); border: 2px solid var(--border-color); background: var(--card-bg); box-shadow: 4px 4px 0px rgba(0,0,0,1); flex-shrink: 0; }
+        .project-title { font-size: 2.8rem; font-weight: 900; color: var(--text-primary); margin-bottom: 0.3rem; letter-spacing: -1px; text-transform: uppercase; line-height: 1; }
+        .project-subtitle { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; background: var(--text-primary); color: var(--bg-color); display: inline-block; padding: 0.3rem 0.6rem; margin-top: 0.3rem; }
+
+        /* Main Grid */
+        .content-grid { display: grid; grid-template-columns: 7fr 3fr; gap: 2.5rem; padding-bottom: 5rem; align-items: start; }
+
+        /* Sections */
+        .content-section { margin-bottom: 2.5rem; }
+        .content-section:last-child { margin-bottom: 0; }
+        .section-heading { font-size: 1.6rem; font-weight: 900; color: var(--text-primary); margin-bottom: 1.2rem; border-bottom: 3px solid var(--border-color); padding-bottom: 0.3rem; text-transform: uppercase; }
+
+        /* Prose */
+        .prose p { margin-bottom: 1rem; color: var(--text-primary); font-size: 1.05rem; line-height: 1.6; font-weight: 500; }
+        .prose p:last-child { margin-bottom: 0; }
+        .prose strong { color: var(--text-primary); font-weight: 800; }
+
+        /* Feature list */
+        .feature-list { list-style: none; padding-left: 0; color: var(--text-primary); margin-top: 1rem; }
+        .feature-list li { margin-bottom: 1rem; line-height: 1.5; font-size: 1rem; position: relative; padding-left: 1.2rem; font-weight: 500; }
+        .feature-list li::before { content: '→'; position: absolute; left: 0; font-family: var(--font-mono); font-weight: 900; }
+
+        /* Code block */
+        .code-block { background: #111; border: 2px solid var(--border-color); padding: 1.5rem; overflow-x: auto; box-shadow: 6px 6px 0px rgba(0,0,0,1); margin-top: 1.2rem; }
+        .code-block pre { font-family: var(--font-mono); font-size: 0.9rem; color: #f8f8f2; line-height: 1.5; font-weight: 500; }
+
+        /* Sidebar */
+        .sidebar-widget { background: var(--card-bg); border: 2px solid var(--border-color); padding: 1.5rem; margin-bottom: 2rem; box-shadow: 6px 6px 0px rgba(0,0,0,1); }
+        .sidebar-widget:last-child { margin-bottom: 0; }
+        .widget-title { font-size: 1.2rem; font-weight: 900; color: var(--text-primary); margin-bottom: 1.2rem; text-transform: uppercase; border-bottom: 2px solid var(--border-color); padding-bottom: 0.4rem; }
+
+        /* Metrics */
+        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .metric-item { display: flex; flex-direction: column; border-left: 3px solid var(--text-primary); padding-left: 0.8rem; }
+        .m-val { font-family: var(--font-mono); font-size: 1.8rem; font-weight: 900; color: var(--text-primary); line-height: 1; margin-bottom: 0.2rem; }
+        .m-label { font-size: 0.75rem; text-transform: uppercase; font-weight: 800; color: var(--text-secondary); }
+
+        /* Tags */
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .tag { font-family: var(--font-mono); background: var(--card-bg); color: var(--text-primary); padding: 0.4rem 0.8rem; border: 2px solid var(--border-color); font-size: 0.85rem; font-weight: 700; box-shadow: 2px 2px 0px rgba(0,0,0,1); transition: var(--transition); text-transform: uppercase; }
+        .tag:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0px rgba(0,0,0,1); background: var(--text-primary); color: var(--bg-color); }
+
+        /* Footer */
+        .footer { border-top: 2px solid var(--border-color); padding: 2rem 0; text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; background: var(--bg-color); }
+
+        /* ── EXTRA COMPONENTS ── */
+
+        .info-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .info-table tr { border-bottom: 1px solid #ccc; }
+        .info-table tr:last-child { border-bottom: none; }
+        .info-table td { padding: 0.6rem 0.5rem; font-size: 0.95rem; font-weight: 500; vertical-align: top; }
+        .info-table td:first-child { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; color: var(--text-secondary); width: 42%; padding-right: 0.8rem; }
+
+        .flow-steps { margin-top: 1rem; }
+        .flow-step { display: flex; gap: 1rem; margin-bottom: 1rem; align-items: flex-start; }
+        .step-num { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; background: var(--text-primary); color: var(--bg-color); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .step-text { font-size: 0.98rem; font-weight: 500; line-height: 1.5; padding-top: 0.2rem; }
+        .step-text strong { font-weight: 800; }
+
+        .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
+        .skill-card { border: 2px solid var(--border-color); padding: 0.9rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0px rgba(0,0,0,1); transition: var(--transition); }
+        .skill-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0px rgba(0,0,0,1); }
+        .skill-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .skill-desc { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; line-height: 1.4; }
+
+        .scorecard { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.7rem; }
+        .score-row { display: flex; align-items: center; gap: 0.8rem; }
+        .score-label { font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; width: 160px; flex-shrink: 0; }
+        .score-bar-wrap { flex: 1; height: 14px; border: 2px solid var(--border-color); background: var(--bg-color); }
+        .score-bar { height: 100%; background: var(--text-primary); }
+        .score-num { font-family: var(--font-mono); font-weight: 900; font-size: 0.85rem; width: 28px; text-align: right; }
+
+        .link-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; border: 2px solid var(--border-color); padding: 0.5rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; transition: var(--transition); text-transform: uppercase; margin-top: 0.8rem; margin-right: 0.6rem; }
+        .link-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; background: var(--text-primary); color: var(--bg-color); }
+        .link-btn.primary { background: var(--text-primary); color: var(--bg-color); }
+        .link-btn.primary:hover { background: var(--bg-color); color: var(--text-primary); }
+
+        .arch-layer { border: 2px solid var(--border-color); padding: 1rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-bottom: 0.6rem; }
+        .arch-layer-title { font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; border-bottom: 1px solid #ccc; padding-bottom: 0.3rem; font-family: var(--font-mono); }
+        .arch-items { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .arch-item { background: var(--bg-color); border: 1.5px solid var(--border-color); padding: 0.25rem 0.6rem; font-size: 0.78rem; font-weight: 700; font-family: var(--font-mono); }
+        .arch-arrow { text-align: center; font-size: 1rem; line-height: 1; margin: 0.3rem 0; color: var(--text-secondary); font-weight: 900; font-family: var(--font-mono); font-size: 0.82rem; }
+
+        .custom-metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px dashed #bbb; font-size: 0.9rem; }
+        .custom-metric-row:last-child { border-bottom: none; }
+        .cm-label { font-weight: 600; color: var(--text-secondary); flex: 1; }
+        .cm-val { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; text-align: right; }
+        .cm-note { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); text-align: right; margin-top: 0.1rem; }
+
+        .section-divider { border: none; border-top: 2px dashed #bbb; margin: 2.5rem 0; }
+
+        /* Version badge */
+        .version-badge { display: inline-block; font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; border: 2px solid var(--border-color); padding: 0.15rem 0.5rem; background: var(--bg-color); box-shadow: 2px 2px 0 #000; margin-left: 0.5rem; vertical-align: middle; }
+        .version-badge.v2 { background: var(--text-primary); color: var(--bg-color); }
+
+        /* Pipeline step */
+        .pipeline { display: flex; flex-direction: column; gap: 0; margin-top: 1.2rem; }
+        .pipeline-step { display: flex; gap: 1rem; align-items: stretch; }
+        .pipeline-left { display: flex; flex-direction: column; align-items: center; width: 32px; flex-shrink: 0; }
+        .pipeline-dot { width: 32px; height: 32px; border: 2px solid var(--border-color); background: var(--text-primary); color: var(--bg-color); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 900; font-size: 0.8rem; flex-shrink: 0; }
+        .pipeline-line { width: 2px; background: var(--border-color); flex: 1; min-height: 20px; }
+        .pipeline-step:last-child .pipeline-line { display: none; }
+        .pipeline-content { padding: 0 0 1.2rem 0.5rem; flex: 1; }
+        .pipeline-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.2rem; }
+        .pipeline-desc { font-size: 0.88rem; color: var(--text-secondary); font-weight: 500; line-height: 1.5; }
+        .pipeline-tech { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; margin-top: 0.3rem; color: var(--text-primary); background: var(--bg-color); border: 1.5px solid var(--border-color); display: inline-block; padding: 0.1rem 0.4rem; }
+
+        @media (max-width: 900px) {
+            .content-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+            .metric-grid { grid-template-columns: 1fr 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .header-icon { margin: 0 auto; }
+            .score-label { width: 120px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="mycontributions.html" class="back-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="project-header">
+        <div class="container header-container">
+            <div class="header-icon"><i class="bi bi-play-circle"></i></div>
+            <div class="header-info">
+                <h1 class="project-title">LUME <span class="version-badge v2">v2</span></h1>
+                <p class="project-subtitle">Lightweight Video Streaming Platform</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="main-content">
+        <div class="container content-grid">
+
+            <!-- ═══════════════ MAIN COLUMN ═══════════════ -->
+            <div class="main-column">
+
+                <!-- 1. PROJECT OVERVIEW -->
+                <section class="content-section">
+                    <h2 class="section-heading">Project Overview</h2>
+                    <div class="prose">
+                        <p><strong>LUME</strong> is a modern, full-stack video streaming platform built entirely on the MERN stack. Designed as a lightweight but enterprise-grade alternative, it delivers seamless, secure video experiences through a highly responsive React frontend paired with an asynchronous, event-driven backend pipeline for video ingestion and processing.</p>
+                        <p>Version 2 — the current iteration — moves far beyond simple file uploads, introducing a <strong>completely custom asynchronous video processing pipeline</strong>: Tus protocol for resumable uploads, a Redis-backed BullMQ message queue for background processing, local FFmpeg transcoding into HLS format, and zero-egress cloud storage via Cloudflare R2.</p>
+                        <p style="font-style:italic;font-family:var(--font-mono);font-size:0.9rem;border-left:3px solid #000;padding-left:0.8rem;margin-top:0.5rem;">"Every stream is important."</p>
+                    </div>
+
+                    <table class="info-table" style="margin-top:1.4rem;">
+                        <tr><td>Project Type</td><td>Full-Stack Video Streaming Platform</td></tr>
+                        <tr><td>Domain</td><td>Media / Streaming / Cloud Infrastructure</td></tr>
+                        <tr><td>Version</td><td>Version 2 — Native Streaming (current)</td></tr>
+                        <tr><td>Repository Owner</td><td>shamil-tp (you — solo project)</td></tr>
+                        <tr><td>Total Commits</td><td>67 commits on main branch</td></tr>
+                        <tr><td>Tags / Releases</td><td>2 tags</td></tr>
+                        <tr><td>Visibility</td><td>Public</td></tr>
+                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/LUME" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">github.com/shamil-tp/LUME</a></td></tr>
+                        <tr><td>Live Link</td><td><a href="https://lume-one.vercel.app" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">lume-one.vercel.app</a></td></tr>
+                    </table>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 2. HOW IT WORKS — VIDEO PIPELINE -->
+                <section class="content-section">
+                    <h2 class="section-heading">Video Processing Pipeline</h2>
+                    <div class="prose">
+                        <p>LUME's core innovation is its <strong>fully asynchronous, microservice-style video pipeline</strong> — decoupling the upload, transcoding, storage, and playback stages into independent, fault-tolerant steps.</p>
+                    </div>
+
+                    <div class="pipeline">
+                        <div class="pipeline-step">
+                            <div class="pipeline-left">
+                                <div class="pipeline-dot">1</div>
+                                <div class="pipeline-line"></div>
+                            </div>
+                            <div class="pipeline-content">
+                                <div class="pipeline-title">Ingestion — Resumable Chunked Upload</div>
+                                <div class="pipeline-desc">The React client uses <strong>Uppy</strong> to upload large raw video files to the Express server in chunks using the <strong>Tus protocol</strong>. If the network drops, the upload resumes exactly where it left off — no re-upload needed.</div>
+                                <span class="pipeline-tech">Tus Protocol · Uppy · tus-node-server</span>
+                            </div>
+                        </div>
+                        <div class="pipeline-step">
+                            <div class="pipeline-left">
+                                <div class="pipeline-dot">2</div>
+                                <div class="pipeline-line"></div>
+                            </div>
+                            <div class="pipeline-content">
+                                <div class="pipeline-title">Queuing — Background Job Dispatch</div>
+                                <div class="pipeline-desc">Once the upload is fully assembled, the Express server logs video metadata to <strong>MongoDB</strong> and dispatches a transcoding job to the <strong>Redis queue</strong> via BullMQ — freeing the main API thread immediately.</div>
+                                <span class="pipeline-tech">BullMQ · ioredis · Redis · MongoDB</span>
+                            </div>
+                        </div>
+                        <div class="pipeline-step">
+                            <div class="pipeline-left">
+                                <div class="pipeline-dot">3</div>
+                                <div class="pipeline-line"></div>
+                            </div>
+                            <div class="pipeline-content">
+                                <div class="pipeline-title">Processing — HLS Transcoding</div>
+                                <div class="pipeline-desc">An independent <strong>Node.js Worker process</strong> picks up the job and triggers <strong>FFmpeg</strong> via fluent-ffmpeg to transcode the raw video into <code>.m3u8</code> playlists and <code>.ts</code> chunks for adaptive, buffer-free HLS streaming.</div>
+                                <span class="pipeline-tech">FFmpeg · fluent-ffmpeg · HLS · worker.js</span>
+                            </div>
+                        </div>
+                        <div class="pipeline-step">
+                            <div class="pipeline-left">
+                                <div class="pipeline-dot">4</div>
+                                <div class="pipeline-line"></div>
+                            </div>
+                            <div class="pipeline-content">
+                                <div class="pipeline-title">Distribution — Cloud Storage Sync</div>
+                                <div class="pipeline-desc">The worker auto-uploads the entire HLS folder to <strong>Cloudflare R2</strong> via the AWS S3 SDK for global content delivery with <strong>zero egress fees</strong>. MongoDB is updated with the public CDN URL. Local files are swept clean.</div>
+                                <span class="pipeline-tech">Cloudflare R2 · AWS S3 SDK · s3Uploader.js</span>
+                            </div>
+                        </div>
+                        <div class="pipeline-step">
+                            <div class="pipeline-left">
+                                <div class="pipeline-dot">5</div>
+                                <div class="pipeline-line"></div>
+                            </div>
+                            <div class="pipeline-content">
+                                <div class="pipeline-title">Playback — Adaptive HLS Streaming</div>
+                                <div class="pipeline-desc">The custom React <strong>LumePlayer</strong> fetches the <code>.m3u8</code> playlist from the CDN edge network and streams video chunks sequentially using <strong>hls.js</strong> — adaptive bitrate, buffer-free playback directly in the browser.</div>
+                                <span class="pipeline-tech">hls.js · LumePlayer.jsx · React</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 3. TOOLS USED -->
+                <section class="content-section">
+                    <h2 class="section-heading">Tools & Technologies</h2>
+                    <div class="prose">
+                        <p>A sophisticated infrastructure stack spanning frontend, backend, worker microservice, message queue, CDN, and cloud storage — all JavaScript-native.</p>
+                    </div>
+
+                    <table class="info-table" style="margin-top:1rem;">
+                        <tr><td>Frontend Framework</td><td><strong>React.js</strong> (Vite) — Component-based SPA with fast HMR</td></tr>
+                        <tr><td>Upload Client</td><td><strong>Uppy</strong> — Tus-powered chunked resumable upload UI</td></tr>
+                        <tr><td>Video Player</td><td><strong>hls.js</strong> — Adaptive HLS streaming directly in browser</td></tr>
+                        <tr><td>Authentication</td><td><strong>Google OAuth2</strong> (@react-oauth/google) + <strong>JWT</strong></td></tr>
+                        <tr><td>Backend Runtime</td><td><strong>Node.js</strong> + <strong>Express.js</strong> — Main API server</td></tr>
+                        <tr><td>Upload Receiver</td><td><strong>tus-node-server</strong> — Resumable upload endpoint</td></tr>
+                        <tr><td>Message Queue</td><td><strong>BullMQ</strong> + <strong>ioredis</strong> — Redis-backed job queue</td></tr>
+                        <tr><td>Video Transcoding</td><td><strong>FFmpeg</strong> via <strong>fluent-ffmpeg</strong> — HLS chunk generation</td></tr>
+                        <tr><td>Cloud Storage</td><td><strong>Cloudflare R2</strong> via AWS S3 SDK — Zero-egress CDN</td></tr>
+                        <tr><td>Database</td><td><strong>MongoDB</strong> + <strong>Mongoose</strong> — Video metadata & user store</td></tr>
+                        <tr><td>Cache / Broker</td><td><strong>Redis</strong> (Memurai on Windows) — Queue broker</td></tr>
+                        <tr><td>Deployment</td><td><strong>Vercel</strong> — Frontend live at lume-one.vercel.app</td></tr>
+                        <tr><td>Version Control</td><td><strong>Git + GitHub</strong> — 67 commits, 2 tags</td></tr>
+                    </table>
+
+                    <!-- Language Breakdown Bar -->
+                    <div style="margin-top:1.4rem;">
+                        <p style="font-family:var(--font-mono);font-size:0.8rem;font-weight:700;text-transform:uppercase;margin-bottom:0.6rem;">Language Breakdown</p>
+                        <div style="height:18px;border:2px solid #000;display:flex;overflow:hidden;box-shadow:3px 3px 0 #000;">
+                            <div style="width:70.4%;background:#000;" title="JavaScript 70.4%"></div>
+                            <div style="width:28.9%;background:#555;" title="CSS 28.9%"></div>
+                            <div style="width:0.7%;background:#aaa;" title="HTML 0.7%"></div>
+                        </div>
+                        <div style="display:flex;gap:1.5rem;margin-top:0.5rem;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;">
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#000;border:1px solid #000;margin-right:4px;"></span>JavaScript 70.4%</span>
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#555;border:1px solid #000;margin-right:4px;"></span>CSS 28.9%</span>
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#aaa;border:1px solid #000;margin-right:4px;"></span>HTML 0.7%</span>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 4. SKILLS ACHIEVED -->
+                <section class="content-section">
+                    <h2 class="section-heading">Skills Achieved</h2>
+                    <div class="prose">
+                        <p>LUME is a solo project covering an unusually deep range of infrastructure and full-stack skills — from browser-level adaptive streaming to cloud CDN orchestration.</p>
+                    </div>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <div class="skill-name">Tus Protocol / Resumable Uploads</div>
+                            <div class="skill-desc">Chunked upload mechanics, server-side Tus receiver, network failure recovery</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">HLS Video Streaming</div>
+                            <div class="skill-desc">m3u8 playlist generation, .ts chunking, adaptive bitrate delivery via hls.js</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">FFmpeg Video Processing</div>
+                            <div class="skill-desc">Raw video transcoding, HLS output configuration, fluent-ffmpeg API</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Message Queue Architecture</div>
+                            <div class="skill-desc">BullMQ job creation, worker consumer patterns, Redis-backed queue management</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Cloudflare R2 / S3 SDK</div>
+                            <div class="skill-desc">Bucket management, multipart uploads, zero-egress CDN configuration</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Worker Microservice Design</div>
+                            <div class="skill-desc">Independent worker.js process, decoupled from main API, job lifecycle management</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Google OAuth2 Integration</div>
+                            <div class="skill-desc">OAuth2 flow, @react-oauth/google, JWT session management</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">React.js + Vite</div>
+                            <div class="skill-desc">Component architecture, custom hooks, Vite bundler, fast-refresh dev workflow</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Event-Driven Backend Design</div>
+                            <div class="skill-desc">Async pipeline, event emitters, non-blocking I/O for heavy workloads</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">MongoDB Schema Design</div>
+                            <div class="skill-desc">Media metadata modelling, User + Media schemas, query optimization</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Redis Infrastructure</div>
+                            <div class="skill-desc">Redis as message broker, ioredis client, Memurai setup for Windows dev</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Vercel Deployment</div>
+                            <div class="skill-desc">Frontend deployment pipeline, env variable management, production delivery</div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 5. KEY FEATURES -->
+                <section class="content-section">
+                    <h2 class="section-heading">Key Features</h2>
+                    <ul class="feature-list">
+                        <li><strong>Resumable Chunked Uploads:</strong> Tus protocol ensures massive video files survive unstable networks — upload pauses and resumes from the exact byte where it stopped.</li>
+                        <li><strong>Asynchronous Background Processing:</strong> Heavy video transcoding is offloaded from the main Express API to an independent worker process via BullMQ and Redis — the API stays responsive under load.</li>
+                        <li><strong>Native HLS Transcoding:</strong> FFmpeg converts raw video formats into .m3u8 playlists and .ts chunks — enabling adaptive, buffer-free streaming on any device.</li>
+                        <li><strong>Zero-Egress Cloud Storage:</strong> Processed HLS chunks are automatically synced to Cloudflare R2 via the AWS S3 SDK — global content delivery with no bandwidth costs.</li>
+                        <li><strong>Custom Adaptive Video Player:</strong> The LumePlayer component (React + hls.js) seamlessly stitches and streams HLS chunks directly in the browser — no plugin required.</li>
+                        <li><strong>Google OAuth2 Authentication:</strong> One-click sign-in via Google OAuth2 with JWT-based session persistence.</li>
+                        <li><strong>Video Discovery:</strong> DiscoverSection lets users explore all uploaded content; MyVideos gives a personal library view.</li>
+                        <li><strong>Automatic Local Cleanup:</strong> After cloud sync, the worker sweeps the local server clean — preventing disk bloat on the host machine.</li>
+                        <li><strong>TUS Upload Fix (documented):</strong> A dedicated TUS_UPLOAD_FIX_REPORT.md documents a critical upload bug investigation and resolution — showing production-grade debugging discipline.</li>
+                        <li><strong>Versioned Architecture:</strong> Two tagged releases — v1 (basic) and v2 (native streaming pipeline) — demonstrating systematic software evolution.</li>
+                    </ul>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 6. MY CONTRIBUTION -->
+                <section class="content-section">
+                    <h2 class="section-heading">My Contribution</h2>
+                    <div class="prose">
+                        <p>LUME is a <strong>100% solo project</strong> — every line of code, every architectural decision, every debugging session was authored by shamil-tp. The 67 commits represent the full development journey from v1 to the sophisticated v2 streaming pipeline.</p>
+                    </div>
+                    <ul class="feature-list" style="margin-top:1rem;">
+                        <li><strong>Full System Architecture:</strong> Designed and implemented the entire event-driven pipeline — from Tus ingestion through BullMQ queuing, FFmpeg transcoding, R2 upload, to HLS playback.</li>
+                        <li><strong>Backend — API + Worker:</strong> Built both index.js (Express API server) and worker.js (independent FFmpeg worker) as separate, decoupled Node.js processes.</li>
+                        <li><strong>Frontend — React SPA:</strong> Engineered all components — AddNewVideo (Uppy/Tus UI), LumePlayer (HLS.js player), DiscoverSection, MyVideos, Sidebar, Topbar, and VideoModal.</li>
+                        <li><strong>Cloudflare R2 Integration:</strong> Wrote the s3Uploader.js service using the AWS SDK to connect to R2 buckets with zero-egress configuration.</li>
+                        <li><strong>Auth System:</strong> Implemented Google OAuth2 login flow + JWT middleware from scratch.</li>
+                        <li><strong>Bug Investigation & Fix:</strong> Identified, diagnosed, and resolved a critical Tus upload issue — documented professionally in TUS_UPLOAD_FIX_REPORT.md.</li>
+                        <li><strong>Version Management:</strong> Managed two distinct releases (v1 → v2), showing architectural evolution from basic uploads to a full native streaming pipeline.</li>
+                    </ul>
+
+                    <a href="https://github.com/shamil-tp/LUME" target="_blank" class="link-btn primary"><i class="bi bi-github"></i> GitHub Repo</a>
+                    <a href="https://lume-one.vercel.app" target="_blank" class="link-btn"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
+                    <a href="https://github.com/shamil-tp/LUME/commits/main" target="_blank" class="link-btn"><i class="bi bi-clock-history"></i> All 67 Commits</a>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 7. FOLDER STRUCTURE -->
+                <section class="content-section">
+                    <h2 class="section-heading">Folder Structure</h2>
+                    <div class="code-block">
+                        <pre><code>LUME/
+├── backend/
+│   ├── .env
+│   ├── index.js                  # Main Express API Server
+│   ├── worker.js                 # Independent FFmpeg background worker
+│   ├── config/
+│   │   ├── db.js                 # MongoDB connection
+│   │   └── queue.js              # BullMQ / ioredis connection setup
+│   ├── controller/
+│   │   ├── authController.js     # Google OAuth2 + JWT auth
+│   │   └── mediaController.js   # Tus completion & queue job dispatch
+│   ├── middleware/
+│   │   └── authMiddleware.js     # JWT verification guard
+│   ├── model/
+│   │   ├── User.js               # User schema (OAuth profile)
+│   │   └── Media.js              # Video metadata schema (title, R2 URL)
+│   └── services/
+│       └── s3Uploader.js         # AWS SDK → Cloudflare R2 uploader
+│
+├── frontend/
+│   ├── .env
+│   ├── vite.config.js
+│   └── src/
+│       ├── components/
+│       │   ├── AddNewVideo.jsx   # Uppy/Tus upload interface
+│       │   ├── LumePlayer.jsx    # Custom HLS.js video player
+│       │   ├── DiscoverSection.jsx
+│       │   ├── MyVideos.jsx
+│       │   ├── Sidebar.jsx
+│       │   ├── Topbar.jsx
+│       │   └── VideoModal.jsx
+│       └── services/
+│           └── api.jsx           # Axios API client
+│
+├── logo/                         # Brand assets
+├── .gitignore
+├── README.md
+└── TUS_UPLOAD_FIX_REPORT.md      # Bug investigation & resolution doc</code></pre>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 8. SYSTEM ARCHITECTURE -->
+                <section class="content-section">
+                    <h2 class="section-heading">System Architecture</h2>
+                    <div class="prose">
+                        <p>A decoupled microservice-style architecture: the main API server never blocks on heavy video work — it queues jobs and returns instantly. The worker runs independently, consuming jobs asynchronously.</p>
+                    </div>
+
+                    <div style="margin-top:1.2rem;">
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">🖥 Client — React SPA (Vercel)</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Uppy (Tus upload)</span>
+                                <span class="arch-item">LumePlayer (hls.js)</span>
+                                <span class="arch-item">Google OAuth2</span>
+                                <span class="arch-item">DiscoverSection</span>
+                                <span class="arch-item">MyVideos</span>
+                                <span class="arch-item">Axios API service</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ HTTP REST + Tus Protocol (chunked binary upload)</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">⚙ Main API — Node.js + Express (index.js)</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Auth Routes (JWT)</span>
+                                <span class="arch-item">Media Routes</span>
+                                <span class="arch-item">tus-node-server</span>
+                                <span class="arch-item">mediaController</span>
+                                <span class="arch-item">authController</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ BullMQ job dispatch</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">📬 Message Queue — Redis + BullMQ</div>
+                            <div class="arch-items">
+                                <span class="arch-item">transcoding-queue</span>
+                                <span class="arch-item">ioredis client</span>
+                                <span class="arch-item">job lifecycle mgmt</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ Worker consumes jobs</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">🎬 Worker Process — Independent Node.js (worker.js)</div>
+                            <div class="arch-items">
+                                <span class="arch-item">fluent-ffmpeg</span>
+                                <span class="arch-item">HLS .m3u8 + .ts output</span>
+                                <span class="arch-item">s3Uploader.js</span>
+                                <span class="arch-item">local cleanup</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ AWS S3 SDK</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">☁ Storage & Data Layer</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Cloudflare R2 (HLS CDN)</span>
+                                <span class="arch-item">MongoDB (metadata)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="info-table" style="margin-top:1.4rem;">
+                        <tr><td>Architecture Pattern</td><td>Event-Driven Microservice Pipeline</td></tr>
+                        <tr><td>API Style</td><td>REST + Tus binary protocol</td></tr>
+                        <tr><td>Concurrency Model</td><td>Non-blocking — API dispatches, worker consumes independently</td></tr>
+                        <tr><td>Storage Strategy</td><td>Transient local → permanent Cloudflare R2 CDN</td></tr>
+                        <tr><td>Streaming Protocol</td><td>HTTP Live Streaming (HLS) via m3u8 + ts chunks</td></tr>
+                        <tr><td>Auth Strategy</td><td>Google OAuth2 + Stateless JWT</td></tr>
+                    </table>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 9. COLLABORATORS -->
+                <section class="content-section">
+                    <h2 class="section-heading">Collaborators</h2>
+                    <div class="prose">
+                        <p>LUME is a <strong>solo project</strong> — designed, built, deployed, and maintained entirely by shamil-tp. No external contributors.</p>
+                    </div>
+                    <div style="border: 2px solid var(--border-color); padding: 1.2rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-top: 1rem; display:flex; align-items:center; gap:1rem;">
+                        <div style="width:48px;height:48px;border:2px solid #000;background:#000;color:#F5F2EB;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:900;font-size:1.1rem;flex-shrink:0;">ST</div>
+                        <div>
+                            <div style="font-weight:800;font-size:1rem;">shamil-tp <span style="font-family:var(--font-mono);font-size:0.75rem;background:#000;color:#F5F2EB;padding:0.15rem 0.4rem;margin-left:0.4rem;">SOLE AUTHOR</span></div>
+                            <div style="font-size:0.85rem;color:var(--text-secondary);font-family:var(--font-mono);margin-top:0.2rem;">Full-stack developer — all 67 commits</div>
+                        </div>
+                        <a href="https://github.com/shamil-tp" target="_blank" style="margin-left:auto;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;border:2px solid #000;padding:0.3rem 0.6rem;background:var(--bg-color);box-shadow:2px 2px 0 #000;transition:var(--transition);">
+                            <i class="bi bi-github"></i> Profile
+                        </a>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- ═══════════════ SIDEBAR ═══════════════ -->
+            <aside class="sidebar-column">
+
+                <!-- Repo Metrics -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Repo Metrics</h3>
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <span class="m-val">67</span>
+                            <span class="m-label">Total Commits</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">2</span>
+                            <span class="m-label">Tags / Releases</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">100%</span>
+                            <span class="m-label">Solo Ownership</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">3</span>
+                            <span class="m-label">Root Folders</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">70.4%</span>
+                            <span class="m-label">JS Share</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">v2</span>
+                            <span class="m-label">Current Version</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Metrics -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Custom Metrics</h3>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Commit Velocity</div>
+                            <div class="cm-note">vs Skylark (23 commits)</div>
+                        </div>
+                        <div class="cm-val">2.9×</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Pipeline Stages</div>
+                            <div class="cm-note">ingest→queue→process→store→play</div>
+                        </div>
+                        <div class="cm-val">5</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">External Services</div>
+                            <div class="cm-note">R2, Redis, Google, Vercel</div>
+                        </div>
+                        <div class="cm-val">4</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Tech Breadth Score</div>
+                            <div class="cm-note">13 distinct technologies</div>
+                        </div>
+                        <div class="cm-val">13/10</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Architecture Tiers</div>
+                            <div class="cm-note">client/api/queue/worker/cdn/db</div>
+                        </div>
+                        <div class="cm-val">6</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Egress Cost</div>
+                            <div class="cm-note">Cloudflare R2 zero-egress</div>
+                        </div>
+                        <div class="cm-val">$0</div>
+                    </div>
+                </div>
+
+                <!-- Scorecard -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Project Scorecard</h3>
+                    <div class="scorecard">
+                        <div class="score-row">
+                            <span class="score-label">Complexity</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Stack Breadth</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Architecture</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Infrastructure</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Portfolio Score</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Solo Ownership</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tech Stack -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Tech Stack</h3>
+                    <div class="tag-cloud">
+                        <span class="tag">React.js</span>
+                        <span class="tag">Vite</span>
+                        <span class="tag">hls.js</span>
+                        <span class="tag">Uppy</span>
+                        <span class="tag">Tus</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Express.js</span>
+                        <span class="tag">BullMQ</span>
+                        <span class="tag">Redis</span>
+                        <span class="tag">FFmpeg</span>
+                        <span class="tag">MongoDB</span>
+                        <span class="tag">Cloudflare R2</span>
+                        <span class="tag">AWS S3 SDK</span>
+                        <span class="tag">Google OAuth2</span>
+                        <span class="tag">JWT</span>
+                        <span class="tag">Vercel</span>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Quick Links</h3>
+                    <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                        <a href="https://github.com/shamil-tp/LUME" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-github"></i> GitHub Repo</a>
+                        <a href="https://lume-one.vercel.app" target="_blank" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
+                        <a href="https://github.com/shamil-tp/LUME/commits/main" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-clock-history"></i> All Commits</a>
+                        <a href="https://github.com/shamil-tp/LUME/tree/main/backend" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Backend</a>
+                        <a href="https://github.com/shamil-tp/LUME/tree/main/frontend" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Frontend</a>
+                        <a href="https://github.com/shamil-tp/LUME/blob/main/TUS_UPLOAD_FIX_REPORT.md" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-file-text"></i> Bug Fix Report</a>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Shamil TP. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

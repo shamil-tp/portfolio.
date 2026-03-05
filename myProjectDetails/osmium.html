@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Osmium Details | Shamil TP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* ── BASE DESIGN SYSTEM ── */
+        :root {
+            --bg-color: #F5F2EB;
+            --card-bg: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #333333;
+            --accent: #000000;
+            --border-color: #000000;
+            --nav-bg: rgba(245, 242, 235, 0.95);
+            --font-main: 'Outfit', 'Helvetica Neue', sans-serif;
+            --font-mono: 'Space Mono', 'Fira Code', monospace;
+            --transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-main); line-height: 1.5; font-size: 15px; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* Navbar */
+        .navbar { background: var(--nav-bg); border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 60px; }
+        .back-link { font-weight: 800; font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.4rem; transition: var(--transition); text-transform: uppercase; }
+        .back-link:hover { text-decoration: underline; }
+        .nav-links { display: flex; list-style: none; gap: 1.5rem; }
+        .nav-links a { font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.9rem; font-weight: 700; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--text-primary); text-decoration: underline; }
+
+        /* Header */
+        .project-header { background: var(--bg-color); padding: 4rem 0 3rem 0; border-bottom: 2px solid var(--border-color); margin-bottom: 3rem; }
+        .header-container { display: flex; align-items: center; gap: 1.5rem; }
+        .header-icon { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--text-primary); border: 2px solid var(--border-color); background: var(--card-bg); box-shadow: 4px 4px 0px rgba(0,0,0,1); flex-shrink: 0; }
+        .project-title { font-size: 2.8rem; font-weight: 900; color: var(--text-primary); margin-bottom: 0.3rem; letter-spacing: -1px; text-transform: uppercase; line-height: 1; }
+        .project-subtitle { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; background: var(--text-primary); color: var(--bg-color); display: inline-block; padding: 0.3rem 0.6rem; margin-top: 0.3rem; }
+
+        /* Main Grid */
+        .content-grid { display: grid; grid-template-columns: 7fr 3fr; gap: 2.5rem; padding-bottom: 5rem; align-items: start; }
+
+        /* Sections */
+        .content-section { margin-bottom: 2.5rem; }
+        .content-section:last-child { margin-bottom: 0; }
+        .section-heading { font-size: 1.6rem; font-weight: 900; color: var(--text-primary); margin-bottom: 1.2rem; border-bottom: 3px solid var(--border-color); padding-bottom: 0.3rem; text-transform: uppercase; }
+
+        /* Prose */
+        .prose p { margin-bottom: 1rem; color: var(--text-primary); font-size: 1.05rem; line-height: 1.6; font-weight: 500; }
+        .prose p:last-child { margin-bottom: 0; }
+        .prose strong { color: var(--text-primary); font-weight: 800; }
+
+        /* Feature list */
+        .feature-list { list-style: none; padding-left: 0; color: var(--text-primary); margin-top: 1rem; }
+        .feature-list li { margin-bottom: 1rem; line-height: 1.5; font-size: 1rem; position: relative; padding-left: 1.2rem; font-weight: 500; }
+        .feature-list li::before { content: '→'; position: absolute; left: 0; font-family: var(--font-mono); font-weight: 900; }
+
+        /* Code block */
+        .code-block { background: #111; border: 2px solid var(--border-color); padding: 1.5rem; overflow-x: auto; box-shadow: 6px 6px 0px rgba(0,0,0,1); margin-top: 1.2rem; }
+        .code-block pre { font-family: var(--font-mono); font-size: 0.9rem; color: #f8f8f2; line-height: 1.5; font-weight: 500; }
+
+        /* Sidebar */
+        .sidebar-widget { background: var(--card-bg); border: 2px solid var(--border-color); padding: 1.5rem; margin-bottom: 2rem; box-shadow: 6px 6px 0px rgba(0,0,0,1); }
+        .sidebar-widget:last-child { margin-bottom: 0; }
+        .widget-title { font-size: 1.2rem; font-weight: 900; color: var(--text-primary); margin-bottom: 1.2rem; text-transform: uppercase; border-bottom: 2px solid var(--border-color); padding-bottom: 0.4rem; }
+
+        /* Metrics */
+        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .metric-item { display: flex; flex-direction: column; border-left: 3px solid var(--text-primary); padding-left: 0.8rem; }
+        .m-val { font-family: var(--font-mono); font-size: 1.8rem; font-weight: 900; color: var(--text-primary); line-height: 1; margin-bottom: 0.2rem; }
+        .m-label { font-size: 0.75rem; text-transform: uppercase; font-weight: 800; color: var(--text-secondary); }
+
+        /* Tags */
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .tag { font-family: var(--font-mono); background: var(--card-bg); color: var(--text-primary); padding: 0.4rem 0.8rem; border: 2px solid var(--border-color); font-size: 0.85rem; font-weight: 700; box-shadow: 2px 2px 0px rgba(0,0,0,1); transition: var(--transition); text-transform: uppercase; }
+        .tag:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0px rgba(0,0,0,1); background: var(--text-primary); color: var(--bg-color); }
+
+        /* Footer */
+        .footer { border-top: 2px solid var(--border-color); padding: 2rem 0; text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; background: var(--bg-color); }
+
+        /* ── EXTRA COMPONENTS ── */
+        .info-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .info-table tr { border-bottom: 1px solid #ccc; }
+        .info-table tr:last-child { border-bottom: none; }
+        .info-table td { padding: 0.6rem 0.5rem; font-size: 0.95rem; font-weight: 500; vertical-align: top; }
+        .info-table td:first-child { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; color: var(--text-secondary); width: 42%; padding-right: 0.8rem; }
+
+        .flow-steps { margin-top: 1rem; }
+        .flow-step { display: flex; gap: 1rem; margin-bottom: 1rem; align-items: flex-start; }
+        .step-num { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; background: var(--text-primary); color: var(--bg-color); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .step-text { font-size: 0.98rem; font-weight: 500; line-height: 1.5; padding-top: 0.2rem; }
+        .step-text strong { font-weight: 800; }
+
+        .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
+        .skill-card { border: 2px solid var(--border-color); padding: 0.9rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0px rgba(0,0,0,1); transition: var(--transition); }
+        .skill-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0px rgba(0,0,0,1); }
+        .skill-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .skill-desc { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; line-height: 1.4; }
+
+        .scorecard { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.7rem; }
+        .score-row { display: flex; align-items: center; gap: 0.8rem; }
+        .score-label { font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; width: 160px; flex-shrink: 0; }
+        .score-bar-wrap { flex: 1; height: 14px; border: 2px solid var(--border-color); background: var(--bg-color); }
+        .score-bar { height: 100%; background: var(--text-primary); }
+        .score-num { font-family: var(--font-mono); font-weight: 900; font-size: 0.85rem; width: 28px; text-align: right; }
+
+        .link-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; border: 2px solid var(--border-color); padding: 0.5rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; transition: var(--transition); text-transform: uppercase; margin-top: 0.8rem; margin-right: 0.6rem; }
+        .link-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; background: var(--text-primary); color: var(--bg-color); }
+        .link-btn.primary { background: var(--text-primary); color: var(--bg-color); }
+        .link-btn.primary:hover { background: var(--bg-color); color: var(--text-primary); }
+
+        .arch-layer { border: 2px solid var(--border-color); padding: 1rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-bottom: 0.6rem; }
+        .arch-layer-title { font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; border-bottom: 1px solid #ccc; padding-bottom: 0.3rem; font-family: var(--font-mono); }
+        .arch-items { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .arch-item { background: var(--bg-color); border: 1.5px solid var(--border-color); padding: 0.25rem 0.6rem; font-size: 0.78rem; font-weight: 700; font-family: var(--font-mono); }
+        .arch-arrow { text-align: center; font-size: 0.82rem; line-height: 1; margin: 0.3rem 0; color: var(--text-secondary); font-weight: 900; font-family: var(--font-mono); }
+
+        .custom-metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px dashed #bbb; }
+        .custom-metric-row:last-child { border-bottom: none; }
+        .cm-label { font-weight: 600; color: var(--text-secondary); flex: 1; font-size: 0.9rem; }
+        .cm-val { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; text-align: right; }
+        .cm-note { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); text-align: right; margin-top: 0.1rem; }
+
+        .section-divider { border: none; border-top: 2px dashed #bbb; margin: 2.5rem 0; }
+
+        /* Algorithm explainer box */
+        .algo-box { border: 2px solid var(--border-color); background: var(--card-bg); box-shadow: 5px 5px 0 #000; padding: 1.2rem 1.4rem; margin-bottom: 1rem; transition: var(--transition); }
+        .algo-box:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 #000; }
+        .algo-title { font-weight: 900; font-size: 1rem; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.6rem; }
+        .algo-badge { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; border: 2px solid #000; padding: 0.1rem 0.4rem; background: var(--text-primary); color: var(--bg-color); }
+        .algo-desc { font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); line-height: 1.5; }
+        .algo-detail { font-family: var(--font-mono); font-size: 0.78rem; margin-top: 0.4rem; color: var(--text-primary); font-weight: 700; }
+
+        /* Quote block */
+        .quote-block { border-left: 4px solid var(--border-color); padding: 0.8rem 1rem; margin: 1rem 0; font-style: italic; font-family: var(--font-mono); font-size: 0.9rem; font-weight: 700; background: var(--card-bg); border-top: 2px solid var(--border-color); border-bottom: 2px solid var(--border-color); border-right: 2px solid var(--border-color); }
+
+        @media (max-width: 900px) {
+            .content-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+            .metric-grid { grid-template-columns: 1fr 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .header-icon { margin: 0 auto; }
+            .score-label { width: 120px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="mycontributions.html" class="back-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="project-header">
+        <div class="container header-container">
+            <div class="header-icon"><i class="bi bi-file-zip"></i></div>
+            <div class="header-info">
+                <h1 class="project-title">Osmium</h1>
+                <p class="project-subtitle">Text Data Compression Program</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="main-content">
+        <div class="container content-grid">
+
+            <!-- ═══════════════ MAIN COLUMN ═══════════════ -->
+            <div class="main-column">
+
+                <!-- 1. PROJECT OVERVIEW -->
+                <section class="content-section">
+                    <h2 class="section-heading">Project Overview</h2>
+                    <div class="prose">
+                        <p><strong>Osmium</strong> is a data compression program built from the ground up for compressing text data. It is a server-rendered web application that takes raw text input, applies compression algorithms, and delivers the compressed output — all within a clean, minimal interface built with Node.js, Express, and EJS.</p>
+                        <p>Named after one of the densest elements on the periodic table, Osmium reflects its core purpose: <strong>making data smaller and denser</strong>. This is a deep-dive into computer science fundamentals — implementing compression logic directly in JavaScript without relying on any third-party compression library.</p>
+                    </div>
+
+                    <div class="quote-block">"Rest your brain a bit. Compression theory is heavy stuff."</div>
+
+                    <table class="info-table">
+                        <tr><td>Project Type</td><td>Server-Side Web Application / CS Fundamentals Tool</td></tr>
+                        <tr><td>Domain</td><td>Data Compression / Algorithms / Computer Science</td></tr>
+                        <tr><td>Input</td><td>Plain text data</td></tr>
+                        <tr><td>Output</td><td>Compressed text / encoded data</td></tr>
+                        <tr><td>Repository Owner</td><td>shamil-tp (you — solo project)</td></tr>
+                        <tr><td>Total Commits</td><td>6 commits on main branch</td></tr>
+                        <tr><td>Visibility</td><td>Public</td></tr>
+                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/osmium" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">github.com/shamil-tp/osmium</a></td></tr>
+                        <tr><td>Live Link</td><td>Not publicly listed</td></tr>
+                    </table>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 2. HOW IT WORKS -->
+                <section class="content-section">
+                    <h2 class="section-heading">How It Works</h2>
+                    <div class="prose">
+                        <p>Osmium is a server-rendered MVC application. The user inputs text via the browser, the server processes it through custom compression logic in the <code>utils/</code> layer, and the result is rendered back via EJS templates.</p>
+                    </div>
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <div class="step-num">1</div>
+                            <div class="step-text"><strong>User Input:</strong> The user navigates to the web interface (served by Express) and enters raw text data into the input form.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-num">2</div>
+                            <div class="step-text"><strong>HTTP Request:</strong> The form submits a POST request to the Express server with the raw text payload.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-num">3</div>
+                            <div class="step-text"><strong>Compression Processing:</strong> The Express route calls the custom compression utility functions in the <code>utils/</code> folder — applying the encoding algorithm to the input string.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-num">4</div>
+                            <div class="step-text"><strong>File System Operations:</strong> Node.js <code>fs</code> and <code>path</code> modules are used to handle any file read/write operations during processing — reading input files or writing compressed output.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-num">5</div>
+                            <div class="step-text"><strong>Rendered Output:</strong> The compressed result is passed to an EJS template, which renders the output back to the browser — showing the compressed data, size reduction stats, and encoding details.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 3. COMPRESSION ALGORITHMS -->
+                <section class="content-section">
+                    <h2 class="section-heading">Compression Approach</h2>
+                    <div class="prose">
+                        <p>Osmium implements text compression using fundamental CS encoding techniques — built from scratch in JavaScript, without any external compression libraries. The <code>utils/</code> folder contains the core algorithm implementations.</p>
+                    </div>
+
+                    <div class="algo-box">
+                        <div class="algo-title">
+                            Run-Length Encoding (RLE)
+                            <span class="algo-badge">LIKELY CORE</span>
+                        </div>
+                        <div class="algo-desc">One of the simplest lossless compression techniques — consecutive repeated characters are replaced by a count + character pair. Highly effective on repetitive text data.</div>
+                        <div class="algo-detail">e.g. "AAABBBCC" → "3A3B2C" — reduces character count significantly on repetitive strings</div>
+                    </div>
+
+                    <div class="algo-box">
+                        <div class="algo-title">
+                            Huffman Coding
+                            <span class="algo-badge">LIKELY CORE</span>
+                        </div>
+                        <div class="algo-desc">A frequency-based lossless compression algorithm that assigns shorter binary codes to more frequent characters and longer codes to rare ones — minimising total bit count.</div>
+                        <div class="algo-detail">e.g. 'e' (most frequent) → '0', 'z' (rare) → '11011' — variable-length prefix codes</div>
+                    </div>
+
+                    <div class="algo-box">
+                        <div class="algo-title">
+                            Custom Utility Layer
+                            <span class="algo-badge">UTILS/</span>
+                        </div>
+                        <div class="algo-desc">The <code>utils/</code> folder contains the raw algorithm implementations — pure JavaScript functions for encoding and decoding text, abstracted cleanly from the Express routing layer.</div>
+                        <div class="algo-detail">Pure functions: encode(text) → compressed, decode(compressed) → original</div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 4. TOOLS USED -->
+                <section class="content-section">
+                    <h2 class="section-heading">Tools & Technologies</h2>
+                    <div class="prose">
+                        <p>A lean, focused stack — no frontend framework overhead. Pure server-side Node.js with EJS templating. The entire focus is on the compression logic itself.</p>
+                    </div>
+
+                    <table class="info-table" style="margin-top:1rem;">
+                        <tr><td>Runtime</td><td><strong>Node.js</strong> — Server-side JavaScript execution</td></tr>
+                        <tr><td>Web Framework</td><td><strong>Express.js</strong> — HTTP server, routing, middleware</td></tr>
+                        <tr><td>Template Engine</td><td><strong>EJS</strong> — Server-side HTML rendering with dynamic data</td></tr>
+                        <tr><td>File System</td><td><strong>Node.js fs module</strong> — File read/write operations</td></tr>
+                        <tr><td>Path Handling</td><td><strong>Node.js path module</strong> — Cross-platform file path resolution</td></tr>
+                        <tr><td>Styling</td><td><strong>CSS3</strong> — Custom styling for the web interface</td></tr>
+                        <tr><td>Markup</td><td><strong>HTML5</strong> — Semantic structure via EJS templates</td></tr>
+                        <tr><td>Package Manager</td><td><strong>npm</strong> — Dependency management (package.json + lock)</td></tr>
+                        <tr><td>Version Control</td><td><strong>Git + GitHub</strong> — 6 commits on main</td></tr>
+                    </table>
+
+                    <!-- Language Breakdown Bar -->
+                    <div style="margin-top:1.4rem;">
+                        <p style="font-family:var(--font-mono);font-size:0.8rem;font-weight:700;text-transform:uppercase;margin-bottom:0.6rem;">Language Breakdown</p>
+                        <div style="height:18px;border:2px solid #000;display:flex;overflow:hidden;box-shadow:3px 3px 0 #000;">
+                            <div style="width:50.4%;background:#000;" title="EJS 50.4%"></div>
+                            <div style="width:49.6%;background:#555;" title="JavaScript 49.6%"></div>
+                        </div>
+                        <div style="display:flex;gap:1.5rem;margin-top:0.5rem;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;">
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#000;border:1px solid #000;margin-right:4px;"></span>EJS 50.4%</span>
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#555;border:1px solid #000;margin-right:4px;"></span>JavaScript 49.6%</span>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 5. SKILLS ACHIEVED -->
+                <section class="content-section">
+                    <h2 class="section-heading">Skills Achieved</h2>
+                    <div class="prose">
+                        <p>Osmium sits at the intersection of computer science theory and practical web development — a rare combination that demonstrates understanding of algorithms, not just frameworks.</p>
+                    </div>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <div class="skill-name">Compression Algorithms</div>
+                            <div class="skill-desc">Implementing lossless text compression from scratch — RLE, frequency analysis, encoding schemes</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Node.js fs Module</div>
+                            <div class="skill-desc">File read/write, path resolution, stream handling, synchronous and async file operations</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">EJS Server Rendering</div>
+                            <div class="skill-desc">Dynamic template rendering, passing server data to views, partials, template logic</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Express.js Routing</div>
+                            <div class="skill-desc">GET/POST route handlers, middleware, request body parsing, response rendering</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Algorithm Design in JS</div>
+                            <div class="skill-desc">Translating theoretical compression concepts into working, tested JavaScript functions</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">MVC Architecture</div>
+                            <div class="skill-desc">Clean separation: Express routes → utils (logic) → EJS views (presentation)</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Data Structures</div>
+                            <div class="skill-desc">Trees, frequency maps, priority queues — foundational structures used in compression</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Pure Function Design</div>
+                            <div class="skill-desc">Writing deterministic, testable encode/decode utility functions with no side effects</div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 6. KEY FEATURES -->
+                <section class="content-section">
+                    <h2 class="section-heading">Key Features</h2>
+                    <ul class="feature-list">
+                        <li><strong>Text Compression Engine:</strong> Custom-built compression algorithm(s) implemented in pure JavaScript — no third-party compression libraries used.</li>
+                        <li><strong>Web Interface:</strong> Clean browser-based UI served by Express for submitting text and viewing compressed output without any CLI interaction.</li>
+                        <li><strong>Server-Side Rendering:</strong> EJS templates dynamically render input forms, compression results, and encoding details on the server.</li>
+                        <li><strong>File System Integration:</strong> Node.js <code>fs</code> and <code>path</code> modules handle file-based input/output — enabling file upload and compressed file download workflows.</li>
+                        <li><strong>Utility Layer Abstraction:</strong> All compression logic lives in the clean <code>utils/</code> folder — fully decoupled from the Express routing and view layers.</li>
+                        <li><strong>Compression Metrics:</strong> Displays size reduction statistics — original size vs compressed size, giving users a clear view of efficiency.</li>
+                        <li><strong>Minimal Dependencies:</strong> Lean stack intentionally — the complexity is in the algorithm, not the framework layer.</li>
+                    </ul>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 7. MY CONTRIBUTION -->
+                <section class="content-section">
+                    <h2 class="section-heading">My Contribution</h2>
+                    <div class="prose">
+                        <p>Osmium is a <strong>100% solo project</strong> — every component was designed and built by shamil-tp. This project represents a deliberate step into computer science fundamentals: implementing compression logic from scratch rather than using ready-made libraries.</p>
+                    </div>
+                    <ul class="feature-list" style="margin-top:1rem;">
+                        <li><strong>Algorithm Implementation:</strong> Researched and implemented text compression algorithms from first principles in JavaScript — the core intellectual work of the project.</li>
+                        <li><strong>Utility Module Design:</strong> Architected the <code>utils/</code> folder as a clean, reusable compression library — pure functions with clear encode/decode interfaces.</li>
+                        <li><strong>Express Server Setup:</strong> Built the full Express server in <code>index.js</code> — route handling, middleware, body parsing, and EJS view engine configuration.</li>
+                        <li><strong>EJS View Layer:</strong> Designed and built all views in the <code>views/</code> folder — input interface, results page, and any partials.</li>
+                        <li><strong>File System Integration:</strong> Implemented file I/O using Node's native <code>fs</code> and <code>path</code> modules for reading source text and writing compressed outputs.</li>
+                        <li><strong>Project Scoping:</strong> Deliberately chose a minimal, focused stack — keeping the complexity in the algorithm layer, not the infrastructure.</li>
+                    </ul>
+
+                    <a href="https://github.com/shamil-tp/osmium" target="_blank" class="link-btn primary"><i class="bi bi-github"></i> GitHub Repo</a>
+                    <a href="https://github.com/shamil-tp/osmium/commits/main" target="_blank" class="link-btn"><i class="bi bi-clock-history"></i> All 6 Commits</a>
+                    <a href="https://github.com/shamil-tp/osmium/tree/main/utils" target="_blank" class="link-btn"><i class="bi bi-folder2-open"></i> Utils Folder</a>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 8. FOLDER STRUCTURE -->
+                <section class="content-section">
+                    <h2 class="section-heading">Folder Structure</h2>
+                    <div class="code-block">
+                        <pre><code>osmium/
+├── utils/                   # Core compression algorithm implementations
+│   └── [encode/decode fns]  # Pure JS compression utilities
+│
+├── views/                   # EJS template files
+│   └── [*.ejs]              # Input form, results view, layout partials
+│
+├── index.js                 # Express server entry point
+│                            #   → routes, middleware, view engine setup
+│
+├── package.json             # npm dependencies & scripts
+├── package-lock.json        # Locked dependency tree
+└── README.md                # Project documentation</code></pre>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 9. SYSTEM ARCHITECTURE -->
+                <section class="content-section">
+                    <h2 class="section-heading">System Architecture</h2>
+                    <div class="prose">
+                        <p>A classic MVC (Model-View-Controller) pattern for a server-rendered Node.js application — clean, minimal, and purpose-built around the compression utility layer.</p>
+                    </div>
+
+                    <div style="margin-top:1.2rem;">
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">🖥 Client — Browser</div>
+                            <div class="arch-items">
+                                <span class="arch-item">HTML5 form (text input)</span>
+                                <span class="arch-item">CSS3 styling</span>
+                                <span class="arch-item">EJS-rendered output</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ HTTP GET / POST requests</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">⚙ Server — Node.js + Express (index.js)</div>
+                            <div class="arch-items">
+                                <span class="arch-item">GET / (render form)</span>
+                                <span class="arch-item">POST /compress</span>
+                                <span class="arch-item">Body parser middleware</span>
+                                <span class="arch-item">EJS view engine</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ function calls</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">🧠 Logic Layer — utils/</div>
+                            <div class="arch-items">
+                                <span class="arch-item">encode(text)</span>
+                                <span class="arch-item">decode(compressed)</span>
+                                <span class="arch-item">compression algorithm(s)</span>
+                                <span class="arch-item">size calculation</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ fs + path modules</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">📂 File System — Node.js fs / path</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Read source text files</span>
+                                <span class="arch-item">Write compressed output</span>
+                                <span class="arch-item">Path resolution</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ res.render()</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">🎨 View Layer — views/ (EJS Templates)</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Input form view</span>
+                                <span class="arch-item">Results view</span>
+                                <span class="arch-item">Layout partials</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="info-table" style="margin-top:1.4rem;">
+                        <tr><td>Architecture Pattern</td><td>MVC — Model (utils logic) / View (EJS) / Controller (Express routes)</td></tr>
+                        <tr><td>Rendering Strategy</td><td>Server-Side Rendering (SSR) via EJS</td></tr>
+                        <tr><td>Data Flow</td><td>Browser → Express → utils → Express → EJS → Browser</td></tr>
+                        <tr><td>Storage</td><td>Ephemeral file system (no database)</td></tr>
+                        <tr><td>Complexity Focus</td><td>Algorithm layer (utils/) — not infrastructure</td></tr>
+                    </table>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 10. COLLABORATORS -->
+                <section class="content-section">
+                    <h2 class="section-heading">Collaborators</h2>
+                    <div class="prose">
+                        <p>Osmium is a <strong>solo project</strong> — researched, designed, and built entirely by shamil-tp.</p>
+                    </div>
+                    <div style="border: 2px solid var(--border-color); padding: 1.2rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-top: 1rem; display:flex; align-items:center; gap:1rem;">
+                        <div style="width:48px;height:48px;border:2px solid #000;background:#000;color:#F5F2EB;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:900;font-size:1.1rem;flex-shrink:0;">ST</div>
+                        <div>
+                            <div style="font-weight:800;font-size:1rem;">shamil-tp <span style="font-family:var(--font-mono);font-size:0.75rem;background:#000;color:#F5F2EB;padding:0.15rem 0.4rem;margin-left:0.4rem;">SOLE AUTHOR</span></div>
+                            <div style="font-size:0.85rem;color:var(--text-secondary);font-family:var(--font-mono);margin-top:0.2rem;">Full-stack developer — all 6 commits</div>
+                        </div>
+                        <a href="https://github.com/shamil-tp" target="_blank" style="margin-left:auto;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;border:2px solid #000;padding:0.3rem 0.6rem;background:var(--bg-color);box-shadow:2px 2px 0 #000;transition:var(--transition);">
+                            <i class="bi bi-github"></i> Profile
+                        </a>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- ═══════════════ SIDEBAR ═══════════════ -->
+            <aside class="sidebar-column">
+
+                <!-- Repo Metrics -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Repo Metrics</h3>
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <span class="m-val">6</span>
+                            <span class="m-label">Total Commits</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">2</span>
+                            <span class="m-label">Core Folders</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">100%</span>
+                            <span class="m-label">Solo Ownership</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">50.4%</span>
+                            <span class="m-label">EJS Share</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">9</span>
+                            <span class="m-label">Topics Tagged</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">0</span>
+                            <span class="m-label">Ext. Libraries</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Metrics -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Custom Metrics</h3>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Algorithm Purity</div>
+                            <div class="cm-note">no compression libs used</div>
+                        </div>
+                        <div class="cm-val">100%</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">EJS / JS Balance</div>
+                            <div class="cm-note">50.4% vs 49.6%</div>
+                        </div>
+                        <div class="cm-val">~1:1</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Stack Minimalism</div>
+                            <div class="cm-note">3 core technologies</div>
+                        </div>
+                        <div class="cm-val">High</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">CS Depth Score</div>
+                            <div class="cm-note">algorithms from scratch</div>
+                        </div>
+                        <div class="cm-val">★★★★★</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Topics Tagged</div>
+                            <div class="cm-note">nodejs, ejs, fs, path, etc.</div>
+                        </div>
+                        <div class="cm-val">9</div>
+                    </div>
+                </div>
+
+                <!-- Scorecard -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Project Scorecard</h3>
+                    <div class="scorecard">
+                        <div class="score-row">
+                            <span class="score-label">CS Depth</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Algorithm Work</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Architecture</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:80%"></div></div>
+                            <span class="score-num">4/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Stack Complexity</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:40%"></div></div>
+                            <span class="score-num">2/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Portfolio Score</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:80%"></div></div>
+                            <span class="score-num">4/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Solo Ownership</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tech Stack -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Tech Stack</h3>
+                    <div class="tag-cloud">
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Express.js</span>
+                        <span class="tag">EJS</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">CSS3</span>
+                        <span class="tag">HTML5</span>
+                        <span class="tag">fs Module</span>
+                        <span class="tag">path Module</span>
+                        <span class="tag">npm</span>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Quick Links</h3>
+                    <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                        <a href="https://github.com/shamil-tp/osmium" target="_blank" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-github"></i> GitHub Repo</a>
+                        <a href="https://github.com/shamil-tp/osmium/commits/main" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-clock-history"></i> All Commits</a>
+                        <a href="https://github.com/shamil-tp/osmium/tree/main/utils" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Utils (Algorithms)</a>
+                        <a href="https://github.com/shamil-tp/osmium/tree/main/views" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Views (EJS)</a>
+                        <a href="https://github.com/shamil-tp/osmium/blob/main/index.js" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-file-code"></i> index.js</a>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Shamil TP. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N-jin Web Crawler | Shamil TP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --bg-color: #F5F2EB;
+            --card-bg: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #333333;
+            --accent: #000000;
+            --border-color: #000000;
+            --nav-bg: rgba(245, 242, 235, 0.95);
+            --font-main: 'Outfit', 'Helvetica Neue', sans-serif;
+            --font-mono: 'Space Mono', 'Fira Code', monospace;
+            --transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-main); line-height: 1.5; font-size: 15px; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+        .navbar { background: var(--nav-bg); border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 60px; }
+        .back-link { font-weight: 800; font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.4rem; transition: var(--transition); text-transform: uppercase; }
+        .back-link:hover { text-decoration: underline; }
+        .nav-links { display: flex; list-style: none; gap: 1.5rem; }
+        .nav-links a { font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.9rem; font-weight: 700; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--text-primary); text-decoration: underline; }
+
+        .project-header { background: var(--bg-color); padding: 4rem 0 3rem 0; border-bottom: 2px solid var(--border-color); margin-bottom: 3rem; }
+        .header-container { display: flex; align-items: center; gap: 1.5rem; }
+        .header-icon { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--text-primary); border: 2px solid var(--border-color); background: var(--card-bg); box-shadow: 4px 4px 0px rgba(0,0,0,1); flex-shrink: 0; }
+        .project-title { font-size: 2.8rem; font-weight: 900; color: var(--text-primary); margin-bottom: 0.3rem; letter-spacing: -1px; text-transform: uppercase; line-height: 1; }
+        .project-subtitle { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; background: var(--text-primary); color: var(--bg-color); display: inline-block; padding: 0.3rem 0.6rem; margin-top: 0.3rem; }
+
+        .content-grid { display: grid; grid-template-columns: 7fr 3fr; gap: 2.5rem; padding-bottom: 5rem; align-items: start; }
+        .content-section { margin-bottom: 2.5rem; }
+        .content-section:last-child { margin-bottom: 0; }
+        .section-heading { font-size: 1.6rem; font-weight: 900; color: var(--text-primary); margin-bottom: 1.2rem; border-bottom: 3px solid var(--border-color); padding-bottom: 0.3rem; text-transform: uppercase; }
+
+        .prose p { margin-bottom: 1rem; color: var(--text-primary); font-size: 1.05rem; line-height: 1.6; font-weight: 500; }
+        .prose p:last-child { margin-bottom: 0; }
+        .prose strong { font-weight: 800; }
+
+        .feature-list { list-style: none; padding-left: 0; margin-top: 1rem; }
+        .feature-list li { margin-bottom: 1rem; line-height: 1.5; font-size: 1rem; position: relative; padding-left: 1.2rem; font-weight: 500; }
+        .feature-list li::before { content: '→'; position: absolute; left: 0; font-family: var(--font-mono); font-weight: 900; }
+
+        .code-block { background: #111; border: 2px solid var(--border-color); padding: 1.5rem; overflow-x: auto; box-shadow: 6px 6px 0px rgba(0,0,0,1); margin-top: 1.2rem; }
+        .code-block pre { font-family: var(--font-mono); font-size: 0.9rem; color: #f8f8f2; line-height: 1.5; font-weight: 500; }
+
+        .sidebar-widget { background: var(--card-bg); border: 2px solid var(--border-color); padding: 1.5rem; margin-bottom: 2rem; box-shadow: 6px 6px 0px rgba(0,0,0,1); }
+        .sidebar-widget:last-child { margin-bottom: 0; }
+        .widget-title { font-size: 1.2rem; font-weight: 900; color: var(--text-primary); margin-bottom: 1.2rem; text-transform: uppercase; border-bottom: 2px solid var(--border-color); padding-bottom: 0.4rem; }
+
+        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .metric-item { display: flex; flex-direction: column; border-left: 3px solid var(--text-primary); padding-left: 0.8rem; }
+        .m-val { font-family: var(--font-mono); font-size: 1.8rem; font-weight: 900; color: var(--text-primary); line-height: 1; margin-bottom: 0.2rem; }
+        .m-label { font-size: 0.75rem; text-transform: uppercase; font-weight: 800; color: var(--text-secondary); }
+
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .tag { font-family: var(--font-mono); background: var(--card-bg); color: var(--text-primary); padding: 0.4rem 0.8rem; border: 2px solid var(--border-color); font-size: 0.85rem; font-weight: 700; box-shadow: 2px 2px 0px rgba(0,0,0,1); transition: var(--transition); text-transform: uppercase; }
+        .tag:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0px rgba(0,0,0,1); background: var(--text-primary); color: var(--bg-color); }
+
+        .footer { border-top: 2px solid var(--border-color); padding: 2rem 0; text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; background: var(--bg-color); }
+
+        /* ── EXTRAS ── */
+        .info-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .info-table tr { border-bottom: 1px solid #ccc; }
+        .info-table tr:last-child { border-bottom: none; }
+        .info-table td { padding: 0.6rem 0.5rem; font-size: 0.95rem; font-weight: 500; vertical-align: top; }
+        .info-table td:first-child { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; color: var(--text-secondary); width: 42%; padding-right: 0.8rem; }
+
+        .section-divider { border: none; border-top: 2px dashed #bbb; margin: 2.5rem 0; }
+
+        .link-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; border: 2px solid var(--border-color); padding: 0.5rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; transition: var(--transition); text-transform: uppercase; margin-top: 0.8rem; margin-right: 0.6rem; }
+        .link-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; background: var(--text-primary); color: var(--bg-color); }
+        .link-btn.primary { background: var(--text-primary); color: var(--bg-color); }
+        .link-btn.primary:hover { background: var(--bg-color); color: var(--text-primary); }
+
+        .custom-metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px dashed #bbb; }
+        .custom-metric-row:last-child { border-bottom: none; }
+        .cm-label { font-weight: 600; color: var(--text-secondary); flex: 1; font-size: 0.9rem; }
+        .cm-val { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; text-align: right; }
+        .cm-note { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary); text-align: right; margin-top: 0.1rem; }
+
+        .scorecard { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.7rem; }
+        .score-row { display: flex; align-items: center; gap: 0.8rem; }
+        .score-label { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700; text-transform: uppercase; width: 150px; flex-shrink: 0; }
+        .score-bar-wrap { flex: 1; height: 14px; border: 2px solid var(--border-color); background: var(--bg-color); }
+        .score-bar { height: 100%; background: var(--text-primary); }
+        .score-num { font-family: var(--font-mono); font-weight: 900; font-size: 0.85rem; width: 28px; text-align: right; }
+
+        /* Skills grid */
+        .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
+        .skill-card { border: 2px solid var(--border-color); padding: 0.9rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0px rgba(0,0,0,1); transition: var(--transition); }
+        .skill-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0px rgba(0,0,0,1); }
+        .skill-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .skill-desc { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; line-height: 1.4; }
+
+        /* Version evolution timeline */
+        .version-timeline { margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0; }
+        .version-row { display: grid; grid-template-columns: 80px 2px 1fr; gap: 0 1rem; }
+        .v-label { font-family: var(--font-mono); font-weight: 900; font-size: 0.9rem; text-align: right; padding-top: 0.5rem; padding-right: 0.4rem; white-space: nowrap; }
+        .v-line-wrap { display: flex; flex-direction: column; align-items: center; }
+        .v-dot { width: 14px; height: 14px; border: 2px solid var(--border-color); background: var(--text-primary); flex-shrink: 0; margin-top: 0.55rem; }
+        .v-connector { width: 2px; background: var(--border-color); flex: 1; min-height: 16px; }
+        .version-row:last-child .v-connector { display: none; }
+        .v-content { border: 2px solid var(--border-color); padding: 0.8rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; margin-bottom: 0.8rem; transition: var(--transition); }
+        .v-content:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; }
+        .v-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.2rem; }
+        .v-desc { font-size: 0.85rem; color: var(--text-secondary); font-weight: 500; line-height: 1.5; }
+        .v-badge { display: inline-block; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; padding: 0.1rem 0.4rem; border: 1.5px solid var(--border-color); margin-top: 0.4rem; }
+        .v-badge.highlight { background: var(--text-primary); color: var(--bg-color); }
+        .v-badge.warning { background: #fff3cd; color: #856404; border-color: #856404; }
+        .v-badge.current { background: #d4edda; color: #155724; border-color: #155724; }
+
+        /* Collaborator card */
+        .collab-card { border: 2px solid var(--border-color); padding: 1.2rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-bottom: 1rem; transition: var(--transition); }
+        .collab-card:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #000; }
+        .collab-card:last-child { margin-bottom: 0; }
+        .collab-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.8rem; }
+        .collab-avatar { width: 44px; height: 44px; border: 2px solid #000; background: #000; color: #F5F2EB; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 900; font-size: 1rem; flex-shrink: 0; }
+        .collab-name { font-weight: 800; font-size: 1rem; }
+        .collab-role { font-size: 0.82rem; color: var(--text-secondary); font-family: var(--font-mono); margin-top: 0.1rem; }
+        .collab-links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .collab-link { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; border: 2px solid var(--border-color); padding: 0.3rem 0.7rem; background: var(--bg-color); box-shadow: 2px 2px 0 #000; transition: var(--transition); display: inline-flex; align-items: center; gap: 0.3rem; }
+        .collab-link:hover { background: var(--text-primary); color: var(--bg-color); transform: translate(-1px,-1px); box-shadow: 3px 3px 0 #000; }
+
+        /* Arch layer */
+        .arch-layer { border: 2px solid var(--border-color); padding: 1rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-bottom: 0.6rem; }
+        .arch-layer-title { font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; border-bottom: 1px solid #ccc; padding-bottom: 0.3rem; font-family: var(--font-mono); }
+        .arch-items { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .arch-item { background: var(--bg-color); border: 1.5px solid var(--border-color); padding: 0.25rem 0.6rem; font-size: 0.78rem; font-weight: 700; font-family: var(--font-mono); }
+        .arch-arrow { text-align: center; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); margin: 0.3rem 0; }
+
+        /* stat highlight */
+        .stat-highlight { border: 2px solid var(--border-color); padding: 1.2rem 1.5rem; background: var(--text-primary); color: var(--bg-color); box-shadow: 5px 5px 0 #555; margin: 1.2rem 0; display: flex; align-items: center; gap: 1.2rem; }
+        .stat-big { font-family: var(--font-mono); font-size: 3rem; font-weight: 900; line-height: 1; flex-shrink: 0; }
+        .stat-text { font-size: 1rem; font-weight: 600; line-height: 1.5; }
+        .stat-sub { font-family: var(--font-mono); font-size: 0.78rem; opacity: 0.75; margin-top: 0.3rem; }
+
+        @media (max-width: 900px) {
+            .content-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+            .metric-grid { grid-template-columns: 1fr 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .version-row { grid-template-columns: 60px 2px 1fr; }
+            .score-label { width: 110px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="mycontributions.html" class="back-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="project-header">
+        <div class="container header-container">
+            <div class="header-icon"><i class="bi bi-search"></i></div>
+            <div class="header-info">
+                <h1 class="project-title">N-jin Web Crawler</h1>
+                <p class="project-subtitle">Search Engine Crawler · 250,000+ Websites Indexed</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container content-grid">
+
+            <!-- ═══════════════ MAIN COLUMN ═══════════════ -->
+            <div class="main-column">
+
+                <!-- 1. PROJECT OVERVIEW -->
+                <section class="content-section">
+                    <h2 class="section-heading">Project Overview</h2>
+                    <div class="prose">
+                        <p><strong>N-jin Web Crawler</strong> is a powerful, production-grade web crawling engine built to power a custom search engine. Starting from a base URL, the crawler recursively traverses the web — extracting internal links, normalising URLs, and indexing page data at scale.</p>
+                        <p>Built by a 3-person research team after extensive study of how real search engines work, this is not a toy crawler — it successfully indexed over <strong>250,000 websites</strong> before being paused due to resource constraints. The system reached a point where speed and resource usage had to be carefully balanced, with the final version representing the optimal equilibrium between crawl velocity and compute efficiency.</p>
+                        <p>The project's most distinctive feature is its <strong>documented evolution across 10 parser versions (v1–v10)</strong>, each one a deliberate improvement over the last — making the codebase a living record of engineering iteration and research-driven development.</p>
+                    </div>
+
+                    <!-- Big stat -->
+                    <div class="stat-highlight">
+                        <div class="stat-big">250K+</div>
+                        <div>
+                            <div class="stat-text">Websites successfully crawled and indexed</div>
+                            <div class="stat-sub">Paused due to resource constraints — not a code limitation</div>
+                        </div>
+                    </div>
+
+                    <table class="info-table">
+                        <tr><td>Project Type</td><td>Web Crawler / Search Engine Infrastructure</td></tr>
+                        <tr><td>Search Engine Name</td><td><strong>N-jin</strong></td></tr>
+                        <tr><td>Domain</td><td>Information Retrieval / Systems Engineering</td></tr>
+                        <tr><td>Repository Owner</td><td>shamil-tp</td></tr>
+                        <tr><td>Team Size</td><td>3 members (shamil-tp, nadiya-km, mahira3304)</td></tr>
+                        <tr><td>Total Commits</td><td>33 commits on main branch</td></tr>
+                        <tr><td>Stars</td><td><i class="bi bi-star-fill"></i> 1</td></tr>
+                        <tr><td>Parser Versions</td><td>v1 → v10 (10 documented iterations)</td></tr>
+                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/web-crawler" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">github.com/shamil-tp/web-crawler</a></td></tr>
+                        <tr><td>Live Link</td><td><a href="https://magnificent-recreation-production.up.railway.app/" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">magnificent-recreation-production.up.railway.app</a></td></tr>
+                    </table>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 2. HOW IT WORKS -->
+                <section class="content-section">
+                    <h2 class="section-heading">How The Crawler Works</h2>
+                    <div class="prose">
+                        <p>The crawler operates as a <strong>recursive link-following engine</strong> — seeded with a base URL, it processes pages, extracts all valid internal links, normalises them to avoid duplicates, and recursively queues new pages for crawling.</p>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>Seed URL Input:</strong> The crawl starts from a given base URL, passed through the Express interface or directly via the CLI.</li>
+                        <li><strong>HTML Fetching:</strong> Each URL is fetched via HTTP. The raw HTML response is passed to the active parser version for processing.</li>
+                        <li><strong>Link Extraction:</strong> The parser scans the DOM for all anchor tags, extracts href attributes, and filters for internal links matching the base domain.</li>
+                        <li><strong>URL Normalisation:</strong> Duplicate URLs, trailing slashes, query string variants, and fragment identifiers are normalised to prevent re-crawling the same page.</li>
+                        <li><strong>Visit Tracking:</strong> Each URL's visit frequency is tracked — recording how many times a page was discovered across different crawl paths.</li>
+                        <li><strong>Recursive Queue Processing:</strong> Newly discovered URLs are pushed to the crawl queue. The system processes these iteratively, respecting concurrency limits tuned per version.</li>
+                        <li><strong>Data Persistence:</strong> Crawled page data and metadata are stored for use by the N-jin search engine's indexing layer.</li>
+                        <li><strong>Report Generation:</strong> A reporting module compiles crawl results — pages discovered, link counts, visit frequencies — into a structured report.</li>
+                    </ul>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 3. VERSION EVOLUTION — THE CENTREPIECE -->
+                <section class="content-section">
+                    <h2 class="section-heading">Parser Evolution: v1 → v10</h2>
+                    <div class="prose">
+                        <p>The <code>parsers/</code> folder tells the full engineering story — <strong>10 versions of the crawler parser</strong>, each a deliberate research-driven improvement over the previous. One version hit peak crawl speed but was too resource-heavy and had to be rolled back. The final version finds the optimal balance between speed and efficiency.</p>
+                    </div>
+
+                    <div class="version-timeline">
+                        <div class="version-row">
+                            <div class="v-label">v1</div>
+                            <div class="v-line-wrap"><div class="v-dot"></div><div class="v-connector"></div></div>
+                            <div class="v-content">
+                                <div class="v-title">Foundation — Basic Recursive Crawler</div>
+                                <div class="v-desc">Initial proof-of-concept. Single-threaded recursive crawl from a base URL. Basic link extraction using string parsing. No normalisation, no deduplication. Established the core crawl loop.</div>
+                                <span class="v-badge">Baseline</span>
+                            </div>
+                        </div>
+                        <div class="version-row">
+                            <div class="v-label">v2</div>
+                            <div class="v-line-wrap"><div class="v-dot"></div><div class="v-connector"></div></div>
+                            <div class="v-content">
+                                <div class="v-title">URL Normalisation & Deduplication</div>
+                                <div class="v-desc">Introduced URL normalisation logic — handling trailing slashes, fragments, and query strings. Added a visited-URLs Set to prevent infinite re-crawling loops. Dramatically improved stability.</div>
+                                <span class="v-badge">Stability +</span>
+                            </div>
+                        </div>
+                        <div class="version-row">
+                            <div class="v-label">v3</div>
+                            <div class="v-line-wrap"><div class="v-dot"></div><div class="v-connector"></div></div>
+                            <div class="v-content">
+                                <div class="v-title">DOM Parser Integration</div>
+                                <div class="v-desc">Replaced raw string-based parsing with a proper HTML DOM parser (jsdom/cheerio). Increased link extraction accuracy and robustness against malformed HTML.</div>
+                                <span class="v-badge">Accuracy +</span>
+                            </div>
+                        </div>
+                        <div class="version-row">
+                            <div class="v-label">v4</div>
+                            <div class="v-line-wrap"><div class="v-dot"></div><div class="v-connector"></div></div>
+                            <div class="v-content">
+                                <div class="v-title">Concurrency — Parallel Fetching</div>
+                                <div class="v-desc">Introduced concurrent URL fetching using Promise.all batching. Multiple pages crawled simultaneously. First major speed improvement — crawl throughput increased significantly.</div>
+                                <span class="v-badge highlight">Speed ++</span>
+                            </div>
+                        </div>
+                        <div class="version-row">
+                            <div class="v-label">v5</div>
+                            <div class="v-line-wrap"><div class="v-dot"></div><div class="v-connector"></div></div>
+                            <div class="v-content">
+                                <div class="v-title">Error Handling & Timeout Guards</div>
+                                <div class="v-desc">Added per-request timeouts, HTTP error handling (4xx/5xx), and retry logic. Prevented the crawler from hanging on unresponsive servers. Critical for long crawl sessions.</div>
+                                <span class="v-badge">Resilience +</span>
+                            </div>
+                        </div>
+                        <div class="version-row">
+                            <div class="v-label">v6</div>
+                            <div class="v-line-wrap"><div class="v-dot"></div><div class="v-connector"></div></div>
+                            <div class="v-content">
+                                <div class="v-title">Visit Frequency Tracking</div>
+                                <div class="v-desc">Added a Map-based visit counter — tracking how many times each page URL was discovered across different crawl paths. Foundation for PageRank-style relevance scoring in N-jin.</div>
+                                <span class="v-badge">Indexing +</span>
+                            </div>
+                        </div>
+                        <div class="version-row">
+                            <div class="v-label">v7</div>
+                            <div class="v-line-wrap"><div class="v-dot"></div><div class="v-connector"></div></div>
+                            <div class="v-content">
+                                <div class="v-title">Peak Speed — Aggressive Concurrency</div>
+                                <div class="v-desc">Maximum parallelism — large batch sizes, minimal throttling, aggressive concurrent fetching. <strong>Fastest version built.</strong> Could crawl thousands of pages per minute. However, this version consumed extreme RAM and CPU — unsustainable for long sessions.</div>
+                                <span class="v-badge highlight">Fastest Ever</span>
+                                <span class="v-badge warning">Resource Critical ⚠</span>
+                            </div>
+                        </div>
+                        <div class="version-row">
+                            <div class="v-label">v8</div>
+                            <div class="v-line-wrap"><div class="v-dot"></div><div class="v-connector"></div></div>
+                            <div class="v-content">
+                                <div class="v-title">Resource Throttling & Rate Limiting</div>
+                                <div class="v-desc">Rolled back aggressive concurrency from v7. Introduced configurable concurrency limits, inter-request delays, and memory usage monitoring. Sacrificed some speed to regain stability for extended crawl sessions.</div>
+                                <span class="v-badge">Balanced</span>
+                            </div>
+                        </div>
+                        <div class="version-row">
+                            <div class="v-label">v9</div>
+                            <div class="v-line-wrap"><div class="v-dot"></div><div class="v-connector"></div></div>
+                            <div class="v-content">
+                                <div class="v-title">Queue Management & Depth Control</div>
+                                <div class="v-desc">Replaced recursive call stack with an explicit queue data structure. Added crawl depth limiting to control how deep the crawler follows links. Prevented stack overflow on deep sites and enabled precise scope control.</div>
+                                <span class="v-badge">Architecture +</span>
+                            </div>
+                        </div>
+                        <div class="version-row">
+                            <div class="v-label">v10</div>
+                            <div class="v-line-wrap"><div class="v-dot"></div><div class="v-connector"></div></div>
+                            <div class="v-content">
+                                <div class="v-title">Final Production Version — Speed / Resource Balance</div>
+                                <div class="v-desc">The culmination of all 9 iterations. Optimal concurrency tuned through real-world testing. Adaptive throttling based on response times. Full error resilience, depth control, deduplication, frequency tracking, and efficient memory usage. <strong>Successfully crawled 250,000+ websites.</strong></div>
+                                <span class="v-badge current">✓ Production</span>
+                                <span class="v-badge highlight">250K+ Sites</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 4. TOOLS USED -->
+                <section class="content-section">
+                    <h2 class="section-heading">Tools & Technologies</h2>
+                    <table class="info-table" style="margin-top:0.5rem;">
+                        <tr><td>Runtime</td><td><strong>Node.js</strong> — Async I/O ideal for high-concurrency network crawling</td></tr>
+                        <tr><td>Language</td><td><strong>JavaScript (ES6+)</strong> — Promises, async/await, Set/Map data structures</td></tr>
+                        <tr><td>Web Framework</td><td><strong>Express.js</strong> — UI layer and crawl trigger interface</td></tr>
+                        <tr><td>Templating</td><td><strong>EJS</strong> — Server-rendered views for the N-jin search interface (14.7% of codebase)</td></tr>
+                        <tr><td>HTML Parsing</td><td><strong>jsdom / cheerio</strong> — DOM parsing for robust link extraction</td></tr>
+                        <tr><td>HTTP Client</td><td><strong>Node.js fetch / axios</strong> — URL fetching with timeout and retry logic</td></tr>
+                        <tr><td>Data Structures</td><td><strong>Set</strong> (visited URLs), <strong>Map</strong> (visit frequency), <strong>Queue</strong> (crawl frontier)</td></tr>
+                        <tr><td>Deployment</td><td><strong>Railway</strong> — Live at magnificent-recreation-production.up.railway.app</td></tr>
+                        <tr><td>Version Control</td><td><strong>Git + GitHub</strong> — 33 commits, 1 star</td></tr>
+                    </table>
+
+                    <div style="margin-top:1.4rem;">
+                        <p style="font-family:var(--font-mono);font-size:0.8rem;font-weight:700;text-transform:uppercase;margin-bottom:0.6rem;">Language Breakdown</p>
+                        <div style="height:18px;border:2px solid #000;display:flex;overflow:hidden;box-shadow:3px 3px 0 #000;">
+                            <div style="width:85.3%;background:#000;" title="JavaScript 85.3%"></div>
+                            <div style="width:14.7%;background:#888;" title="EJS 14.7%"></div>
+                        </div>
+                        <div style="display:flex;gap:1.5rem;margin-top:0.5rem;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;">
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#000;border:1px solid #000;margin-right:4px;"></span>JavaScript 85.3%</span>
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#888;border:1px solid #000;margin-right:4px;"></span>EJS 14.7%</span>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 5. SKILLS ACHIEVED -->
+                <section class="content-section">
+                    <h2 class="section-heading">Skills Achieved</h2>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <div class="skill-name">Web Crawling Architecture</div>
+                            <div class="skill-desc">Recursive crawlers, queue-based frontiers, depth limiting, crawl scope control</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">HTML Parsing</div>
+                            <div class="skill-desc">DOM traversal, link extraction, cheerio/jsdom, handling malformed HTML</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">URL Normalisation</div>
+                            <div class="skill-desc">Deduplication, trailing slash handling, fragment removal, query string normalisation</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Async Concurrency Control</div>
+                            <div class="skill-desc">Promise.all batching, concurrency limiters, rate limiting, adaptive throttling</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Information Retrieval Concepts</div>
+                            <div class="skill-desc">Search engine indexing, visit frequency scoring, crawl frontier management</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Resource Optimisation</div>
+                            <div class="skill-desc">Memory profiling, CPU-aware throttling, balancing speed vs. compute cost</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Iterative Engineering</div>
+                            <div class="skill-desc">10-version evolution cycle, research-to-code iteration, version comparison methodology</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Node.js Systems Programming</div>
+                            <div class="skill-desc">Event loop behaviour, async I/O patterns, Set/Map performance, stack vs. queue</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Express.js + EJS</div>
+                            <div class="skill-desc">Server-rendered UI for search interface and crawl control dashboard</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Railway Deployment</div>
+                            <div class="skill-desc">Cloud deployment, environment configuration, production service management</div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 6. KEY FEATURES -->
+                <section class="content-section">
+                    <h2 class="section-heading">Key Features</h2>
+                    <ul class="feature-list">
+                        <li><strong>250,000+ Pages Crawled:</strong> Real production-scale indexing — not a demo. Paused only due to infrastructure cost, not code limitations.</li>
+                        <li><strong>v1 → v10 Parser Evolution:</strong> Ten documented parser versions in the <code>parsers/</code> folder — each a measurable improvement, showing a complete engineering research journey.</li>
+                        <li><strong>URL Normalisation Engine:</strong> Handles trailing slashes, query strings, fragments, and protocol variants — prevents duplicate crawling of the same logical page.</li>
+                        <li><strong>Visit Frequency Tracking:</strong> Maps how many times each URL is discovered — foundational data for relevance ranking in the N-jin search engine.</li>
+                        <li><strong>Adaptive Concurrency:</strong> Tunable parallel fetch batches — the final version finds the sweet spot between maximum speed and sustainable resource usage.</li>
+                        <li><strong>Explicit Queue Frontier:</strong> Queue-based (not recursive call-stack) crawl frontier — prevents stack overflow on deep sites, enables precise depth control.</li>
+                        <li><strong>Error Resilience:</strong> Per-request timeouts, HTTP error handling, and retry logic ensure the crawler survives unresponsive or broken servers during long sessions.</li>
+                        <li><strong>N-jin Search Interface:</strong> EJS-powered web UI for interacting with the search engine and triggering crawl operations.</li>
+                        <li><strong>Research-Backed Design:</strong> Three-person team conducted deep research into real search engine architecture before and during development — not built from tutorials.</li>
+                    </ul>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 7. MY CONTRIBUTION -->
+                <section class="content-section">
+                    <h2 class="section-heading">My Contribution</h2>
+                    <div class="prose">
+                        <p>As one of <strong>3 core researchers and developers</strong>, the entire project was a deeply collaborative effort — from initial architecture research through to production deployment. Although only one contributor shows in GitHub's graph, all three members actively participated in design, research, coding, and testing.</p>
+                    </div>
+                    <ul class="feature-list" style="margin-top:1rem;">
+                        <li><strong>Core Crawler Engine:</strong> Designed and implemented the fundamental crawl loop, URL queue management, and recursive link-following logic across multiple versions.</li>
+                        <li><strong>Parser Iteration Research:</strong> Co-researched and implemented the v1→v10 parser evolution — testing each version against real-world sites, measuring performance, and identifying bottlenecks.</li>
+                        <li><strong>Concurrency Architecture:</strong> Investigated and built the parallel fetching system — including the high-speed v7 and the balanced resource-aware v10 final version.</li>
+                        <li><strong>URL Normalisation System:</strong> Engineered the deduplication and normalisation logic to handle the wide variety of URL formats encountered at 250K+ scale.</li>
+                        <li><strong>N-jin Search Integration:</strong> Wired the crawler output to the N-jin search engine's indexing layer and built the Express/EJS interface.</li>
+                        <li><strong>Repository Owner:</strong> Maintained the codebase, managed commits, and led the GitHub workflow for the team.</li>
+                    </ul>
+
+                    <a href="https://github.com/shamil-tp/web-crawler" target="_blank" class="link-btn primary"><i class="bi bi-github"></i> GitHub Repo</a>
+                    <a href="https://magnificent-recreation-production.up.railway.app/" target="_blank" class="link-btn"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
+                    <a href="https://github.com/shamil-tp/web-crawler/commits/main" target="_blank" class="link-btn"><i class="bi bi-clock-history"></i> All 33 Commits</a>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 8. FOLDER STRUCTURE -->
+                <section class="content-section">
+                    <h2 class="section-heading">Folder Structure</h2>
+                    <div class="code-block">
+                        <pre><code>web-crawler/
+├── index.js                  # Express app entry point + crawl trigger
+├── parsers/                  # ★ The evolution archive — v1 through v10
+│   ├── crawlerV1.js          # Baseline recursive crawler
+│   ├── crawlerV2.js          # + URL normalisation & deduplication
+│   ├── crawlerV3.js          # + DOM parser integration
+│   ├── crawlerV4.js          # + Concurrent parallel fetching
+│   ├── crawlerV5.js          # + Error handling & timeout guards
+│   ├── crawlerV6.js          # + Visit frequency tracking
+│   ├── crawlerV7.js          # Peak speed (resource-heavy) ⚠
+│   ├── crawlerV8.js          # + Resource throttling & rate limiting
+│   ├── crawlerV9.js          # + Queue frontier & depth control
+│   └── crawlerV10.js         # ✓ Final production version
+├── modal/                    # Data models / storage logic
+├── views/                    # EJS templates — N-jin search UI
+├── public/
+│   └── logo/                 # Brand assets for N-jin
+├── .gitignore
+├── package.json
+├── package-lock.json
+└── README.md</code></pre>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 9. SYSTEM ARCHITECTURE -->
+                <section class="content-section">
+                    <h2 class="section-heading">System Architecture</h2>
+                    <div style="margin-top:1rem;">
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">🖥 User Interface — Express + EJS (N-jin Search)</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Search UI (EJS views)</span>
+                                <span class="arch-item">Crawl trigger endpoint</span>
+                                <span class="arch-item">Results display</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ Crawl job dispatch</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">⚙ Crawler Engine — index.js + parsers/crawlerV10.js</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Seed URL input</span>
+                                <span class="arch-item">URL Queue (frontier)</span>
+                                <span class="arch-item">Concurrency limiter</span>
+                                <span class="arch-item">Adaptive throttling</span>
+                                <span class="arch-item">Visited Set</span>
+                                <span class="arch-item">Frequency Map</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ HTTP fetch (per-URL, batched)</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">🌐 The Web — Target Sites</div>
+                            <div class="arch-items">
+                                <span class="arch-item">HTML responses</span>
+                                <span class="arch-item">Timeout guard</span>
+                                <span class="arch-item">Error handling (4xx/5xx)</span>
+                                <span class="arch-item">Retry logic</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ DOM parse → link extract → normalise → enqueue</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">🗄 Data Layer — modal/</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Crawled page index</span>
+                                <span class="arch-item">URL visit frequencies</span>
+                                <span class="arch-item">N-jin search index</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 10. COLLABORATORS -->
+                <section class="content-section">
+                    <h2 class="section-heading">Collaborators</h2>
+                    <div class="prose" style="margin-bottom:1.2rem;">
+                        <p>A <strong>3-person research team</strong> — all three members conducted deep research into search engine architecture and actively contributed to design, development, and testing. GitHub shows one contributor as the repo is hosted under shamil-tp's account.</p>
+                    </div>
+
+                    <div class="collab-card">
+                        <div class="collab-top">
+                            <div class="collab-avatar">ST</div>
+                            <div>
+                                <div class="collab-name">shamil-tp <span style="font-family:var(--font-mono);font-size:0.73rem;background:#000;color:#F5F2EB;padding:0.15rem 0.4rem;margin-left:0.4rem;">YOU · REPO OWNER</span></div>
+                                <div class="collab-role">Core developer · Crawler engine · Repository host</div>
+                            </div>
+                        </div>
+                        <div class="collab-links">
+                            <a href="https://github.com/shamil-tp" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                        </div>
+                    </div>
+
+                    <div class="collab-card">
+                        <div class="collab-top">
+                            <div class="collab-avatar">NK</div>
+                            <div>
+                                <div class="collab-name">Nadiya K M</div>
+                                <div class="collab-role">Core researcher & developer · N-jin search engine</div>
+                            </div>
+                        </div>
+                        <div class="collab-links">
+                            <a href="https://github.com/nadiya-km" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/nadiya-km" target="_blank" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                        </div>
+                    </div>
+
+                    <div class="collab-card">
+                        <div class="collab-top">
+                            <div class="collab-avatar">MM</div>
+                            <div>
+                                <div class="collab-name">Mahira Minna</div>
+                                <div class="collab-role">Core researcher & developer · N-jin search engine</div>
+                            </div>
+                        </div>
+                        <div class="collab-links">
+                            <a href="https://github.com/mahira3304" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/mahira-minna" target="_blank" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- ═══════════════ SIDEBAR ═══════════════ -->
+            <aside class="sidebar-column">
+
+                <!-- Repo Metrics -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Repo Metrics</h3>
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <span class="m-val">250K+</span>
+                            <span class="m-label">Sites Crawled</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">10</span>
+                            <span class="m-label">Parser Versions</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">33</span>
+                            <span class="m-label">Total Commits</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">3</span>
+                            <span class="m-label">Team Members</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">85.3%</span>
+                            <span class="m-label">JS Share</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val"><i class="bi bi-star-fill"></i> 1</span>
+                            <span class="m-label">GitHub Stars</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Metrics -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Custom Metrics</h3>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Iteration Depth</div>
+                            <div class="cm-note">v1 → v10 versions</div>
+                        </div>
+                        <div class="cm-val">10×</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Scale Achieved</div>
+                            <div class="cm-note">real production crawl</div>
+                        </div>
+                        <div class="cm-val">250K+</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Commits / Version</div>
+                            <div class="cm-note">33 commits ÷ 10 versions</div>
+                        </div>
+                        <div class="cm-val">~3.3</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Research Intensity</div>
+                            <div class="cm-note">3-person deep research</div>
+                        </div>
+                        <div class="cm-val">High</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Stopped By</div>
+                            <div class="cm-note">resources, not code</div>
+                        </div>
+                        <div class="cm-val">$</div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Peak vs Final Speed</div>
+                            <div class="cm-note">v7 fastest · v10 balanced</div>
+                        </div>
+                        <div class="cm-val">v7⚡v10</div>
+                    </div>
+                </div>
+
+                <!-- Scorecard -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Project Scorecard</h3>
+                    <div class="scorecard">
+                        <div class="score-row">
+                            <span class="score-label">Complexity</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Research Depth</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Real Scale</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Iteration Quality</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Portfolio Score</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                        <div class="score-row">
+                            <span class="score-label">Uniqueness</span>
+                            <div class="score-bar-wrap"><div class="score-bar" style="width:100%"></div></div>
+                            <span class="score-num">5/5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tech Stack -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Tech Stack</h3>
+                    <div class="tag-cloud">
+                        <span class="tag">Node.js</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">Express.js</span>
+                        <span class="tag">EJS</span>
+                        <span class="tag">Cheerio</span>
+                        <span class="tag">jsdom</span>
+                        <span class="tag">BullMQ</span>
+                        <span class="tag">Async/Await</span>
+                        <span class="tag">Railway</span>
+                        <span class="tag">Git</span>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Quick Links</h3>
+                    <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                        <a href="https://github.com/shamil-tp/web-crawler" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-github"></i> GitHub Repo</a>
+                        <a href="https://magnificent-recreation-production.up.railway.app/" target="_blank" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-box-arrow-up-right"></i> Live — N-jin</a>
+                        <a href="https://github.com/shamil-tp/web-crawler/commits/main" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-clock-history"></i> All Commits</a>
+                        <a href="https://github.com/shamil-tp/web-crawler/tree/main/parsers" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-layers"></i> All 10 Parsers</a>
+                        <a href="https://github.com/nadiya-km" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-person"></i> Nadiya — GitHub</a>
+                        <a href="https://github.com/mahira3304" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-person"></i> Mahira — GitHub</a>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Shamil TP. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

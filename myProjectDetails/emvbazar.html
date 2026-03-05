@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMVBazar | Shamil TP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --bg-color: #F5F2EB;
+            --card-bg: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #333333;
+            --border-color: #000000;
+            --nav-bg: rgba(245, 242, 235, 0.95);
+            --font-main: 'Outfit', 'Helvetica Neue', sans-serif;
+            --font-mono: 'Space Mono', 'Fira Code', monospace;
+            --transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-main); line-height: 1.5; font-size: 15px; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+        .navbar { background: var(--nav-bg); border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 60px; }
+        .back-link { font-weight: 800; font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.4rem; text-transform: uppercase; }
+        .back-link:hover { text-decoration: underline; }
+        .nav-links { display: flex; list-style: none; gap: 1.5rem; }
+        .nav-links a { font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.9rem; font-weight: 700; }
+        .nav-links a:hover { color: var(--text-primary); text-decoration: underline; }
+
+        .project-header { background: var(--bg-color); padding: 4rem 0 3rem 0; border-bottom: 2px solid var(--border-color); margin-bottom: 3rem; }
+        .header-container { display: flex; align-items: center; gap: 1.5rem; }
+        .header-icon { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border: 2px solid var(--border-color); background: var(--card-bg); box-shadow: 4px 4px 0px rgba(0,0,0,1); flex-shrink: 0; }
+        .project-title { font-size: 2.8rem; font-weight: 900; margin-bottom: 0.3rem; letter-spacing: -1px; text-transform: uppercase; line-height: 1; }
+        .project-subtitle { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; background: var(--text-primary); color: var(--bg-color); display: inline-block; padding: 0.3rem 0.6rem; margin-top: 0.3rem; }
+
+        .main-content { max-width: 780px; margin: 0 auto; padding-bottom: 5rem; }
+
+        .content-section { margin-bottom: 2.5rem; }
+        .section-heading { font-size: 1.6rem; font-weight: 900; margin-bottom: 1.2rem; border-bottom: 3px solid var(--border-color); padding-bottom: 0.3rem; text-transform: uppercase; }
+        .section-divider { border: none; border-top: 2px dashed #bbb; margin: 2.5rem 0; }
+
+        .prose p { margin-bottom: 1rem; font-size: 1.05rem; line-height: 1.6; font-weight: 500; }
+        .prose p:last-child { margin-bottom: 0; }
+        .prose strong { font-weight: 800; }
+
+        /* Client banner */
+        .client-banner { border: 2px solid var(--border-color); padding: 1.2rem 1.5rem; background: var(--text-primary); color: var(--bg-color); box-shadow: 5px 5px 0 #555; margin-bottom: 2rem; display: flex; align-items: center; gap: 1.2rem; }
+        .client-icon { font-size: 2rem; flex-shrink: 0; }
+        .client-text strong { font-weight: 900; font-size: 1.05rem; display: block; margin-bottom: 0.2rem; }
+        .client-text span { font-size: 0.88rem; opacity: 0.82; font-weight: 500; }
+
+        /* Highlight pills */
+        .highlight-row { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 1.4rem 0; }
+        .highlight-pill { border: 2px solid var(--border-color); padding: 0.6rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; display: flex; align-items: center; gap: 0.6rem; font-weight: 700; font-size: 0.9rem; transition: var(--transition); }
+        .highlight-pill:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; }
+        .highlight-pill i { font-size: 1.1rem; }
+
+        /* Collab cards */
+        .collab-card { border: 2px solid var(--border-color); padding: 1.1rem 1.2rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-bottom: 0.9rem; transition: var(--transition); display: flex; align-items: flex-start; gap: 1rem; }
+        .collab-card:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #000; }
+        .collab-card:last-child { margin-bottom: 0; }
+        .collab-avatar { width: 42px; height: 42px; border: 2px solid #000; background: #000; color: #F5F2EB; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 900; font-size: 0.95rem; flex-shrink: 0; }
+        .collab-info { flex: 1; }
+        .collab-name { font-weight: 800; font-size: 0.97rem; }
+        .collab-role { font-size: 0.82rem; color: var(--text-secondary); font-family: var(--font-mono); margin-top: 0.15rem; line-height: 1.5; }
+        .collab-links { display: flex; gap: 0.5rem; margin-top: 0.55rem; flex-wrap: wrap; }
+        .collab-link { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; border: 2px solid var(--border-color); padding: 0.25rem 0.6rem; background: var(--bg-color); box-shadow: 2px 2px 0 #000; transition: var(--transition); display: inline-flex; align-items: center; gap: 0.3rem; }
+        .collab-link:hover { background: var(--text-primary); color: var(--bg-color); transform: translate(-1px,-1px); box-shadow: 3px 3px 0 #000; }
+
+        .role-badge { display: inline-block; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 900; padding: 0.12rem 0.4rem; border: 1.5px solid var(--border-color); text-transform: uppercase; margin-left: 0.4rem; vertical-align: middle; }
+        .role-badge.lead { background: var(--text-primary); color: var(--bg-color); }
+
+        /* Confidential note */
+        .confidential { border: 2px dashed var(--border-color); padding: 1rem 1.2rem; background: var(--bg-color); margin-top: 2rem; display: flex; align-items: center; gap: 0.8rem; }
+        .confidential p { font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); line-height: 1.5; }
+
+        .footer { border-top: 2px solid var(--border-color); padding: 2rem 0; text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; }
+
+        @media (max-width: 700px) {
+            .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+            .highlight-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="mycontributions.html" class="back-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <ul class="nav-links"><li><a href="../index.html">Home</a></li></ul>
+        </div>
+    </nav>
+
+    <header class="project-header">
+        <div class="container header-container">
+            <div class="header-icon"><i class="bi bi-shop"></i></div>
+            <div>
+                <h1 class="project-title">EMVBazar</h1>
+                <p class="project-subtitle">Client Project · Debt Tracking & Automated Billing System</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+        <div class="main-content">
+
+            <!-- Client banner -->
+            <div class="client-banner">
+                <div class="client-icon"><i class="bi bi-briefcase-fill"></i></div>
+                <div class="client-text">
+                    <strong>Client Project — Confidential</strong>
+                    <span>Built for a real client. Technical details, repository links, and system architecture are not disclosed.</span>
+                </div>
+            </div>
+
+            <!-- About -->
+            <section class="content-section">
+                <h2 class="section-heading">About</h2>
+                <div class="prose">
+                    <p><strong>EMVBazar</strong> is a client-commissioned debt tracking and business management system. It automates due payment reminders, invoice generation, and billing communication — helping the client manage their customer relationships and financial operations efficiently.</p>
+                    <p>This was a professional engagement delivered as a production system for a paying client, running on cloud infrastructure.</p>
+                </div>
+
+                <!-- Highlight pills -->
+                <div class="highlight-row">
+                    <div class="highlight-pill">
+                        <i class="bi bi-whatsapp"></i>
+                        Automated WhatsApp Messaging
+                    </div>
+                    <div class="highlight-pill">
+                        <i class="bi bi-file-earmark-text"></i>
+                        Invoice Generation & Delivery
+                    </div>
+                    <div class="highlight-pill">
+                        <i class="bi bi-phone"></i>
+                        Progressive Web App (PWA)
+                    </div>
+                    <div class="highlight-pill">
+                        <i class="bi bi-cloud-check"></i>
+                        AWS Cloud Server
+                    </div>
+                </div>
+            </section>
+
+            <hr class="section-divider">
+
+            <!-- My Role -->
+            <section class="content-section">
+                <h2 class="section-heading">My Role</h2>
+                <div class="prose">
+                    <p>Responsible for building the application as a <strong>Progressive Web App (PWA)</strong> — enabling install-to-homescreen capability and offline-ready behaviour for client use on mobile devices.</p>
+                    <p>Managed the <strong>entire AWS cloud server</strong> — provisioning, configuration, deployment, and ongoing server maintenance for the production environment.</p>
+                </div>
+            </section>
+
+            <hr class="section-divider">
+
+            <!-- Team -->
+            <section class="content-section">
+                <h2 class="section-heading">The Team</h2>
+
+                <div class="collab-card">
+                    <div class="collab-avatar">SR</div>
+                    <div class="collab-info">
+                        <div class="collab-name">Sinan Rahman K <span class="role-badge lead">Lead</span></div>
+                        <div class="collab-role">System architecture · Client relations manager · WhatsApp message automation controller</div>
+                        <div class="collab-links">
+                            <a href="https://github.com/sinanrahman" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/sinan-k-rahman" target="_blank" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="collab-card">
+                    <div class="collab-avatar">ST</div>
+                    <div class="collab-info">
+                        <div class="collab-name">shamil-tp</div>
+                        <div class="collab-role">PWA development · AWS cloud server management</div>
+                        <div class="collab-links">
+                            <a href="https://github.com/shamil-tp" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Confidential note -->
+            <div class="confidential">
+                <i class="bi bi-lock-fill" style="font-size:1.1rem;flex-shrink:0;"></i>
+                <p>Further technical details, source code, architecture, and live links are not disclosed out of respect for client confidentiality.</p>
+            </div>
+
+        </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Shamil TP. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
