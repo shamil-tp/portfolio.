@@ -84,10 +84,47 @@
 
         .footer { border-top: 2px solid var(--border-color); padding: 2rem 0; text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; }
 
-        @media (max-width: 700px) {
-            .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+        
             .team-highlight { flex-direction: column; text-align: center; gap: 0.8rem; }
             .team-num { font-size: 3rem; }
+        }
+    
+        @media (max-width: 900px) {
+            .content-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+            .metric-grid { grid-template-columns: 1fr 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .header-icon { margin: 0 auto; }
+            .score-label { width: 120px; font-size: 0.7rem; }
+            .highlight-row { flex-direction: column; }
+        }
+
+        @media (max-width: 600px) {
+            .project-title { font-size: 2.2rem; }
+            .metric-grid { grid-template-columns: 1fr; }
+            .header-icon { width: 50px; height: 50px; font-size: 2rem; }
+            .project-header { padding: 3rem 0 2rem 0; margin-bottom: 2rem; }
+            .score-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+            .score-label { width: 100%; font-size: 0.85rem; }
+            .score-bar-wrap { width: 100%; }
+            .score-num { text-align: left; width: auto; margin-top: 0.2rem; }
+            .info-table td { display: block; width: 100% !important; padding: 0.2rem 0; }
+            .info-table tr { padding: 0.8rem 0; display: block; border-bottom: 1px dashed #ccc; }
+            .info-table tr:last-child { border-bottom: none; }
+            .info-table td:first-child { padding-bottom: 0; font-size: 0.85rem; color: var(--text-secondary); border-bottom: none; font-weight: 800; }
+            .nav-links { gap: 1rem; }
+            .back-link { font-size: 0.8rem; }
+            .custom-metric-row { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
+            .cm-val { text-align: left; font-size: 1.1rem; }
+            .cm-note { text-align: left; }
+            .team-highlight { flex-direction: column; text-align: center; gap: 0.8rem; padding: 1.5rem; }
+            .team-num { font-size: 3rem; }
+            .client-banner { flex-direction: column; text-align: center; padding: 1.5rem; gap: 0.8rem; }
+            .client-icon { margin-bottom: 0.2rem; }
+            .collab-card { flex-direction: column; align-items: center; text-align: center; padding: 1.5rem; gap: 0.8rem; }
+            .collab-links { justify-content: center; }
+            .arch-items { flex-direction: column; align-items: stretch; }
+            .arch-item { text-align: center; }
         }
     </style>
 </head>
