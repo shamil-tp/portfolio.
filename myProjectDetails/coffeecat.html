@@ -21,9 +21,16 @@
             --transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* ── CRITICAL FIX: prevent horizontal overflow ── */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
         body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-main); line-height: 1.5; font-size: 15px; }
         a { text-decoration: none; color: inherit; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; width: 100%; }
 
         .navbar { background: var(--nav-bg); border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; height: 60px; }
@@ -39,7 +46,21 @@
         .project-title { font-size: 2.8rem; font-weight: 900; margin-bottom: 0.3rem; letter-spacing: -1px; text-transform: uppercase; line-height: 1; }
         .project-subtitle { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; background: var(--text-primary); color: var(--bg-color); display: inline-block; padding: 0.3rem 0.6rem; margin-top: 0.3rem; }
 
-        .content-grid { display: grid; grid-template-columns: 7fr 3fr; gap: 2.5rem; padding-bottom: 5rem; align-items: start; }
+        /* Main Grid — desktop: 7/3 split, mobile: single column */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 7fr 3fr;
+            gap: 2.5rem;
+            padding-bottom: 5rem;
+            align-items: start;
+            width: 100%;
+            min-width: 0;
+        }
+        .main-column, .sidebar-column {
+            min-width: 0; /* FIX: allow grid children to shrink */
+            width: 100%;
+        }
+
         .content-section { margin-bottom: 2.5rem; }
         .content-section:last-child { margin-bottom: 0; }
         .section-heading { font-size: 1.6rem; font-weight: 900; margin-bottom: 1.2rem; border-bottom: 3px solid var(--border-color); padding-bottom: 0.3rem; text-transform: uppercase; }
@@ -52,8 +73,17 @@
         .feature-list li { margin-bottom: 1rem; line-height: 1.5; font-size: 1rem; position: relative; padding-left: 1.2rem; font-weight: 500; }
         .feature-list li::before { content: '→'; position: absolute; left: 0; font-family: var(--font-mono); font-weight: 900; }
 
-        .code-block { background: #111; border: 2px solid var(--border-color); padding: 1.5rem; overflow-x: auto; box-shadow: 6px 6px 0px rgba(0,0,0,1); margin-top: 1.2rem; }
-        .code-block pre { font-family: var(--font-mono); font-size: 0.88rem; color: #f8f8f2; line-height: 1.6; }
+        /* Code block — FIX: constrain to parent width */
+        .code-block {
+            background: #111;
+            border: 2px solid var(--border-color);
+            padding: 1.5rem;
+            overflow-x: auto;
+            box-shadow: 6px 6px 0px rgba(0,0,0,1);
+            margin-top: 1.2rem;
+            max-width: 100%;
+        }
+        .code-block pre { font-family: var(--font-mono); font-size: 0.88rem; color: #f8f8f2; line-height: 1.6; white-space: pre; }
 
         .sidebar-widget { background: var(--card-bg); border: 2px solid var(--border-color); padding: 1.5rem; margin-bottom: 2rem; box-shadow: 6px 6px 0px rgba(0,0,0,1); }
         .sidebar-widget:last-child { margin-bottom: 0; }
@@ -70,10 +100,11 @@
 
         .footer { border-top: 2px solid var(--border-color); padding: 2rem 0; text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; }
 
-        .info-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        /* Info table — FIX: prevent overflow */
+        .info-table { width: 100%; border-collapse: collapse; margin-top: 1rem; table-layout: fixed; }
         .info-table tr { border-bottom: 1px solid #ccc; }
         .info-table tr:last-child { border-bottom: none; }
-        .info-table td { padding: 0.6rem 0.5rem; font-size: 0.95rem; font-weight: 500; vertical-align: top; }
+        .info-table td { padding: 0.6rem 0.5rem; font-size: 0.95rem; font-weight: 500; vertical-align: top; word-break: break-word; }
         .info-table td:first-child { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; color: var(--text-secondary); width: 42%; }
 
         .section-divider { border: none; border-top: 2px dashed #bbb; margin: 2.5rem 0; }
@@ -83,18 +114,18 @@
         .link-btn.primary { background: var(--text-primary); color: var(--bg-color); }
         .link-btn.primary:hover { background: var(--bg-color); color: var(--text-primary); }
 
-        .custom-metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px dashed #bbb; }
+        .custom-metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px dashed #bbb; gap: 0.5rem; }
         .custom-metric-row:last-child { border-bottom: none; }
         .cm-label { font-weight: 600; color: var(--text-secondary); flex: 1; font-size: 0.9rem; }
-        .cm-val { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; text-align: right; }
+        .cm-val { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; text-align: right; flex-shrink: 0; }
         .cm-note { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary); text-align: right; }
 
         .scorecard { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.7rem; }
         .score-row { display: flex; align-items: center; gap: 0.8rem; }
         .score-label { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; width: 145px; flex-shrink: 0; }
-        .score-bar-wrap { flex: 1; height: 14px; border: 2px solid var(--border-color); background: var(--bg-color); }
+        .score-bar-wrap { flex: 1; height: 14px; border: 2px solid var(--border-color); background: var(--bg-color); min-width: 0; }
         .score-bar { height: 100%; background: var(--text-primary); }
-        .score-num { font-family: var(--font-mono); font-weight: 900; font-size: 0.85rem; width: 28px; text-align: right; }
+        .score-num { font-family: var(--font-mono); font-weight: 900; font-size: 0.85rem; width: 28px; text-align: right; flex-shrink: 0; }
 
         .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
         .skill-card { border: 2px solid var(--border-color); padding: 0.9rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0px rgba(0,0,0,1); transition: var(--transition); }
@@ -103,7 +134,7 @@
         .skill-desc { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; line-height: 1.4; }
 
         /* Hobby banner */
-        .hobby-banner { border: 2px solid var(--border-color); padding: 1.2rem 1.5rem; background: var(--text-primary); color: var(--bg-color); box-shadow: 5px 5px 0 #555; margin: 1.2rem 0; display: flex; align-items: center; gap: 1.2rem; }
+        .hobby-banner { border: 2px solid var(--border-color); padding: 1.2rem 1.5rem; background: var(--text-primary); color: var(--bg-color); box-shadow: 5px 5px 0 #555; margin: 1.2rem 0; display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
         .hobby-icon { font-size: 2.2rem; flex-shrink: 0; }
         .hobby-text strong { font-weight: 900; font-size: 1.05rem; display: block; margin-bottom: 0.2rem; }
         .hobby-text span { font-size: 0.88rem; opacity: 0.82; font-weight: 500; }
@@ -111,7 +142,7 @@
         /* Mobile only badge */
         .mobile-badge { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; border: 2px solid var(--border-color); padding: 0.5rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; text-transform: uppercase; margin-top: 1rem; }
 
-        /* Feature grid — Instagram features */
+        /* Feature grid */
         .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
         .feat-card { border: 2px solid var(--border-color); padding: 0.9rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; transition: var(--transition); display: flex; align-items: flex-start; gap: 0.8rem; }
         .feat-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; }
@@ -119,67 +150,87 @@
         .feat-name { font-weight: 800; font-size: 0.92rem; margin-bottom: 0.15rem; }
         .feat-desc { font-size: 0.8rem; color: var(--text-secondary); font-weight: 500; line-height: 1.4; }
 
-        /* Delete account callout */
+        /* Callout */
         .callout { border: 2px solid var(--border-color); padding: 1.1rem 1.3rem; background: var(--bg-color); margin-top: 1.2rem; position: relative; }
         .callout-label { position: absolute; top: -13px; left: 1rem; background: var(--text-primary); color: var(--bg-color); font-family: var(--font-mono); font-size: 0.72rem; font-weight: 900; padding: 0.15rem 0.6rem; text-transform: uppercase; }
         .callout p { font-size: 0.92rem; font-weight: 500; line-height: 1.6; color: var(--text-primary); }
         .callout strong { font-weight: 800; }
 
-        /* Vue mastery banner */
+        /* Mastery banner */
         .mastery-banner { border: 2px solid var(--border-color); padding: 1.2rem 1.5rem; background: var(--text-primary); color: var(--bg-color); box-shadow: 5px 5px 0 #555; margin: 1.2rem 0; }
         .mastery-banner p { font-size: 1rem; font-weight: 600; line-height: 1.6; opacity: 0.9; }
         .mastery-banner strong { font-weight: 900; font-size: 1.1rem; opacity: 1; }
 
-        /* arch layer */
+        /* Architecture */
         .arch-layer { border: 2px solid var(--border-color); padding: 1rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-bottom: 0.6rem; }
         .arch-layer-title { font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; border-bottom: 1px solid #ccc; padding-bottom: 0.3rem; font-family: var(--font-mono); }
         .arch-items { display: flex; flex-wrap: wrap; gap: 0.5rem; }
         .arch-item { background: var(--bg-color); border: 1.5px solid var(--border-color); padding: 0.25rem 0.6rem; font-size: 0.78rem; font-weight: 700; font-family: var(--font-mono); }
         .arch-arrow { text-align: center; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); margin: 0.3rem 0; }
 
-        
-            .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
-            .skills-grid { grid-template-columns: 1fr; }
-            .feature-grid { grid-template-columns: 1fr; }
-            .score-label { width: 115px; font-size: 0.7rem; }
-        }
-    
+        /* ── TABLET ── */
         @media (max-width: 900px) {
-            .content-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .content-grid {
+                grid-template-columns: 1fr; /* ← KEY FIX: stack to single column */
+                gap: 2rem;
+            }
             .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
-            .metric-grid { grid-template-columns: 1fr 1fr; }
-            .skills-grid { grid-template-columns: 1fr; }
             .header-icon { margin: 0 auto; }
+            .metric-grid { grid-template-columns: 1fr 1fr; }
+            .skills-grid { grid-template-columns: 1fr 1fr; }
+            .feature-grid { grid-template-columns: 1fr 1fr; }
             .score-label { width: 120px; font-size: 0.7rem; }
-            .highlight-row { flex-direction: column; }
         }
 
+        /* ── MOBILE ── */
         @media (max-width: 600px) {
-            .project-title { font-size: 2.2rem; }
-            .metric-grid { grid-template-columns: 1fr; }
+            .project-title { font-size: 2rem; }
+            .metric-grid { grid-template-columns: 1fr 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .feature-grid { grid-template-columns: 1fr; }
             .header-icon { width: 50px; height: 50px; font-size: 2rem; }
             .project-header { padding: 3rem 0 2rem 0; margin-bottom: 2rem; }
+
+            /* Scorecard stacks */
             .score-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
             .score-label { width: 100%; font-size: 0.85rem; }
             .score-bar-wrap { width: 100%; }
             .score-num { text-align: left; width: auto; margin-top: 0.2rem; }
-            .info-table td { display: block; width: 100% !important; padding: 0.2rem 0; }
-            .info-table tr { padding: 0.8rem 0; display: block; border-bottom: 1px dashed #ccc; }
+
+            /* Info table stacks */
+            .info-table, .info-table tbody, .info-table tr, .info-table td { display: block; width: 100% !important; }
+            .info-table tr { padding: 0.8rem 0; border-bottom: 1px dashed #ccc; }
             .info-table tr:last-child { border-bottom: none; }
-            .info-table td:first-child { padding-bottom: 0; font-size: 0.85rem; color: var(--text-secondary); border-bottom: none; font-weight: 800; }
+            .info-table td { padding: 0.2rem 0; word-break: break-all; }
+            .info-table td:first-child { padding-bottom: 0.15rem; font-size: 0.85rem; color: var(--text-secondary); font-weight: 800; border-bottom: none; width: 100% !important; }
+
             .nav-links { gap: 1rem; }
             .back-link { font-size: 0.8rem; }
+
+            /* Custom metric stacks */
             .custom-metric-row { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
             .cm-val { text-align: left; font-size: 1.1rem; }
             .cm-note { text-align: left; }
-            .team-highlight { flex-direction: column; text-align: center; gap: 0.8rem; padding: 1.5rem; }
-            .team-num { font-size: 3rem; }
-            .client-banner { flex-direction: column; text-align: center; padding: 1.5rem; gap: 0.8rem; }
-            .client-icon { margin-bottom: 0.2rem; }
-            .collab-card { flex-direction: column; align-items: center; text-align: center; padding: 1.5rem; gap: 0.8rem; }
-            .collab-links { justify-content: center; }
+
+            /* Code block smaller font */
+            .code-block { padding: 1rem; }
+            .code-block pre { font-size: 0.72rem; }
+
+            /* Arch items stack */
             .arch-items { flex-direction: column; align-items: stretch; }
             .arch-item { text-align: center; }
+
+            /* Link buttons stack */
+            .link-btn { display: flex; justify-content: center; margin-right: 0; }
+
+            /* Hobby banner stacks */
+            .hobby-banner { flex-direction: column; gap: 0.8rem; padding: 1rem; }
+
+            /* Metric value shrink */
+            .m-val { font-size: 1.4rem; }
+
+            /* Mobile badge wraps */
+            .mobile-badge { font-size: 0.78rem; }
         }
     </style>
 </head>
@@ -238,8 +289,8 @@
                         <tr><td>Repository Owner</td><td>shamil-tp (100% solo)</td></tr>
                         <tr><td>Real-time</td><td>Socket.io bidirectional chat</td></tr>
                         <tr><td>Media Storage</td><td>Cloudinary — photo uploads + account deletion cleanup</td></tr>
-                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/coffeeCat" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">github.com/shamil-tp/coffeeCat</a></td></tr>
-                        <tr><td>Live Link</td><td><a href="https://coffee-cat-topaz.vercel.app/login" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">coffee-cat-topaz.vercel.app</a></td></tr>
+                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/coffeeCat" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">github.com/shamil-tp/coffeeCat</a></td></tr>
+                        <tr><td>Live Link</td><td><a href="https://coffee-cat-topaz.vercel.app/login" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">coffee-cat-topaz.vercel.app</a></td></tr>
                     </table>
                 </section>
 
@@ -386,7 +437,6 @@
                         </div>
                     </div>
 
-                    <!-- Delete account callout -->
                     <div class="callout" style="margin-top:1.4rem;">
                         <div class="callout-label">⚠ Thoughtful Feature — Account Deletion</div>
                         <p>Account deletion is not just a database flag — it is a <strong>full cascading cleanup pipeline</strong>. Deleting your account removes: your user document from MongoDB, all your posts and their Cloudinary images, all your comments, all your likes, and all your follow relationships. <strong>Chat messages are deliberately preserved</strong> for the person on the other side of the conversation — because their conversation history belongs to them too. This nuanced design decision shows real product thinking.</p>
@@ -508,49 +558,44 @@
                     <div class="code-block">
                         <pre><code>coffeeCat/
 ├── backend/
-│   ├── index.js                    # Express + Socket.io server bootstrap
+│   ├── index.js                 # Express + Socket.io bootstrap
 │   ├── config/
-│   │   ├── db.js                   # MongoDB connection
-│   │   └── cloudinary.js           # Cloudinary SDK config
+│   │   ├── db.js                # MongoDB connection
+│   │   └── cloudinary.js        # Cloudinary SDK config
 │   ├── controllers/
-│   │   ├── authController.js       # Register, login, JWT
-│   │   ├── postController.js       # Create, delete post + Cloudinary
-│   │   ├── userController.js       # Profile, follow, search, delete account
-│   │   ├── commentController.js    # Add, fetch comments
-│   │   ├── likeController.js       # Like / unlike posts
-│   │   └── chatController.js       # Chat history fetch
+│   │   ├── authController.js    # Register, login, JWT
+│   │   ├── postController.js    # Create, delete + Cloudinary
+│   │   ├── userController.js    # Profile, follow, search, delete
+│   │   ├── commentController.js
+│   │   ├── likeController.js
+│   │   └── chatController.js
 │   ├── middleware/
-│   │   └── authMiddleware.js       # JWT verification guard
+│   │   └── authMiddleware.js    # JWT verification guard
 │   ├── models/
-│   │   ├── User.js                 # User schema + social graph
-│   │   ├── Post.js                 # Post schema + Cloudinary ref
-│   │   ├── Comment.js              # Comment schema
-│   │   ├── Like.js                 # Like schema
-│   │   ├── Follow.js               # Follow relationship schema
-│   │   └── Message.js              # Chat message schema
+│   │   ├── User.js
+│   │   ├── Post.js
+│   │   ├── Comment.js
+│   │   ├── Like.js
+│   │   ├── Follow.js
+│   │   └── Message.js
 │   ├── routes/
-│   │   └── [auth, post, user, comment, like, chat]Routes.js
+│   │   └── [auth|post|user|comment|like|chat]Routes.js
 │   └── socket/
-│       └── socketHandler.js        # Socket.io bidirectional event handlers
+│       └── socketHandler.js     # Socket.io event handlers
 │
 └── frontend/
     └── src/
-        ├── components/             # Reusable UI: PostCard, ChatBubble,
-        │                           # UserCard, CommentList, LikeButton…
-        ├── views/                  # Feed, Profile, Explore, Chat,
-        │                           # Login, Register, Settings
-        ├── router/
-        │   └── index.js            # Vue Router + auth guards
-        ├── store/                  # Vuex modules
+        ├── components/          # PostCard, ChatBubble, UserCard…
+        ├── views/               # Feed, Profile, Explore, Chat…
+        ├── router/index.js      # Vue Router + auth guards
+        ├── store/               # Vuex modules
         │   ├── auth.js
         │   ├── posts.js
         │   ├── users.js
         │   ├── chat.js
         │   └── index.js
-        ├── services/
-        │   └── api.js              # Axios instance + token interceptor
-        └── socket/
-            └── socket.js           # Socket.io client instance</code></pre>
+        ├── services/api.js      # Axios + token interceptor
+        └── socket/socket.js     # Socket.io client instance</code></pre>
                     </div>
                 </section>
 
@@ -559,7 +604,6 @@
             <!-- ═══════════════ SIDEBAR ═══════════════ -->
             <aside class="sidebar-column">
 
-                <!-- Repo Metrics -->
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Repo Metrics</h3>
                     <div class="metric-grid">
@@ -590,7 +634,6 @@
                     </div>
                 </div>
 
-                <!-- Custom Metrics -->
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Custom Metrics</h3>
                     <div class="custom-metric-row">
@@ -637,7 +680,6 @@
                     </div>
                 </div>
 
-                <!-- Scorecard -->
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Project Scorecard</h3>
                     <div class="scorecard">
@@ -674,7 +716,6 @@
                     </div>
                 </div>
 
-                <!-- Tech Stack -->
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Tech Stack</h3>
                     <div class="tag-cloud">
@@ -693,7 +734,6 @@
                     </div>
                 </div>
 
-                <!-- Quick Links -->
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Quick Links</h3>
                     <div style="display:flex;flex-direction:column;gap:0.6rem;">
