@@ -22,9 +22,16 @@
             --transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* ── CRITICAL FIX: prevent horizontal overflow ── */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
         body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-main); line-height: 1.5; font-size: 15px; }
         a { text-decoration: none; color: inherit; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; width: 100%; }
 
         .navbar { background: var(--nav-bg); border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; height: 60px; }
@@ -40,7 +47,21 @@
         .project-title { font-size: 2.8rem; font-weight: 900; color: var(--text-primary); margin-bottom: 0.3rem; letter-spacing: -1px; text-transform: uppercase; line-height: 1; }
         .project-subtitle { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; background: var(--text-primary); color: var(--bg-color); display: inline-block; padding: 0.3rem 0.6rem; margin-top: 0.3rem; }
 
-        .content-grid { display: grid; grid-template-columns: 7fr 3fr; gap: 2.5rem; padding-bottom: 5rem; align-items: start; }
+        /* Main Grid — desktop: 7/3 split, mobile: single column */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 7fr 3fr;
+            gap: 2.5rem;
+            padding-bottom: 5rem;
+            align-items: start;
+            width: 100%;
+            min-width: 0;
+        }
+        .main-column, .sidebar-column {
+            min-width: 0; /* FIX: allow grid children to shrink */
+            width: 100%;
+        }
+
         .content-section { margin-bottom: 2.5rem; }
         .content-section:last-child { margin-bottom: 0; }
         .section-heading { font-size: 1.6rem; font-weight: 900; color: var(--text-primary); margin-bottom: 1.2rem; border-bottom: 3px solid var(--border-color); padding-bottom: 0.3rem; text-transform: uppercase; }
@@ -53,8 +74,17 @@
         .feature-list li { margin-bottom: 1rem; line-height: 1.5; font-size: 1rem; position: relative; padding-left: 1.2rem; font-weight: 500; }
         .feature-list li::before { content: '→'; position: absolute; left: 0; font-family: var(--font-mono); font-weight: 900; }
 
-        .code-block { background: #111; border: 2px solid var(--border-color); padding: 1.5rem; overflow-x: auto; box-shadow: 6px 6px 0px rgba(0,0,0,1); margin-top: 1.2rem; }
-        .code-block pre { font-family: var(--font-mono); font-size: 0.9rem; color: #f8f8f2; line-height: 1.5; font-weight: 500; }
+        /* Code block — FIX: constrain to parent width */
+        .code-block {
+            background: #111;
+            border: 2px solid var(--border-color);
+            padding: 1.5rem;
+            overflow-x: auto;
+            box-shadow: 6px 6px 0px rgba(0,0,0,1);
+            margin-top: 1.2rem;
+            max-width: 100%;
+        }
+        .code-block pre { font-family: var(--font-mono); font-size: 0.9rem; color: #f8f8f2; line-height: 1.5; font-weight: 500; white-space: pre; }
 
         .sidebar-widget { background: var(--card-bg); border: 2px solid var(--border-color); padding: 1.5rem; margin-bottom: 2rem; box-shadow: 6px 6px 0px rgba(0,0,0,1); }
         .sidebar-widget:last-child { margin-bottom: 0; }
@@ -71,11 +101,11 @@
 
         .footer { border-top: 2px solid var(--border-color); padding: 2rem 0; text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; background: var(--bg-color); }
 
-        /* ── EXTRAS ── */
-        .info-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        /* Info table — FIX: prevent overflow */
+        .info-table { width: 100%; border-collapse: collapse; margin-top: 1rem; table-layout: fixed; }
         .info-table tr { border-bottom: 1px solid #ccc; }
         .info-table tr:last-child { border-bottom: none; }
-        .info-table td { padding: 0.6rem 0.5rem; font-size: 0.95rem; font-weight: 500; vertical-align: top; }
+        .info-table td { padding: 0.6rem 0.5rem; font-size: 0.95rem; font-weight: 500; vertical-align: top; word-break: break-word; }
         .info-table td:first-child { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; color: var(--text-secondary); width: 42%; padding-right: 0.8rem; }
 
         .section-divider { border: none; border-top: 2px dashed #bbb; margin: 2.5rem 0; }
@@ -85,27 +115,26 @@
         .link-btn.primary { background: var(--text-primary); color: var(--bg-color); }
         .link-btn.primary:hover { background: var(--bg-color); color: var(--text-primary); }
 
-        .custom-metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px dashed #bbb; }
+        .custom-metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px dashed #bbb; gap: 0.5rem; }
         .custom-metric-row:last-child { border-bottom: none; }
         .cm-label { font-weight: 600; color: var(--text-secondary); flex: 1; font-size: 0.9rem; }
-        .cm-val { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; text-align: right; }
+        .cm-val { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; text-align: right; flex-shrink: 0; }
         .cm-note { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary); text-align: right; margin-top: 0.1rem; }
 
         .scorecard { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.7rem; }
         .score-row { display: flex; align-items: center; gap: 0.8rem; }
         .score-label { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700; text-transform: uppercase; width: 150px; flex-shrink: 0; }
-        .score-bar-wrap { flex: 1; height: 14px; border: 2px solid var(--border-color); background: var(--bg-color); }
+        .score-bar-wrap { flex: 1; height: 14px; border: 2px solid var(--border-color); background: var(--bg-color); min-width: 0; }
         .score-bar { height: 100%; background: var(--text-primary); }
-        .score-num { font-family: var(--font-mono); font-weight: 900; font-size: 0.85rem; width: 28px; text-align: right; }
+        .score-num { font-family: var(--font-mono); font-weight: 900; font-size: 0.85rem; width: 28px; text-align: right; flex-shrink: 0; }
 
-        /* Skills grid */
         .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
         .skill-card { border: 2px solid var(--border-color); padding: 0.9rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0px rgba(0,0,0,1); transition: var(--transition); }
         .skill-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0px rgba(0,0,0,1); }
         .skill-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.25rem; }
         .skill-desc { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; line-height: 1.4; }
 
-        /* Version evolution timeline */
+        /* Version timeline */
         .version-timeline { margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0; }
         .version-row { display: grid; grid-template-columns: 80px 2px 1fr; gap: 0 1rem; }
         .v-label { font-family: var(--font-mono); font-weight: 900; font-size: 0.9rem; text-align: right; padding-top: 0.5rem; padding-right: 0.4rem; white-space: nowrap; }
@@ -113,11 +142,11 @@
         .v-dot { width: 14px; height: 14px; border: 2px solid var(--border-color); background: var(--text-primary); flex-shrink: 0; margin-top: 0.55rem; }
         .v-connector { width: 2px; background: var(--border-color); flex: 1; min-height: 16px; }
         .version-row:last-child .v-connector { display: none; }
-        .v-content { border: 2px solid var(--border-color); padding: 0.8rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; margin-bottom: 0.8rem; transition: var(--transition); }
+        .v-content { border: 2px solid var(--border-color); padding: 0.8rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; margin-bottom: 0.8rem; transition: var(--transition); min-width: 0; }
         .v-content:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; }
         .v-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.2rem; }
         .v-desc { font-size: 0.85rem; color: var(--text-secondary); font-weight: 500; line-height: 1.5; }
-        .v-badge { display: inline-block; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; padding: 0.1rem 0.4rem; border: 1.5px solid var(--border-color); margin-top: 0.4rem; }
+        .v-badge { display: inline-block; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; padding: 0.1rem 0.4rem; border: 1.5px solid var(--border-color); margin-top: 0.4rem; margin-right: 0.3rem; }
         .v-badge.highlight { background: var(--text-primary); color: var(--bg-color); }
         .v-badge.warning { background: #fff3cd; color: #856404; border-color: #856404; }
         .v-badge.current { background: #d4edda; color: #155724; border-color: #155724; }
@@ -126,7 +155,7 @@
         .collab-card { border: 2px solid var(--border-color); padding: 1.2rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-bottom: 1rem; transition: var(--transition); }
         .collab-card:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #000; }
         .collab-card:last-child { margin-bottom: 0; }
-        .collab-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.8rem; }
+        .collab-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.8rem; flex-wrap: wrap; }
         .collab-avatar { width: 44px; height: 44px; border: 2px solid #000; background: #000; color: #F5F2EB; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 900; font-size: 1rem; flex-shrink: 0; }
         .collab-name { font-weight: 800; font-size: 1rem; }
         .collab-role { font-size: 0.82rem; color: var(--text-secondary); font-family: var(--font-mono); margin-top: 0.1rem; }
@@ -134,63 +163,85 @@
         .collab-link { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; border: 2px solid var(--border-color); padding: 0.3rem 0.7rem; background: var(--bg-color); box-shadow: 2px 2px 0 #000; transition: var(--transition); display: inline-flex; align-items: center; gap: 0.3rem; }
         .collab-link:hover { background: var(--text-primary); color: var(--bg-color); transform: translate(-1px,-1px); box-shadow: 3px 3px 0 #000; }
 
-        /* Arch layer */
+        /* Architecture */
         .arch-layer { border: 2px solid var(--border-color); padding: 1rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-bottom: 0.6rem; }
         .arch-layer-title { font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; border-bottom: 1px solid #ccc; padding-bottom: 0.3rem; font-family: var(--font-mono); }
         .arch-items { display: flex; flex-wrap: wrap; gap: 0.5rem; }
         .arch-item { background: var(--bg-color); border: 1.5px solid var(--border-color); padding: 0.25rem 0.6rem; font-size: 0.78rem; font-weight: 700; font-family: var(--font-mono); }
         .arch-arrow { text-align: center; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); margin: 0.3rem 0; }
 
-        /* stat highlight */
-        .stat-highlight { border: 2px solid var(--border-color); padding: 1.2rem 1.5rem; background: var(--text-primary); color: var(--bg-color); box-shadow: 5px 5px 0 #555; margin: 1.2rem 0; display: flex; align-items: center; gap: 1.2rem; }
+        /* Stat highlight */
+        .stat-highlight { border: 2px solid var(--border-color); padding: 1.2rem 1.5rem; background: var(--text-primary); color: var(--bg-color); box-shadow: 5px 5px 0 #555; margin: 1.2rem 0; display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
         .stat-big { font-family: var(--font-mono); font-size: 3rem; font-weight: 900; line-height: 1; flex-shrink: 0; }
         .stat-text { font-size: 1rem; font-weight: 600; line-height: 1.5; }
         .stat-sub { font-family: var(--font-mono); font-size: 0.78rem; opacity: 0.75; margin-top: 0.3rem; }
 
-        
-            .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
-            .metric-grid { grid-template-columns: 1fr 1fr; }
-            .skills-grid { grid-template-columns: 1fr; }
-            .version-row { grid-template-columns: 60px 2px 1fr; }
-            .score-label { width: 110px; font-size: 0.7rem; }
-        }
-    
+        /* ── TABLET ── */
         @media (max-width: 900px) {
-            .content-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .content-grid {
+                grid-template-columns: 1fr; /* ← KEY FIX: stack to single column */
+                gap: 2rem;
+            }
             .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
-            .metric-grid { grid-template-columns: 1fr 1fr; }
-            .skills-grid { grid-template-columns: 1fr; }
             .header-icon { margin: 0 auto; }
+            .skills-grid { grid-template-columns: 1fr 1fr; }
             .score-label { width: 120px; font-size: 0.7rem; }
-            .highlight-row { flex-direction: column; }
+            .version-row { grid-template-columns: 60px 2px 1fr; }
         }
 
+        /* ── MOBILE ── */
         @media (max-width: 600px) {
-            .project-title { font-size: 2.2rem; }
-            .metric-grid { grid-template-columns: 1fr; }
+            .project-title { font-size: 2rem; }
+            .metric-grid { grid-template-columns: 1fr 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
             .header-icon { width: 50px; height: 50px; font-size: 2rem; }
             .project-header { padding: 3rem 0 2rem 0; margin-bottom: 2rem; }
+
+            /* Scorecard stacks */
             .score-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
             .score-label { width: 100%; font-size: 0.85rem; }
             .score-bar-wrap { width: 100%; }
             .score-num { text-align: left; width: auto; margin-top: 0.2rem; }
-            .info-table td { display: block; width: 100% !important; padding: 0.2rem 0; }
-            .info-table tr { padding: 0.8rem 0; display: block; border-bottom: 1px dashed #ccc; }
+
+            /* Info table stacks */
+            .info-table, .info-table tbody, .info-table tr, .info-table td { display: block; width: 100% !important; }
+            .info-table tr { padding: 0.8rem 0; border-bottom: 1px dashed #ccc; }
             .info-table tr:last-child { border-bottom: none; }
-            .info-table td:first-child { padding-bottom: 0; font-size: 0.85rem; color: var(--text-secondary); border-bottom: none; font-weight: 800; }
+            .info-table td { padding: 0.2rem 0; word-break: break-all; }
+            .info-table td:first-child { padding-bottom: 0.15rem; font-size: 0.85rem; color: var(--text-secondary); font-weight: 800; border-bottom: none; width: 100% !important; }
+
             .nav-links { gap: 1rem; }
             .back-link { font-size: 0.8rem; }
+
+            /* Custom metric stacks */
             .custom-metric-row { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
             .cm-val { text-align: left; font-size: 1.1rem; }
             .cm-note { text-align: left; }
-            .team-highlight { flex-direction: column; text-align: center; gap: 0.8rem; padding: 1.5rem; }
-            .team-num { font-size: 3rem; }
-            .client-banner { flex-direction: column; text-align: center; padding: 1.5rem; gap: 0.8rem; }
-            .client-icon { margin-bottom: 0.2rem; }
-            .collab-card { flex-direction: column; align-items: center; text-align: center; padding: 1.5rem; gap: 0.8rem; }
-            .collab-links { justify-content: center; }
+
+            /* Code block smaller font */
+            .code-block { padding: 1rem; }
+            .code-block pre { font-size: 0.72rem; }
+
+            /* Arch items stack */
             .arch-items { flex-direction: column; align-items: stretch; }
             .arch-item { text-align: center; }
+
+            /* Link buttons stack */
+            .link-btn { display: flex; justify-content: center; margin-right: 0; }
+
+            /* Version timeline collapse label */
+            .version-row { grid-template-columns: 40px 2px 1fr; gap: 0 0.6rem; }
+            .v-label { font-size: 0.75rem; padding-right: 0.2rem; }
+
+            /* Stat highlight stacks */
+            .stat-highlight { flex-direction: column; gap: 0.6rem; padding: 1rem; }
+            .stat-big { font-size: 2.2rem; }
+
+            /* Metric value shrink */
+            .m-val { font-size: 1.4rem; }
+
+            /* Collab top wraps nicely */
+            .collab-top { gap: 0.8rem; }
         }
     </style>
 </head>
@@ -232,7 +283,6 @@
                         <p>The project's most distinctive feature is its <strong>documented evolution across 10 parser versions (v1–v10)</strong>, each one a deliberate improvement over the last — making the codebase a living record of engineering iteration and research-driven development.</p>
                     </div>
 
-                    <!-- Big stat -->
                     <div class="stat-highlight">
                         <div class="stat-big">250K+</div>
                         <div>
@@ -250,8 +300,8 @@
                         <tr><td>Total Commits</td><td>33 commits on main branch</td></tr>
                         <tr><td>Stars</td><td><i class="bi bi-star-fill"></i> 1</td></tr>
                         <tr><td>Parser Versions</td><td>v1 → v10 (10 documented iterations)</td></tr>
-                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/web-crawler" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">github.com/shamil-tp/web-crawler</a></td></tr>
-                        <tr><td>Live Link</td><td><a href="https://magnificent-recreation-production.up.railway.app/" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;">magnificent-recreation-production.up.railway.app</a></td></tr>
+                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/web-crawler" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">github.com/shamil-tp/web-crawler</a></td></tr>
+                        <tr><td>Live Link</td><td><a href="https://magnificent-recreation-production.up.railway.app/" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">magnificent-recreation-production.up.railway.app</a></td></tr>
                     </table>
                 </section>
 
@@ -277,7 +327,7 @@
 
                 <hr class="section-divider">
 
-                <!-- 3. VERSION EVOLUTION — THE CENTREPIECE -->
+                <!-- 3. VERSION EVOLUTION -->
                 <section class="content-section">
                     <h2 class="section-heading">Parser Evolution: v1 → v10</h2>
                     <div class="prose">
@@ -403,7 +453,7 @@
                             <div style="width:85.3%;background:#000;" title="JavaScript 85.3%"></div>
                             <div style="width:14.7%;background:#888;" title="EJS 14.7%"></div>
                         </div>
-                        <div style="display:flex;gap:1.5rem;margin-top:0.5rem;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;">
+                        <div style="display:flex;gap:1.5rem;margin-top:0.5rem;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;flex-wrap:wrap;">
                             <span><span style="display:inline-block;width:10px;height:10px;background:#000;border:1px solid #000;margin-right:4px;"></span>JavaScript 85.3%</span>
                             <span><span style="display:inline-block;width:10px;height:10px;background:#888;border:1px solid #000;margin-right:4px;"></span>EJS 14.7%</span>
                         </div>
@@ -506,25 +556,22 @@
                     <h2 class="section-heading">Folder Structure</h2>
                     <div class="code-block">
                         <pre><code>web-crawler/
-├── index.js                  # Express app entry point + crawl trigger
-├── parsers/                  # ★ The evolution archive — v1 through v10
-│   ├── crawlerV1.js          # Baseline recursive crawler
-│   ├── crawlerV2.js          # + URL normalisation & deduplication
-│   ├── crawlerV3.js          # + DOM parser integration
-│   ├── crawlerV4.js          # + Concurrent parallel fetching
-│   ├── crawlerV5.js          # + Error handling & timeout guards
-│   ├── crawlerV6.js          # + Visit frequency tracking
-│   ├── crawlerV7.js          # Peak speed (resource-heavy) ⚠
-│   ├── crawlerV8.js          # + Resource throttling & rate limiting
-│   ├── crawlerV9.js          # + Queue frontier & depth control
-│   └── crawlerV10.js         # ✓ Final production version
-├── modal/                    # Data models / storage logic
-├── views/                    # EJS templates — N-jin search UI
-├── public/
-│   └── logo/                 # Brand assets for N-jin
-├── .gitignore
+├── index.js              # Express app + crawl trigger
+├── parsers/              # ★ v1 through v10 evolution archive
+│   ├── crawlerV1.js      # Baseline recursive crawler
+│   ├── crawlerV2.js      # + URL normalisation
+│   ├── crawlerV3.js      # + DOM parser integration
+│   ├── crawlerV4.js      # + Concurrent fetching
+│   ├── crawlerV5.js      # + Error handling & timeouts
+│   ├── crawlerV6.js      # + Visit frequency tracking
+│   ├── crawlerV7.js      # Peak speed (resource-heavy) ⚠
+│   ├── crawlerV8.js      # + Resource throttling
+│   ├── crawlerV9.js      # + Queue frontier & depth
+│   └── crawlerV10.js     # ✓ Final production version
+├── modal/                # Data models / storage logic
+├── views/                # EJS templates — N-jin UI
+├── public/logo/          # Brand assets
 ├── package.json
-├── package-lock.json
 └── README.md</code></pre>
                     </div>
                 </section>
@@ -633,7 +680,6 @@
             <!-- ═══════════════ SIDEBAR ═══════════════ -->
             <aside class="sidebar-column">
 
-                <!-- Repo Metrics -->
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Repo Metrics</h3>
                     <div class="metric-grid">
@@ -664,7 +710,6 @@
                     </div>
                 </div>
 
-                <!-- Custom Metrics -->
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Custom Metrics</h3>
                     <div class="custom-metric-row">
@@ -711,7 +756,6 @@
                     </div>
                 </div>
 
-                <!-- Scorecard -->
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Project Scorecard</h3>
                     <div class="scorecard">
@@ -748,7 +792,6 @@
                     </div>
                 </div>
 
-                <!-- Tech Stack -->
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Tech Stack</h3>
                     <div class="tag-cloud">
@@ -765,7 +808,6 @@
                     </div>
                 </div>
 
-                <!-- Quick Links -->
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Quick Links</h3>
                     <div style="display:flex;flex-direction:column;gap:0.6rem;">
