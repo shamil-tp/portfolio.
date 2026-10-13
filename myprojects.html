@@ -271,6 +271,36 @@
 
         <main class="projects-grid">
 
+            <!-- OpsPilot -->
+            <article class="project-card">
+                <h3 class="project-title">
+                    <a href="https://github.com/shamil-tp/OopsPilot" target="_blank" class="project-link">OpsPilot</a>
+                    <a href="https://opspilot.shamiltp.me" target="_blank" class="project-link" aria-label="Live Demo" style="display: flex; align-items: center; margin-left: 0.5rem;" title="Live Demo">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: inherit;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </a>
+                </h3>
+                <p class="project-desc">An agentic incident response and DevOps copilot that investigates outages from real evidence, proposes fixes, and executes them only after human approval.</p>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">FastAPI</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">Gemini</span>
+                    <span class="tech-tag">Docker</span>
+                    <span class="tech-tag">GitHub Actions</span>
+                    <span class="tech-tag">Next.js</span>
+                </div>
+
+                <div class="contributions">
+                    <h4>Key Contributions</h4>
+                    <ul>
+                        <li>Built the async FastAPI backend: 33 REST + WebSocket endpoints driving the agent pipeline</li>
+                        <li>Deployed and hosted the backend on the server (live API docs at fast.shamiltp.me/docs)</li>
+                        <li>Maintained the GitHub Actions CI/CD pipeline: lint, Postgres tests, migration drift checks, Docker smoke tests</li>
+                        <li>Wired HMAC-verified GitHub webhooks that feed CI/CD evidence and trigger AI code reviews</li>
+                    </ul>
+                </div>
+            </article>
+
             <!-- Skylark -->
             <article class="project-card">
                 <h3 class="project-title">
