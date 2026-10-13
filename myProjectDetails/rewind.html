@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rewind Details | Shamil TP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* ── BASE DESIGN SYSTEM ── */
+        :root {
+            --bg-color: #F5F2EB;
+            --card-bg: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #333333;
+            --accent: #000000;
+            --border-color: #000000;
+            --nav-bg: rgba(245, 242, 235, 0.95);
+            --font-main: 'Outfit', 'Helvetica Neue', sans-serif;
+            --font-mono: 'Space Mono', 'Fira Code', monospace;
+            --transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* ── CRITICAL FIX: prevent horizontal overflow ── */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-main); line-height: 1.5; font-size: 15px; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; width: 100%; }
+
+        /* Navbar */
+        .navbar { background: var(--nav-bg); border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 60px; }
+        .back-link { font-weight: 800; font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.4rem; transition: var(--transition); text-transform: uppercase; }
+        .back-link:hover { text-decoration: underline; }
+        .nav-links { display: flex; list-style: none; gap: 1.5rem; }
+        .nav-links a { font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.9rem; font-weight: 700; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--text-primary); text-decoration: underline; }
+
+        /* Header */
+        .project-header { background: var(--bg-color); padding: 4rem 0 3rem 0; border-bottom: 2px solid var(--border-color); margin-bottom: 3rem; }
+        .header-container { display: flex; align-items: center; gap: 1.5rem; }
+        .header-icon { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--text-primary); border: 2px solid var(--border-color); background: var(--card-bg); box-shadow: 4px 4px 0px rgba(0,0,0,1); flex-shrink: 0; }
+        .project-title { font-size: 2.8rem; font-weight: 900; color: var(--text-primary); margin-bottom: 0.3rem; letter-spacing: -1px; text-transform: uppercase; line-height: 1; }
+        .project-subtitle { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; background: var(--text-primary); color: var(--bg-color); display: inline-block; padding: 0.3rem 0.6rem; margin-top: 0.3rem; }
+
+        /* Main Grid — desktop: 7/3 split, mobile: single column */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 7fr 3fr;
+            gap: 2.5rem;
+            padding-bottom: 5rem;
+            align-items: start;
+            /* FIX: prevent grid from exceeding viewport */
+            width: 100%;
+            min-width: 0;
+        }
+        .main-column, .sidebar-column {
+            min-width: 0; /* FIX: allow grid children to shrink below content size */
+            width: 100%;
+        }
+
+        /* Sections */
+        .content-section { margin-bottom: 2.5rem; }
+        .content-section:last-child { margin-bottom: 0; }
+        .section-heading { font-size: 1.6rem; font-weight: 900; color: var(--text-primary); margin-bottom: 1.2rem; border-bottom: 3px solid var(--border-color); padding-bottom: 0.3rem; text-transform: uppercase; }
+
+        /* Prose */
+        .prose p { margin-bottom: 1rem; color: var(--text-primary); font-size: 1.05rem; line-height: 1.6; font-weight: 500; }
+        .prose p:last-child { margin-bottom: 0; }
+        .prose strong { color: var(--text-primary); font-weight: 800; }
+
+        /* Feature list */
+        .feature-list { list-style: none; padding-left: 0; color: var(--text-primary); margin-top: 1rem; }
+        .feature-list li { margin-bottom: 1rem; line-height: 1.5; font-size: 1rem; position: relative; padding-left: 1.2rem; font-weight: 500; }
+        .feature-list li::before { content: '→'; position: absolute; left: 0; font-family: var(--font-mono); font-weight: 900; }
+
+        /* Code block — FIX: constrain to parent width */
+        .code-block {
+            background: #111;
+            border: 2px solid var(--border-color);
+            padding: 1.5rem;
+            overflow-x: auto;
+            box-shadow: 6px 6px 0px rgba(0,0,0,1);
+            margin-top: 1.2rem;
+            max-width: 100%;
+        }
+        .code-block pre { font-family: var(--font-mono); font-size: 0.9rem; color: #f8f8f2; line-height: 1.5; font-weight: 500; white-space: pre; }
+
+        /* Sidebar */
+        .sidebar-widget { background: var(--card-bg); border: 2px solid var(--border-color); padding: 1.5rem; margin-bottom: 2rem; box-shadow: 6px 6px 0px rgba(0,0,0,1); }
+        .sidebar-widget:last-child { margin-bottom: 0; }
+        .widget-title { font-size: 1.2rem; font-weight: 900; color: var(--text-primary); margin-bottom: 1.2rem; text-transform: uppercase; border-bottom: 2px solid var(--border-color); padding-bottom: 0.4rem; }
+
+        /* Metrics */
+        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .metric-item { display: flex; flex-direction: column; border-left: 3px solid var(--text-primary); padding-left: 0.8rem; }
+        .m-val { font-family: var(--font-mono); font-size: 1.8rem; font-weight: 900; color: var(--text-primary); line-height: 1; margin-bottom: 0.2rem; }
+        .m-label { font-size: 0.75rem; text-transform: uppercase; font-weight: 800; color: var(--text-secondary); }
+
+        /* Tags */
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .tag { font-family: var(--font-mono); background: var(--card-bg); color: var(--text-primary); padding: 0.4rem 0.8rem; border: 2px solid var(--border-color); font-size: 0.85rem; font-weight: 700; box-shadow: 2px 2px 0px rgba(0,0,0,1); transition: var(--transition); text-transform: uppercase; }
+        .tag:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0px rgba(0,0,0,1); background: var(--text-primary); color: var(--bg-color); }
+
+        /* Footer */
+        .footer { border-top: 2px solid var(--border-color); padding: 2rem 0; text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; background: var(--bg-color); }
+
+        /* Info table — FIX: prevent overflow */
+        .info-table { width: 100%; border-collapse: collapse; margin-top: 1rem; table-layout: fixed; }
+        .info-table tr { border-bottom: 1px solid #ccc; }
+        .info-table tr:last-child { border-bottom: none; }
+        .info-table td { padding: 0.6rem 0.5rem; font-size: 0.95rem; font-weight: 500; vertical-align: top; word-break: break-word; }
+        .info-table td:first-child { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; color: var(--text-secondary); width: 42%; padding-right: 0.8rem; }
+
+        /* Data flow steps */
+        .flow-steps { margin-top: 1rem; }
+        .flow-step { display: flex; gap: 1rem; margin-bottom: 1rem; align-items: flex-start; }
+        .step-num { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; background: var(--text-primary); color: var(--bg-color); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .step-text { font-size: 0.98rem; font-weight: 500; line-height: 1.5; padding-top: 0.2rem; }
+        .step-text strong { font-weight: 800; }
+
+        /* Skills grid */
+        .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
+        .skill-card { border: 2px solid var(--border-color); padding: 0.9rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0px rgba(0,0,0,1); transition: var(--transition); }
+        .skill-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0px rgba(0,0,0,1); }
+        .skill-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .skill-desc { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; line-height: 1.4; }
+
+        /* Scorecard */
+        .scorecard { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.7rem; }
+        .score-row { display: flex; align-items: center; gap: 0.8rem; }
+        .score-label { font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; width: 160px; flex-shrink: 0; }
+        .score-bar-wrap { flex: 1; height: 14px; border: 2px solid var(--border-color); background: var(--bg-color); min-width: 0; }
+        .score-bar { height: 100%; background: var(--text-primary); }
+        .score-num { font-family: var(--font-mono); font-weight: 900; font-size: 0.85rem; width: 28px; text-align: right; flex-shrink: 0; }
+
+        /* Collab card */
+        .collab-card { display: flex; align-items: center; gap: 1rem; padding: 1rem; border: 2px solid var(--border-color); background: var(--card-bg); box-shadow: 3px 3px 0px rgba(0,0,0,1); margin-bottom: 0.8rem; transition: var(--transition); }
+        .collab-card:last-child { margin-bottom: 0; }
+        .collab-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0px rgba(0,0,0,1); }
+        .collab-avatar { width: 42px; height: 42px; border: 2px solid var(--border-color); background: var(--text-primary); color: var(--bg-color); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 900; font-size: 1rem; flex-shrink: 0; }
+        .collab-info { flex: 1; min-width: 0; }
+        .collab-name { font-weight: 800; font-size: 0.95rem; }
+        .collab-role { font-size: 0.8rem; color: var(--text-secondary); font-family: var(--font-mono); }
+        .collab-link { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; border: 2px solid var(--border-color); padding: 0.25rem 0.5rem; background: var(--bg-color); box-shadow: 2px 2px 0 #000; transition: var(--transition); }
+        .collab-link:hover { background: var(--text-primary); color: var(--bg-color); }
+
+        /* Link button */
+        .link-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; border: 2px solid var(--border-color); padding: 0.5rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; transition: var(--transition); text-transform: uppercase; margin-top: 0.8rem; margin-right: 0.6rem; }
+        .link-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; background: var(--text-primary); color: var(--bg-color); }
+        .link-btn.primary { background: var(--text-primary); color: var(--bg-color); }
+        .link-btn.primary:hover { background: var(--bg-color); color: var(--text-primary); }
+
+        /* Architecture diagram */
+        .arch-diagram { margin-top: 1.2rem; font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.6; }
+        .arch-box { border: 2px solid var(--border-color); padding: 0.6rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; margin-bottom: 0; display: inline-block; font-weight: 700; }
+        .arch-layer { border: 2px solid var(--border-color); padding: 1rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-bottom: 0.6rem; }
+        .arch-layer-title { font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; border-bottom: 1px solid #ccc; padding-bottom: 0.3rem; }
+        .arch-items { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .arch-item { background: var(--bg-color); border: 1.5px solid var(--border-color); padding: 0.25rem 0.6rem; font-size: 0.78rem; font-weight: 700; }
+        .arch-arrow { text-align: center; font-size: 1.2rem; line-height: 1; margin: 0.2rem 0; color: var(--text-secondary); font-weight: 900; }
+
+        /* Custom metric */
+        .custom-metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px dashed #bbb; font-size: 0.9rem; gap: 0.5rem; }
+        .custom-metric-row:last-child { border-bottom: none; }
+        .cm-label { font-weight: 600; color: var(--text-secondary); flex: 1; }
+        .cm-val { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; text-align: right; flex-shrink: 0; }
+        .cm-note { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); text-align: right; margin-top: 0.1rem; }
+
+        /* Section divider */
+        .section-divider { border: none; border-top: 2px dashed #bbb; margin: 2.5rem 0; }
+
+        /* ── TABLET ── */
+        @media (max-width: 900px) {
+            .content-grid {
+                grid-template-columns: 1fr;  /* ← KEY FIX: stack to single column */
+                gap: 2rem;
+            }
+            .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+            .header-icon { margin: 0 auto; }
+            .skills-grid { grid-template-columns: 1fr 1fr; }
+            .score-label { width: 130px; font-size: 0.75rem; }
+        }
+
+        /* ── MOBILE ── */
+        @media (max-width: 600px) {
+            .project-title { font-size: 2rem; }
+            .metric-grid { grid-template-columns: 1fr 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .header-icon { width: 50px; height: 50px; font-size: 2rem; }
+            .project-header { padding: 3rem 0 2rem 0; margin-bottom: 2rem; }
+
+            /* Scorecard stacks on mobile */
+            .score-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+            .score-label { width: 100%; font-size: 0.85rem; }
+            .score-bar-wrap { width: 100%; }
+            .score-num { text-align: left; width: auto; margin-top: 0.2rem; }
+
+            /* Info table stacks on mobile */
+            .info-table, .info-table tbody, .info-table tr, .info-table td { display: block; width: 100% !important; }
+            .info-table tr { padding: 0.8rem 0; border-bottom: 1px dashed #ccc; }
+            .info-table tr:last-child { border-bottom: none; }
+            .info-table td { padding: 0.2rem 0; word-break: break-all; }
+            .info-table td:first-child { padding-bottom: 0.15rem; font-size: 0.85rem; color: var(--text-secondary); font-weight: 800; border-bottom: none; width: 100% !important; }
+
+            .nav-links { gap: 1rem; }
+            .back-link { font-size: 0.8rem; }
+
+            /* Custom metric stacks */
+            .custom-metric-row { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
+            .cm-val { text-align: left; font-size: 1.1rem; }
+            .cm-note { text-align: left; }
+
+            /* Collab card stacks */
+            .collab-card { flex-direction: column; align-items: center; text-align: center; padding: 1.2rem; gap: 0.8rem; }
+
+            /* Code block smaller font on mobile */
+            .code-block { padding: 1rem; }
+            .code-block pre { font-size: 0.75rem; }
+
+            /* Arch items stack */
+            .arch-items { flex-direction: column; align-items: stretch; }
+            .arch-item { text-align: center; }
+
+            /* Link buttons stack */
+            .link-btn { display: flex; justify-content: center; margin-right: 0; }
+
+            /* M value shrink */
+            .m-val { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="mycontributions.html" class="back-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="project-header">
+        <div class="container header-container">
+            <div class="header-icon"><i class="bi bi-vinyl"></i></div>
+            <div class="header-info">
+                <h1 class="project-title">Rewind</h1>
+                <p class="project-subtitle">Self-Hosted Music Server</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="main-content">
+        <div class="container content-grid">
+
+            <!-- ═══════════════ MAIN COLUMN ═══════════════ -->
+            <div class="main-column">
+
+                <!-- 1. PROJECT OVERVIEW -->
+                <section class="content-section">
+                    <h2 class="section-heading">Project Overview</h2>
+                    <div class="prose">
+                        <p><strong>Rewind</strong> is a lightweight, self-hosted music server for music you own. Plug a USB drive full of music into a home server, point Rewind at it, and listen in a browser on the server, across the home network, or over a private <strong>Tailscale</strong> network.</p>
+                        <p>It needs <strong>no accounts with anyone, no cloud service and no telemetry</strong>. The whole thing ships as <strong>one Go binary</strong> with the web interface built in and <strong>one SQLite file</strong> — no Node.js, database server or Docker on the server.</p>
+                    </div>
+
+                    <table class="info-table" style="margin-top:1.4rem;">
+                        <tr><td>Project Type</td><td>Self-Hosted Server Application + Web Player (PWA)</td></tr>
+                        <tr><td>Domain</td><td>Media Streaming / Home Lab</td></tr>
+                        <tr><td>Repository Owner</td><td>shamil-tp</td></tr>
+                        <tr><td>Your Role</td><td>Sole Developer — shamil-tp</td></tr>
+                        <tr><td>Latest Release</td><td>v1.2.0 (Linux amd64)</td></tr>
+                        <tr><td>License</td><td>Apache 2.0</td></tr>
+                        <tr><td>Visibility</td><td>Public</td></tr>
+                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/rewind" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">github.com/shamil-tp/rewind</a></td></tr>
+                        <tr><td>Releases</td><td><a href="https://github.com/shamil-tp/rewind/releases" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">github.com/shamil-tp/rewind/releases</a></td></tr>
+                    </table>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 2. PROJECT WORKING -->
+                <section class="content-section">
+                    <h2 class="section-heading">How The Project Works</h2>
+                    <div class="prose">
+                        <p>Rewind is a <strong>single Go process</strong> that indexes music folders into SQLite and serves both the API and an embedded <strong>Svelte</strong> web player. It is private by default and only becomes reachable from other devices when the owner turns that on.</p>
+                    </div>
+
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <div class="step-num">1</div>
+                            <div class="step-text"><strong>Install</strong> — a verified release archive is installed as a <strong>systemd</strong> service running as an unprivileged user with a read-only file system, except for its data directory.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-num">2</div>
+                            <div class="step-text"><strong>Claim the server</strong> — the owner account is created only from the server itself (via an SSH tunnel) using a one-time setup code. There is no default password.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-num">3</div>
+                            <div class="step-text"><strong>Index the library</strong> — Rewind scans the configured folders for MP3, FLAC, M4A, Ogg and WAV files, reads tags with <strong>TagLib</strong>, and never writes to the music. Rescans are incremental, and unplugging the drive keeps the library and playlists.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-num">4</div>
+                            <div class="step-text"><strong>Stream</strong> — the browser plays the original files with seeking via <strong>HTTP Range</strong> requests; nothing is transcoded. Files are served only through an indexed track's database record, only from inside its folder, and never through symlinks.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-num">5</div>
+                            <div class="step-text"><strong>Listen anywhere private</strong> — optional LAN access or HTTPS through <code>tailscale serve</code>. Rewind never opens firewall ports and is never exposed to the internet.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-num">6</div>
+                            <div class="step-text"><strong>Operate</strong> — the installer upgrades by verifying the archive, test-starting it, backing up the database, switching and health-checking, and can roll back to any earlier version.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 3. TOOLS USED -->
+                <section class="content-section">
+                    <h2 class="section-heading">Tools &amp; Technologies</h2>
+                    <div class="prose">
+                        <p>A deliberately small stack: Go and SQLite on the server, Svelte in the browser, and shell scripts for packaging, installing and operating it.</p>
+                    </div>
+
+                    <table class="info-table" style="margin-top:1rem;">
+                        <tr><td>Backend</td><td><strong>Go</strong> — HTTP server, library scanner, auth, plugins; a single static binary</td></tr>
+                        <tr><td>Database</td><td><strong>SQLite</strong> (modernc.org, pure Go) — 4 versioned migrations</td></tr>
+                        <tr><td>Metadata</td><td><strong>TagLib</strong> (go.senan.xyz/taglib) — reads audio tags</td></tr>
+                        <tr><td>Password Hashing</td><td><strong>Argon2id</strong> (golang.org/x/crypto)</td></tr>
+                        <tr><td>Frontend</td><td><strong>Svelte + TypeScript</strong> — built with <strong>Vite</strong>, embedded in the binary</td></tr>
+                        <tr><td>App Shell</td><td><strong>PWA</strong> — service worker caches only the interface</td></tr>
+                        <tr><td>Testing</td><td><strong>go test</strong> (race detector, fuzzing) + <strong>Vitest</strong> &amp; Testing Library</td></tr>
+                        <tr><td>Service</td><td><strong>systemd</strong> — hardened, unprivileged service</td></tr>
+                        <tr><td>Networking</td><td><strong>Tailscale</strong> — private HTTPS access via <code>tailscale serve</code></td></tr>
+                        <tr><td>CI/CD</td><td><strong>GitHub Actions</strong> — CI, SSH deploy and tagged releases</td></tr>
+                        <tr><td>Tooling</td><td><strong>Shell scripts</strong> — build, install, smoke test, packaging, licence notices</td></tr>
+                    </table>
+
+                    <!-- Language Breakdown Bar -->
+                    <div style="margin-top:1.4rem;">
+                        <p style="font-family:var(--font-mono);font-size:0.8rem;font-weight:700;text-transform:uppercase;margin-bottom:0.6rem;">Language Breakdown</p>
+                        <div style="height:18px;border:2px solid #000;display:flex;overflow:hidden;box-shadow:3px 3px 0 #000;">
+                            <div style="width:57.3%;background:#000;" title="Go 57.3%"></div>
+                            <div style="width:17.8%;background:#444;" title="TypeScript 17.8%"></div>
+                            <div style="width:13.5%;background:#777;" title="Svelte 13.5%"></div>
+                            <div style="width:6.7%;background:#aaa;" title="Shell 6.7%"></div>
+                            <div style="width:4.6%;background:#ddd;" title="Other 4.6%"></div>
+                        </div>
+                        <div style="display:flex;gap:1.5rem;margin-top:0.5rem;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;flex-wrap:wrap;">
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#000;border:1px solid #000;margin-right:4px;"></span>Go 57.3%</span>
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#444;border:1px solid #000;margin-right:4px;"></span>TypeScript 17.8%</span>
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#777;border:1px solid #000;margin-right:4px;"></span>Svelte 13.5%</span>
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#aaa;border:1px solid #000;margin-right:4px;"></span>Shell 6.7%</span>
+                            <span><span style="display:inline-block;width:10px;height:10px;background:#ddd;border:1px solid #000;margin-right:4px;"></span>Other 4.6%</span>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 4. SKILLS ACHIEVED -->
+                <section class="content-section">
+                    <h2 class="section-heading">Skills Achieved</h2>
+                    <div class="prose">
+                        <p>Building Rewind end to end covered systems programming, application security and shipping software people install on their own machines.</p>
+                    </div>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <div class="skill-name">Go Backend Development</div>
+                            <div class="skill-desc">net/http server, package design, embedded assets, single-binary builds</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Media Streaming</div>
+                            <div class="skill-desc">HTTP Range requests, seeking, codec support across browsers</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">SQLite &amp; Migrations</div>
+                            <div class="skill-desc">Schema design, versioned migrations, incremental library indexing</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Application Security</div>
+                            <div class="skill-desc">Argon2id, server-side sessions, strict cookies, rate limiting, path confinement</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Svelte + TypeScript</div>
+                            <div class="skill-desc">Component UI, theming with contrast checks, PWA service worker</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Linux Service Ops</div>
+                            <div class="skill-desc">systemd hardening, install/upgrade/rollback scripts, backups</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Release Engineering</div>
+                            <div class="skill-desc">Checksummed artifacts, smoke tests, third-party licence notices</div>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-name">Testing &amp; Fuzzing</div>
+                            <div class="skill-desc">Race-detector tests, Go fuzzing of Range parsing, Vitest UI tests</div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 5. KEY FEATURES -->
+                <section class="content-section">
+                    <h2 class="section-heading">Key Features</h2>
+                    <ul class="feature-list">
+                        <li><strong>Your Files Stay Put:</strong> Indexes MP3, FLAC, M4A (AAC/ALAC), Ogg and WAV from one or more folders, read-only.</li>
+                        <li><strong>Incremental Rescans:</strong> Only changed files are re-read; a disconnected drive keeps its library and playlists.</li>
+                        <li><strong>Web Player:</strong> Browse, search and sort the library, with a floating mini player and a full Now Playing screen.</li>
+                        <li><strong>No Transcoding:</strong> Streams the original files with seeking over HTTP Range.</li>
+                        <li><strong>Playlists &amp; Preferences:</strong> Ordered playlists with previous/next, and per-account preferences.</li>
+                        <li><strong>Themes:</strong> Rewind Dark (neo-brutalist), Light, OLED Black, and custom colours with contrast checks and live preview.</li>
+                        <li><strong>Installable PWA:</strong> Only the interface is cached — music, library data and sign-in never stay on the device.</li>
+                        <li><strong>Private by Default:</strong> Listens on 127.0.0.1 only, one owner account, no default password.</li>
+                        <li><strong>Tiny Footprint:</strong> One Go binary and one SQLite file.</li>
+                        <li><strong>Optional Plugins:</strong> Compiled-in plugins the administrator must enable, such as a missing-tracks report.</li>
+                    </ul>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 6. MY CONTRIBUTION -->
+                <section class="content-section">
+                    <h2 class="section-heading">My Contribution</h2>
+                    <div class="prose">
+                        <p>I designed and built Rewind <strong>end to end</strong> — the Go server, the Svelte player, the installer and the release pipeline — and published it as versioned releases.</p>
+                    </div>
+                    <ul class="feature-list" style="margin-top:1rem;">
+                        <li><strong>Go Server:</strong> Auth, config, database, library scanner, metadata, plugins, preferences and the HTTP API with Range-based streaming.</li>
+                        <li><strong>Security Model:</strong> Localhost-only default, server-only setup with a one-time code, Argon2id passwords, server-side sessions, rate-limited sign-in, and file access confined to indexed tracks.</li>
+                        <li><strong>Svelte Web Player:</strong> Library browsing, mini player, Now Playing screen, playlists, theme editor and PWA support.</li>
+                        <li><strong>Install &amp; Operations:</strong> systemd installer with checksum verification, upgrade with automatic backup and health check, and rollback.</li>
+                        <li><strong>CI/CD:</strong> GitHub Actions for CI (gofmt, vet, race tests, web checks), SSH deployment, and tagged releases with smoke tests, licence notices and LGPL sources.</li>
+                        <li><strong>Documentation:</strong> Install, configuration, operations, API, architecture and security-audit guides.</li>
+                    </ul>
+
+                    <a href="https://github.com/shamil-tp/rewind/releases" target="_blank" class="link-btn primary"><i class="bi bi-box-seam"></i> Releases</a>
+                    <a href="https://github.com/shamil-tp/rewind" target="_blank" class="link-btn"><i class="bi bi-github"></i> Full Repository</a>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 7. SYSTEM STRUCTURE -->
+                <section class="content-section">
+                    <h2 class="section-heading">Folder Structure</h2>
+                    <div class="code-block">
+                        <pre><code>rewind/
+├── cmd/rewind/          ← binary entry point
+├── internal/
+│   ├── auth/            ← accounts, Argon2id, sessions
+│   ├── config/          ← settings from env
+│   ├── db/migrations/   ← SQLite schema 0001–0004
+│   ├── library/         ← folder scanning, incremental rescans
+│   ├── metadata/        ← TagLib tag reading
+│   ├── plugin/          ← plugin registry
+│   ├── prefs/           ← per-account preferences
+│   └── server/          ← HTTP API, streaming, embedded UI
+├── plugins/
+│   └── missingtracks/   ← optional plugin
+├── web/
+│   ├── src/             ← Svelte app, components, services
+│   └── sw/              ← PWA service worker
+├── scripts/             ← build, install, smoke test, packaging
+├── docs/                ← install, ops, API, architecture
+└── .github/workflows/   ← ci.yml, deploy.yml, release.yml</code></pre>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 8. SYSTEM ARCHITECTURE -->
+                <section class="content-section">
+                    <h2 class="section-heading">System Architecture</h2>
+                    <div class="prose">
+                        <p>Everything runs inside one process on the home server. The only state is the SQLite database; the music folders are read-only.</p>
+                    </div>
+
+                    <div class="arch-diagram">
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">🖥 Client — Svelte PWA (Browser)</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Library Browser</span>
+                                <span class="arch-item">Mini Player</span>
+                                <span class="arch-item">Now Playing</span>
+                                <span class="arch-item">Playlists</span>
+                                <span class="arch-item">Theme Editor</span>
+                                <span class="arch-item">Service Worker</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ HTTP API + Range Streaming (localhost / LAN / Tailscale)</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">⚙ Server — Single Go Binary (systemd)</div>
+                            <div class="arch-items">
+                                <span class="arch-item">HTTP Server</span>
+                                <span class="arch-item">Auth &amp; Sessions</span>
+                                <span class="arch-item">Library Scanner</span>
+                                <span class="arch-item">TagLib Metadata</span>
+                                <span class="arch-item">Stream Handler</span>
+                                <span class="arch-item">Plugins</span>
+                                <span class="arch-item">Embedded UI</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ SQL</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">🗄 Data Layer — SQLite (one file)</div>
+                            <div class="arch-items">
+                                <span class="arch-item">auth</span>
+                                <span class="arch-item">library</span>
+                                <span class="arch-item">playlists</span>
+                                <span class="arch-item">preferences</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">↕ Read-only</div>
+                        <div class="arch-layer">
+                            <div class="arch-layer-title">💾 Storage</div>
+                            <div class="arch-items">
+                                <span class="arch-item">USB Drive / Music Folders</span>
+                                <span class="arch-item">MP3 · FLAC · M4A · Ogg · WAV</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="info-table" style="margin-top:1.4rem;">
+                        <tr><td>Deployment Model</td><td>Self-hosted single binary as a systemd service</td></tr>
+                        <tr><td>Network Exposure</td><td>Localhost by default; LAN or Tailscale opt-in</td></tr>
+                        <tr><td>Auth Strategy</td><td>Server-side sessions, HttpOnly + SameSite=Strict cookies</td></tr>
+                        <tr><td>Streaming</td><td>Original files over HTTP Range, no transcoding</td></tr>
+                        <tr><td>State</td><td>One SQLite file — the only thing to back up</td></tr>
+                    </table>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- 9. COLLABORATORS -->
+                <section class="content-section">
+                    <h2 class="section-heading">Collaborators</h2>
+                    <div class="prose" style="margin-bottom:1rem;">
+                        <p>A <strong>solo project</strong> — designed, built, tested and released by me.</p>
+                    </div>
+
+                    <div class="collab-card" style="flex-direction:column;align-items:flex-start;gap:0.8rem;padding:1.2rem;">
+                        <div style="display:flex;align-items:center;gap:1rem;width:100%;">
+                            <div class="collab-avatar">ST</div>
+                            <div class="collab-info">
+                                <div class="collab-name">shamil-tp <span style="font-family:var(--font-mono);font-size:0.72rem;background:#000;color:#F5F2EB;padding:0.12rem 0.4rem;margin-left:0.4rem;">YOU · SOLE DEVELOPER</span></div>
+                                <div class="collab-role">Go Server, Svelte Player, Installer &amp; Release Pipeline</div>
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                            <a href="https://github.com/shamil-tp" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/shamil-tp" target="_blank" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- ═══════════════ SIDEBAR ═══════════════ -->
+            <aside class="sidebar-column">
+
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Project Metrics</h3>
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <span class="m-val">1</span>
+                            <span class="m-label">Go Binary</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">3</span>
+                            <span class="m-label">Releases</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">30</span>
+                            <span class="m-label">Go Test Files</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">17</span>
+                            <span class="m-label">Web Test Files</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">5</span>
+                            <span class="m-label">Audio Formats</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="m-val">4</span>
+                            <span class="m-label">DB Migrations</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">CI/CD Pipeline</h3>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">CI (push / PR)</div>
+                            <div class="cm-note">gofmt · mod tidy · vet · race tests · web checks</div>
+                        </div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Deploy</div>
+                            <div class="cm-note">test · build · smoke test · SSH deploy</div>
+                        </div>
+                    </div>
+                    <div class="custom-metric-row">
+                        <div>
+                            <div class="cm-label">Release (v* tags)</div>
+                            <div class="cm-note">verify · build · package · notices · LGPL sources</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Tech Stack</h3>
+                    <div class="tag-cloud">
+                        <span class="tag">Go</span>
+                        <span class="tag">SQLite</span>
+                        <span class="tag">TagLib</span>
+                        <span class="tag">Argon2id</span>
+                        <span class="tag">Svelte</span>
+                        <span class="tag">TypeScript</span>
+                        <span class="tag">Vite</span>
+                        <span class="tag">Vitest</span>
+                        <span class="tag">PWA</span>
+                        <span class="tag">systemd</span>
+                        <span class="tag">Tailscale</span>
+                        <span class="tag">GitHub Actions</span>
+                        <span class="tag">Shell</span>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Quick Links</h3>
+                    <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                        <a href="https://github.com/shamil-tp/rewind" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-github"></i> GitHub Repo</a>
+                        <a href="https://github.com/shamil-tp/rewind/releases" target="_blank" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-box-seam"></i> Releases</a>
+                        <a href="https://github.com/shamil-tp/rewind/tree/main/docs" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-book"></i> Docs</a>
+                        <a href="https://github.com/shamil-tp/rewind/tree/main/internal" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Go Server</a>
+                        <a href="https://github.com/shamil-tp/rewind/tree/main/.github/workflows" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-gear"></i> CI Workflows</a>
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Shamil TP. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

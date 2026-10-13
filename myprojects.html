@@ -331,6 +331,36 @@
                 </div>
             </article>
 
+            <!-- Rewind -->
+            <article class="project-card">
+                <h3 class="project-title">
+                    <a href="https://github.com/shamil-tp/rewind" target="_blank" class="project-link">Rewind</a>
+                    <a href="https://github.com/shamil-tp/rewind/releases" target="_blank" class="project-link" aria-label="Releases" style="display: flex; align-items: center; margin-left: 0.5rem;" title="Releases">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: inherit;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </a>
+                </h3>
+                <p class="project-desc">A lightweight, private, self-hosted music server: plug in a USB drive of music and stream it from any browser on your network or Tailscale.</p>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">Go</span>
+                    <span class="tech-tag">SQLite</span>
+                    <span class="tech-tag">Svelte</span>
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">systemd</span>
+                    <span class="tech-tag">Tailscale</span>
+                </div>
+
+                <div class="contributions">
+                    <h4>Key Contributions</h4>
+                    <ul>
+                        <li>Built a single Go binary with an embedded Svelte PWA and one SQLite file, with no Docker or database server</li>
+                        <li>Streamed original audio over HTTP Range with incremental TagLib library indexing</li>
+                        <li>Hardened security: localhost-only by default, Argon2id, server-side sessions, file access confined to indexed tracks</li>
+                        <li>Shipped a systemd installer with upgrade and rollback, plus GitHub Actions CI, deploy and release pipelines</li>
+                    </ul>
+                </div>
+            </article>
+
             <!-- Skylark -->
             <article class="project-card">
                 <h3 class="project-title">
