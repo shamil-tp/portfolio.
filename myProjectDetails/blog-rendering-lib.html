@@ -3,11 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Rendering Library | Shamil TP</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Blog Rendering Library: Vanilla JS, Zero Deps | Shamil TP</title>
+    <meta name="description" content="Case study: Blog Rendering Library, an MIT-licensed vanilla JavaScript library with zero dependencies that renders blog posts from JSON.">
+    <link rel="canonical" href="https://shamiltp.me/myProjectDetails/blog-rendering-lib.html">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="author" content="Shamil TP">
+    <meta name="theme-color" content="#F5F2EB">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Shamil TP">
+    <meta property="og:title" content="Blog Rendering Library: Vanilla JS, Zero Deps">
+    <meta property="og:description" content="Case study: Blog Rendering Library, an MIT-licensed vanilla JavaScript library with zero dependencies that renders blog posts from JSON.">
+    <meta property="og:url" content="https://shamiltp.me/myProjectDetails/blog-rendering-lib.html">
+    <meta property="og:image" content="https://shamiltp.me/assets/og/blog-rendering-lib.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Blog Rendering Library — case study by Shamil TP">
+    <meta property="og:locale" content="en_IN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ShamilTp6">
+    <meta name="twitter:title" content="Blog Rendering Library: Vanilla JS, Zero Deps">
+    <meta name="twitter:description" content="Case study: Blog Rendering Library, an MIT-licensed vanilla JavaScript library with zero dependencies that renders blog posts from JSON.">
+    <meta name="twitter:image" content="https://shamiltp.me/assets/og/blog-rendering-lib.png">
+    <link rel="icon" href="../favicon.ico" sizes="32x32">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="manifest" href="../site.webmanifest">
+    <link rel="preload" href="../assets/fonts/outfit-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://shamiltp.me/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Projects",
+                        "item": "https://shamiltp.me/myProjectDetails/mycontributions.html"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "Blog Rendering Library",
+                        "item": "https://shamiltp.me/myProjectDetails/blog-rendering-lib.html"
+                    }
+                ]
+            },
+            {
+                "@type": "SoftwareSourceCode",
+                "@id": "https://shamiltp.me/myProjectDetails/blog-rendering-lib.html#project",
+                "name": "Blog Rendering Library",
+                "description": "Blog Rendering Library, an MIT-licensed vanilla JavaScript library with zero dependencies that renders blog posts from JSON.",
+                "url": "https://shamiltp.me/myProjectDetails/blog-rendering-lib.html",
+                "image": "https://shamiltp.me/assets/og/blog-rendering-lib.png",
+                "contributor": {
+                    "@id": "https://shamiltp.me/#person"
+                },
+                "isPartOf": {
+                    "@id": "https://shamiltp.me/#website"
+                },
+                "codeRepository": "https://github.com/shamil-tp/blog-Rendering-Library",
+                "programmingLanguage": [
+                    "JavaScript"
+                ],
+                "sameAs": [
+                    "https://shamil-tp.github.io/blog-Rendering-Library/?slug=messis-world-cup-glory-48qNNV&theme=tokyo_night"
+                ]
+            }
+        ]
+    }
+    </script>
+    <style>
+        @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 900; font-display: swap; src: url('../assets/fonts/outfit-latin-var.woff2') format('woff2'); }
+        @font-face { font-family: 'Space Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('../assets/fonts/space-mono-400-latin.woff2') format('woff2'); }
+        @font-face { font-family: 'Space Mono'; font-style: normal; font-weight: 700; font-display: swap; src: url('../assets/fonts/space-mono-700-latin.woff2') format('woff2'); }
+        :focus-visible { outline: 3px solid #0B57D0; outline-offset: 3px; }
+        .skip-link { position: absolute; left: 1rem; top: -100px; z-index: 2000; background: #000; color: #F5F2EB; padding: 0.75rem 1rem; font-weight: 700; }
+        .skip-link:focus { top: 1rem; }
+        .breadcrumb { padding-top: 1.25rem; font-family: 'Space Mono', ui-monospace, monospace; font-size: 0.8rem; font-weight: 700; }
+        .breadcrumb ol { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 0.5rem; margin: 0; padding: 0; }
+        .breadcrumb li + li::before { content: '/'; margin-right: 0.5rem; }
+        .breadcrumb a { text-decoration: underline; text-underline-offset: 3px; }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"></noscript>
     <style>
         :root {
             --bg-color: #F5F2EB;
@@ -283,12 +373,17 @@
     </style>
 </head>
 <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <nav class="navbar">
+    <nav class="navbar" aria-label="Site">
         <div class="container nav-container">
             <a href="mycontributions.html" class="back-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
-            <ul class="nav-links"><li><a href="../index.html">Home</a></li></ul>
+            <ul class="nav-links"><li><a href="../">Home</a></li></ul>
         </div>
+    </nav>
+
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+        <div class="container"><ol><li><a href="../">Home</a></li><li><a href="mycontributions.html">Projects</a></li><li><span aria-current="page">Blog Rendering Library</span></li></ol></div>
     </nav>
 
     <header class="project-header">
@@ -301,7 +396,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main">
         <div class="container content-grid">
 
             <!-- ═══════════════ MAIN COLUMN ═══════════════ -->
@@ -335,11 +430,11 @@
                         <tr><td>Stars</td><td>⭐ 7</td></tr>
                         <tr><td>Forks</td><td>🔀 1</td></tr>
                         <tr><td>Total Commits</td><td>17 commits on main</td></tr>
-                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/blog-Rendering-Library" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">github.com/shamil-tp/blog-Rendering-Library</a></td></tr>
-                        <tr><td>Test Demo Link</td><td><a href="https://shamil-tp.github.io/blog-Rendering-Library/?slug=messis-world-cup-glory-48qNNV&theme=tokyo_night" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">GitHub Pages — Tokyo Night Demo</a></td></tr>
+                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/blog-Rendering-Library" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">github.com/shamil-tp/blog-Rendering-Library</a></td></tr>
+                        <tr><td>Test Demo Link</td><td><a href="https://shamil-tp.github.io/blog-Rendering-Library/?slug=messis-world-cup-glory-48qNNV&theme=tokyo_night" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">GitHub Pages — Tokyo Night Demo</a></td></tr>
                     </table>
 
-                    <a href="https://github.com/shamil-tp/blog-Rendering-Library?tab=MIT-1-ov-file#readme" target="_blank" class="mit-badge">
+                    <a href="https://github.com/shamil-tp/blog-Rendering-Library?tab=MIT-1-ov-file#readme" target="_blank" rel="noopener noreferrer" class="mit-badge">
                         <i class="bi bi-file-earmark-text"></i> MIT License — Open Source
                         <i class="bi bi-box-arrow-up-right" style="font-size:0.75rem;"></i>
                     </a>
@@ -381,7 +476,7 @@
                     <div class="test-link-box">
                         <div class="tl-label">🧪 Live Test Link — Tokyo Night Theme</div>
                         <div class="tl-url">
-                            <a href="https://shamil-tp.github.io/blog-Rendering-Library/?slug=messis-world-cup-glory-48qNNV&theme=tokyo_night" target="_blank" style="text-decoration:underline;font-weight:700;">
+                            <a href="https://shamil-tp.github.io/blog-Rendering-Library/?slug=messis-world-cup-glory-48qNNV&theme=tokyo_night" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;font-weight:700;">
                                 shamil-tp.github.io/blog-Rendering-Library/?slug=messis-world-cup-glory-48qNNV&theme=tokyo_night
                             </a>
                         </div>
@@ -534,9 +629,9 @@
                         <li><strong>V2 Refactor:</strong> Iterated from the initial version to a cleaner, more robust V2 architecture — better block type coverage, improved theme system.</li>
                     </ul>
 
-                    <a href="https://github.com/shamil-tp/blog-Rendering-Library" target="_blank" class="link-btn primary"><i class="bi bi-github"></i> GitHub Repo</a>
-                    <a href="https://shamil-tp.github.io/blog-Rendering-Library/?slug=messis-world-cup-glory-48qNNV&theme=tokyo_night" target="_blank" class="link-btn"><i class="bi bi-play-circle"></i> Test Demo</a>
-                    <a href="https://github.com/shamil-tp/blog-Rendering-Library/commits/main" target="_blank" class="link-btn"><i class="bi bi-clock-history"></i> All Commits</a>
+                    <a href="https://github.com/shamil-tp/blog-Rendering-Library" target="_blank" rel="noopener noreferrer" class="link-btn primary"><i class="bi bi-github"></i> GitHub Repo</a>
+                    <a href="https://shamil-tp.github.io/blog-Rendering-Library/?slug=messis-world-cup-glory-48qNNV&theme=tokyo_night" target="_blank" rel="noopener noreferrer" class="link-btn"><i class="bi bi-play-circle"></i> Test Demo</a>
+                    <a href="https://github.com/shamil-tp/blog-Rendering-Library/commits/main" target="_blank" rel="noopener noreferrer" class="link-btn"><i class="bi bi-clock-history"></i> All Commits</a>
                 </section>
 
                 <hr class="section-divider">
@@ -544,7 +639,7 @@
                 <!-- 8. FOLDER STRUCTURE -->
                 <section class="content-section">
                     <h2 class="section-heading">Folder Structure</h2>
-                    <div class="code-block">
+                    <div class="code-block" tabindex="0" role="region" aria-label="Folder Structure">
                         <pre><code>blog-Rendering-Library/
 ├── .github/
 │   └── workflows/
@@ -584,7 +679,7 @@
                         </div>
                         <div class="collab-work">Wrote the entire library_V2.js from scratch — JSON block parser, DOM renderer, all 15+ themes, URL parameter system, Blogify API integration, and GitHub Actions deployment pipeline. Every feature, every theme, every line of core code.</div>
                         <div class="collab-links">
-                            <a href="https://github.com/shamil-tp" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://github.com/shamil-tp" target="_blank" rel="noopener noreferrer" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
                         </div>
                     </div>
 
@@ -598,8 +693,8 @@
                         </div>
                         <div class="collab-work">Identified and fixed a layout issue in the rendered output — improving the visual consistency of the library's HTML output. Co-credited in the MIT license.</div>
                         <div class="collab-links">
-                            <a href="https://github.com/Ranfees" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
-                            <a href="https://www.linkedin.com/in/muhammed-ranfees-k-158836348" target="_blank" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                            <a href="https://github.com/Ranfees" target="_blank" rel="noopener noreferrer" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/muhammed-ranfees-k-158836348" target="_blank" rel="noopener noreferrer" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
                         </div>
                     </div>
 
@@ -613,8 +708,8 @@
                         </div>
                         <div class="collab-work">Co-credited in the MIT license as a member of the Blogify platform team. The library serves as the rendering engine for the collaborative Blogify project they built together.</div>
                         <div class="collab-links">
-                            <a href="https://github.com/sinanrahman" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
-                            <a href="https://www.linkedin.com/in/sinan-k-rahman" target="_blank" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                            <a href="https://github.com/sinanrahman" target="_blank" rel="noopener noreferrer" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/sinan-k-rahman" target="_blank" rel="noopener noreferrer" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
                         </div>
                     </div>
                 </section>
@@ -754,12 +849,12 @@
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Quick Links</h3>
                     <div style="display:flex;flex-direction:column;gap:0.6rem;">
-                        <a href="https://github.com/shamil-tp/blog-Rendering-Library" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-github"></i> GitHub Repo</a>
-                        <a href="https://shamil-tp.github.io/blog-Rendering-Library/?slug=messis-world-cup-glory-48qNNV&theme=tokyo_night" target="_blank" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-play-circle"></i> Tokyo Night Demo</a>
-                        <a href="https://github.com/shamil-tp/blog-Rendering-Library/blob/main/library_V2.js" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-file-earmark-code"></i> library_V2.js</a>
-                        <a href="https://github.com/shamil-tp/blog-Rendering-Library/commits/main" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-clock-history"></i> All Commits</a>
-                        <a href="https://github.com/shamil-tp/blog-Rendering-Library?tab=MIT-1-ov-file#readme" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-file-earmark-text"></i> MIT License</a>
-                        <a href="https://blogify-7mdx.vercel.app" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-pencil-square"></i> Blogify Platform</a>
+                        <a href="https://github.com/shamil-tp/blog-Rendering-Library" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-github"></i> GitHub Repo</a>
+                        <a href="https://shamil-tp.github.io/blog-Rendering-Library/?slug=messis-world-cup-glory-48qNNV&theme=tokyo_night" target="_blank" rel="noopener noreferrer" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-play-circle"></i> Tokyo Night Demo</a>
+                        <a href="https://github.com/shamil-tp/blog-Rendering-Library/blob/main/library_V2.js" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-file-earmark-code"></i> library_V2.js</a>
+                        <a href="https://github.com/shamil-tp/blog-Rendering-Library/commits/main" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-clock-history"></i> All Commits</a>
+                        <a href="https://github.com/shamil-tp/blog-Rendering-Library?tab=MIT-1-ov-file#readme" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-file-earmark-text"></i> MIT License</a>
+                        <a href="https://blogify-7mdx.vercel.app" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-pencil-square"></i> Blogify Platform</a>
                     </div>
                 </div>
 

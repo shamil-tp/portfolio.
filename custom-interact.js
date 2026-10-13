@@ -57,7 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
         { color: '#111111', bg: '#e5e5e5' }  // Original Brutalist Grey
     ];
 
-    const interactiveSelectors = 'a, button, input, textarea, select, .project-card, .skill-category, .edu-card, .details-toggle-btn, .skill-tags span, nav, .navbar';
+    const interactiveSelectors = 'a, button, input, textarea, select, label, pre, .project-card, .skill-category, .edu-card, .skill-tags li, .timeline-content, nav, .site-header';
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     // Attach to documentElement to ensure it captures clicks absolutely everywhere
     document.documentElement.addEventListener('click', (e) => {
@@ -84,10 +86,12 @@ document.addEventListener("DOMContentLoaded", () => {
             document.documentElement.style.setProperty('--accent', theme.color);
 
             // Give a tiny physical scale pop to fulfill "feeling the change"
-            document.body.style.transform = 'scale(0.995)';
-            setTimeout(() => {
-                document.body.style.transform = '';
-            }, 100);
+            if (!reduceMotion.matches) {
+                document.body.style.transform = 'scale(0.995)';
+                setTimeout(() => {
+                    document.body.style.transform = '';
+                }, 100);
+            }
 
             // Remove transition override after 1.5s so normal CSS hover effects return properly
             setTimeout(() => {

@@ -3,11 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpsPilot Details | Shamil TP</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>OpsPilot: AI Incident Response Copilot (FastAPI) | Shamil TP</title>
+    <meta name="description" content="Case study: OpsPilot, an AI incident response copilot with human-approved remediation. My role: FastAPI backend, server deployment, CI/CD and GitHub webhooks.">
+    <link rel="canonical" href="https://shamiltp.me/myProjectDetails/oopspilot.html">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="author" content="Shamil TP">
+    <meta name="theme-color" content="#F5F2EB">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Shamil TP">
+    <meta property="og:title" content="OpsPilot: AI Incident Response Copilot (FastAPI)">
+    <meta property="og:description" content="Case study: OpsPilot, an AI incident response copilot with human-approved remediation. My role: FastAPI backend, server deployment, CI/CD and GitHub webhooks.">
+    <meta property="og:url" content="https://shamiltp.me/myProjectDetails/oopspilot.html">
+    <meta property="og:image" content="https://shamiltp.me/assets/og/oopspilot.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="OpsPilot — case study by Shamil TP">
+    <meta property="og:locale" content="en_IN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ShamilTp6">
+    <meta name="twitter:title" content="OpsPilot: AI Incident Response Copilot (FastAPI)">
+    <meta name="twitter:description" content="Case study: OpsPilot, an AI incident response copilot with human-approved remediation. My role: FastAPI backend, server deployment, CI/CD and GitHub webhooks.">
+    <meta name="twitter:image" content="https://shamiltp.me/assets/og/oopspilot.png">
+    <link rel="icon" href="../favicon.ico" sizes="32x32">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="manifest" href="../site.webmanifest">
+    <link rel="preload" href="../assets/fonts/outfit-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://shamiltp.me/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Projects",
+                        "item": "https://shamiltp.me/myProjectDetails/mycontributions.html"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "OpsPilot",
+                        "item": "https://shamiltp.me/myProjectDetails/oopspilot.html"
+                    }
+                ]
+            },
+            {
+                "@type": "SoftwareSourceCode",
+                "@id": "https://shamiltp.me/myProjectDetails/oopspilot.html#project",
+                "name": "OpsPilot",
+                "description": "OpsPilot, an AI incident response copilot with human-approved remediation. My role: FastAPI backend, server deployment, CI/CD and GitHub webhooks.",
+                "url": "https://shamiltp.me/myProjectDetails/oopspilot.html",
+                "image": "https://shamiltp.me/assets/og/oopspilot.png",
+                "contributor": {
+                    "@id": "https://shamiltp.me/#person"
+                },
+                "isPartOf": {
+                    "@id": "https://shamiltp.me/#website"
+                },
+                "codeRepository": "https://github.com/shamil-tp/OopsPilot",
+                "programmingLanguage": [
+                    "Python",
+                    "TypeScript"
+                ],
+                "sameAs": [
+                    "https://opspilot.shamiltp.me"
+                ]
+            }
+        ]
+    }
+    </script>
+    <style>
+        @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 900; font-display: swap; src: url('../assets/fonts/outfit-latin-var.woff2') format('woff2'); }
+        @font-face { font-family: 'Space Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('../assets/fonts/space-mono-400-latin.woff2') format('woff2'); }
+        @font-face { font-family: 'Space Mono'; font-style: normal; font-weight: 700; font-display: swap; src: url('../assets/fonts/space-mono-700-latin.woff2') format('woff2'); }
+        :focus-visible { outline: 3px solid #0B57D0; outline-offset: 3px; }
+        .skip-link { position: absolute; left: 1rem; top: -100px; z-index: 2000; background: #000; color: #F5F2EB; padding: 0.75rem 1rem; font-weight: 700; }
+        .skip-link:focus { top: 1rem; }
+        .breadcrumb { padding-top: 1.25rem; font-family: 'Space Mono', ui-monospace, monospace; font-size: 0.8rem; font-weight: 700; }
+        .breadcrumb ol { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 0.5rem; margin: 0; padding: 0; }
+        .breadcrumb li + li::before { content: '/'; margin-right: 0.5rem; }
+        .breadcrumb a { text-decoration: underline; text-underline-offset: 3px; }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"></noscript>
     <style>
         /* ── BASE DESIGN SYSTEM ── */
         :root {
@@ -238,18 +329,23 @@
     </style>
 </head>
 <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
     <!-- NAVBAR -->
-    <nav class="navbar">
+    <nav class="navbar" aria-label="Site">
         <div class="container nav-container">
             <a href="mycontributions.html" class="back-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
             <ul class="nav-links">
-                <li><a href="../index.html">Home</a></li>
+                <li><a href="../">Home</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- HEADER -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+        <div class="container"><ol><li><a href="../">Home</a></li><li><a href="mycontributions.html">Projects</a></li><li><span aria-current="page">OpsPilot</span></li></ol></div>
+    </nav>
+
     <header class="project-header">
         <div class="container header-container">
             <div class="header-icon"><i class="bi bi-robot"></i></div>
@@ -261,7 +357,7 @@
     </header>
 
     <!-- MAIN -->
-    <main class="main-content">
+    <main id="main" class="main-content">
         <div class="container content-grid">
 
             <!-- ═══════════════ MAIN COLUMN ═══════════════ -->
@@ -282,9 +378,9 @@
                         <tr><td>Your Role</td><td>Backend, Deployment &amp; CI/CD — shamil-tp</td></tr>
                         <tr><td>Team Size</td><td>4 contributors</td></tr>
                         <tr><td>Visibility</td><td>Public</td></tr>
-                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/OopsPilot" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">github.com/shamil-tp/OopsPilot</a></td></tr>
-                        <tr><td>Live Link</td><td><a href="https://opspilot.shamiltp.me" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">opspilot.shamiltp.me</a></td></tr>
-                        <tr><td>Live API Docs</td><td><a href="https://fast.shamiltp.me/docs" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">fast.shamiltp.me/docs</a></td></tr>
+                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/OopsPilot" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">github.com/shamil-tp/OopsPilot</a></td></tr>
+                        <tr><td>Live Link</td><td><a href="https://opspilot.shamiltp.me" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">opspilot.shamiltp.me</a></td></tr>
+                        <tr><td>Live API Docs</td><td><a href="https://fast.shamiltp.me/docs" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">fast.shamiltp.me/docs</a></td></tr>
                     </table>
                 </section>
 
@@ -441,14 +537,14 @@
                         <p>As one of <strong>4 team members</strong> and the repository owner, I owned the <strong>FastAPI backend</strong> and everything needed to run it in production: deploying it to the server, maintaining the CI/CD pipeline and wiring up the GitHub webhooks.</p>
                     </div>
                     <ul class="feature-list" style="margin-top:1rem;">
-                        <li><strong>FastAPI Backend:</strong> The REST + WebSocket API behind the dashboard — 33 endpoints covering incidents, agents, services, CI/CD events, webhooks and code reviews, live at <a href="https://fast.shamiltp.me/docs" target="_blank" style="text-decoration:underline;font-family:var(--font-mono);">fast.shamiltp.me/docs</a>.</li>
+                        <li><strong>FastAPI Backend:</strong> The REST + WebSocket API behind the dashboard — 33 endpoints covering incidents, agents, services, CI/CD events, webhooks and code reviews, live at <a href="https://fast.shamiltp.me/docs" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;font-family:var(--font-mono);">fast.shamiltp.me/docs</a>.</li>
                         <li><strong>Server Deployment:</strong> Deployed and hosted the backend on the server, connected to Supabase PostgreSQL and the Gemini API.</li>
                         <li><strong>CI/CD Pipeline:</strong> Maintained the GitHub Actions workflows — backend lint, tests against PostgreSQL and migration drift check; frontend lint, typecheck and build; Docker Compose build and smoke test.</li>
                         <li><strong>GitHub Webhooks:</strong> Set up the signed webhook flow that turns pushes, workflow runs and deployment statuses into CI/CD evidence and triggers AI code reviews.</li>
                     </ul>
 
-                    <a href="https://fast.shamiltp.me/docs" target="_blank" class="link-btn primary"><i class="bi bi-braces"></i> Live API Docs</a>
-                    <a href="https://github.com/shamil-tp/OopsPilot" target="_blank" class="link-btn"><i class="bi bi-github"></i> Full Repository</a>
+                    <a href="https://fast.shamiltp.me/docs" target="_blank" rel="noopener noreferrer" class="link-btn primary"><i class="bi bi-braces"></i> Live API Docs</a>
+                    <a href="https://github.com/shamil-tp/OopsPilot" target="_blank" rel="noopener noreferrer" class="link-btn"><i class="bi bi-github"></i> Full Repository</a>
                 </section>
 
                 <hr class="section-divider">
@@ -456,7 +552,7 @@
                 <!-- 7. SYSTEM STRUCTURE -->
                 <section class="content-section">
                     <h2 class="section-heading">Folder Structure</h2>
-                    <div class="code-block">
+                    <div class="code-block" tabindex="0" role="region" aria-label="Folder Structure">
                         <pre><code>OopsPilot/
 ├── backend/
 │   ├── app/
@@ -566,8 +662,8 @@
                             </div>
                         </div>
                         <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-                            <a href="https://github.com/shamil-tp" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
-                            <a href="https://www.linkedin.com/in/shamil-tp" target="_blank" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                            <a href="https://github.com/shamil-tp" target="_blank" rel="noopener noreferrer" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://www.linkedin.com/in/shamil-tp" target="_blank" rel="noopener noreferrer" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
                         </div>
                     </div>
 
@@ -580,7 +676,7 @@
                             </div>
                         </div>
                         <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-                            <a href="https://github.com/MrNihalT" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://github.com/MrNihalT" target="_blank" rel="noopener noreferrer" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
                         </div>
                     </div>
 
@@ -593,7 +689,7 @@
                             </div>
                         </div>
                         <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-                            <a href="https://github.com/GiftyMerin" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://github.com/GiftyMerin" target="_blank" rel="noopener noreferrer" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
                         </div>
                     </div>
 
@@ -606,7 +702,7 @@
                             </div>
                         </div>
                         <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-                            <a href="https://github.com/ekthavijayesh" target="_blank" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
+                            <a href="https://github.com/ekthavijayesh" target="_blank" rel="noopener noreferrer" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
                         </div>
                     </div>
                 </section>
@@ -697,12 +793,12 @@
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Quick Links</h3>
                     <div style="display:flex;flex-direction:column;gap:0.6rem;">
-                        <a href="https://github.com/shamil-tp/OopsPilot" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-github"></i> GitHub Repo</a>
-                        <a href="https://opspilot.shamiltp.me" target="_blank" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
-                        <a href="https://fast.shamiltp.me/docs" target="_blank" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-braces"></i> API Docs</a>
-                        <a href="https://github.com/shamil-tp/OopsPilot/graphs/contributors" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-people"></i> Contributors</a>
-                        <a href="https://github.com/shamil-tp/OopsPilot/tree/main/backend" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Backend Folder</a>
-                        <a href="https://github.com/shamil-tp/OopsPilot/tree/main/.github/workflows" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-gear"></i> CI Workflows</a>
+                        <a href="https://github.com/shamil-tp/OopsPilot" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-github"></i> GitHub Repo</a>
+                        <a href="https://opspilot.shamiltp.me" target="_blank" rel="noopener noreferrer" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
+                        <a href="https://fast.shamiltp.me/docs" target="_blank" rel="noopener noreferrer" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-braces"></i> API Docs</a>
+                        <a href="https://github.com/shamil-tp/OopsPilot/graphs/contributors" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-people"></i> Contributors</a>
+                        <a href="https://github.com/shamil-tp/OopsPilot/tree/main/backend" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Backend Folder</a>
+                        <a href="https://github.com/shamil-tp/OopsPilot/tree/main/.github/workflows" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-gear"></i> CI Workflows</a>
                     </div>
                 </div>
 

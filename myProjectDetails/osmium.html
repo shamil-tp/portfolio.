@@ -3,11 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Osmium Details | Shamil TP</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Osmium: LZ77 + Huffman Text Compression | Shamil TP</title>
+    <meta name="description" content="Case study: Osmium, a text compression program that implements LZ77 and Huffman coding from scratch, served with Node.js, Express and EJS.">
+    <link rel="canonical" href="https://shamiltp.me/myProjectDetails/osmium.html">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="author" content="Shamil TP">
+    <meta name="theme-color" content="#F5F2EB">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Shamil TP">
+    <meta property="og:title" content="Osmium: LZ77 + Huffman Text Compression">
+    <meta property="og:description" content="Case study: Osmium, a text compression program that implements LZ77 and Huffman coding from scratch, served with Node.js, Express and EJS.">
+    <meta property="og:url" content="https://shamiltp.me/myProjectDetails/osmium.html">
+    <meta property="og:image" content="https://shamiltp.me/assets/og/osmium.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Osmium — case study by Shamil TP">
+    <meta property="og:locale" content="en_IN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ShamilTp6">
+    <meta name="twitter:title" content="Osmium: LZ77 + Huffman Text Compression">
+    <meta name="twitter:description" content="Case study: Osmium, a text compression program that implements LZ77 and Huffman coding from scratch, served with Node.js, Express and EJS.">
+    <meta name="twitter:image" content="https://shamiltp.me/assets/og/osmium.png">
+    <link rel="icon" href="../favicon.ico" sizes="32x32">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="manifest" href="../site.webmanifest">
+    <link rel="preload" href="../assets/fonts/outfit-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://shamiltp.me/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Projects",
+                        "item": "https://shamiltp.me/myProjectDetails/mycontributions.html"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "Osmium",
+                        "item": "https://shamiltp.me/myProjectDetails/osmium.html"
+                    }
+                ]
+            },
+            {
+                "@type": "SoftwareSourceCode",
+                "@id": "https://shamiltp.me/myProjectDetails/osmium.html#project",
+                "name": "Osmium",
+                "description": "Osmium, a text compression program that implements LZ77 and Huffman coding from scratch, served with Node.js, Express and EJS.",
+                "url": "https://shamiltp.me/myProjectDetails/osmium.html",
+                "image": "https://shamiltp.me/assets/og/osmium.png",
+                "contributor": {
+                    "@id": "https://shamiltp.me/#person"
+                },
+                "isPartOf": {
+                    "@id": "https://shamiltp.me/#website"
+                },
+                "codeRepository": "https://github.com/shamil-tp/osmium",
+                "programmingLanguage": [
+                    "JavaScript"
+                ]
+            }
+        ]
+    }
+    </script>
+    <style>
+        @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 900; font-display: swap; src: url('../assets/fonts/outfit-latin-var.woff2') format('woff2'); }
+        @font-face { font-family: 'Space Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('../assets/fonts/space-mono-400-latin.woff2') format('woff2'); }
+        @font-face { font-family: 'Space Mono'; font-style: normal; font-weight: 700; font-display: swap; src: url('../assets/fonts/space-mono-700-latin.woff2') format('woff2'); }
+        :focus-visible { outline: 3px solid #0B57D0; outline-offset: 3px; }
+        .skip-link { position: absolute; left: 1rem; top: -100px; z-index: 2000; background: #000; color: #F5F2EB; padding: 0.75rem 1rem; font-weight: 700; }
+        .skip-link:focus { top: 1rem; }
+        .breadcrumb { padding-top: 1.25rem; font-family: 'Space Mono', ui-monospace, monospace; font-size: 0.8rem; font-weight: 700; }
+        .breadcrumb ol { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 0.5rem; margin: 0; padding: 0; }
+        .breadcrumb li + li::before { content: '/'; margin-right: 0.5rem; }
+        .breadcrumb a { text-decoration: underline; text-underline-offset: 3px; }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"></noscript>
     <style>
         :root {
             --bg-color: #F5F2EB;
@@ -225,14 +312,19 @@
     </style>
 </head>
 <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <nav class="navbar">
+    <nav class="navbar" aria-label="Site">
         <div class="container nav-container">
             <a href="mycontributions.html" class="back-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
             <ul class="nav-links">
-                <li><a href="../index.html">Home</a></li>
+                <li><a href="../">Home</a></li>
             </ul>
         </div>
+    </nav>
+
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+        <div class="container"><ol><li><a href="../">Home</a></li><li><a href="mycontributions.html">Projects</a></li><li><span aria-current="page">Osmium</span></li></ol></div>
     </nav>
 
     <header class="project-header">
@@ -245,7 +337,7 @@
         </div>
     </header>
 
-    <main class="main-content">
+    <main id="main" class="main-content">
         <div class="container content-grid">
 
             <!-- ═══════════════ MAIN COLUMN ═══════════════ -->
@@ -269,7 +361,7 @@
                         <tr><td>Repository Owner</td><td>shamil-tp (solo project)</td></tr>
                         <tr><td>Total Commits</td><td>6 commits on main branch</td></tr>
                         <tr><td>Visibility</td><td>Public</td></tr>
-                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/osmium" target="_blank" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">github.com/shamil-tp/osmium</a></td></tr>
+                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/osmium" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">github.com/shamil-tp/osmium</a></td></tr>
                         <tr><td>Live Link</td><td>Not publicly listed</td></tr>
                     </table>
                 </section>
@@ -454,9 +546,9 @@
                         <li><strong>Project Scoping:</strong> Deliberately chose a minimal, focused stack — keeping the complexity in the algorithm layer, not the infrastructure.</li>
                     </ul>
 
-                    <a href="https://github.com/shamil-tp/osmium" target="_blank" class="link-btn primary"><i class="bi bi-github"></i> GitHub Repo</a>
-                    <a href="https://github.com/shamil-tp/osmium/commits/main" target="_blank" class="link-btn"><i class="bi bi-clock-history"></i> All 6 Commits</a>
-                    <a href="https://github.com/shamil-tp/osmium/tree/main/utils" target="_blank" class="link-btn"><i class="bi bi-folder2-open"></i> Utils Folder</a>
+                    <a href="https://github.com/shamil-tp/osmium" target="_blank" rel="noopener noreferrer" class="link-btn primary"><i class="bi bi-github"></i> GitHub Repo</a>
+                    <a href="https://github.com/shamil-tp/osmium/commits/main" target="_blank" rel="noopener noreferrer" class="link-btn"><i class="bi bi-clock-history"></i> All 6 Commits</a>
+                    <a href="https://github.com/shamil-tp/osmium/tree/main/utils" target="_blank" rel="noopener noreferrer" class="link-btn"><i class="bi bi-folder2-open"></i> Utils Folder</a>
                 </section>
 
                 <hr class="section-divider">
@@ -464,7 +556,7 @@
                 <!-- 8. FOLDER STRUCTURE -->
                 <section class="content-section">
                     <h2 class="section-heading">Folder Structure</h2>
-                    <div class="code-block">
+                    <div class="code-block" tabindex="0" role="region" aria-label="Folder Structure">
                         <pre><code>osmium/
 ├── utils/                # Core compression algorithm implementations
 │   └── [encode/decode]   # Pure JS compression utilities
@@ -562,7 +654,7 @@
                             <div style="font-weight:800;font-size:1rem;">shamil-tp <span style="font-family:var(--font-mono);font-size:0.75rem;background:#000;color:#F5F2EB;padding:0.15rem 0.4rem;margin-left:0.4rem;">SOLE AUTHOR</span></div>
                             <div style="font-size:0.85rem;color:var(--text-secondary);font-family:var(--font-mono);margin-top:0.2rem;">Full-stack developer — all 6 commits</div>
                         </div>
-                        <a href="https://github.com/shamil-tp" target="_blank" style="margin-left:auto;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;border:2px solid #000;padding:0.3rem 0.6rem;background:var(--bg-color);box-shadow:2px 2px 0 #000;transition:var(--transition);display:inline-flex;align-items:center;gap:0.3rem;">
+                        <a href="https://github.com/shamil-tp" target="_blank" rel="noopener noreferrer" style="margin-left:auto;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;border:2px solid #000;padding:0.3rem 0.6rem;background:var(--bg-color);box-shadow:2px 2px 0 #000;transition:var(--transition);display:inline-flex;align-items:center;gap:0.3rem;">
                             <i class="bi bi-github"></i> Profile
                         </a>
                     </div>
@@ -696,11 +788,11 @@
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Quick Links</h3>
                     <div style="display:flex;flex-direction:column;gap:0.6rem;">
-                        <a href="https://github.com/shamil-tp/osmium" target="_blank" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-github"></i> GitHub Repo</a>
-                        <a href="https://github.com/shamil-tp/osmium/commits/main" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-clock-history"></i> All Commits</a>
-                        <a href="https://github.com/shamil-tp/osmium/tree/main/utils" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Utils (Algorithms)</a>
-                        <a href="https://github.com/shamil-tp/osmium/tree/main/views" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Views (EJS)</a>
-                        <a href="https://github.com/shamil-tp/osmium/blob/main/index.js" target="_blank" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-file-code"></i> index.js</a>
+                        <a href="https://github.com/shamil-tp/osmium" target="_blank" rel="noopener noreferrer" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-github"></i> GitHub Repo</a>
+                        <a href="https://github.com/shamil-tp/osmium/commits/main" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-clock-history"></i> All Commits</a>
+                        <a href="https://github.com/shamil-tp/osmium/tree/main/utils" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Utils (Algorithms)</a>
+                        <a href="https://github.com/shamil-tp/osmium/tree/main/views" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Views (EJS)</a>
+                        <a href="https://github.com/shamil-tp/osmium/blob/main/index.js" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-file-code"></i> index.js</a>
                     </div>
                 </div>
 
