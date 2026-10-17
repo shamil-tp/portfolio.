@@ -52,6 +52,9 @@ js/variation-presets.js  what each of the nine designs may vary: palettes, contr
 js/palette-generator.js  OKLCH colour maths, gamut mapping and WCAG contrast repair
 js/layout-generator.js   picks compatible layout presets and validates the rendered page
 js/baseline.js           generates the crawlable no-JS homepage and the projects JSON-LD from content.js
+about/index.html         About Shamil TP: background, education, home server, IoT, technologies, profiles (static HTML)
+achievements/index.html  hackathons, events and courses with certificates (static HTML)
+certificates/            certificates as issued; assets/certificates/ holds the web-sized copies
 tools/baseline.html      opens that generator in a browser (noindex; not linked from the site)
 ```
 

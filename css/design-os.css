@@ -820,3 +820,7 @@ body {
    caption follows it; os.js mirrors the window cascade to match. */
 [data-v-icons='right'] .os.is-desktop .os-icons { left: auto; right: 0; }
 [data-v-icons='right'] .os.is-desktop .os-wallpaper { left: auto; right: 150px; text-align: right; }
+
+/* Links at the foot of the Experience window. */
+.os-more { margin-top: var(--os-s3, 1rem); }
+.os-more a { display: inline-flex; align-items: center; min-height: 32px; }

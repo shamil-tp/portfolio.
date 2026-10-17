@@ -53,7 +53,8 @@ export function render(c, h) {
         )
         .join('');
 
-    const education = c.education
+    const educationOf = (list) =>
+        list
         .map(
             (e) => `
         <li class="br-edu" data-reveal>
@@ -63,6 +64,9 @@ export function render(c, h) {
         </li>`
         )
         .join('');
+
+    const education = educationOf(c.education);
+    const events = educationOf(c.achievements);
 
     return `
 <div class="br">
@@ -118,6 +122,9 @@ export function render(c, h) {
             <ol class="br-jobs">${jobs}</ol>
             <h3 class="br-subtitle">Education</h3>
             <ul class="br-edus">${education}</ul>
+            <h3 class="br-subtitle">Hackathons &amp; events</h3>
+            <ul class="br-edus">${events}</ul>
+            <p class="br-more"><a class="br-btn br-btn--ink" href="${h.esc(c.achievementsHref)}">Achievements &amp; certificates ${h.icon('arrow-right')}</a> <a class="br-btn" href="${h.esc(c.aboutHref)}">Full profile ${h.icon('arrow-right')}</a></p>
         </section>
 
         <section id="contact" class="br-section br-contact" aria-labelledby="contact-title">

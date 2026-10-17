@@ -933,3 +933,5 @@ body {
     .dp-chapter,
     .dp-progress__dot::before { transition: none; }
 }
+
+.dp-more { display: flex; flex-wrap: wrap; gap: var(--dp-s1) var(--dp-s2); }

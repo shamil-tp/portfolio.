@@ -156,7 +156,19 @@ export function render(c, h) {
                 ${e.meta.map((m) => `<p>${h.esc(m)}</p>`).join('')}
             </li>`
              )
-             .join('')}</ul>`
+             .join('')}</ul>
+         <h3 class="os-subhead">Hackathons &amp; events</h3>
+         <ul class="os-log">${c.achievements
+             .map(
+                 (e) => `
+            <li class="os-log__entry">
+                <p class="os-log__date">${h.esc(e.org)}</p>
+                <h4>${h.esc(e.title)}</h4>
+                ${e.meta.map((m) => `<p>${h.esc(m)}</p>`).join('')}
+            </li>`
+             )
+             .join('')}</ul>
+         <p class="os-more"><a href="${h.esc(c.achievementsHref)}">Achievements and certificates</a> · <a href="${h.esc(c.aboutHref)}">Full profile</a></p>`
     );
 
     const mail = windowShell(

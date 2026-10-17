@@ -115,6 +115,9 @@ export function render(c, h, variation) {
             <ol class="st-jobs">${jobs}</ol>
             <h3 class="st-subhead">Education</h3>
             <ul class="st-edu">${c.education.map((e) => `<li data-reveal><h4>${h.esc(e.title)}</h4><p><em>${h.esc(e.org)}</em></p>${e.meta.map((m) => `<p>${h.esc(m)}</p>`).join('')}</li>`).join('')}</ul>
+            <h3 class="st-subhead">Hackathons &amp; events</h3>
+            <ul class="st-edu">${c.achievements.map((e) => `<li data-reveal><h4>${h.esc(e.title)}</h4><p><em>${h.esc(e.org)}</em></p>${e.meta.map((m) => `<p>${h.esc(m)}</p>`).join('')}</li>`).join('')}</ul>
+            <p class="st-more"><a class="st-btn st-btn--ink" href="${h.esc(c.achievementsHref)}">Achievements &amp; certificates</a> <a class="st-btn" href="${h.esc(c.aboutHref)}">Full profile</a></p>
         </section>
 
         <section id="contact" class="st-section st-block st-contact" data-tone="cobalt" aria-labelledby="contact-title">

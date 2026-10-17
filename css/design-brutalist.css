@@ -891,3 +891,5 @@ body {
     [data-v-wall='grid'] .br-card-wrap { grid-column: span 4 !important; margin-top: 0 !important; }
     [data-v-wall='grid'] .br-card-wrap:nth-child(3n + 2) { margin-top: var(--br-s4) !important; margin-bottom: calc(var(--br-s4) * -1); }
 }
+
+.br-more { display: flex; flex-wrap: wrap; gap: var(--br-s2); }

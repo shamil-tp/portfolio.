@@ -694,3 +694,5 @@ html[data-design='generative'] .design-dock {
 @media (min-width: 1101px) {
     .gn[data-grid='three'] .gn-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+
+.gn-more { display: flex; flex-wrap: wrap; gap: var(--gn-s2, 1rem); }

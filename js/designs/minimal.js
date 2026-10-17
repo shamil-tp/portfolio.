@@ -51,7 +51,8 @@ export function render(c, h) {
         )
         .join('');
 
-    const education = c.education
+    const educationOf = (list) =>
+        list
         .map(
             (e) => `
         <li class="sw-row" data-reveal>
@@ -61,6 +62,9 @@ export function render(c, h) {
         </li>`
         )
         .join('');
+
+    const education = educationOf(c.education);
+    const events = educationOf(c.achievements);
 
     return `
 <div class="sw">
@@ -123,6 +127,9 @@ export function render(c, h) {
                 <ol class="sw-rowlist">${experience}</ol>
                 <h3 class="sw-subhead">Education</h3>
                 <ul class="sw-rowlist">${education}</ul>
+                <h3 class="sw-subhead">Hackathons &amp; events</h3>
+                <ul class="sw-rowlist">${events}</ul>
+                <p class="sw-rows__more"><a class="sw-link" href="${h.esc(c.achievementsHref)}">Achievements and certificates</a> <a class="sw-link" href="${h.esc(c.aboutHref)}">Full profile</a></p>
             </div>
         </section>
 

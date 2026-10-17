@@ -143,7 +143,8 @@ export function render(c, h, variation) {
         )
         .join('');
 
-    const education = c.education
+    const educationOf = (list) =>
+        list
         .map(
             (e) => `
         <li class="gn-job" data-reveal>
@@ -156,6 +157,9 @@ export function render(c, h, variation) {
         </li>`
         )
         .join('');
+
+    const education = educationOf(c.education);
+    const events = educationOf(c.achievements);
 
     return `
 <div class="gn"${palette ? ` style="${paletteVars(palette)}"` : ''} data-composition="${composition}" data-grid="${grid}">
@@ -210,6 +214,9 @@ export function render(c, h, variation) {
             <ol class="gn-jobs">${jobs}</ol>
             <h3 class="gn-subhead">Education</h3>
             <ul class="gn-jobs">${education}</ul>
+            <h3 class="gn-subhead">Hackathons &amp; events</h3>
+            <ul class="gn-jobs">${events}</ul>
+            <p class="gn-more"><a class="gn-btn" href="${h.esc(c.achievementsHref)}">Achievements &amp; certificates ${h.icon('arrow-right')}</a> <a class="gn-btn" href="${h.esc(c.aboutHref)}">Full profile ${h.icon('arrow-right')}</a></p>
         </section>
 
         <section id="contact" class="gn-section gn-contact" aria-labelledby="contact-title">

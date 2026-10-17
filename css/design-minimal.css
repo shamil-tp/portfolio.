@@ -738,3 +738,14 @@ body {
 @media (hover: hover) and (pointer: fine) and (min-width: 1101px) {
     [data-v-projects='alternate'] .sw-project:nth-child(even):hover .sw-project__name a { transform: translate3d(-0.35rem, 0, 0); }
 }
+
+/* Links under the experience rows to the About and Achievements pages. */
+.sw-rows__more {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--sw-s3);
+    margin-top: var(--sw-s3);
+    font-size: var(--sw-t-sm);
+}
+
+.sw-rows__more a { display: inline-flex; align-items: center; min-height: 44px; }

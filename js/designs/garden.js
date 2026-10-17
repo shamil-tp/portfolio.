@@ -206,7 +206,22 @@ export function render(c, h, variation) {
                     </li>`
                     )
                     .join('')}
+                ${c.achievements
+                    .map(
+                        (e) => `
+                    <li class="gd-season gd-season--edu" data-reveal>
+                        ${ring(1)}
+                        <div>
+                            <p class="gd-season__date">${h.esc(e.date.label)}</p>
+                            <h3>${h.esc(e.title)}</h3>
+                            <p class="gd-season__org">${h.esc(e.org)}</p>
+                            <ul><li>${h.esc(e.meta[1])}</li></ul>
+                        </div>
+                    </li>`
+                    )
+                    .join('')}
             </ol>
+            <p class="gd-more"><a class="gd-btn" href="${h.esc(c.achievementsHref)}">Achievements &amp; certificates</a> <a class="gd-btn" href="${h.esc(c.aboutHref)}">Full profile</a></p>
         </section>
 
         <section id="contact" class="gd-section gd-contact" aria-labelledby="contact-title">

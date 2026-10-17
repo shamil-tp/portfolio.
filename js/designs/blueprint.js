@@ -90,16 +90,20 @@ export function render(c, h) {
         )
         .join('');
 
-    const education = c.education
+    const educationOf = (list, label) =>
+        list
         .map(
             (e) => `
         <tr>
-            <td class="bp-mono">Education</td>
+            <td class="bp-mono">${label === 'Education' ? label : h.esc(e.date.label)}</td>
             <th scope="row">${h.esc(e.title)}<span class="bp-sub">${h.esc(e.org)}</span></th>
             <td><ul>${e.meta.map((m) => `<li>${h.esc(m)}</li>`).join('')}</ul></td>
         </tr>`
         )
         .join('');
+
+    const education = educationOf(c.education, 'Education');
+    const events = educationOf(c.achievements, 'Event');
 
     return `
 <div class="bp">
@@ -188,12 +192,12 @@ export function render(c, h) {
                 <header class="bp-section__head">
                     <p class="bp-section__no bp-mono" aria-hidden="true">04</p>
                     <h2 id="experience-title">Revision history</h2>
-                    <p class="bp-section__note">Experience and education, latest first.</p>
+                    <p class="bp-section__note">Experience, education, hackathons and events, latest first. Certificates on the <a class="bp-link" href="${h.esc(c.achievementsHref)}">achievements sheet</a>; background on the <a class="bp-link" href="${h.esc(c.aboutHref)}">profile</a>.</p>
                 </header>
                 <div class="bp-table-wrap" tabindex="0" role="region" aria-label="Experience">
                     <table class="bp-table bp-table--revisions">
                         <thead><tr><th scope="col">Period</th><th scope="col">Role</th><th scope="col">Notes</th></tr></thead>
-                        <tbody>${revisions}${education}</tbody>
+                        <tbody>${revisions}${education}${events}</tbody>
                     </table>
                 </div>
             </section>

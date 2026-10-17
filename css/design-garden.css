@@ -565,3 +565,5 @@ body {
     [data-v-specimens='rows'] .gd-specimen:nth-child(even) .gd-specimen__plant { grid-column: 2; grid-row: 1; }
     [data-v-specimens='rows'] .gd-specimen:nth-child(even) .gd-label { grid-column: 1; grid-row: 1; }
 }
+
+.gd-more { display: flex; flex-wrap: wrap; gap: var(--gd-s1); }

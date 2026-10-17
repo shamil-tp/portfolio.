@@ -48,7 +48,8 @@ export function render(c, h) {
         )
         .join('');
 
-    const education = c.education
+    const educationOf = (list) =>
+        list
         .map(
             (e) => `
         <li>
@@ -58,6 +59,9 @@ export function render(c, h) {
         </li>`
         )
         .join('');
+
+    const education = educationOf(c.education);
+    const events = educationOf(c.achievements);
 
     return `
 <div class="ed">
@@ -122,6 +126,9 @@ export function render(c, h) {
             <aside class="ed-sidebar" aria-labelledby="ed-edu-title" data-reveal>
                 <h3 id="ed-edu-title">Education</h3>
                 <ul>${education}</ul>
+                <h3>Hackathons &amp; events</h3>
+                <ul>${events}</ul>
+                <p class="ed-sidebar__more"><a class="ed-more" href="${h.esc(c.achievementsHref)}">Achievements and certificates</a><br><a class="ed-more" href="${h.esc(c.aboutHref)}">The full profile</a></p>
             </aside>
         </section>
 

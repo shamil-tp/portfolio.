@@ -37,6 +37,7 @@ export function baselineHTML(c, h) {
         )
         .join('');
     const education = c.education.map((e) => `<li><strong>${h.esc(e.title)}</strong>, ${h.esc(e.org)}. ${e.meta.map((m) => h.esc(m)).join(' ')}</li>`).join('');
+    const events = c.achievements.map((e) => `<li><strong>${h.esc(e.title)}</strong>, ${h.esc(e.org)}. ${e.meta.map((m) => h.esc(m)).join(' ')}</li>`).join('');
     const socials = c.socials.map((s) => `<a href="${h.esc(s.href)}">${h.esc(s.label)}</a>`).join(' · ');
 
     return `
@@ -74,6 +75,9 @@ export function baselineHTML(c, h) {
                     </ul>
                     <h3>Education</h3>
                     <ul>${education}</ul>
+                    <h3>Hackathons and events</h3>
+                    <ul>${events}</ul>
+                    <p><a href="${h.esc(c.achievementsHref)}">Achievements and certificates</a> · <a href="${h.esc(c.aboutHref)}">About Shamil TP: background, education and setup</a></p>
                 </section>
                 <section id="contact" aria-labelledby="contact-title">
                     <h2 id="contact-title">Contact</h2>

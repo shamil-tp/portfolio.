@@ -132,9 +132,13 @@ export function render(c, h) {
         .map((e) => `<li class="dp-job" data-reveal><p class="dp-job__date">${h.dateRange(e)}</p><h3>${h.esc(e.role)} <span>· ${h.esc(e.org)}</span></h3><ul>${e.bullets.map((b) => `<li>${h.rich(b)}</li>`).join('')}</ul></li>`)
         .join('');
 
-    const education = c.education
+    const educationOf = (list) =>
+        list
         .map((e) => `<li class="dp-job dp-job--edu" data-reveal><p class="dp-job__date">${h.esc(e.org)}</p><h3>${h.esc(e.title)}</h3><ul>${e.meta.map((m) => `<li>${h.esc(m)}</li>`).join('')}</ul></li>`)
         .join('');
+
+    const education = educationOf(c.education);
+    const events = educationOf(c.achievements);
 
     return `
 <div class="dp">
@@ -212,6 +216,9 @@ export function render(c, h) {
             <ol class="dp-jobs">${jobs}</ol>
             <h3 class="dp-subhead">Education</h3>
             <ul class="dp-jobs">${education}</ul>
+            <h3 class="dp-subhead">Hackathons &amp; events</h3>
+            <ul class="dp-jobs">${events}</ul>
+            <p class="dp-more"><a class="dp-btn" href="${h.esc(c.achievementsHref)}">Achievements &amp; certificates ${h.icon('arrow-right')}</a> <a class="dp-btn" href="${h.esc(c.aboutHref)}">Full profile ${h.icon('arrow-right')}</a></p>
         </section>
 
         <section id="contact" class="dp-section dp-contact" aria-labelledby="contact-title">

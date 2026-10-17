@@ -9,6 +9,10 @@
  *
  * Rich text (experience bullets) is an array of segments: plain strings, or
  * { text, href } objects for inline links.
+ *
+ * Facts here are published as-is on every design, the crawlable homepage and
+ * the JSON-LD. Achievements and education are taken from the certificates in
+ * certificates/ (see the comments on each entry); add nothing unverified.
  */
 
 export const content = {
@@ -25,6 +29,7 @@ export const content = {
         about: [
             'I am a developer motivated by a sincere interest in the fundamental workings of the internet. Although I can create responsive frontends, my area of expertise is the backend, where data efficiency, server architecture, and logic come together.',
             'I enjoy working with low-level details because memory and performance optimization can have a noticeable impact. I see myself as a hands-on developer who enjoys the process of improving the speed and dependability of systems.',
+            "I'm studying for a Master of Computer Applications (MCA) at St. Joseph's College (Autonomous), Devagiri. Most of my backends run on a home server I maintain (Ubuntu Server behind Nginx), shipped by GitHub Actions pipelines that also publish versioned releases. Away from the web, I build small IoT experiments in MicroPython on the ESP32 and Raspberry Pi Pico.",
         ],
         // A short line lifted from `about`, used as a pull quote by some designs.
         quote: 'Memory and performance optimization can have a noticeable impact.',
@@ -50,11 +55,14 @@ export const content = {
 
     socials: [
         { id: 'github', label: 'GitHub', handle: 'shamil-tp', href: 'https://github.com/shamil-tp' },
-        { id: 'linkedin', label: 'LinkedIn', handle: 'in/shamil-tp', href: 'https://www.linkedin.com/in/shamil-tp' },
+        { id: 'linkedin', label: 'LinkedIn', handle: 'in/shamil-tp', href: 'https://www.linkedin.com/in/shamil-tp/' },
         { id: 'twitter-x', label: 'X', handle: '@ShamilTp6', href: 'https://x.com/ShamilTp6' },
     ],
 
     caseStudiesHref: 'myProjectDetails/mycontributions.html',
+    // Standalone pages (crawlable HTML, styled by the active design like the case studies).
+    aboutHref: 'about/',
+    achievementsHref: 'achievements/',
 
     projects: [
         {
@@ -190,16 +198,14 @@ export const content = {
         },
     ],
 
+    // Six groups: several designs draw one object per group (stones, beds).
     skills: [
-        { group: 'Backend', items: ['Node.js', 'Express.js', 'RESTful APIs', 'Socket.io', 'OAuth 2.0 / JWT'] },
-        { group: 'Database & Caching', items: ['MongoDB', 'Redis', 'Mongoose Aggregations', 'Schema Design'] },
-        {
-            group: 'System Architecture',
-            items: ['Distributed Systems', 'HLS Media Streaming', 'FFmpeg Pipelines', 'Cloudflare R2 / AWS', 'tus (Resumable Uploads)'],
-        },
-        { group: 'Recent Stack', items: ['Python / FastAPI', 'Go', 'PostgreSQL / Supabase', 'TypeScript', 'GitHub Actions'] },
-        { group: 'Frontend', items: ['JavaScript (ES6+)', 'React.js', 'Vue.js', 'HTML5 / CSS3', 'Tailwind CSS'] },
-        { group: 'Security & Tools', items: ['OWASP Standards', 'Helmet / Zod', 'Docker', 'Git & GitHub', 'Postman'] },
+        { group: 'Backend', items: ['Node.js / Express', 'Python / FastAPI', 'Go', 'REST APIs', 'Socket.io', 'OAuth 2.0 / JWT'] },
+        { group: 'Data & Media', items: ['MongoDB', 'PostgreSQL / Supabase', 'Redis', 'SQLite', 'FFmpeg / HLS streaming'] },
+        { group: 'DevOps & Self-hosting', items: ['GitHub Actions CI/CD', 'Automated versioned releases', 'Docker', 'Nginx', 'Ubuntu Server', 'Cloudflare'] },
+        { group: 'Automation & AI', items: ['Agentic workflow automation', 'Webhooks', 'Google Apps Script', 'Gemini API'] },
+        { group: 'Frontend', items: ['JavaScript / TypeScript', 'Next.js', 'React', 'Vue', 'Tailwind CSS'] },
+        { group: 'IoT & Security', items: ['MicroPython', 'ESP32', 'Raspberry Pi Pico 2 W', 'OWASP practices', 'Helmet / Zod'] },
     ],
 
     experience: [
@@ -238,14 +244,99 @@ export const content = {
 
     education: [
         {
+            // Source: Layover 2026 and Gateways 2026 certificates ("MCA, 2026-2028 batch").
+            title: 'Master of Computer Applications (MCA)',
+            org: "St. Joseph's College (Autonomous), Devagiri, Kozhikode",
+            meta: ['2026–2028, in progress'],
+        },
+        {
             title: 'Bachelor of Computer Application (BCA)',
             org: 'Safi Institute of Advanced Study',
             meta: ['Graduation: March 2025', 'CGPA: 7.76/10'],
         },
         {
-            title: 'Full Stack Web Development',
+            // Source: certificates/fullstackWebDevelopment2026.jpg (ID MERN2A08).
+            title: 'MERN Stack Web Development',
             org: 'DataTribe',
-            meta: ['Intensive 6-month program covering MERN stack, RESTful API design, and database management.'],
+            meta: ['6-month course, May–November 2025', 'Completed with grade A+'],
+        },
+    ],
+
+    /*
+     * Hackathons and events, newest first. Same shape as education (title,
+     * org, meta) so every design can list them, plus the detail the
+     * achievements page uses. Each certificate is a participation
+     * certificate; placements are as reported by Shamil (no public results
+     * page found yet), so they are not marked up as awards in JSON-LD.
+     */
+    // certificate.file -> assets/certificates/<file>-full.jpg and -640.jpg (web copies);
+    // width/height are the -full copy's; original is the file as issued.
+    achievements: [
+        {
+            id: 'layover-2026',
+            title: 'Layover 2026: top 13 with RegretMap',
+            org: 'TinkerHub · TinkerSpace Calicut',
+            meta: ['10–11 October 2026', 'Overnight hackathon. Our team built RegretMap, which was selected among the top 13 projects.'],
+            event: 'Layover 2026',
+            kind: 'Hackathon',
+            result: 'Top 13',
+            date: { label: '10–11 October 2026', datetime: '2026-10-10' },
+            organizer: 'TinkerHub',
+            place: 'TinkerSpace Calicut, Kozhikode',
+            project: 'regretmap',
+            certificate: { file: 'layover-2026', original: 'certificates/Layover2026.png', label: 'Proof of participation, issued by TinkerHub', width: 717, height: 752 },
+        },
+        {
+            id: 'gateways-2026',
+            title: 'Gateways 2026: top 37 with OpsPilot',
+            org: 'Department of Computer Science, CHRIST (Deemed to be University), Bangalore',
+            meta: ['30 September – 1 October 2026', '24° Shift, the international-level hackathon of the Gateways 2026 IT fest. Our team built OpsPilot, which placed in the top 37.'],
+            event: 'Gateways 2026 · 24° Shift hackathon',
+            kind: 'Hackathon',
+            result: 'Top 37',
+            date: { label: '30 September – 1 October 2026', datetime: '2026-09-30' },
+            organizer: 'Department of Computer Science, CHRIST (Deemed to be University)',
+            place: 'Bangalore',
+            project: 'opspilot',
+            certificate: { file: 'gateways-2026', original: 'certificates/Gateways2026.png', label: 'Certificate of participation, Gateways 2026 (ID GW26-REG-174658)', width: 1400, height: 987 },
+        },
+        {
+            id: 'ai-unplugged-2026',
+            title: 'AI Unplugged 2026',
+            org: "Department of Computer Science, St. Joseph's College (Autonomous), Devagiri",
+            meta: ['13 July 2026', 'Participant, International Symposium on Artificial Intelligence and Emerging Technologies.'],
+            event: 'AI Unplugged 2026',
+            kind: 'Symposium',
+            result: 'Participant',
+            date: { label: '13 July 2026', datetime: '2026-07-13' },
+            organizer: "Department of Computer Science, St. Joseph's College (Autonomous), Devagiri",
+            place: 'Kozhikode',
+            certificate: { file: 'ai-unplugged-2026', original: 'certificates/AiUnplugged2026.jpg', label: 'Certificate of participation', width: 1400, height: 990 },
+        },
+        {
+            id: 'beyond-us-2023',
+            title: 'Beyond Us 2023, my first hackathon',
+            org: 'GTech µLearn with the Kerala Knowledge Economy Mission (KKEM)',
+            meta: ['8–9 July 2023', '24-hour online hackathon.'],
+            event: 'Beyond Us 2023',
+            kind: 'Hackathon',
+            result: 'Participant',
+            date: { label: '8–9 July 2023', datetime: '2023-07-08' },
+            organizer: 'GTech µLearn in association with KKEM',
+            place: 'Online',
+            certificate: { file: 'beyond-us-2023', original: 'certificates/Beyond_us2023.jpg', label: 'Certificate of participation (ID µ2023B10090)', width: 987, height: 774 },
+        },
+    ],
+
+    // Courses with a certificate, shown on the achievements page.
+    certifications: [
+        {
+            id: 'datatribe-mern-2025',
+            title: 'MERN Stack Web Development',
+            org: 'DataTribe',
+            date: { label: 'May–November 2025', datetime: '2025-11-28' },
+            summary: 'A 6-month course in the MERN stack (MongoDB, Express, React, Node.js), completed with grade A+.',
+            certificate: { file: 'datatribe-mern-2025', original: 'certificates/fullstackWebDevelopment2026.jpg', label: 'Certificate of completion (ID MERN2A08)', width: 800, height: 1132 },
         },
     ],
 };

@@ -760,3 +760,7 @@ body {
     [data-v-stories='alternate'] .ed-story:nth-child(even) article > * { grid-column: 1 / span 6; }
     [data-v-stories='alternate'] .ed-story:nth-child(even) .ed-story__head { grid-column: 8 / -1 !important; text-align: right; }
 }
+
+/* Links at the foot of the education sidebar. */
+.ed-sidebar__more { margin-top: var(--ed-s3); line-height: 2.2; }
+.ed-sidebar ul + h3 { margin-top: var(--ed-s4); padding-top: var(--ed-s2); border-top: 1px solid var(--ed-hair); }

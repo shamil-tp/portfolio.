@@ -660,3 +660,5 @@ body {
     -webkit-mask: conic-gradient(from 135deg at 50% 0, #000 90deg, transparent 0) 0 0 / 48px 24px repeat-x;
     mask: conic-gradient(from 135deg at 50% 0, #000 90deg, transparent 0) 0 0 / 48px 24px repeat-x;
 }
+
+.st-more { display: flex; flex-wrap: wrap; gap: var(--st-s1); }

@@ -26,6 +26,7 @@ function aboutOut(c, h) {
             <div><dt>role</dt><dd>${h.esc(c.person.role)} (${h.esc(c.person.focus.toLowerCase())})</dd></div>
             <div><dt>location</dt><dd>${h.esc(c.person.location)}</dd></div>
             <div><dt>status</dt><dd class="tm-ok">${h.esc(c.person.status)}</dd></div>
+            <div><dt>more</dt><dd>${h.link({ href: c.aboutHref, text: 'about/', cls: 'tm-link' })} · ${h.link({ href: c.achievementsHref, text: 'achievements/', cls: 'tm-link' })}</dd></div>
         </dl>`;
 }
 
@@ -81,6 +82,7 @@ function experienceOut(c, h, { headingLevel = 3 } = {}) {
     return `<ol class="tm-logs">
         ${c.experience.map((e) => job(h.dateRange(e), h.esc(e.role), h.esc(e.org), e.bullets.map((b) => h.rich(b)))).join('')}
         ${c.education.map((e) => job('education', h.esc(e.title), h.esc(e.org), e.meta.map((m) => h.esc(m)))).join('')}
+        ${c.achievements.map((e) => job(h.esc(e.date.label), h.esc(e.title), h.esc(e.org), [h.esc(e.meta[1])])).join('')}
     </ol>`;
 }
 
@@ -101,7 +103,7 @@ const COMMANDS = [
     { name: 'projects', about: 'all projects, with links' },
     { name: 'open', args: '<name>', about: 'one project in full, e.g. open rewind' },
     { name: 'skills', about: 'skills, grouped' },
-    { name: 'experience', about: 'work and education' },
+    { name: 'experience', about: 'work, education, hackathons and events' },
     { name: 'contact', about: 'email, phone and profiles' },
     { name: 'resume', about: 'link to the PDF résumé' },
     { name: 'clear', about: 'clear the screen (Ctrl+L)' },
