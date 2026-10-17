@@ -1,0 +1,567 @@
+/*
+ * Design 10 — Garden.
+ * Botanical and mineral: moss and fern greens, sage, a single clay accent,
+ * on warm paper. Young Serif (soft, slightly old-style) for names and
+ * headings, Mulish for reading. Generous negative space and an asymmetric
+ * specimen wall; the plants are the only illustration.
+ */
+:root {
+    --gd-paper: #f3eee2;
+    --gd-sheet: #fbf8f0;
+    --gd-ink: #1f2a22;
+    --gd-muted: #566255;      /* 6.1:1 on paper */
+    --gd-line: #d9d1bf;
+    --gd-moss: #2f4a3a;
+    --gd-fern: #5d7f4f;
+    --gd-sage: #8fa98a;
+    --gd-olive: #7c8f4e;
+    --gd-clay: #c47f5e;
+    --gd-sand: #e6dcc4;
+    --focus: var(--gd-clay);
+
+    --gd-serif: 'Young Serif', Georgia, 'Times New Roman', serif;
+    --gd-sans: 'Mulish', 'Segoe UI', system-ui, sans-serif;
+
+    --gd-s1: 0.5rem;
+    --gd-s2: 1rem;
+    --gd-s3: 1.5rem;
+    --gd-s4: 2.25rem;
+    --gd-s6: 3.75rem;
+    --gd-s8: 6.5rem;
+    --gd-pad: clamp(1.25rem, 5vw, 4.5rem);
+    --gd-ease-grow: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+    --reveal-from: translate3d(0, 14px, 0);
+    --reveal-dur: 900ms;
+    --stagger: 120ms;
+
+    --dock-bg: var(--gd-moss);
+    --dock-fg: var(--gd-paper);
+    --dock-accent: var(--gd-sand);
+    --dock-accent-fg: var(--gd-moss);
+    --dock-radius: 22px;
+    --dock-btn-radius: 18px;
+    --dock-font: var(--gd-sans);
+    --dock-shadow: 0 10px 30px rgb(31 42 34 / 0.18);
+}
+
+html {
+    scroll-padding-top: 84px;
+    scrollbar-color: var(--gd-sage) var(--gd-paper);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+}
+
+body {
+    background: var(--gd-paper);
+    color: var(--gd-ink);
+    font-family: var(--gd-sans);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+}
+
+::selection { background: var(--gd-sage); color: var(--gd-ink); }
+
+:where(.gd) a { color: inherit; }
+
+/* ---------- Header ---------- */
+
+.gd-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: var(--gd-s3);
+    min-height: 72px;
+    padding: 0 var(--gd-pad);
+    background: color-mix(in srgb, var(--gd-paper) 90%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+
+.gd-brand {
+    font-family: var(--gd-serif);
+    font-size: 1.25rem;
+    text-decoration: none;
+    color: var(--gd-moss) !important;
+}
+
+.gd-nav { margin-left: auto; }
+.gd-nav ul { display: flex; gap: var(--gd-s3); }
+
+.gd-nav a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--gd-muted);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: color var(--dur-fast) ease;
+}
+
+/* The active section gets a small leaf. */
+.gd-nav a::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    width: 10px;
+    height: 6px;
+    margin-left: -5px;
+    border-radius: 0 100% 0 100%;
+    background: var(--gd-fern);
+    opacity: 0;
+    transform: scale(0.4) rotate(-20deg);
+    transition: opacity var(--dur-base) ease, transform 400ms var(--gd-ease-grow);
+}
+
+.gd-nav a[aria-current='true'] { color: var(--gd-moss); }
+.gd-nav a[aria-current='true']::before { opacity: 1; transform: none; }
+
+@media (hover: hover) and (pointer: fine) {
+    .gd-nav a:hover { color: var(--gd-moss); }
+}
+
+.gd-menu-btn { display: none; }
+
+/* ---------- Buttons & links ---------- */
+
+.gd-btn,
+.gd-regrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    min-height: 48px;
+    padding: 0 1.4rem;
+    border: 1.5px solid var(--gd-moss);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--gd-moss);
+    font: inherit;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color var(--dur-base) ease, color var(--dur-base) ease, transform var(--dur-press) var(--ease-out);
+}
+
+.gd-btn--moss { background: var(--gd-moss); color: var(--gd-paper) !important; }
+.gd-btn:active,
+.gd-regrow:active { transform: scale(var(--press-scale)); }
+
+@media (hover: hover) and (pointer: fine) {
+    .gd-btn:hover,
+    .gd-regrow:hover { background: var(--gd-moss); color: var(--gd-paper); }
+    .gd-btn--moss:hover { background: var(--gd-fern); border-color: var(--gd-fern); }
+}
+
+.gd-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    min-height: 40px;
+    color: var(--gd-moss);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--gd-sage);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.25em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .gd-link:hover { color: var(--gd-clay); text-decoration-color: currentColor; }
+}
+
+/* ---------- Plants ---------- */
+
+.gd-stem {
+    fill: none;
+    stroke: var(--gd-moss);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+}
+
+.gd-leaf { stroke: none; }
+.gd-bud { fill: var(--gd-clay); }
+.gd-ground { fill: var(--gd-sand); }
+
+.gd-sway {
+    transition: transform 1200ms var(--gd-ease-grow);
+}
+
+/* Growth: stems draw from the soil up, leaves and buds open after. */
+@media (prefers-reduced-motion: no-preference) {
+    .gd-hero .gd-stem,
+    .gd-specimen.is-in .gd-stem,
+    .gd-bed.is-in .gd-stem {
+        stroke-dasharray: 1;
+        animation: gd-grow var(--gd-grow-ms, 1400ms) var(--gd-ease-grow) var(--d, 0ms) both;
+    }
+
+    .gd-hero .gd-leaf,
+    .gd-hero .gd-bud,
+    .gd-specimen.is-in .gd-leaf,
+    .gd-specimen.is-in .gd-bud,
+    .gd-bed.is-in .gd-leaf {
+        animation: gd-open 900ms var(--gd-ease-grow) var(--d, 0ms) both;
+    }
+
+    .reveal-armed .gd-specimen:not(.is-in) .gd-stem,
+    .reveal-armed .gd-bed:not(.is-in) .gd-stem { stroke-dasharray: 1; stroke-dashoffset: 1; }
+}
+
+@keyframes gd-grow { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes gd-open { from { opacity: 0; } }
+
+/* ---------- Hero ---------- */
+
+.gd-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--gd-s6);
+    align-items: center;
+    min-height: calc(100svh - 72px);
+    padding: var(--gd-s6) var(--gd-pad) var(--gd-s4);
+}
+
+.gd-hero__text { padding-bottom: 0; }
+
+.gd-hero__name {
+    color: var(--gd-moss);
+    font-family: var(--gd-serif);
+    font-weight: 400;
+    font-size: calc(clamp(3.25rem, 1.5rem + 6vw, 7rem) * var(--gd-name-scale, 1));
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+}
+
+.gd-hero__role {
+    margin-top: var(--gd-s2);
+    color: var(--gd-fern);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.gd-hero__tagline {
+    max-width: 38ch;
+    margin-top: var(--gd-s2);
+    color: var(--gd-ink);
+    font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem);
+}
+
+.gd-hero__actions { display: flex; flex-wrap: wrap; gap: var(--gd-s1); margin-top: var(--gd-s4); }
+
+.gd-hero__garden { margin: 0; }
+.gd-hero__bed { aspect-ratio: 3 / 2; overflow: hidden; }
+.gd-garden { width: 100%; height: 100%; overflow: visible; }
+.gd-garden .gd-stem { stroke-width: 2; }
+
+.gd-hero__garden figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--gd-s1) var(--gd-s3);
+    padding-top: var(--gd-s2);
+    border-top: 1px solid var(--gd-line);
+    color: var(--gd-muted);
+    font-size: 0.9rem;
+}
+
+.gd-hero__garden figcaption span { max-width: 44ch; }
+.gd-regrow { min-height: 40px; padding: 0 1rem; font-size: 0.85rem; }
+
+/* ---------- Sections ---------- */
+
+.gd-section {
+    max-width: 1360px;
+    margin-inline: auto;
+    padding: var(--gd-s8) var(--gd-pad);
+}
+
+.gd-section__head {
+    display: grid;
+    gap: var(--gd-s1);
+    max-width: 44rem;
+    margin-bottom: var(--gd-s6);
+}
+
+.gd-section h2 {
+    color: var(--gd-moss);
+    font-family: var(--gd-serif);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 1.4rem + 3.5vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+
+.gd-section__head p { color: var(--gd-muted); font-size: 1.1rem; }
+
+/* ---------- Specimen wall (asymmetric: middle column sits lower) ---------- */
+
+.gd-specimens {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--gd-s6) var(--gd-s4);
+    align-items: start;
+}
+
+.gd-specimen:nth-child(3n + 2) { margin-top: var(--gd-s8); }
+.gd-specimen:nth-child(3n + 3) { margin-top: var(--gd-s4); }
+
+.gd-specimen article {
+    display: grid;
+    padding: var(--gd-s3) var(--gd-s3) var(--gd-s2);
+    background: var(--gd-sheet);
+    border: 1px solid var(--gd-line);
+    border-radius: 4px;
+}
+
+.gd-specimen__plant {
+    width: 72%;
+    margin: 0 auto var(--gd-s2);
+    overflow: visible;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .gd-specimen article:hover .gd-sway { transform: rotate(3deg); }
+}
+
+/* The herbarium label: a small ruled card in the corner of the sheet. */
+.gd-label {
+    display: grid;
+    gap: 0.35rem;
+    padding: var(--gd-s2);
+    border: 1px solid var(--gd-line);
+    background: var(--gd-paper);
+}
+
+.gd-label__name {
+    color: var(--gd-moss);
+    font-family: var(--gd-serif);
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+}
+
+.gd-label__name a { text-decoration: none; }
+
+@media (hover: hover) and (pointer: fine) {
+    .gd-label__name a:hover { color: var(--gd-clay); }
+}
+
+.gd-label__kind { color: var(--gd-fern); font-style: italic; font-size: 0.95rem; }
+.gd-label__summary { font-size: 0.97rem; line-height: 1.6; }
+.gd-label__stack { color: var(--gd-muted); font-size: 0.85rem; line-height: 1.5; }
+.gd-label__stack span { color: var(--gd-moss); font-weight: 700; }
+.gd-label__links { display: flex; flex-wrap: wrap; gap: 0 1.1rem; font-size: 0.92rem; }
+
+.gd-more { margin-top: var(--gd-s6); }
+
+/* ---------- About ---------- */
+
+.gd-about {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: var(--gd-s6);
+    align-items: center;
+}
+
+.gd-about__photo img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 48% 52% 44% 56% / 38% 40% 60% 62%;
+    filter: saturate(0.85) sepia(0.08);
+}
+
+.gd-about__text h2 { margin-bottom: var(--gd-s3); }
+.gd-about__text p { max-width: 58ch; font-size: 1.12rem; }
+.gd-about__text p + p { margin-top: var(--gd-s2); }
+
+/* ---------- Skill beds ---------- */
+
+.gd-beds {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+    gap: var(--gd-s3);
+}
+
+.gd-bed {
+    display: grid;
+    grid-template-columns: 6rem minmax(0, 1fr);
+    gap: var(--gd-s2);
+    align-items: end;
+    padding: var(--gd-s2) var(--gd-s3);
+    border-bottom: 2px solid var(--gd-sand);
+}
+
+.gd-bed__plant { width: 100%; overflow: visible; }
+.gd-bed h3 { color: var(--gd-moss); font-family: var(--gd-serif); font-weight: 400; font-size: 1.35rem; line-height: 1.15; }
+.gd-bed p { color: var(--gd-muted); font-size: 0.95rem; line-height: 1.55; }
+
+/* ---------- Seasons (experience) ---------- */
+
+.gd-rings { display: grid; gap: var(--gd-s6); }
+
+.gd-season {
+    display: grid;
+    grid-template-columns: 4rem minmax(0, 1fr);
+    gap: var(--gd-s3);
+    max-width: 62rem;
+}
+
+.gd-ring { width: 3.25rem; height: 3.25rem; }
+.gd-ring circle { fill: none; stroke: var(--gd-fern); stroke-width: 1.2; }
+.gd-season--edu .gd-ring circle { stroke: var(--gd-clay); }
+.gd-season__date { color: var(--gd-fern); font-weight: 700; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+.gd-season h3 { margin-top: 0.15rem; color: var(--gd-moss); font-family: var(--gd-serif); font-weight: 400; font-size: clamp(1.4rem, 1.1rem + 1vw, 2rem); line-height: 1.15; }
+.gd-season__org { color: var(--gd-muted); font-style: italic; margin-bottom: var(--gd-s1); }
+.gd-season ul { display: grid; gap: 0.45rem; padding-left: 1.1rem; max-width: 68ch; }
+.gd-season li::marker { color: var(--gd-sage); }
+.gd-season a { color: var(--gd-moss); }
+
+/* ---------- Contact ---------- */
+
+.gd-contact { text-align: center; }
+.gd-contact h2 { margin-bottom: var(--gd-s3); }
+.gd-contact__lead { max-width: 46ch; margin-inline: auto; color: var(--gd-muted); font-size: 1.12rem; }
+
+.gd-contact__email {
+    display: inline-block;
+    margin-block: var(--gd-s4);
+    color: var(--gd-moss);
+    font-family: var(--gd-serif);
+    font-size: clamp(1.6rem, 0.8rem + 3.6vw, 3.6rem);
+    line-height: 1.1;
+    text-decoration: underline;
+    text-decoration-color: var(--gd-clay);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.18em;
+    overflow-wrap: anywhere;
+}
+
+.gd-contact__list { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 var(--gd-s4); }
+
+.gd-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--gd-s2);
+    max-width: 1360px;
+    margin-inline: auto;
+    padding: var(--gd-s3) var(--gd-pad) var(--dock-clearance);
+    border-top: 1px solid var(--gd-line);
+    color: var(--gd-muted);
+    font-size: 0.9rem;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1100px) {
+    .gd-specimens { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .gd-specimen:nth-child(n) { margin-top: 0; }
+    .gd-specimen:nth-child(2n) { margin-top: var(--gd-s6); }
+}
+
+@media (max-width: 860px) {
+    .gd-menu-btn {
+        display: inline-flex;
+        align-items: center;
+        margin-left: auto;
+        min-height: 44px;
+        padding: 0 1.1rem;
+        border: 1.5px solid var(--gd-moss);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--gd-moss);
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .gd-nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        display: none;
+        padding: var(--gd-s1) var(--gd-pad) var(--gd-s3);
+        background: var(--gd-paper);
+        border-bottom: 1px solid var(--gd-line);
+    }
+
+    .gd-nav.is-open { display: block; }
+    .gd-nav ul { flex-direction: column; gap: 0; }
+    .gd-nav a { width: 100%; min-height: 52px; font-family: var(--gd-serif); font-weight: 400; font-size: 1.5rem; color: var(--gd-moss); }
+    .gd-nav a::before { display: none; }
+
+    .gd-hero { grid-template-columns: minmax(0, 1fr); min-height: 0; gap: var(--gd-s3); }
+    .gd-hero__text { padding-bottom: 0; }
+    .gd-about { grid-template-columns: minmax(0, 1fr); }
+    .gd-about__photo { max-width: 20rem; }
+}
+
+@media (max-width: 600px) {
+    .gd-specimens { grid-template-columns: minmax(0, 1fr); }
+    .gd-specimen:nth-child(n) { margin-top: 0; }
+    .gd-bed { grid-template-columns: 4.5rem minmax(0, 1fr); padding-inline: 0; }
+    .gd-season { grid-template-columns: 2.75rem minmax(0, 1fr); gap: var(--gd-s2); }
+    .gd-ring { width: 2.5rem; height: 2.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gd-sway { transition: none; }
+}
+
+/* ---------- Generative variations (data-v-* set by js/generative-ui.js) ----------
+   hero: where the bed sits against the text; specimens: how the pressed
+   labels are mounted; density: how many plants grow in the hero bed
+   (garden.js). Source order never changes. */
+
+@media (min-width: 861px) {
+    /* Hero "right": the bed on the left, the text on the right. */
+    [data-v-hero='right'] .gd-hero { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
+    [data-v-hero='right'] .gd-hero__text { grid-column: 2; grid-row: 1; }
+    [data-v-hero='right'] .gd-hero__garden { grid-column: 1; grid-row: 1; }
+
+    /* Hero "stacked": a wide text band, then a long low bed across the page. */
+    [data-v-hero='stacked'] .gd-hero { grid-template-columns: minmax(0, 1fr); min-height: 0; gap: var(--gd-s4); }
+    [data-v-hero='stacked'] .gd-hero__text {
+        display: grid;
+        grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+        column-gap: var(--gd-s6);
+        align-items: end;
+    }
+    [data-v-hero='stacked'] .gd-hero__name { grid-column: 1; grid-row: 1 / span 3; }
+    [data-v-hero='stacked'] .gd-hero__text > :not(.gd-hero__name) { grid-column: 2; }
+    [data-v-hero='stacked'] .gd-hero__bed { aspect-ratio: 5 / 2; }
+}
+
+/* Specimens "two": pairs of larger sheets, the second of each pair set lower. */
+@media (min-width: 601px) {
+    [data-v-specimens='two'] .gd-specimens { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    [data-v-specimens='two'] .gd-specimen:nth-child(n) { margin-top: 0; }
+    [data-v-specimens='two'] .gd-specimen:nth-child(2n) { margin-top: var(--gd-s6); }
+    [data-v-specimens='two'] .gd-specimen__plant { width: 56%; }
+}
+
+/* Specimens "rows": a herbarium drawer, one sheet per row, plant beside its label. */
+@media (min-width: 601px) {
+    [data-v-specimens='rows'] .gd-specimens { grid-template-columns: minmax(0, 1fr); gap: var(--gd-s3); }
+    [data-v-specimens='rows'] .gd-specimen:nth-child(n) { margin-top: 0; }
+    [data-v-specimens='rows'] .gd-specimen article {
+        grid-template-columns: minmax(8rem, 1fr) minmax(0, 3fr);
+        column-gap: var(--gd-s4);
+        align-items: end;
+    }
+    [data-v-specimens='rows'] .gd-specimen__plant { width: 100%; margin: 0; }
+    [data-v-specimens='rows'] .gd-specimen:nth-child(even) article { grid-template-columns: minmax(0, 3fr) minmax(8rem, 1fr); }
+    [data-v-specimens='rows'] .gd-specimen:nth-child(even) .gd-specimen__plant { grid-column: 2; grid-row: 1; }
+    [data-v-specimens='rows'] .gd-specimen:nth-child(even) .gd-label { grid-column: 1; grid-row: 1; }
+}

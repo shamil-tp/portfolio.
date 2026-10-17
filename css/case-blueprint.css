@@ -1,0 +1,234 @@
+/*
+ * Case study — Blueprint.
+ * The case study as a detail sheet: vellum with a drafting grid, ink-blue
+ * linework, numbered section callouts (a CSS counter), condensed drafting
+ * lettering, the red pencil for links you're about to follow.
+ */
+:root {
+    --bp-vellum: #f2f1ea;
+    --bp-vellum-2: #e9e8df;
+    --bp-ink: #1d4f91;
+    --bp-graphite: #22272e;
+    --bp-muted: #556070;
+    /* Derived from the ink and pencil, so every drafting medium stays consistent. */
+    --bp-line: color-mix(in srgb, var(--bp-ink) 28%, transparent);
+    --bp-grid: color-mix(in srgb, var(--bp-ink) 6%, transparent);
+    --bp-red: #c2410c;
+
+    --cs-bg: var(--bp-vellum);
+    --cs-surface: var(--bp-vellum);
+    --cs-surface-2: var(--bp-vellum-2);
+    --cs-ink: var(--bp-graphite);
+    --cs-muted: var(--bp-muted);
+    --cs-line: var(--bp-line);
+    --cs-rule: var(--bp-ink);
+    --cs-accent: var(--bp-ink);
+    --cs-accent-ink: var(--bp-vellum);
+
+    --cs-display: 'Archivo', 'Arial Narrow', sans-serif;
+    --cs-text: 'Archivo', 'Helvetica Neue', sans-serif;
+    --cs-mono: 'Chivo Mono', ui-monospace, Consolas, monospace;
+    --cs-meta-font: var(--cs-mono);
+
+    --cs-panel-border: 1.5px solid var(--bp-ink);
+    --cs-panel-bg: var(--bp-vellum);
+    --cs-chip-bg: transparent;
+    --cs-chip-ink: var(--bp-ink);
+    --cs-chip-border: 1px solid var(--bp-line);
+    --cs-btn-border: 1.5px solid var(--bp-ink);
+    --cs-code-bg: var(--bp-vellum-2);
+    --cs-code-ink: var(--bp-graphite);
+    --cs-banner-bg: var(--bp-ink);
+    --cs-banner-ink: var(--bp-vellum);
+
+    --cs-title-weight: 800;
+    --cs-title-case: uppercase;
+    --cs-title-track: -0.005em;
+    --cs-h2-weight: 800;
+    --cs-h2-case: uppercase;
+    --cs-h2-track: 0;
+    --cs-h3-weight: 700;
+    --cs-dot-radius: 50%;
+    --cs-lang: var(--bp-ink);
+    --focus: var(--bp-red);
+    --focus-width: 2px;
+
+    --dock-bg: var(--bp-vellum);
+    --dock-fg: var(--bp-graphite);
+    --dock-accent: var(--bp-ink);
+    --dock-accent-fg: var(--bp-vellum);
+    --dock-border: 1.5px solid var(--bp-ink);
+    --dock-radius: 0;
+    --dock-btn-radius: 0;
+    --dock-font: var(--cs-mono);
+    --dock-shadow: none;
+}
+
+body {
+    background:
+        linear-gradient(var(--bp-grid) 1px, transparent 1px) 0 0 / 24px 24px,
+        linear-gradient(90deg, var(--bp-grid) 1px, transparent 1px) 0 0 / 24px 24px,
+        var(--bp-vellum);
+}
+
+::selection { background: var(--bp-ink); color: var(--bp-vellum); }
+
+.navbar { border-bottom: 1.5px solid var(--bp-ink); }
+
+.back-link,
+.nav-links a,
+.logo {
+    font-family: var(--cs-mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--bp-ink);
+}
+
+.breadcrumb { font-family: var(--cs-mono); font-size: 0.78rem; text-transform: uppercase; }
+
+/* Title block. */
+.project-header,
+.page-header {
+    margin: 1.25rem auto 0;
+    max-width: calc(var(--cs-max) - 2 * var(--cs-pad));
+    padding: 0;
+    border: 1.5px solid var(--bp-ink);
+    background: var(--bp-vellum);
+}
+
+.project-header > .container,
+.page-header > .container { padding: clamp(1.25rem, 3vw, 2rem); }
+
+.header-icon { border: 1.5px solid var(--bp-ink); color: var(--bp-ink); border-radius: 50%; }
+
+.project-title,
+.page-title {
+    color: var(--bp-ink);
+    font-stretch: 65%;
+    font-size: clamp(3rem, 1rem + 7vw, 7.5rem);
+    line-height: 0.85;
+}
+
+.project-subtitle,
+.page-subtitle {
+    color: var(--bp-graphite);
+    font-family: var(--cs-mono);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.version-badge { border-radius: 0; }
+
+/* Numbered section callouts. */
+.main-column,
+.container > .main-content { counter-reset: sheet; }
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--bp-ink);
+    font-stretch: 70%;
+}
+
+.section-heading::before {
+    counter-increment: sheet;
+    content: counter(sheet, decimal-leading-zero);
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.4rem;
+    height: 2.4rem;
+    border: 1.5px solid var(--bp-ink);
+    border-radius: 50%;
+    font-family: var(--cs-mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.section-divider { border-top: 1px solid var(--bp-line); }
+
+.info-table { border: 1.5px solid var(--bp-ink); background: var(--bp-vellum); }
+.info-table td { padding-inline: 0.75rem; border-bottom: 1px solid var(--bp-line); }
+.info-table td:first-child { border-right: 1px solid var(--bp-line); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em; }
+
+.prose a,
+.info-table a,
+.feature-list a,
+.mono-link { color: var(--bp-ink); }
+
+.code-block { border: 1.5px solid var(--bp-ink); }
+
+.step-num,
+.pipeline-dot {
+    background: var(--bp-vellum);
+    color: var(--bp-ink);
+    border: 1.5px solid var(--bp-ink);
+    border-radius: 50%;
+}
+
+.pipeline-line,
+.v-connector { background: var(--bp-ink); }
+.feature-list li::before { background: none; border: 1.5px solid var(--bp-ink); }
+
+.skill-name,
+.feat-name,
+.sec-title,
+.algo-title,
+.rf-title,
+.pipeline-title,
+.v-title,
+.widget-title,
+.card-title { font-stretch: 80%; text-transform: uppercase; color: var(--bp-ink); }
+
+.widget-title { border-bottom: 1px solid var(--bp-line); font-size: 0.95rem; }
+
+.tag,
+.arch-item,
+.sec-pkg,
+.pipeline-tech,
+.highlight-pill,
+.tl-param,
+.algo-badge,
+.v-badge,
+.mit-badge { font-size: 0.72rem; }
+
+.link-btn {
+    font-family: var(--cs-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--bp-ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .link-btn:not(.primary):hover { background: var(--bp-ink); color: var(--bp-vellum); }
+    a:not(.link-btn):not(.project-card):hover { color: var(--bp-red); }
+}
+
+.role-badge,
+.v-badge.warning { background: var(--bp-ink); color: var(--bp-vellum); border: 0; }
+.v-badge.current { background: var(--bp-red); color: var(--bp-vellum); border: 0; }
+
+.collab-avatar { background: var(--bp-vellum); color: var(--bp-ink); border: 1.5px solid var(--bp-ink); border-radius: 50%; }
+
+.m-val { color: var(--bp-ink); font-stretch: 75%; }
+.cm-val { color: var(--bp-ink); font-family: var(--cs-mono); font-size: 0.95rem; }
+
+.score-bar-wrap { height: 0.5rem; border: 1px solid var(--bp-ink); background: var(--bp-vellum); }
+.lang-bar { border: 1.5px solid var(--bp-ink); }
+
+/* Hub: a drawing register. */
+.project-grid { grid-template-columns: minmax(0, 1fr); gap: 0; border: 1.5px solid var(--bp-ink); padding: 0; margin-block: 2rem 4rem; }
+.project-card { border: 0; border-bottom: 1px solid var(--bp-line); align-items: center; counter-increment: dwg; }
+.project-card::before { content: 'P-' counter(dwg, decimal-leading-zero); flex: none; width: 3.5rem; color: var(--bp-ink); font-family: var(--cs-mono); font-size: 0.78rem; }
+.project-grid { counter-reset: dwg; }
+.card-icon { color: var(--bp-ink); }
+.card-content { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1.5rem; }
+.card-desc { margin: 0; }
+
+[data-v-medium='cyanotype'] { color-scheme: dark; }

@@ -1,0 +1,179 @@
+/*
+ * Case study — Terminal.
+ * The case study as a `less` of a markdown file: one monospace, hierarchy by
+ * colour, a tmux-style status line for navigation, headings marked like
+ * markdown, chips in brackets.
+ */
+:root {
+    --tm-bg: #15171c;
+    --tm-bg-2: #1b1e25;
+    --tm-line: #2a2e37;
+    --tm-fg: #d4d7dd;
+    --tm-bright: #ffffff;
+    --tm-dim: #8d939e;
+    --tm-user: #72d3b8;
+    --tm-path: #e6c07b;
+    --tm-link: #8fb7ff;
+
+    --cs-bg: var(--tm-bg);
+    --cs-surface: var(--tm-bg);
+    --cs-surface-2: var(--tm-bg-2);
+    --cs-ink: var(--tm-fg);
+    --cs-muted: var(--tm-dim);
+    --cs-line: var(--tm-line);
+    --cs-rule: var(--tm-dim);
+    --cs-accent: var(--tm-path);
+    --cs-accent-ink: var(--tm-bg);
+
+    --cs-display: 'Fira Code', ui-monospace, Consolas, monospace;
+    --cs-text: 'Fira Code', ui-monospace, Consolas, monospace;
+    --cs-mono: 'Fira Code', ui-monospace, Consolas, monospace;
+
+    --cs-max: 1100px;
+    --cs-panel-border: 1px solid var(--tm-line);
+    --cs-panel-bg: var(--tm-bg);
+    --cs-chip-bg: transparent;
+    --cs-chip-ink: var(--tm-user);
+    --cs-btn-border: 1px solid var(--tm-line);
+    --cs-btn-bg: var(--tm-bg-2);
+    --cs-code-bg: #0f1115;
+    --cs-code-ink: var(--tm-fg);
+    --cs-banner-bg: var(--tm-bg-2);
+    --cs-banner-ink: var(--tm-fg);
+
+    --cs-title-size: clamp(1.75rem, 1.2rem + 2.5vw, 3rem);
+    --cs-title-weight: 600;
+    --cs-title-track: -0.01em;
+    --cs-h2-size: 1rem;
+    --cs-h2-weight: 600;
+    --cs-h2-track: 0;
+    --cs-h3-weight: 600;
+    --cs-nav-bg: var(--tm-path);
+    --cs-nav-h: 36px;
+    --cs-dot-radius: 0;
+    --cs-lang: var(--tm-user);
+    --focus: var(--tm-path);
+    --focus-width: 2px;
+
+    --dock-bg: var(--tm-bg-2);
+    --dock-fg: var(--tm-fg);
+    --dock-accent: var(--tm-path);
+    --dock-accent-fg: var(--tm-bg);
+    --dock-border: 1px solid var(--tm-line);
+    --dock-radius: 4px;
+    --dock-btn-radius: 3px;
+    --dock-font: var(--cs-mono);
+    --dock-shadow: none;
+}
+
+html { color-scheme: dark; scrollbar-color: var(--tm-line) var(--tm-bg); }
+
+body { font-size: clamp(0.8125rem, 0.78rem + 0.2vw, 0.9375rem); line-height: 1.65; }
+
+::selection { background: var(--tm-path); color: var(--tm-bg); }
+
+/* Status line. */
+.navbar { border: 0; color: var(--tm-bg); }
+.back-link,
+.nav-links a,
+.logo { font-weight: 600; font-size: 0.8125rem; min-height: var(--cs-nav-h); }
+.back-link,
+.logo { padding: 0 0.75rem; margin-left: calc(-1 * var(--cs-pad)); background: var(--tm-bg); color: var(--tm-path); }
+.logo .highlight { color: var(--tm-fg); }
+
+/* The breadcrumb reads as the working directory. */
+.breadcrumb { color: var(--tm-dim); }
+.breadcrumb ol::before { content: '$ cd ~/'; color: var(--tm-user); margin-right: 0.5ch; }
+.breadcrumb li + li::before { content: '/'; margin: 0; }
+.breadcrumb a { color: var(--tm-fg); }
+
+.project-header,
+.page-header { padding-block: 1.5rem 2rem; border-bottom: 1px solid var(--tm-line); }
+.header-icon { display: none; }
+
+.project-title,
+.page-title { color: var(--tm-bright); }
+.project-title::before,
+.page-title::before { content: '# '; color: var(--tm-dim); font-weight: 400; }
+.project-subtitle,
+.page-subtitle { color: var(--tm-path); font-size: 1em; }
+.version-badge { background: none; color: var(--tm-user); font-size: 0.5em; }
+
+/* Markdown-ish headings. */
+.section-heading { color: var(--tm-bright); }
+.section-heading::before { content: '## '; color: var(--tm-dim); font-weight: 400; }
+.section-divider { border-top: 1px dashed var(--tm-line); }
+
+.prose strong { color: var(--tm-bright); }
+.prose a,
+.info-table a,
+.feature-list a,
+.mono-link { color: var(--tm-link); }
+
+.feature-list li { padding-left: 2ch; }
+.feature-list li::before { content: '-'; width: auto; height: auto; top: 0; background: none; color: var(--tm-dim); }
+
+.info-table td:first-child { color: var(--tm-dim); }
+.info-table td:first-child::after { content: ':'; }
+
+.code-block { border: 1px solid var(--tm-line); }
+
+.step-num,
+.pipeline-dot { background: none; color: var(--tm-path); width: auto; font-weight: 600; }
+.step-num::before,
+.pipeline-dot::before { content: '['; color: var(--tm-dim); }
+.step-num::after,
+.pipeline-dot::after { content: ']'; color: var(--tm-dim); }
+
+/* Chips as bracketed tags. */
+.tag,
+.arch-item,
+.sec-pkg,
+.pipeline-tech,
+.highlight-pill,
+.tl-param,
+.algo-badge,
+.v-badge,
+.mit-badge { padding: 0; font-size: 0.85em; }
+.tag::before,
+.arch-item::before { content: '['; color: var(--tm-dim); }
+.tag::after,
+.arch-item::after { content: ']'; color: var(--tm-dim); }
+
+.collab-link,
+.chip-link,
+.link-btn { color: var(--tm-fg); }
+
+.link-btn.primary { background: var(--tm-path); color: var(--tm-bg); }
+
+@media (hover: hover) and (pointer: fine) {
+    .link-btn:not(.primary):hover,
+    .collab-link:hover { border-color: var(--tm-path); color: var(--tm-path); }
+}
+
+.role-badge,
+.v-badge.current,
+.v-badge.warning { background: none; color: var(--tm-path); }
+
+.collab-avatar { background: var(--tm-bg-2); color: var(--tm-user); border: 1px solid var(--tm-line); }
+
+.widget-title { color: var(--tm-bright); }
+.widget-title::before { content: '### '; color: var(--tm-dim); font-weight: 400; }
+.m-val { color: var(--tm-path); font-family: var(--cs-mono); font-size: 1.5rem; }
+.cm-val { color: var(--tm-user); }
+
+.zero-big,
+.team-num,
+.stat-big { color: var(--tm-path); }
+
+/* Hub: an `ls -l`. */
+.project-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+.project-card { border: 0; border-bottom: 1px solid var(--tm-line); padding: 0.75rem 0; align-items: baseline; }
+.card-icon { display: none; }
+.card-content { display: grid; grid-template-columns: minmax(10rem, 1fr) minmax(0, 2fr); gap: 2ch; width: 100%; }
+.card-title { color: var(--tm-link); font-size: 1em; }
+.card-desc { margin: 0; }
+
+@media (max-width: 600px) {
+    .card-content { grid-template-columns: minmax(0, 1fr); gap: 0; }
+}

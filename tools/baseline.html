@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Baseline generator | shamiltp.me tools</title>
+    <style>
+        body { margin: 0; padding: 1.5rem; font: 15px/1.5 system-ui, sans-serif; background: #f6f6f3; color: #161616; }
+        main { max-width: 70rem; margin: 0 auto; display: grid; gap: 1rem; }
+        textarea { width: 100%; min-height: 24rem; padding: 0.75rem; font: 12px/1.45 ui-monospace, Consolas, monospace; border: 1px solid #bbb; border-radius: 6px; }
+        button { min-height: 40px; padding: 0 1rem; border: 1px solid #161616; border-radius: 6px; background: #161616; color: #fff; font: inherit; cursor: pointer; }
+        code { background: #e9e9e4; padding: 0.1em 0.3em; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Homepage baseline and JSON-LD</h1>
+        <p>Generated from <code>js/content.js</code>. Paste the first block into <code>index.html</code> between <code>&lt;!-- BASELINE:START --&gt;</code> and <code>&lt;!-- BASELINE:END --&gt;</code>, and replace the <code>ItemList</code> node in the homepage JSON-LD with the second.</p>
+        <h2>Baseline markup</h2>
+        <textarea id="html" readonly></textarea>
+        <p><button type="button" data-copy="html">Copy markup</button></p>
+        <h2>Projects ItemList (JSON-LD node)</h2>
+        <textarea id="ld" readonly></textarea>
+        <p><button type="button" data-copy="ld">Copy JSON-LD</button></p>
+    </main>
+    <script type="module">
+        import { content } from '../js/content.js';
+        import * as h from '../js/render-helpers.js';
+        import { baselineHTML, projectsJsonLd } from '../js/baseline.js';
+        document.getElementById('html').value = baselineHTML(content, h).trim();
+        document.getElementById('ld').value = JSON.stringify(projectsJsonLd(content, 'https://shamiltp.me/'), null, 4);
+        document.addEventListener('click', (e) => {
+            const id = e.target.dataset?.copy;
+            if (id) navigator.clipboard?.writeText(document.getElementById(id).value);
+        });
+    </script>
+</body>
+</html>

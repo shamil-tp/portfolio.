@@ -1,0 +1,44 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "css/design-brutalist.css"
+        ],
+        "createdAt": "2026-10-17T03:43:21.456Z",
+        "reason": "model judgement: L189 is the 3px divider between header nav links in the brutalist design, not a card accent"
+      },
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "css/design-blueprint.css"
+        ],
+        "createdAt": "2026-10-17T05:03:24.531Z",
+        "reason": "model judgement: drafting grid on a blueprint drawing sheet, which the user's brief explicitly requested (structured/drafting grids)"
+      },
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "css/case-blueprint.css"
+        ],
+        "createdAt": "2026-10-17T05:03:24.704Z",
+        "reason": "model judgement: same drafting grid on the blueprint case-study sheet"
+      },
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "css/case-3d.css"
+        ],
+        "createdAt": "2026-10-17T05:03:24.918Z",
+        "reason": "model judgement: receding 3D floor plane under the maquette case-study title, a spatial element not a background texture"
+      }
+    ]
+  }
+}

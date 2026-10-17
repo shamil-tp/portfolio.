@@ -42,11 +42,14 @@ Nothing is verified, submitted or indexed until you do the steps above.
 
 ## Adding a new project
 
-1. Copy an existing case study in `myProjectDetails/` (e.g. `rewind.html`) and replace the content.
+1. Copy an existing case study in `myProjectDetails/` (e.g. `rewind.html`) and replace the content. Keep the existing
+   classes and avoid inline styles: the six site designs restyle those classes (see "Editing a case study" in README.md).
 2. In its `<head>`, update: `<title>`, meta description, canonical, `og:*`/`twitter:*`, and the JSON-LD
    (`name`, `description`, `url`, `codeRepository`, `programmingLanguage`, breadcrumb name/URL).
 3. Create `assets/og/<slug>.png` (1200×630) and point `og:image`/`twitter:image` at it.
-4. Add a card to the **Projects** section of `index.html` and a tile to `myProjectDetails/mycontributions.html`
+4. Add the project to `js/content.js` (all ten homepage designs render from it). Then open `/tools/baseline.html`
+   on a local server and paste its two outputs into `index.html`: the crawlable markup between the BASELINE
+   markers, and the projects `ItemList` in the JSON-LD. Add a tile to `myProjectDetails/mycontributions.html`
    (plus an `ItemList` entry in that page's JSON-LD).
 5. Add the URL to `sitemap.xml` and bump `<lastmod>` on pages you changed.
 
@@ -54,6 +57,7 @@ Nothing is verified, submitted or indexed until you do the steps above.
 
 - [ ] Content: keep project descriptions, contact details and the résumé PDF current (the PDF predates OpsPilot, RegretMap and Rewind).
 - [ ] Links: check that live-demo links still respond (Railway/Render/Vercel free tiers sleep or expire).
+      On 2026-10-17 the N-jin and Osmium Railway demos returned 404.
 - [ ] Sitemap: every indexable page listed, no `noindex`/redirect pages listed, `lastmod` updated on real changes.
 - [ ] Canonicals: each page's canonical equals its own `https://shamiltp.me/...` URL.
 - [ ] Performance: run Lighthouse (mobile) on `/` and one case study after visual changes; keep images in

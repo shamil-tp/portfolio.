@@ -1,0 +1,447 @@
+/*
+ * Case study — Desktop OS.
+ * The case study opens as a document window on the teal desktop, in the same
+ * late-90s Windows language as the homepage: the nav bar is the title bar,
+ * the breadcrumb the address bar, the article the white client area, the
+ * footer the status bar. Sidebar widgets are Properties group boxes.
+ * No decorative window controls: every button in the chrome does something.
+ */
+:root {
+    --os-wall: #0f7c7a;
+    --os-wall-dark: #0b5e5c;
+    --os-face: #c3c3c3;
+    --os-face-2: #d8d8d8;
+    --os-light: #ffffff;
+    --os-shade: #808080;
+    --os-dark: #0a0a0a;
+    --os-navy: #00007b;
+    --os-navy-2: #1a7fd0;
+    --os-raised: inset -1px -1px var(--os-dark), inset 1px 1px var(--os-light), inset -2px -2px var(--os-shade), inset 2px 2px var(--os-face-2);
+    --os-sunken: inset -1px -1px var(--os-light), inset 1px 1px var(--os-shade), inset -2px -2px var(--os-face-2), inset 2px 2px var(--os-dark);
+    --os-pressed: inset -1px -1px var(--os-light), inset 1px 1px var(--os-dark), inset -2px -2px var(--os-face-2), inset 2px 2px var(--os-shade);
+    --os-window: min(100% - 24px, 1180px);
+
+    --cs-bg: #ffffff;
+    --cs-surface: #ffffff;
+    --cs-surface-2: #e9e9e9;
+    --cs-ink: #111111;
+    --cs-muted: #3d3d3d;
+    --cs-line: #b5b5b5;
+    --cs-rule: var(--os-shade);
+    --cs-accent: var(--os-navy);
+    --cs-accent-ink: #fff;
+
+    --cs-display: 'IBM Plex Sans', 'Segoe UI', Tahoma, sans-serif;
+    --cs-text: 'IBM Plex Sans', 'Segoe UI', Tahoma, sans-serif;
+    --cs-mono: 'IBM Plex Mono', 'Courier New', monospace;
+    --os-pixel: 'Silkscreen', 'Courier New', monospace;
+
+    --cs-max: 100%;
+    --cs-pad: clamp(0.75rem, 2.5vw, 1.75rem);
+    --cs-panel-border: 0;
+    --cs-panel-bg: var(--os-face);
+    --cs-panel-shadow: var(--os-raised);
+    --cs-panel-pad: 1rem;
+    --cs-chip-bg: #fff;
+    --cs-chip-border: 0;
+    --cs-btn-border: 0;
+    --cs-btn-bg: var(--os-face);
+    --cs-code-bg: #000;
+    --cs-code-ink: #c0c0c0;
+    --cs-banner-bg: var(--os-face);
+    --cs-banner-ink: #111;
+
+    --cs-title-font: var(--os-pixel);
+    --cs-title-size: clamp(2rem, 1rem + 4vw, 4rem);
+    --cs-title-weight: 400;
+    --cs-title-track: 0;
+    --cs-h2-size: 1.25rem;
+    --cs-h2-weight: 600;
+    --cs-h2-track: 0;
+    --cs-nav-h: 36px;
+    --cs-dot-radius: 0;
+    --focus: #000;
+    --focus-width: 2px;
+
+    --dock-bg: var(--os-face);
+    --dock-fg: #111;
+    --dock-accent: var(--os-face);
+    --dock-accent-fg: #111;
+    --dock-radius: 0;
+    --dock-btn-radius: 0;
+    --dock-shadow: var(--os-raised), 2px 2px 0 rgb(0 0 0 / 0.35);
+    --dock-font: var(--cs-text);
+}
+
+html { scrollbar-color: var(--os-shade) var(--os-face); scroll-padding-top: 3rem; }
+
+body {
+    padding: 12px 0 var(--dock-clearance);
+    background:
+        radial-gradient(circle at 1px 1px, rgb(255 255 255 / 0.07) 1px, transparent 1.5px) 0 0 / 6px 6px,
+        linear-gradient(160deg, var(--os-wall), var(--os-wall-dark)) fixed;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+}
+
+::selection { background: var(--os-navy); color: #fff; }
+
+.design-dock__button { box-shadow: var(--os-raised); }
+.design-dock__button:active { box-shadow: var(--os-pressed); transform: none; }
+
+/* One window, assembled from the page's own landmarks. */
+.navbar,
+.breadcrumb,
+.project-header,
+.page-header,
+.main-content,
+body > main,
+.footer {
+    width: var(--os-window);
+    margin-inline: auto;
+    background: var(--os-face);
+    box-shadow: inset 1px 0 var(--os-light), inset -1px 0 var(--os-dark), inset 2px 0 var(--os-face-2), inset -2px 0 var(--os-shade);
+}
+
+/* Title bar. */
+.navbar {
+    position: sticky;
+    top: 0;
+    padding: 3px 3px 0;
+    border: 0;
+    box-shadow: inset 1px 1px var(--os-light), inset -1px 0 var(--os-dark), inset 2px 2px var(--os-face-2), inset -2px 0 var(--os-shade);
+}
+
+.nav-container {
+    min-height: var(--cs-nav-h);
+    padding: 2px 3px 2px 8px;
+    background: linear-gradient(90deg, var(--os-navy), var(--os-navy-2));
+    color: #fff;
+}
+
+.back-link,
+.nav-links a,
+.logo {
+    min-height: 28px;
+    font-weight: 400;
+}
+
+.back-link,
+.logo {
+    font-family: var(--os-pixel);
+    font-size: 0.875rem;
+}
+
+.logo .highlight { color: #fff; opacity: 0.75; }
+
+.nav-links { gap: 2px; }
+
+.nav-links a {
+    padding: 0 0.75rem;
+    background: var(--os-face);
+    color: #111;
+    box-shadow: var(--os-raised);
+    font-size: 0.8125rem;
+}
+
+.nav-links a:active { box-shadow: var(--os-pressed); }
+
+/* Address bar. */
+.breadcrumb {
+    padding: 6px 10px;
+    color: #111;
+    font-size: 0.8125rem;
+}
+
+.breadcrumb .container {
+    padding: 3px 8px;
+    background: #fff;
+    box-shadow: var(--os-sunken);
+    font-family: var(--cs-mono);
+}
+
+.breadcrumb li + li::before { content: '\\'; }
+
+/* Document heading inside the window. */
+.project-header,
+.page-header {
+    padding: 6px 10px 0;
+}
+
+.project-header > .container,
+.page-header > .container {
+    padding: clamp(1.25rem, 3vw, 2rem);
+    background: #fff;
+    box-shadow: var(--os-sunken);
+}
+
+.header-icon {
+    background: var(--os-face);
+    border: 0;
+    box-shadow: var(--os-raised);
+    color: var(--os-navy);
+}
+
+.project-title,
+.page-title { line-height: 1; }
+
+.project-subtitle,
+.page-subtitle { color: var(--cs-muted); font-family: var(--cs-mono); font-size: 0.95rem; }
+
+.version-badge { font-family: var(--cs-text); }
+
+/* Client area. */
+body > main,
+.main-content { padding: 0 10px 10px; }
+
+body > main > .container,
+.main-content > .container,
+.content-grid {
+    background: #fff;
+    box-shadow: var(--os-sunken);
+}
+
+.content-grid {
+    padding: clamp(1rem, 2.5vw, 1.75rem);
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+/* Client-project pages nest .main-content inside the white container. */
+.container > .main-content {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: clamp(1rem, 2.5vw, 1.75rem);
+    background: transparent;
+    box-shadow: none;
+}
+
+.section-heading {
+    padding: 2px 8px;
+    background: linear-gradient(90deg, var(--os-navy), var(--os-navy-2));
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+.section-divider { border-top: 1px solid var(--os-shade); box-shadow: 0 1px var(--os-light); }
+
+.info-table { box-shadow: var(--os-sunken); background: #fff; }
+.info-table td { padding: 0.4rem 0.6rem; border-bottom: 1px solid #e3e3e3; }
+.info-table td:first-child { background: var(--os-face-2); color: #111; font-size: 0.8125rem; }
+
+.prose a,
+.info-table a,
+.feature-list a { color: var(--os-navy); }
+
+.code-block {
+    padding: 1rem;
+    box-shadow: var(--os-sunken);
+    border: 3px solid var(--os-face);
+    font-size: 0.8125rem;
+}
+
+/* Raised and grouped panels. */
+.skill-card,
+.feat-card,
+.sec-card,
+.rf-box,
+.collab-card,
+.callout,
+.callout-box,
+.test-link-box,
+.teaser-box,
+.confidential,
+.mobile-badge,
+.algo-box {
+    background: var(--os-face);
+}
+
+.arch-layer {
+    background: #fff;
+    box-shadow: var(--os-sunken);
+}
+
+.step-num,
+.pipeline-dot {
+    background: var(--os-face);
+    color: #111;
+    box-shadow: var(--os-raised);
+    font-family: var(--cs-text);
+}
+
+.pipeline-line,
+.v-connector { background: var(--os-shade); }
+
+.v-dot { background: var(--os-navy); }
+
+.feature-list li::before { background: #111; width: 0.35rem; height: 0.35rem; top: 0.7em; }
+
+.tag,
+.arch-item,
+.sec-pkg,
+.pipeline-tech,
+.highlight-pill,
+.tl-param,
+.algo-badge,
+.v-badge,
+.mit-badge {
+    box-shadow: var(--os-sunken);
+    font-family: var(--cs-mono);
+    font-size: 0.75rem;
+}
+
+.collab-link,
+.chip-link,
+.link-btn {
+    background: var(--os-face);
+    color: #111;
+    box-shadow: var(--os-raised);
+}
+
+.collab-link:active,
+.chip-link:active,
+.link-btn:active {
+    box-shadow: var(--os-pressed);
+    transform: none;
+}
+
+.link-btn { min-height: 36px; font-weight: 400; font-size: 0.875rem; }
+
+.link-btn.primary {
+    background: var(--os-face);
+    color: #111;
+    outline: 1px solid #000;
+    outline-offset: -1px;
+    font-weight: 600;
+}
+
+.role-badge,
+.v-badge.warning,
+.v-badge.current { background: var(--os-navy); color: #fff; box-shadow: none; }
+
+.collab-avatar { background: var(--os-navy); color: #fff; }
+
+/* Sidebar: Properties group boxes. */
+.sidebar-column { gap: 1.75rem; padding-top: 0.6rem; }
+
+.sidebar-widget {
+    position: relative;
+    padding: 1.4rem 1rem 1rem;
+    background: transparent;
+    box-shadow: inset 1px 1px var(--os-shade), inset -1px -1px var(--os-light), 1px 1px var(--os-light);
+}
+
+.widget-title {
+    position: absolute;
+    top: -0.75em;
+    left: 0.6rem;
+    margin: 0;
+    padding: 0 0.35rem;
+    background: #fff;
+    border: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.m-val { font-family: var(--cs-mono); font-size: 1.5rem; color: var(--os-navy); }
+.cm-val { font-family: var(--cs-mono); color: var(--os-navy); }
+
+.score-bar-wrap {
+    height: 1.1rem;
+    padding: 2px;
+    background: #fff;
+    box-shadow: var(--os-sunken);
+}
+
+/* Classic segmented progress bar. */
+.score-bar {
+    background: repeating-linear-gradient(90deg, var(--os-navy) 0 9px, transparent 9px 11px);
+}
+
+.lang-bar { height: 1rem; padding: 2px; gap: 2px; background: #fff; box-shadow: var(--os-sunken); }
+.lang-seg:nth-child(1), .lang-legend > :nth-child(1) .lang-swatch { background: var(--os-navy); }
+.lang-seg:nth-child(2), .lang-legend > :nth-child(2) .lang-swatch { background: #008080; }
+.lang-seg:nth-child(3), .lang-legend > :nth-child(3) .lang-swatch { background: #800080; }
+.lang-seg:nth-child(4), .lang-legend > :nth-child(4) .lang-swatch { background: #808000; }
+.lang-seg:nth-child(5), .lang-legend > :nth-child(5) .lang-swatch { background: #808080; }
+.lang-seg:nth-child(n + 6), .lang-legend > :nth-child(n + 6) .lang-swatch { background: #c0c0c0; }
+
+/* Message-box style banners. */
+.owasp-banner,
+.hobby-banner,
+.client-banner,
+.zero-dep-hero,
+.team-highlight,
+.stat-highlight,
+.mastery-banner {
+    box-shadow: var(--os-raised);
+}
+
+.owasp-icon,
+.hobby-icon,
+.client-icon,
+.zero-big,
+.team-num,
+.stat-big { color: var(--os-navy); }
+
+.zero-big,
+.team-num,
+.stat-big { font-family: var(--os-pixel); font-weight: 400; }
+
+/* Status bar. */
+.footer {
+    padding: 0 10px 10px;
+    border: 0;
+    box-shadow: inset 1px 0 var(--os-light), inset -1px -1px var(--os-dark), inset 2px 0 var(--os-face-2), inset -2px -2px var(--os-shade);
+    color: #111;
+    font-size: 0.8125rem;
+}
+
+.footer .container {
+    padding: 2px 8px;
+    box-shadow: var(--os-sunken);
+}
+
+/* Hub: Explorer icon view. */
+.project-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr));
+    gap: 0.5rem;
+    padding: clamp(1rem, 2.5vw, 1.75rem);
+}
+
+.project-card {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.75rem 0.5rem;
+    background: transparent;
+    box-shadow: none;
+    border: 1px dotted transparent;
+    text-align: center;
+}
+
+.card-icon {
+    font-size: 2.25rem;
+    color: #c79a1e;
+}
+
+.card-title {
+    padding: 1px 4px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.card-desc { font-size: 0.75rem; }
+
+.project-card:focus-visible { outline: 0; border-color: #000; }
+.project-card:focus-visible .card-title,
+.project-card:active .card-title { background: var(--os-navy); color: #fff; }
+
+@media (hover: hover) and (pointer: fine) {
+    .project-card:hover .card-title { background: var(--os-navy); color: #fff; }
+}
+
+@media (max-width: 600px) {
+    body { padding-top: 0; }
+    .nav-links a { padding: 0 0.5rem; }
+}

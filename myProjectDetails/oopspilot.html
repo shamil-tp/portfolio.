@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-page="case">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +28,6 @@
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../site.webmanifest">
-    <link rel="preload" href="../assets/fonts/outfit-latin-var.woff2" as="font" type="font/woff2" crossorigin>
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -81,252 +80,18 @@
         ]
     }
     </script>
-    <style>
-        @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 900; font-display: swap; src: url('../assets/fonts/outfit-latin-var.woff2') format('woff2'); }
-        @font-face { font-family: 'Space Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('../assets/fonts/space-mono-400-latin.woff2') format('woff2'); }
-        @font-face { font-family: 'Space Mono'; font-style: normal; font-weight: 700; font-display: swap; src: url('../assets/fonts/space-mono-700-latin.woff2') format('woff2'); }
-        :focus-visible { outline: 3px solid #0B57D0; outline-offset: 3px; }
-        .skip-link { position: absolute; left: 1rem; top: -100px; z-index: 2000; background: #000; color: #F5F2EB; padding: 0.75rem 1rem; font-weight: 700; }
-        .skip-link:focus { top: 1rem; }
-        .breadcrumb { padding-top: 1.25rem; font-family: 'Space Mono', ui-monospace, monospace; font-size: 0.8rem; font-weight: 700; }
-        .breadcrumb ol { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 0.5rem; margin: 0; padding: 0; }
-        .breadcrumb li + li::before { content: '/'; margin-right: 0.5rem; }
-        .breadcrumb a { text-decoration: underline; text-underline-offset: 3px; }
-        @media (prefers-reduced-motion: reduce) {
-            html { scroll-behavior: auto; }
-            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-        }
-    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/case-base.css">
+    <!-- Picks the design (kept from the previous page when following a link) before the body renders. -->
+    <script src="../js/design-registry.js"></script>
+    <script src="../js/boot.js"></script>
+    <script type="module" src="../js/case-main.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"></noscript>
-    <style>
-        /* ── BASE DESIGN SYSTEM ── */
-        :root {
-            --bg-color: #F5F2EB;
-            --card-bg: #FFFFFF;
-            --text-primary: #000000;
-            --text-secondary: #333333;
-            --accent: #000000;
-            --border-color: #000000;
-            --nav-bg: rgba(245, 242, 235, 0.95);
-            --font-main: 'Outfit', 'Helvetica Neue', sans-serif;
-            --font-mono: 'Space Mono', 'Fira Code', monospace;
-            --transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        /* ── CRITICAL FIX: prevent horizontal overflow ── */
-        html, body {
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-
-        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-main); line-height: 1.5; font-size: 15px; }
-        a { text-decoration: none; color: inherit; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; width: 100%; }
-
-        /* Navbar */
-        .navbar { background: var(--nav-bg); border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 60px; }
-        .back-link { font-weight: 800; font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.4rem; transition: var(--transition); text-transform: uppercase; }
-        .back-link:hover { text-decoration: underline; }
-        .nav-links { display: flex; list-style: none; gap: 1.5rem; }
-        .nav-links a { font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.9rem; font-weight: 700; transition: color 0.2s; }
-        .nav-links a:hover { color: var(--text-primary); text-decoration: underline; }
-
-        /* Header */
-        .project-header { background: var(--bg-color); padding: 4rem 0 3rem 0; border-bottom: 2px solid var(--border-color); margin-bottom: 3rem; }
-        .header-container { display: flex; align-items: center; gap: 1.5rem; }
-        .header-icon { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--text-primary); border: 2px solid var(--border-color); background: var(--card-bg); box-shadow: 4px 4px 0px rgba(0,0,0,1); flex-shrink: 0; }
-        .project-title { font-size: 2.8rem; font-weight: 900; color: var(--text-primary); margin-bottom: 0.3rem; letter-spacing: -1px; text-transform: uppercase; line-height: 1; }
-        .project-subtitle { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; background: var(--text-primary); color: var(--bg-color); display: inline-block; padding: 0.3rem 0.6rem; margin-top: 0.3rem; }
-
-        /* Main Grid — desktop: 7/3 split, mobile: single column */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 7fr 3fr;
-            gap: 2.5rem;
-            padding-bottom: 5rem;
-            align-items: start;
-            /* FIX: prevent grid from exceeding viewport */
-            width: 100%;
-            min-width: 0;
-        }
-        .main-column, .sidebar-column {
-            min-width: 0; /* FIX: allow grid children to shrink below content size */
-            width: 100%;
-        }
-
-        /* Sections */
-        .content-section { margin-bottom: 2.5rem; }
-        .content-section:last-child { margin-bottom: 0; }
-        .section-heading { font-size: 1.6rem; font-weight: 900; color: var(--text-primary); margin-bottom: 1.2rem; border-bottom: 3px solid var(--border-color); padding-bottom: 0.3rem; text-transform: uppercase; }
-
-        /* Prose */
-        .prose p { margin-bottom: 1rem; color: var(--text-primary); font-size: 1.05rem; line-height: 1.6; font-weight: 500; }
-        .prose p:last-child { margin-bottom: 0; }
-        .prose strong { color: var(--text-primary); font-weight: 800; }
-
-        /* Feature list */
-        .feature-list { list-style: none; padding-left: 0; color: var(--text-primary); margin-top: 1rem; }
-        .feature-list li { margin-bottom: 1rem; line-height: 1.5; font-size: 1rem; position: relative; padding-left: 1.2rem; font-weight: 500; }
-        .feature-list li::before { content: '→'; position: absolute; left: 0; font-family: var(--font-mono); font-weight: 900; }
-
-        /* Code block — FIX: constrain to parent width */
-        .code-block {
-            background: #111;
-            border: 2px solid var(--border-color);
-            padding: 1.5rem;
-            overflow-x: auto;
-            box-shadow: 6px 6px 0px rgba(0,0,0,1);
-            margin-top: 1.2rem;
-            max-width: 100%;
-        }
-        .code-block pre { font-family: var(--font-mono); font-size: 0.9rem; color: #f8f8f2; line-height: 1.5; font-weight: 500; white-space: pre; }
-
-        /* Sidebar */
-        .sidebar-widget { background: var(--card-bg); border: 2px solid var(--border-color); padding: 1.5rem; margin-bottom: 2rem; box-shadow: 6px 6px 0px rgba(0,0,0,1); }
-        .sidebar-widget:last-child { margin-bottom: 0; }
-        .widget-title { font-size: 1.2rem; font-weight: 900; color: var(--text-primary); margin-bottom: 1.2rem; text-transform: uppercase; border-bottom: 2px solid var(--border-color); padding-bottom: 0.4rem; }
-
-        /* Metrics */
-        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .metric-item { display: flex; flex-direction: column; border-left: 3px solid var(--text-primary); padding-left: 0.8rem; }
-        .m-val { font-family: var(--font-mono); font-size: 1.8rem; font-weight: 900; color: var(--text-primary); line-height: 1; margin-bottom: 0.2rem; }
-        .m-label { font-size: 0.75rem; text-transform: uppercase; font-weight: 800; color: var(--text-secondary); }
-
-        /* Tags */
-        .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-        .tag { font-family: var(--font-mono); background: var(--card-bg); color: var(--text-primary); padding: 0.4rem 0.8rem; border: 2px solid var(--border-color); font-size: 0.85rem; font-weight: 700; box-shadow: 2px 2px 0px rgba(0,0,0,1); transition: var(--transition); text-transform: uppercase; }
-        .tag:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0px rgba(0,0,0,1); background: var(--text-primary); color: var(--bg-color); }
-
-        /* Footer */
-        .footer { border-top: 2px solid var(--border-color); padding: 2rem 0; text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; background: var(--bg-color); }
-
-        /* Info table — FIX: prevent overflow */
-        .info-table { width: 100%; border-collapse: collapse; margin-top: 1rem; table-layout: fixed; }
-        .info-table tr { border-bottom: 1px solid #ccc; }
-        .info-table tr:last-child { border-bottom: none; }
-        .info-table td { padding: 0.6rem 0.5rem; font-size: 0.95rem; font-weight: 500; vertical-align: top; word-break: break-word; }
-        .info-table td:first-child { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; color: var(--text-secondary); width: 42%; padding-right: 0.8rem; }
-
-        /* Data flow steps */
-        .flow-steps { margin-top: 1rem; }
-        .flow-step { display: flex; gap: 1rem; margin-bottom: 1rem; align-items: flex-start; }
-        .step-num { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; background: var(--text-primary); color: var(--bg-color); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .step-text { font-size: 0.98rem; font-weight: 500; line-height: 1.5; padding-top: 0.2rem; }
-        .step-text strong { font-weight: 800; }
-
-        /* Skills grid */
-        .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
-        .skill-card { border: 2px solid var(--border-color); padding: 0.9rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0px rgba(0,0,0,1); transition: var(--transition); }
-        .skill-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0px rgba(0,0,0,1); }
-        .skill-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.25rem; }
-        .skill-desc { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; line-height: 1.4; }
-
-        /* Scorecard */
-        .scorecard { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.7rem; }
-        .score-row { display: flex; align-items: center; gap: 0.8rem; }
-        .score-label { font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; width: 160px; flex-shrink: 0; }
-        .score-bar-wrap { flex: 1; height: 14px; border: 2px solid var(--border-color); background: var(--bg-color); min-width: 0; }
-        .score-bar { height: 100%; background: var(--text-primary); }
-        .score-num { font-family: var(--font-mono); font-weight: 900; font-size: 0.85rem; width: 28px; text-align: right; flex-shrink: 0; }
-
-        /* Collab card */
-        .collab-card { display: flex; align-items: center; gap: 1rem; padding: 1rem; border: 2px solid var(--border-color); background: var(--card-bg); box-shadow: 3px 3px 0px rgba(0,0,0,1); margin-bottom: 0.8rem; transition: var(--transition); }
-        .collab-card:last-child { margin-bottom: 0; }
-        .collab-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0px rgba(0,0,0,1); }
-        .collab-avatar { width: 42px; height: 42px; border: 2px solid var(--border-color); background: var(--text-primary); color: var(--bg-color); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 900; font-size: 1rem; flex-shrink: 0; }
-        .collab-info { flex: 1; min-width: 0; }
-        .collab-name { font-weight: 800; font-size: 0.95rem; }
-        .collab-role { font-size: 0.8rem; color: var(--text-secondary); font-family: var(--font-mono); }
-        .collab-link { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; border: 2px solid var(--border-color); padding: 0.25rem 0.5rem; background: var(--bg-color); box-shadow: 2px 2px 0 #000; transition: var(--transition); }
-        .collab-link:hover { background: var(--text-primary); color: var(--bg-color); }
-
-        /* Link button */
-        .link-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; border: 2px solid var(--border-color); padding: 0.5rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; transition: var(--transition); text-transform: uppercase; margin-top: 0.8rem; margin-right: 0.6rem; }
-        .link-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; background: var(--text-primary); color: var(--bg-color); }
-        .link-btn.primary { background: var(--text-primary); color: var(--bg-color); }
-        .link-btn.primary:hover { background: var(--bg-color); color: var(--text-primary); }
-
-        /* Architecture diagram */
-        .arch-diagram { margin-top: 1.2rem; font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.6; }
-        .arch-box { border: 2px solid var(--border-color); padding: 0.6rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; margin-bottom: 0; display: inline-block; font-weight: 700; }
-        .arch-layer { border: 2px solid var(--border-color); padding: 1rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-bottom: 0.6rem; }
-        .arch-layer-title { font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; border-bottom: 1px solid #ccc; padding-bottom: 0.3rem; }
-        .arch-items { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .arch-item { background: var(--bg-color); border: 1.5px solid var(--border-color); padding: 0.25rem 0.6rem; font-size: 0.78rem; font-weight: 700; }
-        .arch-arrow { text-align: center; font-size: 1.2rem; line-height: 1; margin: 0.2rem 0; color: var(--text-secondary); font-weight: 900; }
-
-        /* Custom metric */
-        .custom-metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px dashed #bbb; font-size: 0.9rem; gap: 0.5rem; }
-        .custom-metric-row:last-child { border-bottom: none; }
-        .cm-label { font-weight: 600; color: var(--text-secondary); flex: 1; }
-        .cm-val { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; text-align: right; flex-shrink: 0; }
-        .cm-note { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); text-align: right; margin-top: 0.1rem; }
-
-        /* Section divider */
-        .section-divider { border: none; border-top: 2px dashed #bbb; margin: 2.5rem 0; }
-
-        /* ── TABLET ── */
-        @media (max-width: 900px) {
-            .content-grid {
-                grid-template-columns: 1fr;  /* ← KEY FIX: stack to single column */
-                gap: 2rem;
-            }
-            .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
-            .header-icon { margin: 0 auto; }
-            .skills-grid { grid-template-columns: 1fr 1fr; }
-            .score-label { width: 130px; font-size: 0.75rem; }
-        }
-
-        /* ── MOBILE ── */
-        @media (max-width: 600px) {
-            .project-title { font-size: 2rem; }
-            .metric-grid { grid-template-columns: 1fr 1fr; }
-            .skills-grid { grid-template-columns: 1fr; }
-            .header-icon { width: 50px; height: 50px; font-size: 2rem; }
-            .project-header { padding: 3rem 0 2rem 0; margin-bottom: 2rem; }
-
-            /* Scorecard stacks on mobile */
-            .score-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
-            .score-label { width: 100%; font-size: 0.85rem; }
-            .score-bar-wrap { width: 100%; }
-            .score-num { text-align: left; width: auto; margin-top: 0.2rem; }
-
-            /* Info table stacks on mobile */
-            .info-table, .info-table tbody, .info-table tr, .info-table td { display: block; width: 100% !important; }
-            .info-table tr { padding: 0.8rem 0; border-bottom: 1px dashed #ccc; }
-            .info-table tr:last-child { border-bottom: none; }
-            .info-table td { padding: 0.2rem 0; word-break: break-all; }
-            .info-table td:first-child { padding-bottom: 0.15rem; font-size: 0.85rem; color: var(--text-secondary); font-weight: 800; border-bottom: none; width: 100% !important; }
-
-            .nav-links { gap: 1rem; }
-            .back-link { font-size: 0.8rem; }
-
-            /* Custom metric stacks */
-            .custom-metric-row { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
-            .cm-val { text-align: left; font-size: 1.1rem; }
-            .cm-note { text-align: left; }
-
-            /* Collab card stacks */
-            .collab-card { flex-direction: column; align-items: center; text-align: center; padding: 1.2rem; gap: 0.8rem; }
-
-            /* Code block smaller font on mobile */
-            .code-block { padding: 1rem; }
-            .code-block pre { font-size: 0.75rem; }
-
-            /* Arch items stack */
-            .arch-items { flex-direction: column; align-items: stretch; }
-            .arch-item { text-align: center; }
-
-            /* Link buttons stack */
-            .link-btn { display: flex; justify-content: center; margin-right: 0; }
-
-            /* M value shrink */
-            .m-val { font-size: 1.4rem; }
-        }
-    </style>
 </head>
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -371,16 +136,16 @@
                         <p>Its guiding rule: <strong>the AI proposes, the backend validates, a human approves risky actions, the backend executes only allowlisted actions, and verification decides — not the model.</strong> It runs in a repeatable demo mode and against real projects, which are health-checked continuously and get an AI code review on every push to <code>main</code>.</p>
                     </div>
 
-                    <table class="info-table" style="margin-top:1.4rem;">
+                    <table class="info-table">
                         <tr><td>Project Type</td><td>AI Agent Platform / DevOps Tooling</td></tr>
                         <tr><td>Domain</td><td>Incident Response, SRE, CI/CD</td></tr>
                         <tr><td>Repository Owner</td><td>shamil-tp</td></tr>
                         <tr><td>Your Role</td><td>Backend, Deployment &amp; CI/CD — shamil-tp</td></tr>
                         <tr><td>Team Size</td><td>4 contributors</td></tr>
                         <tr><td>Visibility</td><td>Public</td></tr>
-                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/OopsPilot" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">github.com/shamil-tp/OopsPilot</a></td></tr>
-                        <tr><td>Live Link</td><td><a href="https://opspilot.shamiltp.me" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">opspilot.shamiltp.me</a></td></tr>
-                        <tr><td>Live API Docs</td><td><a href="https://fast.shamiltp.me/docs" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">fast.shamiltp.me/docs</a></td></tr>
+                        <tr><td>GitHub Repo</td><td><a class="mono-link" href="https://github.com/shamil-tp/OopsPilot" target="_blank" rel="noopener noreferrer">github.com/shamil-tp/OopsPilot</a></td></tr>
+                        <tr><td>Live Link</td><td><a class="mono-link" href="https://opspilot.shamiltp.me" target="_blank" rel="noopener noreferrer">opspilot.shamiltp.me</a></td></tr>
+                        <tr><td>Live API Docs</td><td><a class="mono-link" href="https://fast.shamiltp.me/docs" target="_blank" rel="noopener noreferrer">fast.shamiltp.me/docs</a></td></tr>
                     </table>
                 </section>
 
@@ -434,7 +199,7 @@
                         <p>A Python async backend and a TypeScript Next.js dashboard, containerised with Docker and checked by GitHub Actions on every push.</p>
                     </div>
 
-                    <table class="info-table" style="margin-top:1rem;">
+                    <table class="info-table">
                         <tr><td>Backend Framework</td><td><strong>FastAPI</strong> — async REST API + WebSocket event stream, OpenAPI docs</td></tr>
                         <tr><td>Validation</td><td><strong>Pydantic</strong> — request/response schemas and structured AI output</td></tr>
                         <tr><td>ORM</td><td><strong>SQLAlchemy (async) + asyncpg</strong> — non-blocking PostgreSQL access</td></tr>
@@ -450,17 +215,17 @@
                     </table>
 
                     <!-- Language Breakdown Bar -->
-                    <div style="margin-top:1.4rem;">
-                        <p style="font-family:var(--font-mono);font-size:0.8rem;font-weight:700;text-transform:uppercase;margin-bottom:0.6rem;">Language Breakdown</p>
-                        <div style="height:18px;border:2px solid #000;display:flex;overflow:hidden;box-shadow:3px 3px 0 #000;">
-                            <div style="width:76.6%;background:#000;" title="Python 76.6%"></div>
-                            <div style="width:23.0%;background:#555;" title="TypeScript 23.0%"></div>
-                            <div style="width:0.4%;background:#aaa;" title="Other 0.4%"></div>
+                    <div>
+                        <p class="lang-title">Language Breakdown</p>
+                        <div class="lang-bar">
+                            <div class="lang-seg" style="width:76.6%" title="Python 76.6%"></div>
+                            <div class="lang-seg" style="width:23.0%" title="TypeScript 23.0%"></div>
+                            <div class="lang-seg" style="width:0.4%" title="Other 0.4%"></div>
                         </div>
-                        <div style="display:flex;gap:1.5rem;margin-top:0.5rem;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;flex-wrap:wrap;">
-                            <span><span style="display:inline-block;width:10px;height:10px;background:#000;border:1px solid #000;margin-right:4px;"></span>Python 76.6%</span>
-                            <span><span style="display:inline-block;width:10px;height:10px;background:#555;border:1px solid #000;margin-right:4px;"></span>TypeScript 23.0%</span>
-                            <span><span style="display:inline-block;width:10px;height:10px;background:#aaa;border:1px solid #000;margin-right:4px;"></span>Other 0.4%</span>
+                        <div class="lang-legend">
+                            <span><span class="lang-swatch"></span>Python 76.6%</span>
+                            <span><span class="lang-swatch"></span>TypeScript 23.0%</span>
+                            <span><span class="lang-swatch"></span>Other 0.4%</span>
                         </div>
                     </div>
                 </section>
@@ -536,8 +301,8 @@
                     <div class="prose">
                         <p>As one of <strong>4 team members</strong> and the repository owner, I owned the <strong>FastAPI backend</strong> and everything needed to run it in production: deploying it to the server, maintaining the CI/CD pipeline and wiring up the GitHub webhooks.</p>
                     </div>
-                    <ul class="feature-list" style="margin-top:1rem;">
-                        <li><strong>FastAPI Backend:</strong> The REST + WebSocket API behind the dashboard — 33 endpoints covering incidents, agents, services, CI/CD events, webhooks and code reviews, live at <a href="https://fast.shamiltp.me/docs" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;font-family:var(--font-mono);">fast.shamiltp.me/docs</a>.</li>
+                    <ul class="feature-list">
+                        <li><strong>FastAPI Backend:</strong> The REST + WebSocket API behind the dashboard — 33 endpoints covering incidents, agents, services, CI/CD events, webhooks and code reviews, live at <a href="https://fast.shamiltp.me/docs" target="_blank" rel="noopener noreferrer">fast.shamiltp.me/docs</a>.</li>
                         <li><strong>Server Deployment:</strong> Deployed and hosted the backend on the server, connected to Supabase PostgreSQL and the Gemini API.</li>
                         <li><strong>CI/CD Pipeline:</strong> Maintained the GitHub Actions workflows — backend lint, tests against PostgreSQL and migration drift check; frontend lint, typecheck and build; Docker Compose build and smoke test.</li>
                         <li><strong>GitHub Webhooks:</strong> Set up the signed webhook flow that turns pushes, workflow runs and deployment statuses into CI/CD evidence and triggers AI code reviews.</li>
@@ -588,7 +353,7 @@
 
                     <div class="arch-diagram">
                         <div class="arch-layer">
-                            <div class="arch-layer-title">🖥 Client — Next.js Dashboard</div>
+                            <div class="arch-layer-title">Client — Next.js Dashboard</div>
                             <div class="arch-items">
                                 <span class="arch-item">React</span>
                                 <span class="arch-item">TypeScript</span>
@@ -599,7 +364,7 @@
                         </div>
                         <div class="arch-arrow">↕ REST + WebSocket</div>
                         <div class="arch-layer">
-                            <div class="arch-layer-title">⚙ Server — FastAPI Backend</div>
+                            <div class="arch-layer-title">Server — FastAPI Backend</div>
                             <div class="arch-items">
                                 <span class="arch-item">Investigation Agent</span>
                                 <span class="arch-item">Root Cause Agent</span>
@@ -614,7 +379,7 @@
                         </div>
                         <div class="arch-arrow">↕ SQLAlchemy + asyncpg</div>
                         <div class="arch-layer">
-                            <div class="arch-layer-title">🗄 Data Layer — Supabase PostgreSQL</div>
+                            <div class="arch-layer-title">Data Layer — Supabase PostgreSQL</div>
                             <div class="arch-items">
                                 <span class="arch-item">incidents</span>
                                 <span class="arch-item">agent_events</span>
@@ -625,7 +390,7 @@
                         </div>
                         <div class="arch-arrow">↔ External Services</div>
                         <div class="arch-layer">
-                            <div class="arch-layer-title">🌐 External Services</div>
+                            <div class="arch-layer-title">External Services</div>
                             <div class="arch-items">
                                 <span class="arch-item">Google Gemini</span>
                                 <span class="arch-item">GitHub Webhooks</span>
@@ -635,7 +400,7 @@
                         </div>
                     </div>
 
-                    <table class="info-table" style="margin-top:1.4rem;">
+                    <table class="info-table">
                         <tr><td>Architecture Pattern</td><td>Agent pipeline orchestrated per REST step</td></tr>
                         <tr><td>API Style</td><td>REST commands + WebSocket event stream</td></tr>
                         <tr><td>AI Safety</td><td>Schema-only LLM output, allowlisted actions, human approval</td></tr>
@@ -649,59 +414,59 @@
                 <!-- 9. COLLABORATORS -->
                 <section class="content-section">
                     <h2 class="section-heading">Collaborators</h2>
-                    <div class="prose" style="margin-bottom:1rem;">
+                    <div class="prose">
                         <p>A <strong>4-member team</strong> working in a shared monorepo.</p>
                     </div>
 
-                    <div class="collab-card" style="flex-direction:column;align-items:flex-start;gap:0.8rem;padding:1.2rem;">
-                        <div style="display:flex;align-items:center;gap:1rem;width:100%;">
+                    <div class="collab-card collab-card--stacked">
+                        <div class="row-center">
                             <div class="collab-avatar">ST</div>
                             <div class="collab-info">
-                                <div class="collab-name">shamil-tp <span style="font-family:var(--font-mono);font-size:0.72rem;background:#000;color:#F5F2EB;padding:0.12rem 0.4rem;margin-left:0.4rem;">YOU · REPO OWNER</span></div>
+                                <div class="collab-name">shamil-tp <span class="role-badge">YOU · REPO OWNER</span></div>
                                 <div class="collab-role">Backend, Deployment, CI/CD &amp; GitHub Webhooks</div>
                             </div>
                         </div>
-                        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                        <div class="row-wrap">
                             <a href="https://github.com/shamil-tp" target="_blank" rel="noopener noreferrer" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
                             <a href="https://www.linkedin.com/in/shamil-tp" target="_blank" rel="noopener noreferrer" class="collab-link"><i class="bi bi-linkedin"></i> LinkedIn</a>
                         </div>
                     </div>
 
-                    <div class="collab-card" style="flex-direction:column;align-items:flex-start;gap:0.8rem;padding:1.2rem;margin-top:0.8rem;">
-                        <div style="display:flex;align-items:center;gap:1rem;width:100%;">
+                    <div class="collab-card collab-card--stacked">
+                        <div class="row-center">
                             <div class="collab-avatar">MN</div>
                             <div class="collab-info">
                                 <div class="collab-name">MrNihalT</div>
                                 <div class="collab-role">Team Contributor</div>
                             </div>
                         </div>
-                        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                        <div class="row-wrap">
                             <a href="https://github.com/MrNihalT" target="_blank" rel="noopener noreferrer" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
                         </div>
                     </div>
 
-                    <div class="collab-card" style="flex-direction:column;align-items:flex-start;gap:0.8rem;padding:1.2rem;margin-top:0.8rem;">
-                        <div style="display:flex;align-items:center;gap:1rem;width:100%;">
+                    <div class="collab-card collab-card--stacked">
+                        <div class="row-center">
                             <div class="collab-avatar">GM</div>
                             <div class="collab-info">
                                 <div class="collab-name">GiftyMerin</div>
                                 <div class="collab-role">Team Contributor</div>
                             </div>
                         </div>
-                        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                        <div class="row-wrap">
                             <a href="https://github.com/GiftyMerin" target="_blank" rel="noopener noreferrer" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
                         </div>
                     </div>
 
-                    <div class="collab-card" style="flex-direction:column;align-items:flex-start;gap:0.8rem;padding:1.2rem;margin-top:0.8rem;">
-                        <div style="display:flex;align-items:center;gap:1rem;width:100%;">
+                    <div class="collab-card collab-card--stacked">
+                        <div class="row-center">
                             <div class="collab-avatar">EV</div>
                             <div class="collab-info">
                                 <div class="collab-name">ekthavijayesh</div>
                                 <div class="collab-role">Team Contributor</div>
                             </div>
                         </div>
-                        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                        <div class="row-wrap">
                             <a href="https://github.com/ekthavijayesh" target="_blank" rel="noopener noreferrer" class="collab-link"><i class="bi bi-github"></i> GitHub</a>
                         </div>
                     </div>
@@ -792,13 +557,13 @@
 
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Quick Links</h3>
-                    <div style="display:flex;flex-direction:column;gap:0.6rem;">
-                        <a href="https://github.com/shamil-tp/OopsPilot" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-github"></i> GitHub Repo</a>
-                        <a href="https://opspilot.shamiltp.me" target="_blank" rel="noopener noreferrer" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
-                        <a href="https://fast.shamiltp.me/docs" target="_blank" rel="noopener noreferrer" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-braces"></i> API Docs</a>
-                        <a href="https://github.com/shamil-tp/OopsPilot/graphs/contributors" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-people"></i> Contributors</a>
-                        <a href="https://github.com/shamil-tp/OopsPilot/tree/main/backend" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Backend Folder</a>
-                        <a href="https://github.com/shamil-tp/OopsPilot/tree/main/.github/workflows" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-gear"></i> CI Workflows</a>
+                    <div class="stack">
+                        <a href="https://github.com/shamil-tp/OopsPilot" target="_blank" rel="noopener noreferrer" class="link-btn link-btn--block"><i class="bi bi-github"></i> GitHub Repo</a>
+                        <a href="https://opspilot.shamiltp.me" target="_blank" rel="noopener noreferrer" class="link-btn primary link-btn--block"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
+                        <a href="https://fast.shamiltp.me/docs" target="_blank" rel="noopener noreferrer" class="link-btn primary link-btn--block"><i class="bi bi-braces"></i> API Docs</a>
+                        <a href="https://github.com/shamil-tp/OopsPilot/graphs/contributors" target="_blank" rel="noopener noreferrer" class="link-btn link-btn--block"><i class="bi bi-people"></i> Contributors</a>
+                        <a href="https://github.com/shamil-tp/OopsPilot/tree/main/backend" target="_blank" rel="noopener noreferrer" class="link-btn link-btn--block"><i class="bi bi-folder2-open"></i> Backend Folder</a>
+                        <a href="https://github.com/shamil-tp/OopsPilot/tree/main/.github/workflows" target="_blank" rel="noopener noreferrer" class="link-btn link-btn--block"><i class="bi bi-gear"></i> CI Workflows</a>
                     </div>
                 </div>
 
@@ -813,5 +578,20 @@
         </div>
     </footer>
 
+
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <symbol id="i-shuffle" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 3.5A.5.5 0 0 1 .5 3H1c2.202 0 3.827 1.24 4.874 2.418.49.552.865 1.102 1.126 1.532.26-.43.636-.98 1.126-1.532C9.173 4.24 10.798 3 13 3v1c-1.798 0-3.173 1.01-4.126 2.082A9.6 9.6 0 0 0 7.556 8a9.6 9.6 0 0 0 1.317 1.918C9.828 10.99 11.204 12 13 12v1c-2.202 0-3.827-1.24-4.874-2.418A10.6 10.6 0 0 1 7 9.05c-.26.43-.636.98-1.126 1.532C4.827 11.76 3.202 13 1 13H.5a.5.5 0 0 1 0-1H1c1.798 0 3.173-1.01 4.126-2.082A9.6 9.6 0 0 0 6.444 8a9.6 9.6 0 0 0-1.317-1.918C4.172 5.01 2.796 4 1 4H.5a.5.5 0 0 1-.5-.5"/><path d="M13 5.466V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192m0 9v-3.932a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192"/></symbol>
+    </svg>
+    <aside class="design-dock" aria-label="Site design">
+        <p class="design-dock__label">
+            <span class="design-dock__kicker">Design</span>
+            <span class="design-dock__name" id="design-name">Default</span>
+            <span class="design-dock__index" id="design-index" aria-hidden="true"></span>
+        </p>
+        <button type="button" class="design-dock__button" id="surprise-me">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-shuffle"></use></svg>
+            <span>Surprise me</span>
+        </button>
+    </aside>
 </body>
 </html>

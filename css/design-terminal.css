@@ -1,0 +1,428 @@
+/*
+ * Design 07 — Terminal.
+ * One monospace (Fira Code) at a single size, hierarchy by colour and weight
+ * only, the way a real shell reads. Prompt in two quiet colours, commands in
+ * bright white, output in the normal foreground, metadata dimmed.
+ * tmux-style status line on top doubles as the site navigation.
+ */
+:root {
+    --tm-bg: #15171c;
+    --tm-bg-2: #1b1e25;
+    --tm-line: #2a2e37;
+    --tm-fg: #d4d7dd;
+    --tm-bright: #ffffff;
+    --tm-dim: #8d939e;      /* 6.2:1 on bg */
+    --tm-user: #72d3b8;     /* prompt user */
+    --tm-path: #e6c07b;     /* prompt path, amber */
+    --tm-link: #8fb7ff;
+    --tm-ok: #9fd68a;
+    --tm-err: #f2907f;
+    --tm-sel: #e6c07b;
+    --focus: var(--tm-path);
+    --focus-width: 2px;
+
+    --tm-font: 'Fira Code', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+    --tm-size: clamp(0.8125rem, 0.78rem + 0.2vw, 0.9375rem);
+    --tm-lh: 1.65;
+    --tm-pad: clamp(0.85rem, 3vw, 2rem);
+    --tm-measure: 96ch;
+    --tm-status-h: 2.25rem;
+    --tm-keys-h: 3.5rem;
+
+    --reveal-from: none;
+    --reveal-dur: 1ms;
+
+    --dock-bottom: calc(var(--tm-keys-h) + 12px);
+    --dock-bg: var(--tm-bg-2);
+    --dock-fg: var(--tm-fg);
+    --dock-accent: var(--tm-path);
+    --dock-accent-fg: var(--tm-bg);
+    --dock-border: 1px solid var(--tm-line);
+    --dock-radius: 4px;
+    --dock-btn-radius: 3px;
+    --dock-font: var(--tm-font);
+    --dock-shadow: none;
+    --dock-clearance: calc(var(--tm-keys-h) + 88px);
+}
+
+html {
+    scroll-padding-top: calc(var(--tm-status-h) + 1rem);
+    scrollbar-color: var(--tm-line) var(--tm-bg);
+    color-scheme: dark;
+}
+
+body {
+    background: var(--tm-bg);
+    color: var(--tm-fg);
+    font-family: var(--tm-font);
+    font-size: calc(var(--tm-size) * var(--tm-scale, 1));
+    line-height: var(--tm-lh);
+    font-variant-ligatures: contextual;
+    caret-color: var(--tm-path);
+}
+
+::selection { background: var(--tm-sel); color: var(--tm-bg); }
+
+:where(.tm) a { color: inherit; }
+
+/* ---------- Status line (navigation) ---------- */
+
+.tm-status {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: stretch;
+    min-height: var(--tm-status-h);
+    background: var(--tm-path);
+    color: var(--tm-bg);
+    font-size: 0.8125rem;
+}
+
+.tm-status__session,
+.tm-status__host {
+    display: flex;
+    align-items: center;
+    padding: 0 0.75rem;
+    background: var(--tm-bg);
+    color: var(--tm-path);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.tm-status__host { margin-left: auto; background: var(--tm-line); color: var(--tm-fg); }
+
+.tm-windows { min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.tm-windows ul { display: flex; height: 100%; }
+
+.tm-windows a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    min-height: 36px;
+    padding: 0 0.7rem;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.tm-windows a[aria-current='true'],
+.tm-windows a:focus-visible {
+    background: var(--tm-bg);
+    color: var(--tm-path);
+    outline: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .tm-windows a:hover { background: color-mix(in srgb, var(--tm-bg) 15%, transparent); }
+}
+
+/* ---------- Screen ---------- */
+
+.tm-screen {
+    max-width: calc(var(--tm-measure) + 2 * var(--tm-pad));
+    padding: var(--tm-pad) var(--tm-pad) var(--dock-clearance);
+}
+
+.tm-block,
+.tm-entry {
+    padding-bottom: 1.4em;
+}
+
+.tm-block[hidden] { display: none; }
+
+.tm-cmd {
+    color: var(--tm-bright);
+    overflow-wrap: anywhere;
+}
+
+.tm-ps1 { margin-right: 0.6ch; font-weight: 500; }
+.tm-ps1__user { color: var(--tm-user); }
+.tm-ps1__path { color: var(--tm-path); }
+.tm-cmd__text { color: var(--tm-bright); }
+
+/* Section headings read as output headers, not page titles. */
+.tm-heading {
+    margin-top: 0.4em;
+    color: var(--tm-bright);
+    font-size: inherit;
+    font-weight: 600;
+}
+
+.tm-heading::before { content: '## '; color: var(--tm-dim); font-weight: 400; }
+
+.tm-out > * + * { margin-top: 0.7em; }
+.tm-out p { max-width: 80ch; }
+
+.tm-name {
+    margin-top: 0.4em;
+    color: var(--tm-bright);
+    font-size: clamp(1.75rem, 1rem + 3.5vw, 3.25rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.tm-role { color: var(--tm-path); margin-top: 0.4em; }
+.tm-tagline { max-width: 62ch; margin-top: 0.6em; }
+.tm-block--motd > .tm-dim { margin-top: 0.9em; }
+
+.tm-dim { color: var(--tm-dim); }
+.tm-ok { color: var(--tm-ok); }
+.tm-err { color: var(--tm-err); }
+.tm-warn { color: var(--tm-path); }
+
+.tm kbd {
+    padding: 0 0.3ch;
+    border: 1px solid var(--tm-line);
+    border-radius: 3px;
+    font: inherit;
+}
+
+.tm-link {
+    color: var(--tm-link);
+    text-decoration: underline;
+    text-decoration-color: rgb(143 183 255 / 0.4);
+    text-underline-offset: 0.2em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .tm-link:hover { background: var(--tm-link); color: var(--tm-bg); text-decoration: none; }
+}
+
+/* Inline command chips: look like commands, act like buttons. */
+.tm-inline {
+    display: inline;
+    padding: 0 0.4ch;
+    border: 1px dashed rgb(230 192 123 / 0.55);
+    border-radius: 3px;
+    background: transparent;
+    color: var(--tm-path);
+    font: inherit;
+    cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .tm-inline:hover { background: var(--tm-path); border-color: var(--tm-path); color: var(--tm-bg); }
+}
+
+/* key/value output */
+.tm-kv { display: grid; gap: 0.1em; }
+.tm-kv div { display: grid; grid-template-columns: 12ch minmax(0, 1fr); gap: 1ch; }
+.tm-kv dt { color: var(--tm-dim); }
+.tm-kv dt::after { content: ':'; }
+.tm-kv dd { margin: 0; overflow-wrap: anywhere; }
+
+/* projects listing */
+.tm-projects { display: grid; gap: 1.1em; }
+
+.tm-project {
+    display: grid;
+    grid-template-columns: 3ch minmax(0, 1fr);
+    column-gap: 1ch;
+}
+
+.tm-project > :not(.tm-project__n) { grid-column: 2; }
+.tm-project__n { grid-row: 1; color: var(--tm-dim); }
+
+.tm-project__name {
+    display: inline;
+    grid-row: 1;
+    color: var(--tm-bright);
+    font-size: inherit;
+    font-weight: 600;
+}
+
+.tm-project__name a { text-decoration: none; }
+
+@media (hover: hover) and (pointer: fine) {
+    .tm-project__name a:hover { color: var(--tm-path); }
+}
+
+.tm-project__kind { color: var(--tm-dim); }
+.tm-project__summary { max-width: 80ch; }
+
+.tm-project__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 2ch;
+}
+
+.tm-project__links a,
+.tm-project__links .tm-inline {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+}
+
+.tm-project__links .tm-inline { padding: 0 0.6ch; min-height: 28px; align-self: center; }
+
+.tm-detail__title { color: var(--tm-bright); font-weight: 600; }
+
+/* tree */
+.tm-tree,
+.tm-tree ul { list-style: none; padding: 0; }
+.tm-tree__branch { color: var(--tm-dim); white-space: pre; }
+.tm-tree strong { color: var(--tm-bright); font-weight: 600; }
+
+/* logs */
+.tm-logs { display: grid; gap: 1.1em; }
+.tm-log__date { color: var(--tm-path); }
+.tm-log__title { color: var(--tm-bright); font-size: inherit; font-weight: 600; }
+.tm-log ul { list-style: none; padding: 0; }
+.tm-log li li { position: relative; padding-left: 2ch; max-width: 80ch; }
+.tm-log li li::before { content: '-'; position: absolute; left: 0; color: var(--tm-dim); }
+.tm-log a { color: var(--tm-link); }
+
+/* help */
+.tm-help { display: grid; gap: 0.15em; }
+.tm-help div { display: grid; grid-template-columns: 22ch minmax(0, 1fr); gap: 1ch; }
+.tm-help dd { margin: 0; color: var(--tm-dim); }
+
+/* ---------- Prompt ---------- */
+
+.tm-prompt {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    min-height: 44px;
+    margin-top: 0.4em;
+}
+
+.tm-prompt label { flex: none; white-space: nowrap; }
+
+.tm-input {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--tm-bright);
+    font: inherit;
+    outline: none;
+    caret-color: var(--tm-path);
+}
+
+.tm-prompt:focus-within {
+    box-shadow: inset 0 -1px var(--tm-path);
+}
+
+/* Block cursor while the prompt is idle and empty; the real caret takes over on focus. */
+.tm-cursor {
+    flex: none;
+    width: 1ch;
+    height: 1.2em;
+    margin-right: -1ch;
+    background: var(--tm-path);
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.tm-prompt:not(:focus-within):has(.tm-input:placeholder-shown) .tm-cursor { visibility: visible; }
+
+@media (prefers-reduced-motion: no-preference) {
+    .tm-cursor { animation: tm-blink var(--tm-blink, 1.1s) steps(1) infinite; }
+}
+
+@keyframes tm-blink { 50% { opacity: 0; } }
+
+.tm-footer { margin-top: 2.5em; }
+
+/* ---------- Command keys (touch-friendly shortcuts) ---------- */
+
+.tm-keys {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    display: flex;
+    gap: 0.4rem;
+    min-height: var(--tm-keys-h);
+    padding: 0.5rem var(--tm-pad) calc(0.5rem + env(safe-area-inset-bottom));
+    overflow-x: auto;
+    background: var(--tm-bg-2);
+    border-top: 1px solid var(--tm-line);
+    scrollbar-width: none;
+}
+
+.tm-key {
+    flex: none;
+    min-height: 40px;
+    padding: 0 0.9rem;
+    border: 1px solid var(--tm-line);
+    border-radius: 4px;
+    background: var(--tm-bg);
+    color: var(--tm-fg);
+    font: inherit;
+    cursor: pointer;
+    transition: transform var(--dur-press) var(--ease-out);
+}
+
+.tm-key:active { transform: scale(var(--press-scale)); }
+
+@media (hover: hover) and (pointer: fine) {
+    .tm-key:hover { border-color: var(--tm-path); color: var(--tm-path); }
+}
+
+/* ---------- Narrow screens ---------- */
+
+@media (max-width: 640px) {
+    .tm-status__host { display: none; }
+    .tm-kv div { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .tm-help div { grid-template-columns: minmax(0, 1fr); gap: 0; margin-bottom: 0.4em; }
+    .tm-project { grid-template-columns: minmax(0, 1fr); }
+    .tm-project > :not(.tm-project__n) { grid-column: 1; }
+    .tm-project__n { display: none; }
+    .tm-prompt { flex-wrap: wrap; }
+    .tm-prompt label { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tm-cursor { animation: none; }
+}
+
+/* ---------- Generative variations (data-v-* set by js/generative-ui.js) ----------
+   frame, prompt, intro and listing are real terminal habits: a full-screen
+   session or a windowed one, a long or short PS1, `whoami` or a README as the
+   greeting, a long or short project listing. Prompt and intro are rendered by
+   terminal.js; frame and listing are styled here. */
+
+/* Frame "window": the session sits in a terminal window on the desktop colour. */
+@media (min-width: 900px) {
+    [data-v-frame='window'] body { background: var(--tm-bg-2); }
+    [data-v-frame='window'] .tm-screen {
+        margin: 2rem auto 0;
+        padding-top: calc(var(--tm-pad) + 2rem);
+        position: relative;
+        background: var(--tm-bg);
+        border: 1px solid var(--tm-line);
+        border-radius: 6px;
+        box-shadow: 0 24px 48px -24px rgb(0 0 0 / 0.6);
+    }
+    /* Title bar: three window buttons drawn as dots; decorative only. */
+    [data-v-frame='window'] .tm-screen::before {
+        content: '';
+        position: absolute;
+        inset: 0 0 auto;
+        height: 2rem;
+        border-bottom: 1px solid var(--tm-line);
+        background:
+            radial-gradient(circle at 1rem 50%, var(--tm-err) 0.3rem, transparent 0.34rem),
+            radial-gradient(circle at 1.9rem 50%, var(--tm-path) 0.3rem, transparent 0.34rem),
+            radial-gradient(circle at 2.8rem 50%, var(--tm-ok) 0.3rem, transparent 0.34rem),
+            var(--tm-bg-2);
+        border-radius: 6px 6px 0 0;
+    }
+}
+
+/* Listing "compact": `projects --short`, two columns of name and kind; the summary stays, dimmed. */
+@media (min-width: 900px) {
+    [data-v-listing='compact'] .tm-block .tm-projects { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 3ch; }
+    [data-v-listing='compact'] .tm-block .tm-project__summary { color: var(--tm-dim); }
+}
+[data-v-listing='compact'] .tm-block .tm-project__links .tm-inline { display: none; }
+
+/* Intro "readme": the greeting is a rendered README, so the name carries a heading mark. */
+.tm-name__mark { color: var(--tm-dim); font-weight: 400; }

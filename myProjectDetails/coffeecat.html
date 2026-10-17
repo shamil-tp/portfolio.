@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-page="case">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +28,6 @@
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../site.webmanifest">
-    <link rel="preload" href="../assets/fonts/outfit-latin-var.woff2" as="font" type="font/woff2" crossorigin>
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -81,249 +80,18 @@
         ]
     }
     </script>
-    <style>
-        @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 900; font-display: swap; src: url('../assets/fonts/outfit-latin-var.woff2') format('woff2'); }
-        @font-face { font-family: 'Space Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('../assets/fonts/space-mono-400-latin.woff2') format('woff2'); }
-        @font-face { font-family: 'Space Mono'; font-style: normal; font-weight: 700; font-display: swap; src: url('../assets/fonts/space-mono-700-latin.woff2') format('woff2'); }
-        :focus-visible { outline: 3px solid #0B57D0; outline-offset: 3px; }
-        .skip-link { position: absolute; left: 1rem; top: -100px; z-index: 2000; background: #000; color: #F5F2EB; padding: 0.75rem 1rem; font-weight: 700; }
-        .skip-link:focus { top: 1rem; }
-        .breadcrumb { padding-top: 1.25rem; font-family: 'Space Mono', ui-monospace, monospace; font-size: 0.8rem; font-weight: 700; }
-        .breadcrumb ol { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 0.5rem; margin: 0; padding: 0; }
-        .breadcrumb li + li::before { content: '/'; margin-right: 0.5rem; }
-        .breadcrumb a { text-decoration: underline; text-underline-offset: 3px; }
-        @media (prefers-reduced-motion: reduce) {
-            html { scroll-behavior: auto; }
-            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-        }
-    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/case-base.css">
+    <!-- Picks the design (kept from the previous page when following a link) before the body renders. -->
+    <script src="../js/design-registry.js"></script>
+    <script src="../js/boot.js"></script>
+    <script type="module" src="../js/case-main.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"></noscript>
-    <style>
-        :root {
-            --bg-color: #F5F2EB;
-            --card-bg: #FFFFFF;
-            --text-primary: #000000;
-            --text-secondary: #333333;
-            --border-color: #000000;
-            --nav-bg: rgba(245, 242, 235, 0.95);
-            --font-main: 'Outfit', 'Helvetica Neue', sans-serif;
-            --font-mono: 'Space Mono', 'Fira Code', monospace;
-            --transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        /* ── CRITICAL FIX: prevent horizontal overflow ── */
-        html, body {
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-
-        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-main); line-height: 1.5; font-size: 15px; }
-        a { text-decoration: none; color: inherit; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; width: 100%; }
-
-        .navbar { background: var(--nav-bg); border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 60px; }
-        .back-link { font-weight: 800; font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.4rem; transition: var(--transition); text-transform: uppercase; }
-        .back-link:hover { text-decoration: underline; }
-        .nav-links { display: flex; list-style: none; gap: 1.5rem; }
-        .nav-links a { font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.9rem; font-weight: 700; }
-        .nav-links a:hover { color: var(--text-primary); text-decoration: underline; }
-
-        .project-header { background: var(--bg-color); padding: 4rem 0 3rem 0; border-bottom: 2px solid var(--border-color); margin-bottom: 3rem; }
-        .header-container { display: flex; align-items: center; gap: 1.5rem; }
-        .header-icon { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border: 2px solid var(--border-color); background: var(--card-bg); box-shadow: 4px 4px 0px rgba(0,0,0,1); flex-shrink: 0; }
-        .project-title { font-size: 2.8rem; font-weight: 900; margin-bottom: 0.3rem; letter-spacing: -1px; text-transform: uppercase; line-height: 1; }
-        .project-subtitle { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; background: var(--text-primary); color: var(--bg-color); display: inline-block; padding: 0.3rem 0.6rem; margin-top: 0.3rem; }
-
-        /* Main Grid — desktop: 7/3 split, mobile: single column */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 7fr 3fr;
-            gap: 2.5rem;
-            padding-bottom: 5rem;
-            align-items: start;
-            width: 100%;
-            min-width: 0;
-        }
-        .main-column, .sidebar-column {
-            min-width: 0; /* FIX: allow grid children to shrink */
-            width: 100%;
-        }
-
-        .content-section { margin-bottom: 2.5rem; }
-        .content-section:last-child { margin-bottom: 0; }
-        .section-heading { font-size: 1.6rem; font-weight: 900; margin-bottom: 1.2rem; border-bottom: 3px solid var(--border-color); padding-bottom: 0.3rem; text-transform: uppercase; }
-
-        .prose p { margin-bottom: 1rem; font-size: 1.05rem; line-height: 1.6; font-weight: 500; }
-        .prose p:last-child { margin-bottom: 0; }
-        .prose strong { font-weight: 800; }
-
-        .feature-list { list-style: none; padding-left: 0; margin-top: 1rem; }
-        .feature-list li { margin-bottom: 1rem; line-height: 1.5; font-size: 1rem; position: relative; padding-left: 1.2rem; font-weight: 500; }
-        .feature-list li::before { content: '→'; position: absolute; left: 0; font-family: var(--font-mono); font-weight: 900; }
-
-        /* Code block — FIX: constrain to parent width */
-        .code-block {
-            background: #111;
-            border: 2px solid var(--border-color);
-            padding: 1.5rem;
-            overflow-x: auto;
-            box-shadow: 6px 6px 0px rgba(0,0,0,1);
-            margin-top: 1.2rem;
-            max-width: 100%;
-        }
-        .code-block pre { font-family: var(--font-mono); font-size: 0.88rem; color: #f8f8f2; line-height: 1.6; white-space: pre; }
-
-        .sidebar-widget { background: var(--card-bg); border: 2px solid var(--border-color); padding: 1.5rem; margin-bottom: 2rem; box-shadow: 6px 6px 0px rgba(0,0,0,1); }
-        .sidebar-widget:last-child { margin-bottom: 0; }
-        .widget-title { font-size: 1.2rem; font-weight: 900; margin-bottom: 1.2rem; text-transform: uppercase; border-bottom: 2px solid var(--border-color); padding-bottom: 0.4rem; }
-
-        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .metric-item { display: flex; flex-direction: column; border-left: 3px solid var(--text-primary); padding-left: 0.8rem; }
-        .m-val { font-family: var(--font-mono); font-size: 1.8rem; font-weight: 900; line-height: 1; margin-bottom: 0.2rem; }
-        .m-label { font-size: 0.75rem; text-transform: uppercase; font-weight: 800; color: var(--text-secondary); }
-
-        .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-        .tag { font-family: var(--font-mono); background: var(--card-bg); padding: 0.4rem 0.8rem; border: 2px solid var(--border-color); font-size: 0.85rem; font-weight: 700; box-shadow: 2px 2px 0px rgba(0,0,0,1); transition: var(--transition); text-transform: uppercase; }
-        .tag:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0px rgba(0,0,0,1); background: var(--text-primary); color: var(--bg-color); }
-
-        .footer { border-top: 2px solid var(--border-color); padding: 2rem 0; text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; }
-
-        /* Info table — FIX: prevent overflow */
-        .info-table { width: 100%; border-collapse: collapse; margin-top: 1rem; table-layout: fixed; }
-        .info-table tr { border-bottom: 1px solid #ccc; }
-        .info-table tr:last-child { border-bottom: none; }
-        .info-table td { padding: 0.6rem 0.5rem; font-size: 0.95rem; font-weight: 500; vertical-align: top; word-break: break-word; }
-        .info-table td:first-child { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; color: var(--text-secondary); width: 42%; }
-
-        .section-divider { border: none; border-top: 2px dashed #bbb; margin: 2.5rem 0; }
-
-        .link-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; border: 2px solid var(--border-color); padding: 0.5rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; transition: var(--transition); text-transform: uppercase; margin-top: 0.8rem; margin-right: 0.6rem; }
-        .link-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; background: var(--text-primary); color: var(--bg-color); }
-        .link-btn.primary { background: var(--text-primary); color: var(--bg-color); }
-        .link-btn.primary:hover { background: var(--bg-color); color: var(--text-primary); }
-
-        .custom-metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px dashed #bbb; gap: 0.5rem; }
-        .custom-metric-row:last-child { border-bottom: none; }
-        .cm-label { font-weight: 600; color: var(--text-secondary); flex: 1; font-size: 0.9rem; }
-        .cm-val { font-family: var(--font-mono); font-weight: 900; font-size: 1rem; text-align: right; flex-shrink: 0; }
-        .cm-note { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary); text-align: right; }
-
-        .scorecard { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.7rem; }
-        .score-row { display: flex; align-items: center; gap: 0.8rem; }
-        .score-label { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; width: 145px; flex-shrink: 0; }
-        .score-bar-wrap { flex: 1; height: 14px; border: 2px solid var(--border-color); background: var(--bg-color); min-width: 0; }
-        .score-bar { height: 100%; background: var(--text-primary); }
-        .score-num { font-family: var(--font-mono); font-weight: 900; font-size: 0.85rem; width: 28px; text-align: right; flex-shrink: 0; }
-
-        .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
-        .skill-card { border: 2px solid var(--border-color); padding: 0.9rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0px rgba(0,0,0,1); transition: var(--transition); }
-        .skill-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0px rgba(0,0,0,1); }
-        .skill-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.25rem; }
-        .skill-desc { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; line-height: 1.4; }
-
-        /* Hobby banner */
-        .hobby-banner { border: 2px solid var(--border-color); padding: 1.2rem 1.5rem; background: var(--text-primary); color: var(--bg-color); box-shadow: 5px 5px 0 #555; margin: 1.2rem 0; display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
-        .hobby-icon { font-size: 2.2rem; flex-shrink: 0; }
-        .hobby-text strong { font-weight: 900; font-size: 1.05rem; display: block; margin-bottom: 0.2rem; }
-        .hobby-text span { font-size: 0.88rem; opacity: 0.82; font-weight: 500; }
-
-        /* Mobile only badge */
-        .mobile-badge { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; border: 2px solid var(--border-color); padding: 0.5rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; text-transform: uppercase; margin-top: 1rem; }
-
-        /* Feature grid */
-        .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
-        .feat-card { border: 2px solid var(--border-color); padding: 0.9rem 1rem; background: var(--card-bg); box-shadow: 3px 3px 0 #000; transition: var(--transition); display: flex; align-items: flex-start; gap: 0.8rem; }
-        .feat-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #000; }
-        .feat-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.1rem; }
-        .feat-name { font-weight: 800; font-size: 0.92rem; margin-bottom: 0.15rem; }
-        .feat-desc { font-size: 0.8rem; color: var(--text-secondary); font-weight: 500; line-height: 1.4; }
-
-        /* Callout */
-        .callout { border: 2px solid var(--border-color); padding: 1.1rem 1.3rem; background: var(--bg-color); margin-top: 1.2rem; position: relative; }
-        .callout-label { position: absolute; top: -13px; left: 1rem; background: var(--text-primary); color: var(--bg-color); font-family: var(--font-mono); font-size: 0.72rem; font-weight: 900; padding: 0.15rem 0.6rem; text-transform: uppercase; }
-        .callout p { font-size: 0.92rem; font-weight: 500; line-height: 1.6; color: var(--text-primary); }
-        .callout strong { font-weight: 800; }
-
-        /* Mastery banner */
-        .mastery-banner { border: 2px solid var(--border-color); padding: 1.2rem 1.5rem; background: var(--text-primary); color: var(--bg-color); box-shadow: 5px 5px 0 #555; margin: 1.2rem 0; }
-        .mastery-banner p { font-size: 1rem; font-weight: 600; line-height: 1.6; opacity: 0.9; }
-        .mastery-banner strong { font-weight: 900; font-size: 1.1rem; opacity: 1; }
-
-        /* Architecture */
-        .arch-layer { border: 2px solid var(--border-color); padding: 1rem; background: var(--card-bg); box-shadow: 4px 4px 0 #000; margin-bottom: 0.6rem; }
-        .arch-layer-title { font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; border-bottom: 1px solid #ccc; padding-bottom: 0.3rem; font-family: var(--font-mono); }
-        .arch-items { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .arch-item { background: var(--bg-color); border: 1.5px solid var(--border-color); padding: 0.25rem 0.6rem; font-size: 0.78rem; font-weight: 700; font-family: var(--font-mono); }
-        .arch-arrow { text-align: center; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); margin: 0.3rem 0; }
-
-        /* ── TABLET ── */
-        @media (max-width: 900px) {
-            .content-grid {
-                grid-template-columns: 1fr; /* ← KEY FIX: stack to single column */
-                gap: 2rem;
-            }
-            .header-container { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
-            .header-icon { margin: 0 auto; }
-            .metric-grid { grid-template-columns: 1fr 1fr; }
-            .skills-grid { grid-template-columns: 1fr 1fr; }
-            .feature-grid { grid-template-columns: 1fr 1fr; }
-            .score-label { width: 120px; font-size: 0.7rem; }
-        }
-
-        /* ── MOBILE ── */
-        @media (max-width: 600px) {
-            .project-title { font-size: 2rem; }
-            .metric-grid { grid-template-columns: 1fr 1fr; }
-            .skills-grid { grid-template-columns: 1fr; }
-            .feature-grid { grid-template-columns: 1fr; }
-            .header-icon { width: 50px; height: 50px; font-size: 2rem; }
-            .project-header { padding: 3rem 0 2rem 0; margin-bottom: 2rem; }
-
-            /* Scorecard stacks */
-            .score-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
-            .score-label { width: 100%; font-size: 0.85rem; }
-            .score-bar-wrap { width: 100%; }
-            .score-num { text-align: left; width: auto; margin-top: 0.2rem; }
-
-            /* Info table stacks */
-            .info-table, .info-table tbody, .info-table tr, .info-table td { display: block; width: 100% !important; }
-            .info-table tr { padding: 0.8rem 0; border-bottom: 1px dashed #ccc; }
-            .info-table tr:last-child { border-bottom: none; }
-            .info-table td { padding: 0.2rem 0; word-break: break-all; }
-            .info-table td:first-child { padding-bottom: 0.15rem; font-size: 0.85rem; color: var(--text-secondary); font-weight: 800; border-bottom: none; width: 100% !important; }
-
-            .nav-links { gap: 1rem; }
-            .back-link { font-size: 0.8rem; }
-
-            /* Custom metric stacks */
-            .custom-metric-row { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
-            .cm-val { text-align: left; font-size: 1.1rem; }
-            .cm-note { text-align: left; }
-
-            /* Code block smaller font */
-            .code-block { padding: 1rem; }
-            .code-block pre { font-size: 0.72rem; }
-
-            /* Arch items stack */
-            .arch-items { flex-direction: column; align-items: stretch; }
-            .arch-item { text-align: center; }
-
-            /* Link buttons stack */
-            .link-btn { display: flex; justify-content: center; margin-right: 0; }
-
-            /* Hobby banner stacks */
-            .hobby-banner { flex-direction: column; gap: 0.8rem; padding: 1rem; }
-
-            /* Metric value shrink */
-            .m-val { font-size: 1.4rem; }
-
-            /* Mobile badge wraps */
-            .mobile-badge { font-size: 0.78rem; }
-        }
-    </style>
 </head>
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -360,7 +128,7 @@
                     <h2 class="section-heading">Project Overview</h2>
 
                     <div class="hobby-banner">
-                        <div class="hobby-icon">🎯</div>
+                        <div class="hobby-icon"><i class="bi bi-bullseye" aria-hidden="true"></i></div>
                         <div class="hobby-text">
                             <strong>Hobby Project — Built for Pure Curiosity</strong>
                             <span>No client, no deadline, no team. Just shamil-tp exploring Vue.js at full depth — learning by building something real, complex, and actually fun to use on a phone.</span>
@@ -378,15 +146,15 @@
                         Mobile-Only Design — Optimised for Phone Display
                     </div>
 
-                    <table class="info-table" style="margin-top:1.2rem;">
+                    <table class="info-table">
                         <tr><td>Project Type</td><td>Full-Stack Social Media Platform (Instagram Clone)</td></tr>
                         <tr><td>Purpose</td><td>Hobby / Self-Learning — Vue.js mastery project</td></tr>
                         <tr><td>Design Target</td><td>Mobile-only — primarily for phone display</td></tr>
                         <tr><td>Repository Owner</td><td>shamil-tp (100% solo)</td></tr>
                         <tr><td>Real-time</td><td>Socket.io bidirectional chat</td></tr>
                         <tr><td>Media Storage</td><td>Cloudinary — photo uploads + account deletion cleanup</td></tr>
-                        <tr><td>GitHub Repo</td><td><a href="https://github.com/shamil-tp/coffeeCat" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">github.com/shamil-tp/coffeeCat</a></td></tr>
-                        <tr><td>Live Link</td><td><a href="https://coffee-cat-topaz.vercel.app/login" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-weight:700;text-decoration:underline;word-break:break-all;">coffee-cat-topaz.vercel.app</a></td></tr>
+                        <tr><td>GitHub Repo</td><td><a class="mono-link" href="https://github.com/shamil-tp/coffeeCat" target="_blank" rel="noopener noreferrer">github.com/shamil-tp/coffeeCat</a></td></tr>
+                        <tr><td>Live Link</td><td><a class="mono-link" href="https://coffee-cat-topaz.vercel.app/login" target="_blank" rel="noopener noreferrer">coffee-cat-topaz.vercel.app</a></td></tr>
                     </table>
                 </section>
 
@@ -399,9 +167,9 @@
                         <p>CoffeeCat is a full MERN stack application — Vue.js SPA frontend communicating with an Express REST API backend, MongoDB for data persistence, Cloudinary for media storage, and Socket.io running a persistent WebSocket layer for real-time chat.</p>
                     </div>
 
-                    <div style="margin-top:1.2rem;">
+                    <div>
                         <div class="arch-layer">
-                            <div class="arch-layer-title">📱 Frontend — Vue 3 SPA (Mobile-First)</div>
+                            <div class="arch-layer-title">Frontend — Vue 3 SPA (Mobile-First)</div>
                             <div class="arch-items">
                                 <span class="arch-item">Vue Router (pages)</span>
                                 <span class="arch-item">Vuex (global state)</span>
@@ -415,7 +183,7 @@
                         </div>
                         <div class="arch-arrow">↕ REST API (Axios + JWT) &nbsp;|&nbsp; WebSocket (Socket.io)</div>
                         <div class="arch-layer">
-                            <div class="arch-layer-title">⚙ Backend — Node.js + Express REST API + Socket.io Server</div>
+                            <div class="arch-layer-title">Backend — Node.js + Express REST API + Socket.io Server</div>
                             <div class="arch-items">
                                 <span class="arch-item">Auth routes (JWT)</span>
                                 <span class="arch-item">Post routes</span>
@@ -428,7 +196,7 @@
                         </div>
                         <div class="arch-arrow">↕ Mongoose ODM &nbsp;|&nbsp; Cloudinary SDK</div>
                         <div class="arch-layer">
-                            <div class="arch-layer-title">🗄 Data & Media Layer</div>
+                            <div class="arch-layer-title">Data & Media Layer</div>
                             <div class="arch-items">
                                 <span class="arch-item">MongoDB — users, posts, comments, follows, chats</span>
                                 <span class="arch-item">Cloudinary — photo storage + CDN</span>
@@ -448,84 +216,84 @@
 
                     <div class="feature-grid">
                         <div class="feat-card">
-                            <div class="feat-icon">💬</div>
+                            <div class="feat-icon"><i class="bi bi-chat-dots" aria-hidden="true"></i></div>
                             <div>
                                 <div class="feat-name">Real-Time Bidirectional Chat</div>
                                 <div class="feat-desc">Socket.io WebSocket connection — live messaging between users, instant delivery, no polling</div>
                             </div>
                         </div>
                         <div class="feat-card">
-                            <div class="feat-icon">📸</div>
+                            <div class="feat-icon"><i class="bi bi-camera" aria-hidden="true"></i></div>
                             <div>
                                 <div class="feat-name">Photo Posting</div>
                                 <div class="feat-desc">Upload photos from phone, stored on Cloudinary CDN, displayed in feed and profile grid</div>
                             </div>
                         </div>
                         <div class="feat-card">
-                            <div class="feat-icon">❤️</div>
+                            <div class="feat-icon"><i class="bi bi-heart" aria-hidden="true"></i></div>
                             <div>
                                 <div class="feat-name">Liking Posts</div>
                                 <div class="feat-desc">Like / unlike posts with live count updates, stored in MongoDB</div>
                             </div>
                         </div>
                         <div class="feat-card">
-                            <div class="feat-icon">💭</div>
+                            <div class="feat-icon"><i class="bi bi-chat-quote" aria-hidden="true"></i></div>
                             <div>
                                 <div class="feat-name">Commenting on Posts</div>
                                 <div class="feat-desc">Add and view comments on any post, threaded under each photo</div>
                             </div>
                         </div>
                         <div class="feat-card">
-                            <div class="feat-icon">👥</div>
+                            <div class="feat-icon"><i class="bi bi-people" aria-hidden="true"></i></div>
                             <div>
                                 <div class="feat-name">Following Users</div>
                                 <div class="feat-desc">Follow / unfollow users — feed updates to show followed users' posts</div>
                             </div>
                         </div>
                         <div class="feat-card">
-                            <div class="feat-icon">👣</div>
+                            <div class="feat-icon"><i class="bi bi-person-walking" aria-hidden="true"></i></div>
                             <div>
                                 <div class="feat-name">Followers & Following Lists</div>
                                 <div class="feat-desc">View who follows you and who you follow — full social graph visible on profiles</div>
                             </div>
                         </div>
                         <div class="feat-card">
-                            <div class="feat-icon">🔍</div>
+                            <div class="feat-icon"><i class="bi bi-search" aria-hidden="true"></i></div>
                             <div>
                                 <div class="feat-name">User Search</div>
                                 <div class="feat-desc">Search for users by name or username — discover and navigate to profiles</div>
                             </div>
                         </div>
                         <div class="feat-card">
-                            <div class="feat-icon">✏️</div>
+                            <div class="feat-icon"><i class="bi bi-pencil" aria-hidden="true"></i></div>
                             <div>
                                 <div class="feat-name">Profile Management</div>
                                 <div class="feat-desc">Update profile photo, bio, username — changes reflected across the app via Vuex</div>
                             </div>
                         </div>
                         <div class="feat-card">
-                            <div class="feat-icon">🗑️</div>
+                            <div class="feat-icon"><i class="bi bi-trash3" aria-hidden="true"></i></div>
                             <div>
                                 <div class="feat-name">Delete Post</div>
                                 <div class="feat-desc">Remove a post — deletes from MongoDB and purges the image from Cloudinary</div>
                             </div>
                         </div>
                         <div class="feat-card">
-                            <div class="feat-icon">📱</div>
+                            <div class="feat-icon"><i class="bi bi-phone" aria-hidden="true"></i></div>
                             <div>
                                 <div class="feat-name">Mobile-Only UI</div>
                                 <div class="feat-desc">Designed exclusively for phone screens — can be shown to friends directly from your phone</div>
                             </div>
                         </div>
                         <div class="feat-card">
-                            <div class="feat-icon">💾</div>
+                            <div class="feat-icon"><i class="bi bi-device-hdd" aria-hidden="true"></i></div>
                             <div>
                                 <div class="feat-name">Vuex State Management</div>
                                 <div class="feat-desc">Centralised global state — auth, feed, profile, chat, search all managed through Vuex stores</div>
                             </div>
                         </div>
                         <div class="feat-card">
-                            <div class="feat-icon">⚡</div>
+                            <div class="feat-icon"><i class="bi bi-lightning-charge" aria-hidden="true"></i></div>
                             <div>
                                 <div class="feat-name">Real-Time Messaging</div>
                                 <div class="feat-desc">Messages appear instantly for both users without page refresh — true bidirectional Socket.io events</div>
@@ -533,8 +301,8 @@
                         </div>
                     </div>
 
-                    <div class="callout" style="margin-top:1.4rem;">
-                        <div class="callout-label">⚠ Thoughtful Feature — Account Deletion</div>
+                    <div class="callout">
+                        <div class="callout-label">Thoughtful Feature — Account Deletion</div>
                         <p>Account deletion is not just a database flag — it is a <strong>full cascading cleanup pipeline</strong>. Deleting your account removes: your user document from MongoDB, all your posts and their Cloudinary images, all your comments, all your likes, and all your follow relationships. <strong>Chat messages are deliberately preserved</strong> for the person on the other side of the conversation — because their conversation history belongs to them too. This nuanced design decision shows real product thinking.</p>
                     </div>
                 </section>
@@ -560,7 +328,7 @@
                 <!-- 5. TOOLS USED -->
                 <section class="content-section">
                     <h2 class="section-heading">Tools & Technologies</h2>
-                    <table class="info-table" style="margin-top:0.5rem;">
+                    <table class="info-table">
                         <tr><td>Frontend Framework</td><td><strong>Vue 3</strong> — Composition API, reactive components, mobile-first SPA</td></tr>
                         <tr><td>State Management</td><td><strong>Vuex</strong> — Centralised store for auth, feed, posts, chat, profile</td></tr>
                         <tr><td>Routing</td><td><strong>Vue Router</strong> — SPA navigation, authenticated route guards</td></tr>
@@ -632,7 +400,7 @@
                     <div class="prose">
                         <p>CoffeeCat is a <strong>100% solo project</strong> — every component, every API route, every Vuex store, every Socket.io event, every theme decision, every product feature was designed and built by shamil-tp alone. No contributors, no team. Pure solo exploration driven by curiosity.</p>
                     </div>
-                    <ul class="feature-list" style="margin-top:1rem;">
+                    <ul class="feature-list">
                         <li><strong>Entire Vue.js Frontend:</strong> All components, all views, all Vuex modules, Vue Router configuration, mobile-first CSS — built from scratch.</li>
                         <li><strong>Real-Time Chat System:</strong> Full Socket.io integration — server-side event handlers and client-side listeners for bidirectional live messaging.</li>
                         <li><strong>Complete Backend API:</strong> All Express routes, controllers, and middleware for auth, posts, users, comments, likes, follows, chat, and media.</li>
@@ -712,7 +480,7 @@
                             <span class="m-label">Core Features</span>
                         </div>
                         <div class="metric-item">
-                            <span class="m-val">📱</span>
+                            <span class="m-val"><i class="bi bi-phone" aria-hidden="true"></i></span>
                             <span class="m-label">Mobile Only</span>
                         </div>
                         <div class="metric-item">
@@ -765,7 +533,7 @@
                             <div class="cm-label">Motivation</div>
                             <div class="cm-note">pure curiosity</div>
                         </div>
-                        <div class="cm-val">🔥 Hobby</div>
+                        <div class="cm-val">Hobby</div>
                     </div>
                     <div class="custom-metric-row">
                         <div>
@@ -832,12 +600,12 @@
 
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Quick Links</h3>
-                    <div style="display:flex;flex-direction:column;gap:0.6rem;">
-                        <a href="https://github.com/shamil-tp/coffeeCat" target="_blank" rel="noopener noreferrer" class="link-btn primary" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-github"></i> GitHub Repo</a>
-                        <a href="https://coffee-cat-topaz.vercel.app/login" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
-                        <a href="https://github.com/shamil-tp/coffeeCat/commits/main" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-clock-history"></i> Commit History</a>
-                        <a href="https://github.com/shamil-tp/coffeeCat/tree/main/frontend" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Frontend</a>
-                        <a href="https://github.com/shamil-tp/coffeeCat/tree/main/backend" target="_blank" rel="noopener noreferrer" class="link-btn" style="margin:0;width:100%;justify-content:center;"><i class="bi bi-folder2-open"></i> Backend</a>
+                    <div class="stack">
+                        <a href="https://github.com/shamil-tp/coffeeCat" target="_blank" rel="noopener noreferrer" class="link-btn primary link-btn--block"><i class="bi bi-github"></i> GitHub Repo</a>
+                        <a href="https://coffee-cat-topaz.vercel.app/login" target="_blank" rel="noopener noreferrer" class="link-btn link-btn--block"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
+                        <a href="https://github.com/shamil-tp/coffeeCat/commits/main" target="_blank" rel="noopener noreferrer" class="link-btn link-btn--block"><i class="bi bi-clock-history"></i> Commit History</a>
+                        <a href="https://github.com/shamil-tp/coffeeCat/tree/main/frontend" target="_blank" rel="noopener noreferrer" class="link-btn link-btn--block"><i class="bi bi-folder2-open"></i> Frontend</a>
+                        <a href="https://github.com/shamil-tp/coffeeCat/tree/main/backend" target="_blank" rel="noopener noreferrer" class="link-btn link-btn--block"><i class="bi bi-folder2-open"></i> Backend</a>
                     </div>
                 </div>
 
@@ -851,5 +619,20 @@
         </div>
     </footer>
 
+
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <symbol id="i-shuffle" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 3.5A.5.5 0 0 1 .5 3H1c2.202 0 3.827 1.24 4.874 2.418.49.552.865 1.102 1.126 1.532.26-.43.636-.98 1.126-1.532C9.173 4.24 10.798 3 13 3v1c-1.798 0-3.173 1.01-4.126 2.082A9.6 9.6 0 0 0 7.556 8a9.6 9.6 0 0 0 1.317 1.918C9.828 10.99 11.204 12 13 12v1c-2.202 0-3.827-1.24-4.874-2.418A10.6 10.6 0 0 1 7 9.05c-.26.43-.636.98-1.126 1.532C4.827 11.76 3.202 13 1 13H.5a.5.5 0 0 1 0-1H1c1.798 0 3.173-1.01 4.126-2.082A9.6 9.6 0 0 0 6.444 8a9.6 9.6 0 0 0-1.317-1.918C4.172 5.01 2.796 4 1 4H.5a.5.5 0 0 1-.5-.5"/><path d="M13 5.466V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192m0 9v-3.932a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192"/></symbol>
+    </svg>
+    <aside class="design-dock" aria-label="Site design">
+        <p class="design-dock__label">
+            <span class="design-dock__kicker">Design</span>
+            <span class="design-dock__name" id="design-name">Default</span>
+            <span class="design-dock__index" id="design-index" aria-hidden="true"></span>
+        </p>
+        <button type="button" class="design-dock__button" id="surprise-me">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-shuffle"></use></svg>
+            <span>Surprise me</span>
+        </button>
+    </aside>
 </body>
 </html>

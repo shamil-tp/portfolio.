@@ -1,0 +1,255 @@
+/*
+ * Case study — Generative.
+ * The seeded palette and Truchet band from the homepage system frame the
+ * header; the project's own glyph (hash of its slug) replaces its icon. The
+ * rest follows explicit rules: square geometry, palette accents cycling
+ * a → b → c through repeated items, ink for everything you read.
+ */
+:root {
+    --g-bg: #f4f1ea;
+    --g-ink: #16161d;
+    --g-a: #ff5b3a;
+    --g-b: #2f5dff;
+    --g-c: #ffc53d;
+    --g-muted: color-mix(in srgb, var(--g-ink) 76%, var(--g-bg));
+    --g-line: color-mix(in srgb, var(--g-ink) 18%, var(--g-bg));
+    --g-surface: color-mix(in srgb, var(--g-ink) 4%, var(--g-bg));
+
+    --cs-bg: var(--g-bg);
+    --cs-surface: var(--g-surface);
+    --cs-surface-2: color-mix(in srgb, var(--g-ink) 8%, var(--g-bg));
+    --cs-ink: var(--g-ink);
+    --cs-muted: var(--g-muted);
+    --cs-line: var(--g-line);
+    --cs-rule: var(--g-ink);
+    --cs-accent: var(--g-b);
+    --cs-accent-ink: #fff;
+
+    --cs-display: 'Syne', 'Segoe UI', system-ui, sans-serif;
+    --cs-text: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+
+    --cs-panel-border: 1.5px solid var(--g-ink);
+    --cs-panel-bg: var(--g-bg);
+    --cs-chip-bg: transparent;
+    --cs-chip-border: 1px solid var(--g-line);
+    --cs-btn-border: 2px solid var(--g-ink);
+    --cs-code-bg: var(--g-ink);
+    --cs-code-ink: var(--g-bg);
+    --cs-banner-bg: var(--g-ink);
+    --cs-banner-ink: var(--g-bg);
+
+    --cs-title-size: clamp(2.25rem, 0.8rem + 8vw, 8rem);
+    --cs-title-weight: 800;
+    --cs-title-track: -0.045em;
+    --cs-h2-size: clamp(1.45rem, 0.9rem + 2.8vw, 3.25rem);
+    --cs-h2-weight: 800;
+    --cs-h2-track: -0.04em;
+    --cs-h3-weight: 700;
+    --cs-nav-h: 60px;
+    --cs-dot-radius: 0;
+    --cs-lang: var(--g-ink);
+    --focus: var(--g-b);
+
+    --dock-bg: var(--g-ink);
+    --dock-fg: var(--g-bg);
+    --dock-accent: var(--g-c);
+    --dock-accent-fg: #16161d;
+    --dock-radius: 0;
+    --dock-btn-radius: 0;
+    --dock-font: var(--cs-text);
+}
+
+html { scrollbar-color: var(--g-a) var(--g-bg); }
+
+body { transition: background-color 600ms var(--ease-out), color 600ms var(--ease-out); }
+
+::selection { background: var(--g-c); color: #16161d; }
+
+.navbar { border-bottom: 2px solid var(--g-ink); }
+
+.back-link,
+.nav-links a,
+.logo { font-weight: 700; }
+
+.back-link .bi { color: var(--g-a); }
+
+/* Header: the tile band, with the title set on a solid plate above it. */
+.project-header,
+.page-header {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(3rem, 8vw, 6.5rem);
+    border-bottom: 2px solid var(--g-ink);
+}
+
+.gn-case-field {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+}
+
+.gn-case-field .gn-arc {
+    fill: none;
+    stroke: var(--tone);
+    stroke-width: 9;
+    stroke-linecap: round;
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: rotate(var(--r));
+    transition: transform 900ms var(--ease-in-out) var(--d), stroke 600ms ease;
+}
+
+.gn-turning .gn-case-field .gn-arc {
+    transform: rotate(var(--from, var(--r)));
+    transition: none;
+}
+
+[data-tone='a'] { --tone: var(--g-a); }
+[data-tone='b'] { --tone: var(--g-b); }
+[data-tone='c'] { --tone: var(--g-c); }
+[data-tone='ink'] { --tone: var(--g-ink); }
+
+.header-container,
+.page-header .container {
+    width: fit-content;
+    max-width: min(100% - 2 * var(--cs-pad), 58rem);
+    margin-inline: var(--cs-pad);
+    padding: clamp(1.25rem, 3.5vw, 2.5rem);
+    background: var(--g-bg);
+    box-shadow: 0 0 0 2px var(--g-ink);
+}
+
+.header-icon {
+    width: 4.5rem;
+    height: 4.5rem;
+    padding: 0.4rem;
+    background: transparent;
+    border: 0;
+}
+
+/* The glyph replaces the icon once the design script has drawn it. */
+.header-icon:has(.gn-glyph) .bi,
+.card-icon:has(.gn-glyph) .bi { display: none; }
+
+.gn-glyph { width: 100%; height: 100%; }
+.gn-glyph [data-tone] { fill: var(--tone); transition: fill 600ms ease; }
+
+.project-title,
+.page-title { line-height: 0.88; }
+
+.project-subtitle,
+.page-subtitle { color: var(--g-muted); font-weight: 600; }
+
+.version-badge { background: var(--g-a); color: #16161d; }
+
+/* Sections. Syne runs wide: long words hyphenate rather than overflow. */
+.section-heading { hyphens: auto; overflow-wrap: break-word; }
+
+.section-divider { border-top: 2px solid var(--g-ink); width: 3rem; }
+
+.feature-list li::before {
+    width: 0.55rem;
+    height: 0.55rem;
+    top: 0.55em;
+}
+
+.feature-list li:nth-child(3n + 1)::before { background: var(--g-a); }
+.feature-list li:nth-child(3n + 2)::before { background: var(--g-b); }
+.feature-list li:nth-child(3n + 3)::before { background: var(--g-c); }
+
+.info-table td { border-bottom-color: var(--g-line); }
+
+/* Repeated items cycle the palette in order: a, b, c. */
+.skill-card:nth-child(3n + 1),
+.feat-card:nth-child(3n + 1),
+.sec-card:nth-child(3n + 1),
+.sidebar-widget:nth-child(3n + 1) { box-shadow: inset 0 4px var(--g-a); }
+.skill-card:nth-child(3n + 2),
+.feat-card:nth-child(3n + 2),
+.sec-card:nth-child(3n + 2),
+.sidebar-widget:nth-child(3n + 2) { box-shadow: inset 0 4px var(--g-b); }
+.skill-card:nth-child(3n + 3),
+.feat-card:nth-child(3n + 3),
+.sec-card:nth-child(3n + 3),
+.sidebar-widget:nth-child(3n + 3) { box-shadow: inset 0 4px var(--g-c); }
+
+.flow-step:nth-child(3n + 1) .step-num,
+.pipeline-step:nth-child(3n + 1) .pipeline-dot { background: var(--g-a); color: #16161d; }
+.flow-step:nth-child(3n + 2) .step-num,
+.pipeline-step:nth-child(3n + 2) .pipeline-dot { background: var(--g-b); color: #fff; }
+.flow-step:nth-child(3n + 3) .step-num,
+.pipeline-step:nth-child(3n + 3) .pipeline-dot { background: var(--g-c); color: #16161d; }
+
+.step-num,
+.pipeline-dot { font-family: var(--cs-display); font-weight: 800; }
+
+.v-dot { background: var(--g-a); }
+
+.feat-icon,
+.rf-icon { color: var(--g-ink); }
+
+.tag,
+.arch-item,
+.sec-pkg,
+.pipeline-tech,
+.highlight-pill,
+.tl-param,
+.algo-badge,
+.v-badge,
+.mit-badge { font-weight: 600; }
+
+.role-badge,
+.v-badge.warning { background: var(--g-ink); color: var(--g-bg); }
+.v-badge.current { background: var(--g-b); color: #fff; border-color: transparent; }
+
+.collab-avatar { background: var(--g-a); color: #16161d; }
+
+.link-btn { font-weight: 700; }
+.link-btn.primary { background: var(--g-ink); color: var(--g-bg); border: 2px solid var(--g-ink); }
+
+@media (hover: hover) and (pointer: fine) {
+    .link-btn:not(.primary):hover { background: var(--g-ink); color: var(--g-bg); }
+}
+
+.widget-title { font-family: var(--cs-display); font-weight: 800; border-bottom-color: var(--g-line); }
+.m-val { font-family: var(--cs-display); font-weight: 800; letter-spacing: -0.03em; }
+
+.score-bar { background: var(--g-a); }
+.score-row:nth-child(3n + 2) .score-bar { background: var(--g-b); }
+.score-row:nth-child(3n + 3) .score-bar { background: var(--g-c); }
+
+.zero-big,
+.team-num,
+.stat-big,
+.owasp-icon,
+.hobby-icon,
+.client-icon { color: var(--g-c); }
+
+/* Hub: a dense grid where each project is marked by its glyph. */
+.project-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); grid-auto-flow: dense; }
+.project-card { flex-direction: column; gap: 1.25rem; min-height: 12rem; }
+.project-card:nth-child(5n + 1) { grid-column: span 2; }
+.card-icon { width: 3.5rem; height: 3.5rem; font-size: 2rem; color: var(--g-ink); }
+.card-title { font-family: var(--cs-display); font-weight: 800; font-size: 1.5rem; letter-spacing: -0.03em; overflow-wrap: anywhere; }
+
+@media (hover: hover) and (pointer: fine) {
+    .project-card .gn-glyph { transition: transform 500ms var(--ease-out); }
+    .project-card:hover .gn-glyph { transform: rotate(90deg); }
+}
+
+@media (max-width: 600px) {
+    .project-card:nth-child(5n + 1) { grid-column: auto; }
+
+    /* The plate takes the column so long titles wrap instead of widening it. */
+    .header-container,
+    .page-header .container { width: auto; padding: 1.25rem; }
+
+    .m-val { font-size: 1.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gn-case-field .gn-arc { transition: stroke 200ms ease; }
+}

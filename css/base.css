@@ -1,0 +1,284 @@
+/*
+ * base.css — reset, accessibility utilities, the design dock, the loading
+ * state and the static (no-JS) fallback. Loaded before any design.
+ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.55;
+    background: #fafaf8;
+    color: #141414;
+    -webkit-tap-highlight-color: transparent;
+}
+
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure, blockquote {
+    margin: 0;
+}
+
+/* :where() keeps this reset at zero specificity so design classes win. */
+:where(ul[class], ol[class], nav ul) {
+    list-style: none;
+    padding: 0;
+}
+
+img,
+svg,
+picture {
+    display: block;
+    max-width: 100%;
+}
+
+img {
+    height: auto;
+}
+
+button {
+    font: inherit;
+    color: inherit;
+}
+
+a {
+    color: inherit;
+}
+
+:focus-visible {
+    outline: var(--focus-width) solid var(--focus);
+    outline-offset: 3px;
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+    flex: none;
+    fill: currentColor;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 2000;
+    padding: 0.75rem 1rem;
+    background: #111;
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    transform: translateY(calc(-100% - 24px));
+}
+
+.skip-link:focus-visible {
+    transform: none;
+}
+
+/* ---------- Loading: hide #app until the chosen design has rendered ---------- */
+
+#app {
+    transition: opacity 320ms var(--ease-out);
+}
+
+.is-design-loading #app,
+.is-design-loading .design-dock,
+.is-design-loading[data-page='case'] body > :not(.skip-link) {
+    visibility: hidden;
+    opacity: 0;
+}
+
+[data-page='case'] body > * {
+    transition: opacity 320ms var(--ease-out);
+}
+
+/* Design or variation swaps: the page colour eases across while content fades
+   (not on first paint, which is already hidden by the loading state). */
+html:not(.is-design-loading) body {
+    transition: background-color 360ms var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html:not(.is-design-loading) body {
+        transition: none;
+    }
+}
+
+/* ---------- Scroll reveal mechanics (see revealOnScroll in interactions.js) ---------- */
+
+.reveal-armed [data-reveal] {
+    transition:
+        opacity var(--reveal-dur, var(--dur-reveal)) var(--ease-out),
+        transform var(--reveal-dur, var(--dur-reveal)) var(--ease-out);
+    transition-delay: calc(var(--i, 0) * var(--stagger));
+}
+
+.reveal-armed [data-reveal]:not(.is-in) {
+    opacity: 0;
+    transform: var(--reveal-from, translate3d(0, 16px, 0));
+}
+
+/* ---------- Design dock: current design + "Surprise me" ---------- */
+
+/* Without JavaScript the dock can't switch anything, so it isn't shown. */
+html:not(.js) .design-dock {
+    display: none;
+}
+
+.design-dock {
+    position: fixed;
+    z-index: 1500;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: calc(var(--dock-bottom, 16px) + env(safe-area-inset-bottom));
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 4px 4px 4px 14px;
+    background: var(--dock-bg, #141414);
+    color: var(--dock-fg, #fafaf8);
+    border: var(--dock-border, 0);
+    border-radius: var(--dock-radius, 999px);
+    box-shadow: var(--dock-shadow, 0 10px 30px rgb(0 0 0 / 0.2));
+    font-family: var(--dock-font, system-ui, sans-serif);
+    font-size: 0.8125rem;
+    line-height: 1.2;
+}
+
+.design-dock__label {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4em;
+    white-space: nowrap;
+}
+
+.design-dock__kicker,
+.design-dock__index {
+    opacity: 0.7;
+}
+
+.design-dock__name {
+    font-weight: 600;
+}
+
+.design-dock__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    min-height: 44px;
+    padding: 0 1rem;
+    border: var(--dock-btn-border, 0);
+    border-radius: var(--dock-btn-radius, 999px);
+    background: var(--dock-accent, #fafaf8);
+    color: var(--dock-accent-fg, #141414);
+    font-weight: 600;
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+    transition: transform var(--dur-press) var(--ease-out);
+}
+
+.design-dock__button:active {
+    transform: scale(var(--press-scale));
+}
+
+.design-dock__button[aria-busy='true'] {
+    cursor: progress;
+}
+
+.design-dock__button[aria-busy='true'] .icon {
+    animation: dock-spin 600ms linear infinite;
+}
+
+@keyframes dock-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 420px) {
+    .design-dock__kicker,
+    .design-dock__index {
+        display: none;
+    }
+}
+
+/* ---------- Static fallback (no JavaScript, or every design failed) ---------- */
+
+.baseline {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem var(--dock-clearance);
+}
+
+.baseline__header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.baseline__header ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+}
+
+.baseline h1 {
+    font-size: clamp(2.25rem, 8vw, 3.5rem);
+    line-height: 1.05;
+    margin: 2.5rem 0 0.75rem;
+}
+
+.baseline h2 {
+    font-size: 1.25rem;
+    margin: 2.5rem 0 0.75rem;
+}
+
+.baseline p + p {
+    margin-top: 0.75rem;
+}
+
+.baseline li + li {
+    margin-top: 0.4rem;
+}
+
+/* ---------- Reduced motion: keep opacity, drop movement ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal-armed [data-reveal] {
+        transition: opacity 200ms ease;
+        transition-delay: 0ms;
+    }
+
+    .reveal-armed [data-reveal]:not(.is-in) {
+        transform: none;
+    }
+
+    .design-dock__button[aria-busy='true'] .icon {
+        animation: none;
+    }
+}

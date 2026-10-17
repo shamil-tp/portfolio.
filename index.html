@@ -33,9 +33,14 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
 
-    <link rel="preload" href="assets/fonts/outfit-latin-var.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="style.css">
-    <script>document.documentElement.classList.add('js');</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/base.css">
+    <!-- Picks this load's design and starts its stylesheet before the body renders. -->
+    <script src="js/design-registry.js"></script>
+    <script src="js/boot.js"></script>
+    <script type="module" src="js/main.js"></script>
 
     <script type="application/ld+json">
     {
@@ -47,16 +52,25 @@
                 "url": "https://shamiltp.me/",
                 "name": "Shamil TP",
                 "inLanguage": "en",
-                "publisher": { "@id": "https://shamiltp.me/#person" }
+                "publisher": {
+                    "@id": "https://shamiltp.me/#person"
+                }
             },
             {
                 "@type": "ProfilePage",
                 "@id": "https://shamiltp.me/#profilepage",
                 "url": "https://shamiltp.me/",
                 "name": "Shamil TP — Full Stack Developer",
-                "isPartOf": { "@id": "https://shamiltp.me/#website" },
-                "mainEntity": { "@id": "https://shamiltp.me/#person" },
-                "inLanguage": "en"
+                "isPartOf": {
+                    "@id": "https://shamiltp.me/#website"
+                },
+                "mainEntity": {
+                    "@id": "https://shamiltp.me/#person"
+                },
+                "inLanguage": "en",
+                "hasPart": {
+                    "@id": "https://shamiltp.me/#projects"
+                }
             },
             {
                 "@type": "Person",
@@ -76,11 +90,209 @@
                     "@type": "CollegeOrUniversity",
                     "name": "Safi Institute of Advanced Study"
                 },
-                "knowsAbout": ["Node.js", "Express.js", "MongoDB", "Redis", "FastAPI", "Go", "PostgreSQL", "Docker", "GitHub Actions", "REST API design", "Web application security"],
+                "knowsAbout": [
+                    "Node.js",
+                    "Express.js",
+                    "MongoDB",
+                    "Redis",
+                    "FastAPI",
+                    "Go",
+                    "PostgreSQL",
+                    "Docker",
+                    "GitHub Actions",
+                    "REST API design",
+                    "Web application security"
+                ],
                 "sameAs": [
                     "https://github.com/shamil-tp",
                     "https://www.linkedin.com/in/shamil-tp",
                     "https://x.com/ShamilTp6"
+                ]
+            },
+            {
+                "@type": "ItemList",
+                "@id": "https://shamiltp.me/#projects",
+                "name": "Projects by Shamil TP",
+                "numberOfItems": 12,
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "item": {
+                            "@type": "SoftwareSourceCode",
+                            "name": "OpsPilot",
+                            "description": "An incident response copilot that investigates outages from real evidence, proposes fixes and executes them only after human approval. I built the FastAPI backend, deployment, CI/CD and GitHub webhooks.",
+                            "url": "https://shamiltp.me/myProjectDetails/oopspilot.html",
+                            "creator": {
+                                "@id": "https://shamiltp.me/#person"
+                            },
+                            "keywords": "FastAPI, PostgreSQL, Gemini, Docker, GitHub Actions",
+                            "codeRepository": "https://github.com/shamil-tp/OopsPilot"
+                        }
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "item": {
+                            "@type": "SoftwareSourceCode",
+                            "name": "RegretMap",
+                            "description": "A community map of travel lessons with AI summaries and a chat grounded only in real traveller stories. I set up the foundation and built the map, data layer, auth, comments and Gemini key pool.",
+                            "url": "https://shamiltp.me/myProjectDetails/regretmap.html",
+                            "creator": {
+                                "@id": "https://shamiltp.me/#person"
+                            },
+                            "keywords": "Next.js, Supabase, Leaflet, Gemini, zod",
+                            "codeRepository": "https://github.com/shamil-tp/RegretMap"
+                        }
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "item": {
+                            "@type": "SoftwareSourceCode",
+                            "name": "Rewind",
+                            "description": "A private, self-hosted music server: one Go binary with an embedded Svelte player and one SQLite file, streaming original audio over HTTP Range. Built and released solo.",
+                            "url": "https://shamiltp.me/myProjectDetails/rewind.html",
+                            "creator": {
+                                "@id": "https://shamiltp.me/#person"
+                            },
+                            "keywords": "Go, SQLite, Svelte, systemd, Tailscale",
+                            "codeRepository": "https://github.com/shamil-tp/rewind"
+                        }
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 4,
+                        "item": {
+                            "@type": "SoftwareSourceCode",
+                            "name": "LUME",
+                            "description": "A media streaming platform with resumable tus uploads, FFmpeg pipelines that slice media into HLS chunks, Cloudflare R2 storage and a custom adaptive player.",
+                            "url": "https://shamiltp.me/myProjectDetails/lume.html",
+                            "creator": {
+                                "@id": "https://shamiltp.me/#person"
+                            },
+                            "keywords": "tus, FFmpeg, HLS, Cloudflare R2",
+                            "codeRepository": "https://github.com/shamil-tp/LUME"
+                        }
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 5,
+                        "item": {
+                            "@type": "SoftwareSourceCode",
+                            "name": "N-jin",
+                            "description": "A localized search engine powered by a custom web crawler, with MongoDB aggregation-based ranking and a Redis caching layer for fast queries.",
+                            "url": "https://shamiltp.me/myProjectDetails/njin.html",
+                            "creator": {
+                                "@id": "https://shamiltp.me/#person"
+                            },
+                            "keywords": "Node.js, MongoDB, Redis, Mongoose",
+                            "codeRepository": "https://github.com/shamil-tp/web-crawler"
+                        }
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 6,
+                        "item": {
+                            "@type": "SoftwareSourceCode",
+                            "name": "Blogify",
+                            "description": "A blogging platform with rich editing, Google OAuth 2 with JWT access/refresh tokens, and a backend hardened along OWASP guidelines with Helmet, rate limiting and Zod.",
+                            "url": "https://shamiltp.me/myProjectDetails/blogify.html",
+                            "creator": {
+                                "@id": "https://shamiltp.me/#person"
+                            },
+                            "keywords": "React, Express, OAuth 2, Zod, Helmet",
+                            "codeRepository": "https://github.com/shamil-tp/Blogify"
+                        }
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 7,
+                        "item": {
+                            "@type": "SoftwareSourceCode",
+                            "name": "Osmium",
+                            "description": "A file compression and decompression app built from first principles, implementing LZ77 and Huffman coding from scratch in a Deflate-like design.",
+                            "url": "https://shamiltp.me/myProjectDetails/osmium.html",
+                            "creator": {
+                                "@id": "https://shamiltp.me/#person"
+                            },
+                            "keywords": "Node.js, Express, EJS, LZ77, Huffman",
+                            "codeRepository": "https://github.com/shamil-tp/osmium"
+                        }
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 8,
+                        "item": {
+                            "@type": "SoftwareSourceCode",
+                            "name": "Skylark",
+                            "description": "A rent-a-car platform with date-based bookings, Razorpay payments and an admin portal. As lead developer I built the Vue architecture, admin panel and backend integrations.",
+                            "url": "https://shamiltp.me/myProjectDetails/skylark.html",
+                            "creator": {
+                                "@id": "https://shamiltp.me/#person"
+                            },
+                            "keywords": "Vue 3, Node.js, Express, MongoDB, Razorpay",
+                            "codeRepository": "https://github.com/sinanrahman/skylark"
+                        }
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 9,
+                        "item": {
+                            "@type": "SoftwareSourceCode",
+                            "name": "coffeeCat",
+                            "description": "An Instagram–WhatsApp hybrid with real-time chat over Socket.io, a follow-based social graph, and image posts with likes and comments via Cloudinary.",
+                            "url": "https://shamiltp.me/myProjectDetails/coffeecat.html",
+                            "creator": {
+                                "@id": "https://shamiltp.me/#person"
+                            },
+                            "keywords": "Vue, Express, Socket.io, Cloudinary",
+                            "codeRepository": "https://github.com/shamil-tp/coffeeCat"
+                        }
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 10,
+                        "item": {
+                            "@type": "SoftwareSourceCode",
+                            "name": "blog-Rendering-Library",
+                            "description": "A zero-dependency vanilla JavaScript library that renders blog posts directly from JSON with raw DOM manipulation. Open source under the MIT license.",
+                            "url": "https://shamiltp.me/myProjectDetails/blog-rendering-lib.html",
+                            "creator": {
+                                "@id": "https://shamiltp.me/#person"
+                            },
+                            "keywords": "JavaScript, DOM, Zero dependencies",
+                            "codeRepository": "https://github.com/shamil-tp/blog-Rendering-Library"
+                        }
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 11,
+                        "item": {
+                            "@type": "CreativeWork",
+                            "name": "Tutora",
+                            "description": "An education management platform built for a client, serving students, teachers, coordinators and parents with tailored views and permissions.",
+                            "url": "https://shamiltp.me/myProjectDetails/tutora.html",
+                            "creator": {
+                                "@id": "https://shamiltp.me/#person"
+                            },
+                            "keywords": "Private client project, Full Stack"
+                        }
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 12,
+                        "item": {
+                            "@type": "CreativeWork",
+                            "name": "emvBazar",
+                            "description": "A customer debt tracking system for a client, with ledgers mapped to customer profiles and scheduled WhatsApp reminders for collections.",
+                            "url": "https://shamiltp.me/myProjectDetails/emvbazar.html",
+                            "creator": {
+                                "@id": "https://shamiltp.me/#person"
+                            },
+                            "keywords": "Private client project, Automation, API integration"
+                        }
+                    }
                 ]
             }
         ]
@@ -97,367 +309,160 @@
         <symbol id="i-linkedin" viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/></symbol>
         <symbol id="i-telephone" viewBox="0 0 16 16"><path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/></symbol>
         <symbol id="i-twitter-x" viewBox="0 0 16 16"><path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/></symbol>
+        <symbol id="i-arrow-up-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.5 3.5A.5.5 0 0 1 5 3h7.5a.5.5 0 0 1 .5.5V11a.5.5 0 0 1-1 0V4.707l-8.146 8.147a.5.5 0 0 1-.708-.708L11.293 4H5a.5.5 0 0 1-.5-.5"/></symbol>
+        <symbol id="i-shuffle" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 3.5A.5.5 0 0 1 .5 3H1c2.202 0 3.827 1.24 4.874 2.418.49.552.865 1.102 1.126 1.532.26-.43.636-.98 1.126-1.532C9.173 4.24 10.798 3 13 3v1c-1.798 0-3.173 1.01-4.126 2.082A9.6 9.6 0 0 0 7.556 8a9.6 9.6 0 0 0 1.317 1.918C9.828 10.99 11.204 12 13 12v1c-2.202 0-3.827-1.24-4.874-2.418A10.6 10.6 0 0 1 7 9.05c-.26.43-.636.98-1.126 1.532C4.827 11.76 3.202 13 1 13H.5a.5.5 0 0 1 0-1H1c1.798 0 3.173-1.01 4.126-2.082A9.6 9.6 0 0 0 6.444 8a9.6 9.6 0 0 0-1.317-1.918C4.172 5.01 2.796 4 1 4H.5a.5.5 0 0 1-.5-.5"/><path d="M13 5.466V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192m0 9v-3.932a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192"/></symbol>
     </svg>
 
     <a class="skip-link" href="#main">Skip to content</a>
 
-    <header class="site-header">
-        <div class="container nav-container">
-            <a href="./" class="logo" aria-label="shamiltp.me — home"><span class="logo-text" data-value="shamiltp" aria-hidden="true">shamiltp</span><span class="highlight" aria-hidden="true">.me</span></a>
-            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
-                <span class="visually-hidden">Menu</span>
-                <span class="bar" aria-hidden="true"></span>
-                <span class="bar" aria-hidden="true"></span>
-                <span class="bar" aria-hidden="true"></span>
-            </button>
-            <nav id="primary-nav" class="primary-nav" aria-label="Primary">
-                <ul class="nav-links">
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#experience">Experience</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <main id="main">
-        <section class="hero" aria-labelledby="hero-title">
-            <div class="container hero-grid">
-                <div class="hero-content">
-                    <p class="greeting">Hello, I'm</p>
-                    <h1 id="hero-title" data-text="Shamil TP">Shamil TP</h1>
-                    <p class="hero-role">Full Stack Developer — <span class="mark">Backend</span> focused</p>
-                    <p class="tagline">I build server-side systems where data efficiency meets performance: APIs, crawlers, streaming pipelines and the CI/CD that ships them.</p>
-                    <div class="hero-btns">
-                        <a href="#projects" class="btn btn-primary">View Projects <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
-                        <a href="Shamil_TP_Resume_ATS(1).pdf" class="btn btn-outline" type="application/pdf">Resume (PDF) <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg></a>
-                    </div>
-                    <ul class="social-links" aria-label="Profiles">
-                        <li><a href="https://github.com/shamil-tp" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in a new tab)"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg></a></li>
-                        <li><a href="https://www.linkedin.com/in/shamil-tp" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a></li>
-                        <li><a href="https://x.com/ShamilTp6" target="_blank" rel="noopener noreferrer" aria-label="X (opens in a new tab)"><svg class="icon" aria-hidden="true"><use href="#i-twitter-x"/></svg></a></li>
-                        <li><a href="mailto:shamiltp073@gmail.com" aria-label="Email shamiltp073@gmail.com"><svg class="icon" aria-hidden="true"><use href="#i-envelope-fill"/></svg></a></li>
+    <!--
+        #app is replaced by the active design, rendered from js/content.js.
+        What ships here is the crawlable, no-JavaScript version of the whole
+        portfolio and the last-resort fallback. It is generated from
+        content.js by js/baseline.js: regenerate it with tools/baseline.html
+        after editing content.js (the test suite checks they match).
+    -->
+    <div id="app">
+<!-- BASELINE:START -->
+<div class="baseline">
+            <header class="baseline__header">
+                <a href="./" class="baseline__logo">shamiltp.me</a>
+                <nav aria-label="Primary">
+                    <ul><li><a href="#about">About</a></li><li><a href="#projects">Projects</a></li><li><a href="#skills">Skills</a></li><li><a href="#experience">Experience</a></li><li><a href="#contact">Contact</a></li></ul>
+                </nav>
+            </header>
+            <main id="main">
+                <section aria-labelledby="hero-title">
+                    <h1 id="hero-title">Shamil TP</h1>
+                    <p>Full Stack Developer, backend focused · Kerala, India</p>
+                    <p>I build server-side systems where data efficiency meets performance: APIs, crawlers, streaming pipelines and the CI/CD that ships them.</p>
+                    <p><a href="Shamil_TP_Resume_ATS(1).pdf" type="application/pdf">Resume (PDF)</a></p>
+                </section>
+                <section id="about" aria-labelledby="about-title">
+                    <h2 id="about-title">About</h2>
+                    <p>I am a developer motivated by a sincere interest in the fundamental workings of the internet. Although I can create responsive frontends, my area of expertise is the backend, where data efficiency, server architecture, and logic come together.</p>
+                    <p>I enjoy working with low-level details because memory and performance optimization can have a noticeable impact. I see myself as a hands-on developer who enjoys the process of improving the speed and dependability of systems.</p>
+                </section>
+                <section id="projects" aria-labelledby="projects-title">
+                    <h2 id="projects-title">Projects</h2>
+                    <ul>
+                        <li>
+                            <h3><a href="myProjectDetails/oopspilot.html">OpsPilot</a></h3>
+                            <p>AI Agents · DevOps. An incident response copilot that investigates outages from real evidence, proposes fixes and executes them only after human approval. I built the FastAPI backend, deployment, CI/CD and GitHub webhooks.</p>
+                            <p>Stack: FastAPI, PostgreSQL, Gemini, Docker, GitHub Actions.</p>
+                            <p><a href="myProjectDetails/oopspilot.html">Case study<span class="visually-hidden"> for OpsPilot</span></a> · <a href="https://github.com/shamil-tp/OopsPilot">Source<span class="visually-hidden"> code for OpsPilot</span></a> · <a href="https://opspilot.shamiltp.me">Live<span class="visually-hidden"> demo of OpsPilot</span></a></p>
+                        </li>
+                        <li>
+                            <h3><a href="myProjectDetails/regretmap.html">RegretMap</a></h3>
+                            <p>Maps · Community · AI. A community map of travel lessons with AI summaries and a chat grounded only in real traveller stories. I set up the foundation and built the map, data layer, auth, comments and Gemini key pool.</p>
+                            <p>Stack: Next.js, Supabase, Leaflet, Gemini, zod.</p>
+                            <p><a href="myProjectDetails/regretmap.html">Case study<span class="visually-hidden"> for RegretMap</span></a> · <a href="https://github.com/shamil-tp/RegretMap">Source<span class="visually-hidden"> code for RegretMap</span></a> · <a href="https://regret-map.shamiltp.me/">Live<span class="visually-hidden"> demo of RegretMap</span></a></p>
+                        </li>
+                        <li>
+                            <h3><a href="myProjectDetails/rewind.html">Rewind</a></h3>
+                            <p>Self-hosted · Streaming. A private, self-hosted music server: one Go binary with an embedded Svelte player and one SQLite file, streaming original audio over HTTP Range. Built and released solo.</p>
+                            <p>Stack: Go, SQLite, Svelte, systemd, Tailscale.</p>
+                            <p><a href="myProjectDetails/rewind.html">Case study<span class="visually-hidden"> for Rewind</span></a> · <a href="https://github.com/shamil-tp/rewind">Source<span class="visually-hidden"> code for Rewind</span></a> · <a href="https://github.com/shamil-tp/rewind/releases">Releases<span class="visually-hidden"> of Rewind</span></a></p>
+                        </li>
+                        <li>
+                            <h3><a href="myProjectDetails/lume.html">LUME</a></h3>
+                            <p>Media Streaming. A media streaming platform with resumable tus uploads, FFmpeg pipelines that slice media into HLS chunks, Cloudflare R2 storage and a custom adaptive player.</p>
+                            <p>Stack: tus, FFmpeg, HLS, Cloudflare R2.</p>
+                            <p><a href="myProjectDetails/lume.html">Case study<span class="visually-hidden"> for LUME</span></a> · <a href="https://github.com/shamil-tp/LUME">Source<span class="visually-hidden"> code for LUME</span></a> · <a href="https://lume-one.vercel.app/">Live<span class="visually-hidden"> demo of LUME</span></a></p>
+                        </li>
+                        <li>
+                            <h3><a href="myProjectDetails/njin.html">N-jin</a></h3>
+                            <p>Search · Crawling. A localized search engine powered by a custom web crawler, with MongoDB aggregation-based ranking and a Redis caching layer for fast queries.</p>
+                            <p>Stack: Node.js, MongoDB, Redis, Mongoose.</p>
+                            <p><a href="myProjectDetails/njin.html">Case study<span class="visually-hidden"> for N-jin</span></a> · <a href="https://github.com/shamil-tp/web-crawler">Source<span class="visually-hidden"> code for N-jin</span></a> · <a href="https://magnificent-recreation-production.up.railway.app/">Live<span class="visually-hidden"> demo of N-jin</span></a></p>
+                        </li>
+                        <li>
+                            <h3><a href="myProjectDetails/blogify.html">Blogify</a></h3>
+                            <p>Security · Full Stack. A blogging platform with rich editing, Google OAuth 2 with JWT access/refresh tokens, and a backend hardened along OWASP guidelines with Helmet, rate limiting and Zod.</p>
+                            <p>Stack: React, Express, OAuth 2, Zod, Helmet.</p>
+                            <p><a href="myProjectDetails/blogify.html">Case study<span class="visually-hidden"> for Blogify</span></a> · <a href="https://github.com/shamil-tp/Blogify">Source<span class="visually-hidden"> code for Blogify</span></a> · <a href="https://blogify-7mdx.vercel.app/">Live<span class="visually-hidden"> demo of Blogify</span></a></p>
+                        </li>
+                        <li>
+                            <h3><a href="myProjectDetails/osmium.html">Osmium</a></h3>
+                            <p>Algorithms. A file compression and decompression app built from first principles, implementing LZ77 and Huffman coding from scratch in a Deflate-like design.</p>
+                            <p>Stack: Node.js, Express, EJS, LZ77, Huffman.</p>
+                            <p><a href="myProjectDetails/osmium.html">Case study<span class="visually-hidden"> for Osmium</span></a> · <a href="https://github.com/shamil-tp/osmium">Source<span class="visually-hidden"> code for Osmium</span></a> · <a href="https://osmium-production.up.railway.app">Live<span class="visually-hidden"> demo of Osmium</span></a></p>
+                        </li>
+                        <li>
+                            <h3><a href="myProjectDetails/skylark.html">Skylark</a></h3>
+                            <p>Payments · Full Stack. A rent-a-car platform with date-based bookings, Razorpay payments and an admin portal. As lead developer I built the Vue architecture, admin panel and backend integrations.</p>
+                            <p>Stack: Vue 3, Node.js, Express, MongoDB, Razorpay.</p>
+                            <p><a href="myProjectDetails/skylark.html">Case study<span class="visually-hidden"> for Skylark</span></a> · <a href="https://github.com/sinanrahman/skylark">Source<span class="visually-hidden"> code for Skylark</span></a> · <a href="https://skylark-frontend-eqdt.onrender.com">Live<span class="visually-hidden"> demo of Skylark</span></a></p>
+                        </li>
+                        <li>
+                            <h3><a href="myProjectDetails/coffeecat.html">coffeeCat</a></h3>
+                            <p>Real-time · Social. An Instagram–WhatsApp hybrid with real-time chat over Socket.io, a follow-based social graph, and image posts with likes and comments via Cloudinary.</p>
+                            <p>Stack: Vue, Express, Socket.io, Cloudinary.</p>
+                            <p><a href="myProjectDetails/coffeecat.html">Case study<span class="visually-hidden"> for coffeeCat</span></a> · <a href="https://github.com/shamil-tp/coffeeCat">Source<span class="visually-hidden"> code for coffeeCat</span></a> · <a href="https://coffee-cat-topaz.vercel.app/login">Live<span class="visually-hidden"> demo of coffeeCat</span></a></p>
+                        </li>
+                        <li>
+                            <h3><a href="myProjectDetails/blog-rendering-lib.html">blog-Rendering-Library</a></h3>
+                            <p>Library · Open Source. A zero-dependency vanilla JavaScript library that renders blog posts directly from JSON with raw DOM manipulation. Open source under the MIT license.</p>
+                            <p>Stack: JavaScript, DOM, Zero dependencies.</p>
+                            <p><a href="myProjectDetails/blog-rendering-lib.html">Case study<span class="visually-hidden"> for blog-Rendering-Library</span></a> · <a href="https://github.com/shamil-tp/blog-Rendering-Library">Source<span class="visually-hidden"> code for blog-Rendering-Library</span></a> · <a href="https://shamil-tp.github.io/blog-Rendering-Library/?slug=messis-world-cup-glory-48qNNV&amp;theme=tokyo_night">Live<span class="visually-hidden"> demo of blog-Rendering-Library</span></a></p>
+                        </li>
+                        <li>
+                            <h3><a href="myProjectDetails/tutora.html">Tutora</a></h3>
+                            <p>Client Project · Education. An education management platform built for a client, serving students, teachers, coordinators and parents with tailored views and permissions.</p>
+                            <p>Stack: Private client project, Full Stack.</p>
+                            <p><a href="myProjectDetails/tutora.html">Case study<span class="visually-hidden"> for Tutora</span></a></p>
+                        </li>
+                        <li>
+                            <h3><a href="myProjectDetails/emvbazar.html">emvBazar</a></h3>
+                            <p>Client Project · Automation. A customer debt tracking system for a client, with ledgers mapped to customer profiles and scheduled WhatsApp reminders for collections.</p>
+                            <p>Stack: Private client project, Automation, API integration.</p>
+                            <p><a href="myProjectDetails/emvbazar.html">Case study<span class="visually-hidden"> for emvBazar</span></a></p>
+                        </li>
                     </ul>
-                </div>
-                <figure class="code-block" aria-label="Developer summary as a JavaScript object">
-                    <div class="code-header" aria-hidden="true">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                    </div>
-<pre><code>const developer = {
-  name: "Shamil TP",
-  role: "Backend Specialist",
-  passion: "Performance Optimization",
-  skills: [
-    "Node.js",
-    "System Architecture",
-    "Database Efficiency"
-  ],
-  status: "Ready to build"
-};</code></pre>
-                </figure>
-            </div>
-        </section>
-
-        <section id="about" class="section" aria-labelledby="about-title">
-            <div class="container">
-                <h2 id="about-title" class="section-title">About Me</h2>
-                <div class="about-content">
-                    <div class="profile-container reveal">
-                        <picture>
-                            <source type="image/avif" srcset="assets/img/profile-400.avif 400w, assets/img/profile-700.avif 700w" sizes="(max-width: 768px) 300px, 350px">
-                            <source type="image/webp" srcset="assets/img/profile-400.webp 400w, assets/img/profile-700.webp 700w" sizes="(max-width: 768px) 300px, 350px">
-                            <img src="assets/img/profile-400.jpg" srcset="assets/img/profile-400.jpg 400w, assets/img/profile-700.jpg 700w" sizes="(max-width: 768px) 300px, 350px" width="400" height="400" alt="Portrait of Shamil TP" class="profile-img" loading="lazy" decoding="async">
-                        </picture>
-                    </div>
-                    <div class="about-text reveal">
-                        <p>I am a developer motivated by a sincere interest in the fundamental workings of the internet. Although I can create responsive frontends, my area of expertise is the <strong>backend</strong>, where data efficiency, server architecture, and logic come together.</p>
-                        <p>I enjoy working with low-level details because memory and performance optimization can have a noticeable impact. I see myself as a hands-on developer who enjoys the process of improving the speed and dependability of systems.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="projects" class="section" aria-labelledby="projects-title">
-            <div class="container">
-                <h2 id="projects-title" class="section-title">Projects</h2>
-                <p class="section-intro">Each project has a case study covering how it works, the architecture, the stack, and exactly what I contributed.</p>
-
-                <ul class="project-grid">
-                    <li>
-                        <article class="project-card" aria-labelledby="p-opspilot">
-                            <p class="project-kicker">AI Agents · DevOps</p>
-                            <h3 id="p-opspilot" class="project-name"><a href="myProjectDetails/oopspilot.html">OpsPilot</a></h3>
-                            <p class="project-desc">An incident response copilot that investigates outages from real evidence, proposes fixes and executes them only after human approval. I built the FastAPI backend, deployment, CI/CD and GitHub webhooks.</p>
-                            <ul class="tags" aria-label="Tech stack"><li>FastAPI</li><li>PostgreSQL</li><li>Gemini</li><li>Docker</li><li>GitHub Actions</li></ul>
-                            <p class="project-links">
-                                <a href="myProjectDetails/oopspilot.html" class="case-link">Case study <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
-                                <a href="https://github.com/shamil-tp/OopsPilot" target="_blank" rel="noopener noreferrer">Source<span class="visually-hidden"> code for OpsPilot (opens in a new tab)</span></a>
-                                <a href="https://opspilot.shamiltp.me" target="_blank" rel="noopener noreferrer">Live<span class="visually-hidden"> demo of OpsPilot (opens in a new tab)</span></a>
-                            </p>
-                        </article>
-                    </li>
-                    <li>
-                        <article class="project-card" aria-labelledby="p-regretmap">
-                            <p class="project-kicker">Maps · Community · AI</p>
-                            <h3 id="p-regretmap" class="project-name"><a href="myProjectDetails/regretmap.html">RegretMap</a></h3>
-                            <p class="project-desc">A community map of travel lessons with AI summaries and a chat grounded only in real traveller stories. I set up the foundation and built the map, data layer, auth, comments and Gemini key pool.</p>
-                            <ul class="tags" aria-label="Tech stack"><li>Next.js</li><li>Supabase</li><li>Leaflet</li><li>Gemini</li><li>zod</li></ul>
-                            <p class="project-links">
-                                <a href="myProjectDetails/regretmap.html" class="case-link">Case study <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
-                                <a href="https://github.com/shamil-tp/RegretMap" target="_blank" rel="noopener noreferrer">Source<span class="visually-hidden"> code for RegretMap (opens in a new tab)</span></a>
-                                <a href="https://regret-map.shamiltp.me/" target="_blank" rel="noopener noreferrer">Live<span class="visually-hidden"> demo of RegretMap (opens in a new tab)</span></a>
-                            </p>
-                        </article>
-                    </li>
-                    <li>
-                        <article class="project-card" aria-labelledby="p-rewind">
-                            <p class="project-kicker">Self-hosted · Streaming</p>
-                            <h3 id="p-rewind" class="project-name"><a href="myProjectDetails/rewind.html">Rewind</a></h3>
-                            <p class="project-desc">A private, self-hosted music server: one Go binary with an embedded Svelte player and one SQLite file, streaming original audio over HTTP Range. Built and released solo.</p>
-                            <ul class="tags" aria-label="Tech stack"><li>Go</li><li>SQLite</li><li>Svelte</li><li>systemd</li><li>Tailscale</li></ul>
-                            <p class="project-links">
-                                <a href="myProjectDetails/rewind.html" class="case-link">Case study <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
-                                <a href="https://github.com/shamil-tp/rewind" target="_blank" rel="noopener noreferrer">Source<span class="visually-hidden"> code for Rewind (opens in a new tab)</span></a>
-                                <a href="https://github.com/shamil-tp/rewind/releases" target="_blank" rel="noopener noreferrer">Releases<span class="visually-hidden"> of Rewind (opens in a new tab)</span></a>
-                            </p>
-                        </article>
-                    </li>
-                    <li>
-                        <article class="project-card" aria-labelledby="p-lume">
-                            <p class="project-kicker">Media Streaming</p>
-                            <h3 id="p-lume" class="project-name"><a href="myProjectDetails/lume.html">LUME</a></h3>
-                            <p class="project-desc">A media streaming platform with resumable tus uploads, FFmpeg pipelines that slice media into HLS chunks, Cloudflare R2 storage and a custom adaptive player.</p>
-                            <ul class="tags" aria-label="Tech stack"><li>tus</li><li>FFmpeg</li><li>HLS</li><li>Cloudflare R2</li></ul>
-                            <p class="project-links">
-                                <a href="myProjectDetails/lume.html" class="case-link">Case study <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
-                                <a href="https://github.com/shamil-tp/LUME" target="_blank" rel="noopener noreferrer">Source<span class="visually-hidden"> code for LUME (opens in a new tab)</span></a>
-                                <a href="https://lume-one.vercel.app/" target="_blank" rel="noopener noreferrer">Live<span class="visually-hidden"> demo of LUME (opens in a new tab)</span></a>
-                            </p>
-                        </article>
-                    </li>
-                    <li>
-                        <article class="project-card" aria-labelledby="p-njin">
-                            <p class="project-kicker">Search · Crawling</p>
-                            <h3 id="p-njin" class="project-name"><a href="myProjectDetails/njin.html">N-jin</a></h3>
-                            <p class="project-desc">A localized search engine powered by a custom web crawler, with MongoDB aggregation-based ranking and a Redis caching layer for fast queries.</p>
-                            <ul class="tags" aria-label="Tech stack"><li>Node.js</li><li>MongoDB</li><li>Redis</li><li>Mongoose</li></ul>
-                            <p class="project-links">
-                                <a href="myProjectDetails/njin.html" class="case-link">Case study <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
-                                <a href="https://github.com/shamil-tp/web-crawler" target="_blank" rel="noopener noreferrer">Source<span class="visually-hidden"> code for N-jin (opens in a new tab)</span></a>
-                                <a href="https://magnificent-recreation-production.up.railway.app/" target="_blank" rel="noopener noreferrer">Live<span class="visually-hidden"> demo of N-jin (opens in a new tab)</span></a>
-                            </p>
-                        </article>
-                    </li>
-                    <li>
-                        <article class="project-card" aria-labelledby="p-blogify">
-                            <p class="project-kicker">Security · Full Stack</p>
-                            <h3 id="p-blogify" class="project-name"><a href="myProjectDetails/blogify.html">Blogify</a></h3>
-                            <p class="project-desc">A blogging platform with rich editing, Google OAuth 2 with JWT access/refresh tokens, and a backend hardened along OWASP guidelines with Helmet, rate limiting and Zod.</p>
-                            <ul class="tags" aria-label="Tech stack"><li>React</li><li>Express</li><li>OAuth 2</li><li>Zod</li><li>Helmet</li></ul>
-                            <p class="project-links">
-                                <a href="myProjectDetails/blogify.html" class="case-link">Case study <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
-                                <a href="https://github.com/shamil-tp/Blogify" target="_blank" rel="noopener noreferrer">Source<span class="visually-hidden"> code for Blogify (opens in a new tab)</span></a>
-                                <a href="https://blogify-7mdx.vercel.app/" target="_blank" rel="noopener noreferrer">Live<span class="visually-hidden"> demo of Blogify (opens in a new tab)</span></a>
-                            </p>
-                        </article>
-                    </li>
-                    <li>
-                        <article class="project-card" aria-labelledby="p-osmium">
-                            <p class="project-kicker">Algorithms</p>
-                            <h3 id="p-osmium" class="project-name"><a href="myProjectDetails/osmium.html">Osmium</a></h3>
-                            <p class="project-desc">A file compression and decompression app built from first principles, implementing LZ77 and Huffman coding from scratch in a Deflate-like design.</p>
-                            <ul class="tags" aria-label="Tech stack"><li>Node.js</li><li>Express</li><li>EJS</li><li>LZ77</li><li>Huffman</li></ul>
-                            <p class="project-links">
-                                <a href="myProjectDetails/osmium.html" class="case-link">Case study <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
-                                <a href="https://github.com/shamil-tp/osmium" target="_blank" rel="noopener noreferrer">Source<span class="visually-hidden"> code for Osmium (opens in a new tab)</span></a>
-                                <a href="https://osmium-production.up.railway.app" target="_blank" rel="noopener noreferrer">Live<span class="visually-hidden"> demo of Osmium (opens in a new tab)</span></a>
-                            </p>
-                        </article>
-                    </li>
-                    <li>
-                        <article class="project-card" aria-labelledby="p-skylark">
-                            <p class="project-kicker">Payments · Full Stack</p>
-                            <h3 id="p-skylark" class="project-name"><a href="myProjectDetails/skylark.html">Skylark</a></h3>
-                            <p class="project-desc">A rent-a-car platform with date-based bookings, Razorpay payments and an admin portal. As lead developer I built the Vue architecture, admin panel and backend integrations.</p>
-                            <ul class="tags" aria-label="Tech stack"><li>Vue 3</li><li>Node.js</li><li>Express</li><li>MongoDB</li><li>Razorpay</li></ul>
-                            <p class="project-links">
-                                <a href="myProjectDetails/skylark.html" class="case-link">Case study <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
-                                <a href="https://github.com/sinanrahman/skylark" target="_blank" rel="noopener noreferrer">Source<span class="visually-hidden"> code for Skylark (opens in a new tab)</span></a>
-                                <a href="https://skylark-frontend-eqdt.onrender.com" target="_blank" rel="noopener noreferrer">Live<span class="visually-hidden"> demo of Skylark (opens in a new tab)</span></a>
-                            </p>
-                        </article>
-                    </li>
-                    <li>
-                        <article class="project-card" aria-labelledby="p-coffeecat">
-                            <p class="project-kicker">Real-time · Social</p>
-                            <h3 id="p-coffeecat" class="project-name"><a href="myProjectDetails/coffeecat.html">coffeeCat</a></h3>
-                            <p class="project-desc">An Instagram–WhatsApp hybrid with real-time chat over Socket.io, a follow-based social graph, and image posts with likes and comments via Cloudinary.</p>
-                            <ul class="tags" aria-label="Tech stack"><li>Vue</li><li>Express</li><li>Socket.io</li><li>Cloudinary</li></ul>
-                            <p class="project-links">
-                                <a href="myProjectDetails/coffeecat.html" class="case-link">Case study <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
-                                <a href="https://github.com/shamil-tp/coffeeCat" target="_blank" rel="noopener noreferrer">Source<span class="visually-hidden"> code for coffeeCat (opens in a new tab)</span></a>
-                                <a href="https://coffee-cat-topaz.vercel.app/login" target="_blank" rel="noopener noreferrer">Live<span class="visually-hidden"> demo of coffeeCat (opens in a new tab)</span></a>
-                            </p>
-                        </article>
-                    </li>
-                    <li>
-                        <article class="project-card" aria-labelledby="p-brl">
-                            <p class="project-kicker">Library · Open Source</p>
-                            <h3 id="p-brl" class="project-name"><a href="myProjectDetails/blog-rendering-lib.html">blog-Rendering-Library</a></h3>
-                            <p class="project-desc">A zero-dependency vanilla JavaScript library that renders blog posts directly from JSON with raw DOM manipulation. Open source under the MIT license.</p>
-                            <ul class="tags" aria-label="Tech stack"><li>JavaScript</li><li>DOM</li><li>Zero dependencies</li></ul>
-                            <p class="project-links">
-                                <a href="myProjectDetails/blog-rendering-lib.html" class="case-link">Case study <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
-                                <a href="https://github.com/shamil-tp/blog-Rendering-Library" target="_blank" rel="noopener noreferrer">Source<span class="visually-hidden"> code for blog-Rendering-Library (opens in a new tab)</span></a>
-                                <a href="https://shamil-tp.github.io/blog-Rendering-Library/?slug=messis-world-cup-glory-48qNNV&amp;theme=tokyo_night" target="_blank" rel="noopener noreferrer">Live<span class="visually-hidden"> demo of blog-Rendering-Library (opens in a new tab)</span></a>
-                            </p>
-                        </article>
-                    </li>
-                    <li>
-                        <article class="project-card" aria-labelledby="p-tutora">
-                            <p class="project-kicker">Client Project · Education</p>
-                            <h3 id="p-tutora" class="project-name"><a href="myProjectDetails/tutora.html">Tutora</a></h3>
-                            <p class="project-desc">An education management platform built for a client, serving students, teachers, coordinators and parents with tailored views and permissions.</p>
-                            <ul class="tags" aria-label="Tech stack"><li>Private client project</li><li>Full Stack</li></ul>
-                            <p class="project-links">
-                                <a href="myProjectDetails/tutora.html" class="case-link">Case study <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
-                            </p>
-                        </article>
-                    </li>
-                    <li>
-                        <article class="project-card" aria-labelledby="p-emvbazar">
-                            <p class="project-kicker">Client Project · Automation</p>
-                            <h3 id="p-emvbazar" class="project-name"><a href="myProjectDetails/emvbazar.html">emvBazar</a></h3>
-                            <p class="project-desc">A customer debt tracking system for a client, with ledgers mapped to customer profiles and scheduled WhatsApp reminders for collections.</p>
-                            <ul class="tags" aria-label="Tech stack"><li>Private client project</li><li>Automation</li><li>API integration</li></ul>
-                            <p class="project-links">
-                                <a href="myProjectDetails/emvbazar.html" class="case-link">Case study <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
-                            </p>
-                        </article>
-                    </li>
-                </ul>
-                <p class="section-cta"><a href="myProjectDetails/mycontributions.html" class="btn btn-outline">All case studies <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></p>
-            </div>
-        </section>
-
-        <section id="skills" class="section" aria-labelledby="skills-title">
-            <div class="container">
-                <h2 id="skills-title" class="section-title">Technical Skills</h2>
-                <div class="skills-grid">
-                    <div class="skill-category reveal">
-                        <h3>Backend</h3>
-                        <ul class="skill-tags"><li>Node.js</li><li>Express.js</li><li>RESTful APIs</li><li>Socket.io</li><li>OAuth 2.0 / JWT</li></ul>
-                    </div>
-                    <div class="skill-category reveal">
-                        <h3>Database &amp; Caching</h3>
-                        <ul class="skill-tags"><li>MongoDB</li><li>Redis</li><li>Mongoose Aggregations</li><li>Schema Design</li></ul>
-                    </div>
-                    <div class="skill-category reveal">
-                        <h3>System Architecture</h3>
-                        <ul class="skill-tags"><li>Distributed Systems</li><li>HLS Media Streaming</li><li>FFmpeg Pipelines</li><li>Cloudflare R2 / AWS</li><li>tus (Resumable Uploads)</li></ul>
-                    </div>
-                    <div class="skill-category reveal">
-                        <h3>Recent Stack</h3>
-                        <ul class="skill-tags"><li>Python / FastAPI</li><li>Go</li><li>PostgreSQL / Supabase</li><li>TypeScript</li><li>GitHub Actions</li></ul>
-                    </div>
-                    <div class="skill-category reveal">
-                        <h3>Frontend</h3>
-                        <ul class="skill-tags"><li>JavaScript (ES6+)</li><li>React.js</li><li>Vue.js</li><li>HTML5 / CSS3</li><li>Tailwind CSS</li></ul>
-                    </div>
-                    <div class="skill-category reveal">
-                        <h3>Security &amp; Tools</h3>
-                        <ul class="skill-tags"><li>OWASP Standards</li><li>Helmet / Zod</li><li>Docker</li><li>Git &amp; GitHub</li><li>Postman</li></ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="experience" class="section" aria-labelledby="experience-title">
-            <div class="container">
-                <h2 id="experience-title" class="section-title">Professional Experience</h2>
-                <ol class="timeline">
-                    <li class="timeline-item reveal">
-                        <p class="timeline-date"><time datetime="2023-11">Nov 2023</time> – Present</p>
-                        <div class="timeline-content">
-                            <h3>Freelance Full Stack Developer</h3>
-                            <p class="timeline-org">Independent Clients</p>
-                            <ul>
-                                <li>Architected and delivered <a href="myProjectDetails/tutora.html">Tutora</a>, a specialized educational management platform, automating student and staff workflows to reduce administrative overhead by 35%.</li>
-                                <li>Engineered <a href="myProjectDetails/emvbazar.html">emvBazar</a>, an automated customer debt tracking system integrating WhatsApp APIs, increasing collection efficiency by 40% and ensuring strict data privacy.</li>
-                                <li>Designed comprehensive user management architectures and secure RBAC portals tailored to strict client specifications.</li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="timeline-item reveal">
-                        <p class="timeline-date"><time datetime="2024-12">Dec 2024</time> – <time datetime="2025-03">Mar 2025</time></p>
-                        <div class="timeline-content">
-                            <h3>Full Stack Development Intern</h3>
-                            <p class="timeline-org">Fugipie Technologies</p>
-                            <ul>
-                                <li>Designed scalable RESTful APIs using Node.js and Express.js, implementing Zod schema validation to ensure 100% data input integrity.</li>
-                                <li>Engineered secure authentication systems using JWT and BcryptJS, significantly fortifying application security compliance.</li>
-                                <li>Managed MongoDB databases with Mongoose ODM, reducing complex query response times by 40% through optimized aggregation pipelines.</li>
-                                <li>Implemented strong security protocols including Helmet.js and Rate-Limiting to effectively protect against DDoS vulnerabilities.</li>
-                            </ul>
-                        </div>
-                    </li>
-                </ol>
-            </div>
-        </section>
-
-        <section id="education" class="section" aria-labelledby="education-title">
-            <div class="container">
-                <h2 id="education-title" class="section-title">Education &amp; Certifications</h2>
-                <div class="education-grid">
-                    <div class="edu-card reveal">
-                        <h3>Bachelor of Computer Application (BCA)</h3>
-                        <p class="edu-org">Safi Institute of Advanced Study</p>
-                        <p class="date">Graduation: March 2025</p>
-                        <p class="details">CGPA: 7.76/10</p>
-                    </div>
-                    <div class="edu-card reveal">
-                        <h3>Full Stack Web Development</h3>
-                        <p class="edu-org">DataTribe</p>
-                        <p class="details">Intensive 6-month program covering MERN stack, RESTful API design, and database management.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="section" aria-labelledby="contact-title">
-            <div class="container">
-                <h2 id="contact-title" class="section-title">Get In Touch</h2>
-                <div class="contact-content">
-                    <p>I'm currently looking for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!</p>
-                    <a href="mailto:shamiltp073@gmail.com" class="btn btn-primary big-btn">Say Hello <svg class="icon" aria-hidden="true"><use href="#i-envelope-fill"/></svg></a>
-                    <ul class="contact-details">
-                        <li><svg class="icon" aria-hidden="true"><use href="#i-envelope-fill"/></svg><a href="mailto:shamiltp073@gmail.com">shamiltp073@gmail.com</a></li>
-                        <li><svg class="icon" aria-hidden="true"><use href="#i-telephone"/></svg><a href="tel:+917902786927">+91 79027 86927</a></li>
-                        <li><svg class="icon" aria-hidden="true"><use href="#i-geo-alt"/></svg>Kerala, India</li>
+                    <p><a href="myProjectDetails/mycontributions.html">All case studies</a></p>
+                </section>
+                <section id="skills" aria-labelledby="skills-title">
+                    <h2 id="skills-title">Skills</h2>
+                    <ul><li><strong>Backend:</strong> Node.js, Express.js, RESTful APIs, Socket.io, OAuth 2.0 / JWT</li><li><strong>Database &amp; Caching:</strong> MongoDB, Redis, Mongoose Aggregations, Schema Design</li><li><strong>System Architecture:</strong> Distributed Systems, HLS Media Streaming, FFmpeg Pipelines, Cloudflare R2 / AWS, tus (Resumable Uploads)</li><li><strong>Recent Stack:</strong> Python / FastAPI, Go, PostgreSQL / Supabase, TypeScript, GitHub Actions</li><li><strong>Frontend:</strong> JavaScript (ES6+), React.js, Vue.js, HTML5 / CSS3, Tailwind CSS</li><li><strong>Security &amp; Tools:</strong> OWASP Standards, Helmet / Zod, Docker, Git &amp; GitHub, Postman</li></ul>
+                </section>
+                <section id="experience" aria-labelledby="experience-title">
+                    <h2 id="experience-title">Experience</h2>
+                    <ul>
+                        <li>
+                            <h3>Freelance Full Stack Developer, Independent Clients</h3>
+                            <p><time datetime="2023-11">Nov 2023</time> – Present</p>
+                            <ul><li>Architected and delivered <a href="myProjectDetails/tutora.html">Tutora</a>, a specialized educational management platform, automating student and staff workflows to reduce administrative overhead by 35%.</li><li>Engineered <a href="myProjectDetails/emvbazar.html">emvBazar</a>, an automated customer debt tracking system integrating WhatsApp APIs, increasing collection efficiency by 40% and ensuring strict data privacy.</li><li>Designed comprehensive user management architectures and secure RBAC portals tailored to strict client specifications.</li></ul>
+                        </li>
+                        <li>
+                            <h3>Full Stack Development Intern, Fugipie Technologies</h3>
+                            <p><time datetime="2024-12">Dec 2024</time> – <time datetime="2025-03">Mar 2025</time></p>
+                            <ul><li>Designed scalable RESTful APIs using Node.js and Express.js, implementing Zod schema validation to ensure 100% data input integrity.</li><li>Engineered secure authentication systems using JWT and BcryptJS, significantly fortifying application security compliance.</li><li>Managed MongoDB databases with Mongoose ODM, reducing complex query response times by 40% through optimized aggregation pipelines.</li><li>Implemented strong security protocols including Helmet.js and Rate-Limiting to effectively protect against DDoS vulnerabilities.</li></ul>
+                        </li>
                     </ul>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="site-footer">
-        <div class="container footer-inner">
-            <p>© <span id="year">2026</span> Shamil TP · Designed &amp; built by hand with HTML, CSS and JavaScript.</p>
-            <ul class="footer-links">
-                <li><a href="https://github.com/shamil-tp" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-                <li><a href="https://www.linkedin.com/in/shamil-tp" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                <li><a href="https://x.com/ShamilTp6" target="_blank" rel="noopener noreferrer">X</a></li>
-                <li><a href="myProjectDetails/mycontributions.html">Case studies</a></li>
-                <li><a href="Shamil_TP_Resume_ATS(1).pdf" type="application/pdf">Resume</a></li>
-            </ul>
+                    <h3>Education</h3>
+                    <ul><li><strong>Bachelor of Computer Application (BCA)</strong>, Safi Institute of Advanced Study. Graduation: March 2025 CGPA: 7.76/10</li><li><strong>Full Stack Web Development</strong>, DataTribe. Intensive 6-month program covering MERN stack, RESTful API design, and database management.</li></ul>
+                </section>
+                <section id="contact" aria-labelledby="contact-title">
+                    <h2 id="contact-title">Contact</h2>
+                    <p>I&#39;m currently looking for new opportunities. Whether you have a question or just want to say hi, I&#39;ll try my best to get back to you!</p>
+                    <p><a href="mailto:shamiltp073@gmail.com">shamiltp073@gmail.com</a> · <a href="tel:+917902786927">+91 79027 86927</a> · Kerala, India</p>
+                    <p><a href="https://github.com/shamil-tp">GitHub</a> · <a href="https://www.linkedin.com/in/shamil-tp">LinkedIn</a> · <a href="https://x.com/ShamilTp6">X</a></p>
+                </section>
+            </main>
         </div>
-    </footer>
+<!-- BASELINE:END -->
+    </div>
 
-    <script src="script.js" defer></script>
-    <script src="custom-interact.js" defer></script>
+    <aside class="design-dock" aria-label="Site design">
+        <p class="design-dock__label">
+            <span class="design-dock__kicker">Design</span>
+            <span class="design-dock__name" id="design-name">Default</span>
+            <span class="design-dock__index" id="design-index" aria-hidden="true"></span>
+        </p>
+        <button type="button" class="design-dock__button" id="surprise-me">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-shuffle"></use></svg>
+            <span>Surprise me</span>
+        </button>
+    </aside>
 </body>
 </html>

@@ -1,0 +1,193 @@
+/*
+ * Case study — Garden.
+ * The case study as a herbarium sheet: warm paper, moss headings in Young
+ * Serif, panels as pressed sheets with a thin border, steps as growth rings,
+ * terms set as plain text joined by middots rather than chips.
+ */
+:root {
+    --gd-paper: #f3eee2;
+    --gd-sheet: #fbf8f0;
+    --gd-ink: #1f2a22;
+    --gd-muted: #566255;
+    --gd-line: #d9d1bf;
+    --gd-moss: #2f4a3a;
+    --gd-fern: #5d7f4f;
+    --gd-sage: #8fa98a;
+    --gd-clay: #c47f5e;
+    --gd-sand: #e6dcc4;
+
+    --cs-bg: var(--gd-paper);
+    --cs-surface: var(--gd-sheet);
+    --cs-surface-2: var(--gd-sand);
+    --cs-ink: var(--gd-ink);
+    --cs-muted: var(--gd-muted);
+    --cs-line: var(--gd-line);
+    --cs-rule: var(--gd-moss);
+    --cs-accent: var(--gd-moss);
+    --cs-accent-ink: var(--gd-paper);
+
+    --cs-display: 'Young Serif', Georgia, serif;
+    --cs-text: 'Mulish', 'Segoe UI', system-ui, sans-serif;
+
+    --cs-radius: 4px;
+    --cs-panel-border: 1px solid var(--gd-line);
+    --cs-panel-bg: var(--gd-sheet);
+    --cs-chip-bg: transparent;
+    --cs-chip-ink: var(--gd-fern);
+    --cs-btn-border: 1.5px solid var(--gd-moss);
+    --cs-btn-radius: 999px;
+    --cs-btn-bg: transparent;
+    --cs-code-bg: var(--gd-sand);
+    --cs-code-ink: var(--gd-ink);
+    --cs-banner-bg: var(--gd-moss);
+    --cs-banner-ink: var(--gd-paper);
+
+    --cs-title-weight: 400;
+    --cs-title-track: -0.025em;
+    --cs-h2-weight: 400;
+    --cs-h2-track: -0.015em;
+    --cs-h3-weight: 400;
+    --cs-avatar-radius: 50%;
+    --cs-bar-radius: 999px;
+    --cs-lang: var(--gd-moss);
+    --focus: var(--gd-clay);
+
+    --dock-bg: var(--gd-moss);
+    --dock-fg: var(--gd-paper);
+    --dock-accent: var(--gd-sand);
+    --dock-accent-fg: var(--gd-moss);
+    --dock-radius: 22px;
+    --dock-btn-radius: 18px;
+    --dock-font: var(--cs-text);
+    --dock-shadow: 0 10px 30px rgb(31 42 34 / 0.18);
+}
+
+body { line-height: 1.7; }
+
+::selection { background: var(--gd-sage); color: var(--gd-ink); }
+
+.navbar { border-bottom-color: var(--gd-line); }
+.back-link,
+.nav-links a,
+.logo { color: var(--gd-moss); }
+.logo { font-family: var(--cs-display); font-weight: 400; }
+.logo .highlight { color: var(--gd-clay); }
+
+.project-header,
+.page-header { padding-block: clamp(3rem, 7vw, 6rem) clamp(2rem, 4vw, 3rem); }
+
+.header-icon {
+    border: 0;
+    border-radius: 50% 50% 50% 0;
+    background: var(--gd-sand);
+    color: var(--gd-moss);
+}
+
+.project-title,
+.page-title { color: var(--gd-moss); }
+.project-subtitle,
+.page-subtitle { color: var(--gd-fern); font-weight: 700; }
+.version-badge { background: var(--gd-sand); color: var(--gd-moss); border-radius: 999px; }
+
+.section-heading { color: var(--gd-moss); }
+
+/* A sprig divides the sections. */
+.section-divider {
+    width: 3rem;
+    height: 10px;
+    margin-inline: auto;
+    border: 0;
+    border-radius: 0 100% 0 100%;
+    background: var(--gd-sage);
+}
+
+.prose a,
+.info-table a,
+.feature-list a,
+.mono-link { color: var(--gd-moss); text-decoration-color: var(--gd-sage); }
+
+.feature-list li::before { width: 0.55rem; height: 0.35rem; top: 0.7em; border-radius: 0 100% 0 100%; background: var(--gd-fern); }
+
+.info-table td { border-bottom-color: var(--gd-line); }
+.info-table td:first-child { color: var(--gd-fern); font-weight: 700; font-size: 0.85rem; }
+
+.skill-name,
+.feat-name,
+.sec-title,
+.algo-title,
+.rf-title,
+.pipeline-title,
+.v-title,
+.widget-title,
+.card-title,
+.collab-name { color: var(--gd-moss); font-size: 1.15rem; }
+
+/* Steps as growth rings. */
+.step-num,
+.pipeline-dot {
+    background: var(--gd-paper);
+    color: var(--gd-moss);
+    border: 1.5px solid var(--gd-fern);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px var(--gd-paper), 0 0 0 5px var(--gd-sage);
+    font-family: var(--cs-display);
+}
+
+.pipeline-line,
+.v-connector { background: var(--gd-sage); }
+.v-dot { background: var(--gd-fern); }
+
+/* Terms as text joined by middots. */
+.tag,
+.arch-item,
+.sec-pkg,
+.pipeline-tech,
+.highlight-pill,
+.tl-param,
+.algo-badge,
+.mit-badge { padding: 0; font-weight: 700; font-size: 0.85rem; }
+
+.tag-cloud,
+.arch-items { gap: 0.2rem 0; }
+.tag-cloud .tag + .tag::before,
+.arch-items .arch-item + .arch-item::before { content: '·'; margin: 0 0.55rem; color: var(--gd-clay); }
+
+.link-btn { color: var(--gd-moss); font-weight: 700; }
+.link-btn.primary { background: var(--gd-moss); color: var(--gd-paper); border: 1.5px solid var(--gd-moss); }
+
+@media (hover: hover) and (pointer: fine) {
+    .link-btn:not(.primary):hover { background: var(--gd-moss); color: var(--gd-paper); }
+    .link-btn.primary:hover { background: var(--gd-fern); border-color: var(--gd-fern); }
+}
+
+.role-badge,
+.v-badge.warning { background: var(--gd-sand); color: var(--gd-moss); border-radius: 999px; }
+.v-badge.current { background: var(--gd-moss); color: var(--gd-paper); border-radius: 999px; }
+
+.collab-avatar { background: var(--gd-sand); color: var(--gd-moss); }
+
+.widget-title { border-bottom-color: var(--gd-line); }
+.m-val { color: var(--gd-moss); font-family: var(--cs-display); font-weight: 400; font-size: 2rem; }
+.cm-val { color: var(--gd-fern); font-family: var(--cs-display); font-weight: 400; }
+
+.score-bar-wrap { height: 0.4rem; background: var(--gd-sand); }
+.score-bar { background: var(--gd-fern); }
+
+.zero-big,
+.team-num,
+.stat-big { font-weight: 400; color: var(--gd-sand); }
+
+/* Hub: specimen drawers. */
+.project-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); gap: 1.25rem; }
+.project-card { flex-direction: column; min-height: 10rem; }
+.project-card:nth-child(3n + 2) { transform: translateY(1.5rem); }
+.card-icon { color: var(--gd-fern); }
+.card-title { font-size: 1.5rem; }
+
+@media (hover: hover) and (pointer: fine) {
+    .project-card:hover { border-color: var(--gd-fern); }
+}
+
+@media (max-width: 600px) {
+    .project-card:nth-child(n) { transform: none; }
+}

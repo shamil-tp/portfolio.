@@ -1,0 +1,313 @@
+/*
+ * Case study — Swiss.
+ * The case study as a typeset document: no boxes, only hairline rules;
+ * section labels hang in a margin column; red marks the one thing to read.
+ */
+:root {
+    --sw-paper: #f2f1ed;
+    --sw-ink: #121211;
+    --sw-mid: #57564f;
+    --sw-rule: #cbc9c1;
+    --sw-red: #d0211a;
+
+    --cs-bg: var(--sw-paper);
+    --cs-surface: var(--sw-paper);
+    --cs-surface-2: #e6e5df;
+    --cs-ink: var(--sw-ink);
+    --cs-muted: var(--sw-mid);
+    --cs-line: var(--sw-rule);
+    --cs-rule: var(--sw-ink);
+    --cs-accent: var(--sw-red);
+    --cs-accent-ink: #fff;
+
+    --cs-display: 'Inter Tight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --cs-text: 'Inter Tight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --cs-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+
+    --cs-max: 1440px;
+    --cs-side: minmax(16rem, 20rem);
+    --cs-panel-border: 0;
+    --cs-panel-bg: transparent;
+    --cs-panel-pad: 0.9rem 0 0;
+    --cs-chip-bg: transparent;
+    --cs-chip-ink: var(--sw-mid);
+    --cs-btn-border: 1px solid var(--sw-ink);
+    --cs-code-bg: #e6e5df;
+    --cs-code-ink: var(--sw-ink);
+    --cs-banner-bg: var(--sw-ink);
+    --cs-banner-ink: var(--sw-paper);
+
+    --cs-title-size: clamp(3rem, 1rem + 8vw, 8.5rem);
+    --cs-title-weight: 600;
+    --cs-title-track: -0.045em;
+    --cs-h2-size: 1.0625rem;
+    --cs-h2-weight: 600;
+    --cs-h2-track: -0.005em;
+    --cs-h3-weight: 600;
+    --cs-nav-h: 56px;
+    --cs-dot-radius: 0;
+    --cs-lang: var(--sw-ink);
+
+    --dock-bg: var(--sw-ink);
+    --dock-fg: var(--sw-paper);
+    --dock-accent: var(--sw-red);
+    --dock-accent-fg: #fff;
+    --dock-radius: 0;
+    --dock-btn-radius: 0;
+    --dock-shadow: none;
+    --dock-font: var(--cs-text);
+}
+
+body {
+    font-size: 1rem;
+    line-height: 1.55;
+    font-feature-settings: 'ss01', 'cv11';
+}
+
+/* Header strip: name left, links right, one hairline. */
+.navbar {
+    border-bottom: 1px solid var(--sw-ink);
+    font-size: 0.875rem;
+}
+
+.back-link .bi { color: var(--sw-red); }
+
+.breadcrumb { font-size: 0.8125rem; }
+
+/* Title block: the name of the project carries the page. */
+.project-header,
+.page-header {
+    padding-block: clamp(2rem, 5vw, 4.5rem) clamp(2rem, 4vw, 3.5rem);
+    border-bottom: 1px solid var(--sw-ink);
+}
+
+.header-icon { display: none; }
+
+.header-container {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(1rem, 2vw, 2rem);
+    align-items: end;
+}
+
+.header-container > * { grid-column: 1 / -1; }
+
+.project-title { margin-left: -0.04em; }
+
+.project-title::after {
+    content: '';
+    display: inline-block;
+    width: 0.14em;
+    height: 0.14em;
+    margin-left: 0.05em;
+    background: var(--sw-red);
+}
+
+.project-subtitle,
+.page-subtitle {
+    margin-top: 1.25rem;
+    color: var(--sw-ink);
+    font-size: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+    letter-spacing: -0.01em;
+}
+
+/* Sections: label in the margin, text in the measure. */
+.content-section {
+    display: grid;
+    grid-template-columns: minmax(8rem, 11rem) minmax(0, 1fr);
+    column-gap: clamp(1.25rem, 2.5vw, 2.5rem);
+    padding-top: 1rem;
+    border-top: 1px solid var(--sw-ink);
+}
+
+.content-section > * { grid-column: 2; }
+
+.content-section > .section-heading {
+    grid-column: 1;
+    grid-row: 1 / span 20;
+    align-self: start;
+    position: sticky;
+    top: calc(var(--cs-nav-h) + 1rem);
+}
+
+.content-section > .section-heading + * { margin-top: 0; }
+
+.section-divider {
+    border: 0;
+    margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+}
+
+/* Panels become ruled entries. */
+.skill-card,
+.feat-card,
+.sec-card,
+.algo-box,
+.rf-box,
+.arch-layer,
+.collab-card,
+.callout,
+.callout-box,
+.test-link-box,
+.teaser-box,
+.confidential,
+.mobile-badge {
+    border-top: 1px solid var(--sw-rule);
+}
+
+.skills-grid,
+.security-grid,
+.feature-grid {
+    gap: 1.25rem clamp(1rem, 2vw, 2rem);
+}
+
+.skill-name,
+.feat-name,
+.sec-title { font-size: 0.95rem; }
+
+/* Numbers are the accent. */
+.step-num,
+.pipeline-dot {
+    width: auto;
+    height: auto;
+    place-items: start;
+    background: none;
+    color: var(--sw-red);
+    font-family: var(--cs-text);
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.v-dot { width: 0.5rem; height: 0.5rem; }
+
+/* Chips read as a comma-free list of terms. */
+.tag,
+.arch-item,
+.sec-pkg,
+.pipeline-tech,
+.highlight-pill,
+.tl-param,
+.algo-badge,
+.v-badge,
+.mit-badge {
+    padding: 0;
+    font-family: var(--cs-mono);
+    font-size: 0.75rem;
+}
+
+.tag-cloud,
+.arch-items { gap: 0.25rem 1rem; }
+
+.collab-link,
+.chip-link {
+    padding: 0;
+    min-height: 44px;
+    color: var(--sw-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--sw-rule);
+}
+
+.role-badge,
+.v-badge.current,
+.v-badge.warning,
+.version-badge {
+    padding: 0.1rem 0.4rem;
+    color: #fff;
+}
+
+.info-table td { padding-block: 0.55rem; }
+.info-table td:first-child { color: var(--sw-mid); font-size: 0.8125rem; }
+
+.feature-list li::before {
+    top: 0.7em;
+    width: 0.4rem;
+    height: 1px;
+    background: var(--sw-ink);
+}
+
+/* Sidebar: an index card set in the margin. */
+/* Not sticky: sidebars run taller than the viewport, and a sticky one would hide its own end. */
+.sidebar-column {
+    gap: 2rem;
+}
+
+.sidebar-widget {
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--sw-ink);
+}
+
+.widget-title {
+    padding: 0;
+    border: 0;
+    font-size: 0.875rem;
+}
+
+.m-val { font-size: 2rem; font-weight: 600; letter-spacing: -0.03em; }
+.m-label { color: var(--sw-mid); }
+
+.link-btn {
+    min-height: 40px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.link-btn.primary { border: 0; }
+
+@media (hover: hover) and (pointer: fine) {
+    .link-btn:not(.primary):hover { background: var(--sw-ink); color: var(--sw-paper); }
+    .back-link:hover,
+    .nav-links a:hover,
+    .breadcrumb a:hover { color: var(--sw-red); }
+}
+
+.owasp-banner,
+.hobby-banner,
+.client-banner,
+.zero-dep-hero,
+.team-highlight,
+.stat-highlight,
+.mastery-banner {
+    padding: 1.5rem;
+}
+
+.zero-big,
+.team-num,
+.stat-big { color: var(--sw-red); font-weight: 600; letter-spacing: -0.04em; }
+
+/* Hub: a typographic index, one row per project. */
+.project-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--sw-ink);
+}
+
+.project-card {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: baseline;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--sw-rule);
+}
+
+.card-icon { display: none; }
+.card-content { display: contents; }
+.card-title { font-size: clamp(1.5rem, 1rem + 2vw, 2.75rem); font-weight: 600; letter-spacing: -0.035em; }
+.card-desc { margin: 0; color: var(--sw-mid); font-size: 1rem; }
+
+@media (hover: hover) and (pointer: fine) {
+    .project-card .card-title { transition: transform var(--dur-base) var(--ease-out), color var(--dur-fast) ease; }
+    .project-card:hover .card-title { transform: translate3d(0.35rem, 0, 0); color: var(--sw-red); }
+}
+
+@media (max-width: 1100px) {
+    .content-section { grid-template-columns: minmax(0, 1fr); }
+    .content-section > *,
+    .content-section > .section-heading { grid-column: 1; grid-row: auto; position: static; }
+    .content-section > .section-heading + * { margin-top: var(--cs-flow); }
+}
+
+@media (max-width: 600px) {
+    .project-card { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+}

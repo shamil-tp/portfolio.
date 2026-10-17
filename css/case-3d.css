@@ -1,0 +1,275 @@
+/*
+ * Case study — Depth.
+ * Dusk, matching the homepage maquette: one warm light above the title. The page reads as
+ * layers: a receding floor behind the header, slabs that come forward out of
+ * depth as they scroll into view (scroll-driven, where supported), and
+ * panels that lift toward the reader under the pointer.
+ */
+:root {
+    --dp-bg: #0e141a;
+    --dp-surface: #18222c;
+    --dp-surface-2: #1f2b36;
+    --dp-text: #ede6da;
+    --dp-muted: #aaa398;
+    --dp-line: rgb(237 230 218 / 0.16);
+    --dp-lime: #f0a35e;
+    --dp-violet: #9fb7cc;
+
+    --cs-bg: var(--dp-bg);
+    --cs-surface: var(--dp-surface);
+    --cs-surface-2: var(--dp-surface-2);
+    --cs-ink: var(--dp-text);
+    --cs-muted: var(--dp-muted);
+    --cs-line: var(--dp-line);
+    --cs-rule: rgb(237 230 218 / 0.35);
+    --cs-accent: var(--dp-lime);
+    --cs-accent-ink: #1a1007;
+
+    --cs-display: 'Sora', 'Segoe UI', system-ui, sans-serif;
+    --cs-text: 'Hanken Grotesk', 'Segoe UI', system-ui, sans-serif;
+
+    --cs-radius: 14px;
+    --cs-panel-border: 1px solid var(--dp-line);
+    --cs-panel-bg: linear-gradient(180deg, var(--dp-surface-2), var(--dp-surface));
+    --cs-panel-shadow: 0 1px 0 rgb(255 255 255 / 0.05) inset, 0 24px 40px -28px rgb(0 0 0 / 0.9);
+    --cs-chip-bg: rgb(159 183 204 / 0.14);
+    --cs-chip-ink: #d9e3ec;
+    --cs-chip-radius: 6px;
+    --cs-btn-border: 1px solid var(--dp-line);
+    --cs-btn-radius: 999px;
+    --cs-btn-bg: var(--dp-surface);
+    --cs-code-bg: #04050c;
+    --cs-code-ink: #d9def2;
+    --cs-banner-bg: var(--dp-surface-2);
+    --cs-banner-ink: var(--dp-text);
+
+    --cs-title-size: clamp(2.75rem, 1rem + 7vw, 7rem);
+    --cs-title-track: -0.045em;
+    --cs-h2-size: clamp(1.6rem, 1.1rem + 1.8vw, 2.6rem);
+    --cs-h2-track: -0.03em;
+    --cs-nav-bg: rgb(14 20 26 / 0.82);
+    --cs-nav-h: 64px;
+    --cs-bar-radius: 999px;
+    --cs-avatar-radius: 50%;
+    --cs-lang: var(--dp-violet);
+
+    --dock-bg: rgb(24 34 44 / 0.92);
+    --dock-fg: var(--dp-text);
+    --dock-accent: var(--dp-lime);
+    --dock-accent-fg: #1a1007;
+    --dock-border: 1px solid var(--dp-line);
+    --dock-font: var(--cs-display);
+    --dock-shadow: 0 12px 40px rgb(0 0 0 / 0.5);
+}
+
+html { color-scheme: dark; scrollbar-color: var(--dp-violet) var(--dp-bg); }
+
+body { font-size: 1.0625rem; }
+
+/* Depth transforms poke past the edge mid-animation; clip them at the layout, not the viewport. */
+.content-grid,
+.container > .main-content,
+.project-grid {
+    overflow-x: clip;
+}
+
+.navbar {
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
+}
+
+.back-link,
+.nav-links a,
+.logo { font-family: var(--cs-display); font-weight: 500; }
+
+.back-link .bi { color: var(--dp-lime); }
+
+/* Header: the title stands above a receding floor, lit from above. */
+.project-header,
+.page-header {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    perspective: 900px;
+    padding-block: clamp(3.5rem, 9vw, 7.5rem) clamp(2.5rem, 6vw, 5rem);
+}
+
+.project-header::before,
+.page-header::before {
+    content: '';
+    position: absolute;
+    left: -50%;
+    right: -50%;
+    bottom: -40%;
+    height: 110%;
+    z-index: -1;
+    transform: rotateX(76deg);
+    transform-origin: 50% 100%;
+    background:
+        linear-gradient(var(--dp-line) 1px, transparent 1px) 0 0 / 56px 56px,
+        linear-gradient(90deg, var(--dp-line) 1px, transparent 1px) 0 0 / 56px 56px;
+    -webkit-mask-image: linear-gradient(to top, #000 15%, transparent 80%);
+    mask-image: linear-gradient(to top, #000 15%, transparent 80%);
+}
+
+.project-header::after,
+.page-header::after {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: 50%;
+    z-index: -1;
+    width: min(70vw, 900px);
+    aspect-ratio: 2 / 1;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse at 50% 100%, rgb(159 183 204 / 0.18), transparent 65%);
+}
+
+.header-icon {
+    background: rgb(240 163 94 / 0.1);
+    color: var(--dp-lime);
+    border-color: rgb(240 163 94 / 0.35);
+    border-radius: 16px;
+    transform: perspective(600px) rotateY(-18deg);
+    box-shadow: -14px 18px 30px -12px rgb(0 0 0 / 0.8);
+}
+
+.project-title,
+.page-title { text-shadow: 0 24px 60px rgb(0 0 0 / 0.8); }
+
+.project-subtitle,
+.page-subtitle { color: var(--dp-lime); font-family: var(--cs-display); font-weight: 500; }
+
+.version-badge { background: var(--dp-violet); color: #fff; }
+
+.section-divider { border-top-color: transparent; }
+
+.section-heading { color: var(--dp-text); }
+
+.info-table td { border-bottom-color: var(--dp-line); }
+.info-table td:first-child { color: var(--dp-muted); }
+.info-table a,
+.prose a,
+.feature-list a { text-decoration-color: rgb(240 163 94 / 0.5); }
+
+.code-block {
+    border: 1px solid var(--dp-line);
+    box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.9), 0 0 0 1px rgb(0 0 0 / 0.4);
+}
+
+/* Slabs come forward out of depth as they enter (scroll-driven, Chromium). */
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .content-section,
+        .sidebar-widget,
+        .project-card {
+            animation: dp-forward linear both;
+            animation-timeline: view();
+            animation-range: entry 0% cover 22%;
+        }
+    }
+}
+
+@keyframes dp-forward {
+    from {
+        opacity: 0.2;
+        transform: perspective(1000px) rotateX(10deg) translate3d(0, 40px, -90px);
+    }
+}
+
+/* Panels lift toward the reader under a fine pointer. */
+.skill-card,
+.feat-card,
+.sec-card,
+.algo-box,
+.rf-box,
+.project-card {
+    transition: transform 500ms var(--ease-out), border-color var(--dur-fast) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .skill-card:hover,
+    .feat-card:hover,
+    .sec-card:hover,
+    .algo-box:hover,
+    .rf-box:hover,
+    .project-card:hover {
+        transform: perspective(900px) translate3d(0, -4px, 24px);
+        border-color: rgb(240 163 94 / 0.4);
+    }
+}
+
+.step-num,
+.pipeline-dot {
+    background: rgb(240 163 94 / 0.12);
+    color: var(--dp-lime);
+    border: 1px solid rgb(240 163 94 / 0.4);
+    border-radius: 50%;
+    font-family: var(--cs-display);
+}
+
+.v-dot {
+    background: var(--dp-lime);
+    box-shadow: 0 0 0 5px rgb(240 163 94 / 0.15);
+}
+
+.feature-list li::before {
+    background: var(--dp-violet);
+    box-shadow: 0 0 0 4px rgb(159 183 204 / 0.18);
+}
+
+.arch-diagram { perspective: 1200px; }
+.arch-layer { transform: rotateX(6deg); transform-origin: 50% 0; }
+.arch-layer-title { color: var(--dp-lime); }
+.arch-arrow { color: var(--dp-violet); }
+
+.role-badge,
+.v-badge.warning { background: var(--dp-violet); color: #fff; }
+.v-badge.current { background: var(--dp-lime); color: #1a1007; }
+
+.collab-avatar { background: var(--dp-violet); color: #fff; }
+
+.link-btn { font-family: var(--cs-display); font-weight: 500; }
+.link-btn.primary { color: #1a1007; }
+
+@media (hover: hover) and (pointer: fine) {
+    .link-btn:not(.primary):hover { border-color: var(--dp-violet); background: var(--dp-surface-2); }
+}
+
+.widget-title { border-bottom-color: var(--dp-line); font-family: var(--cs-display); }
+.m-val { color: var(--dp-text); font-size: 2rem; }
+.cm-val { color: var(--dp-lime); }
+
+.score-bar { background: linear-gradient(90deg, var(--dp-violet), var(--dp-lime)); }
+
+.owasp-banner,
+.hobby-banner,
+.client-banner,
+.zero-dep-hero,
+.team-highlight,
+.stat-highlight,
+.mastery-banner {
+    border: 1px solid rgb(240 163 94 / 0.25);
+    box-shadow: 0 30px 60px -36px rgb(240 163 94 / 0.25);
+}
+
+.zero-big,
+.team-num,
+.stat-big,
+.owasp-icon,
+.hobby-icon,
+.client-icon { color: var(--dp-lime); }
+
+/* Hub: slabs on a shallow stage. */
+.project-grid { perspective: 1400px; }
+.card-icon { color: var(--dp-lime); }
+.card-title { font-family: var(--cs-display); font-weight: 700; letter-spacing: -0.02em; }
+
+@media (max-width: 600px) {
+    .arch-layer { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .arch-layer,
+    .header-icon { transform: none; }
+}

@@ -1,0 +1,221 @@
+/*
+ * Case study — Studio.
+ * Paper and ink with the four studio colours. The title sits in a tomato
+ * block with a scalloped edge; repeated panels take the colours in turn;
+ * soft 22px corners, no shadows; Cormorant italic for asides.
+ */
+:root {
+    --st-paper: #f7f2e8;
+    --st-ink: #191919;
+    --st-soft: #4a463f;
+    --st-tomato: #ff5a36;
+    --st-cobalt: #2b48ff;
+    --st-lilac: #cdbdff;
+    --st-mint: #b9efcf;
+
+    --cs-bg: var(--st-paper);
+    --cs-surface: #fffaf1;
+    --cs-surface-2: #efe8da;
+    --cs-ink: var(--st-ink);
+    --cs-muted: var(--st-soft);
+    --cs-line: rgb(25 25 25 / 0.16);
+    --cs-rule: var(--st-ink);
+    --cs-accent: var(--st-cobalt);
+    --cs-accent-ink: #fff;
+
+    --cs-display: 'Bricolage Grotesque', 'Arial Narrow', system-ui, sans-serif;
+    --cs-text: 'Bricolage Grotesque', system-ui, sans-serif;
+
+    --cs-radius: 22px;
+    --cs-panel-border: 0;
+    --cs-panel-bg: #fffaf1;
+    --cs-panel-pad: 1.4rem;
+    --cs-chip-bg: transparent;
+    --cs-chip-border: 1.5px solid var(--st-ink);
+    --cs-chip-radius: 12px;
+    --cs-btn-border: 2px solid var(--st-ink);
+    --cs-btn-radius: 14px;
+    --cs-btn-bg: transparent;
+    --cs-code-bg: var(--st-ink);
+    --cs-code-ink: var(--st-paper);
+    --cs-banner-bg: var(--st-cobalt);
+    --cs-banner-ink: #fff;
+
+    --cs-title-size: clamp(3.5rem, 1rem + 10vw, 10rem);
+    --cs-title-weight: 800;
+    --cs-title-track: -0.045em;
+    --cs-h2-size: clamp(2.2rem, 1.3rem + 3vw, 4rem);
+    --cs-h2-weight: 800;
+    --cs-h2-track: -0.035em;
+    --cs-h3-weight: 750;
+    --cs-header-bg: var(--st-tomato);
+    --cs-avatar-radius: 50%;
+    --cs-bar-radius: 999px;
+    --cs-lang: var(--st-ink);
+    --focus: var(--st-cobalt);
+    --focus-width: 3px;
+
+    --dock-bg: var(--st-ink);
+    --dock-fg: var(--st-paper);
+    --dock-accent: var(--st-tomato);
+    --dock-accent-fg: var(--st-ink);
+    --dock-radius: 18px;
+    --dock-btn-radius: 14px;
+    --dock-font: var(--cs-display);
+    --dock-shadow: none;
+}
+
+body { font-optical-sizing: auto; }
+
+::selection { background: var(--st-tomato); color: var(--st-ink); }
+
+.navbar { border: 0; }
+.back-link,
+.nav-links a,
+.logo { font-weight: 700; }
+
+.back-link,
+.logo {
+    padding: 0 1rem;
+    border-radius: 14px;
+    background: var(--st-ink);
+    color: var(--st-paper);
+    transform: rotate(-2deg);
+}
+
+.logo .highlight { color: var(--st-tomato); }
+
+.breadcrumb { font-family: 'Cormorant', Georgia, serif; font-style: italic; font-size: 1.05rem; }
+
+/* Title block in tomato, scalloped at the bottom. */
+.project-header,
+.page-header {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 24px;
+}
+
+.project-header::after,
+.page-header::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -23px;
+    height: 24px;
+    background: var(--st-tomato);
+    -webkit-mask: radial-gradient(circle 24px at 50% 0, #000 98%, transparent) 0 0 / 48px 24px repeat-x;
+    mask: radial-gradient(circle 24px at 50% 0, #000 98%, transparent) 0 0 / 48px 24px repeat-x;
+}
+
+.header-icon { background: var(--st-paper); border: 0; border-radius: 50%; transform: rotate(-8deg); }
+
+.project-title,
+.page-title { font-stretch: 75%; line-height: 0.82; }
+
+.project-subtitle,
+.page-subtitle {
+    color: var(--st-ink);
+    font-family: 'Cormorant', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(1.3rem, 1rem + 1vw, 1.9rem);
+}
+
+.version-badge { background: var(--st-ink); color: var(--st-paper); border-radius: 10px; }
+
+.section-heading { font-stretch: 75%; line-height: 0.9; }
+.section-divider { border: 0; height: 2px; background: var(--st-ink); border-radius: 2px; }
+
+.feature-list li::before { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--st-tomato); }
+
+.info-table td { border-bottom: 1.5px solid var(--st-ink); }
+.info-table td:first-child { font-family: 'Cormorant', Georgia, serif; font-style: italic; font-size: 1.05rem; color: var(--st-soft); }
+
+.code-block { border-radius: 20px; }
+
+/* Repeated panels take the studio colours in turn. */
+.skill-card:nth-child(4n + 1),
+.feat-card:nth-child(4n + 1),
+.sec-card:nth-child(4n + 1),
+.sidebar-widget:nth-child(4n + 1) { background: var(--st-lilac); }
+.skill-card:nth-child(4n + 2),
+.feat-card:nth-child(4n + 2),
+.sec-card:nth-child(4n + 2),
+.sidebar-widget:nth-child(4n + 2) { background: var(--st-mint); }
+.skill-card:nth-child(4n + 3),
+.feat-card:nth-child(4n + 3),
+.sec-card:nth-child(4n + 3),
+.sidebar-widget:nth-child(4n + 3) { background: #fff3c2; }
+.skill-card:nth-child(4n + 4),
+.feat-card:nth-child(4n + 4),
+.sec-card:nth-child(4n + 4),
+.sidebar-widget:nth-child(4n + 4) { background: #ffd4c8; }
+
+.skill-card,
+.feat-card,
+.sec-card,
+.project-card { transition: transform 500ms cubic-bezier(0.34, 1.4, 0.64, 1); }
+
+@media (hover: hover) and (pointer: fine) {
+    .skill-card:hover,
+    .feat-card:hover,
+    .sec-card:hover,
+    .project-card:hover { transform: rotate(-1.2deg) translate3d(0, -3px, 0); }
+}
+
+.skill-desc,
+.feat-desc,
+.sec-desc,
+.m-label,
+.cm-note { color: var(--st-ink); }
+
+.step-num,
+.pipeline-dot { background: var(--st-cobalt); color: #fff; border-radius: 50%; }
+.v-dot { background: var(--st-tomato); }
+
+.feat-icon,
+.rf-icon,
+.card-icon { color: var(--st-ink); }
+
+.link-btn { font-weight: 700; transition: transform var(--dur-press) var(--ease-out), background-color var(--dur-fast) ease, color var(--dur-fast) ease; }
+.link-btn:active { transform: scale(0.95); }
+.link-btn.primary { background: var(--st-ink); color: var(--st-paper); }
+
+@media (hover: hover) and (pointer: fine) {
+    .link-btn:not(.primary):hover { background: var(--st-ink); color: var(--st-paper); }
+    .link-btn.primary:hover { background: var(--st-tomato); color: var(--st-ink); }
+}
+
+.role-badge,
+.v-badge.warning { background: var(--st-ink); color: var(--st-paper); border: 0; }
+.v-badge.current { background: var(--st-cobalt); color: #fff; border: 0; }
+
+.widget-title { border-bottom: 2px solid var(--st-ink); font-stretch: 80%; font-size: 1.2rem; font-weight: 800; }
+.m-val { font-stretch: 75%; font-size: 2.25rem; font-weight: 800; }
+
+.owasp-banner,
+.hobby-banner,
+.client-banner,
+.zero-dep-hero,
+.team-highlight,
+.stat-highlight,
+.mastery-banner { border-radius: 22px; }
+
+/* Hub: colour cards, alternating sizes. */
+.page-title { font-size: clamp(3rem, 1rem + 8vw, 8rem); }
+.project-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1rem; }
+.project-card { grid-column: span 2; flex-direction: column; min-height: 11rem; }
+.project-card:nth-child(4n + 1) { grid-column: span 4; background: var(--st-tomato); }
+.project-card:nth-child(4n + 2) { background: var(--st-lilac); }
+.project-card:nth-child(4n + 3) { background: var(--st-mint); }
+.project-card:nth-child(4n + 4) { grid-column: span 4; background: var(--st-cobalt); color: #fff; }
+.project-card:nth-child(4n + 4) .card-icon,
+.project-card:nth-child(4n + 4) .card-desc { color: #fff; }
+.card-title { font-stretch: 75%; font-weight: 800; font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.8rem); line-height: 0.9; letter-spacing: -0.03em; overflow-wrap: anywhere; }
+.card-desc { color: var(--st-ink); font-family: 'Cormorant', Georgia, serif; font-style: italic; font-size: 1.15rem; }
+
+@media (max-width: 860px) {
+    .project-grid { grid-template-columns: minmax(0, 1fr); }
+    .project-card,
+    .project-card:nth-child(n) { grid-column: 1 / -1; }
+}
