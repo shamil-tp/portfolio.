@@ -123,11 +123,7 @@ export function render(c, h, variation) {
         <section id="contact" class="st-section st-block st-contact" data-tone="cobalt" aria-labelledby="contact-title">
             <h2 id="contact-title">Say hello</h2>
             <p class="st-contact__lead">${h.esc(contact.message)}</p>
-            <a class="st-contact__email" href="${h.esc(h.mailto(contact.email))}">${h.esc(contact.email)}</a>
-            <ul class="st-contact__list">
-                <li><a class="st-chip" href="${h.esc(contact.phone.href)}">${h.esc(contact.phone.label)}</a></li>
-                ${c.socials.map((s) => `<li>${h.link({ href: s.href, inner: `${h.esc(s.label)} ${h.icon('arrow-up-right')}`, external: true, cls: 'st-chip' })}</li>`).join('')}
-            </ul>
+            ${h.contactCard(c, { design: 'studio' })}
         </section>
     </main>
 

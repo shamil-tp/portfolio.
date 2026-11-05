@@ -175,14 +175,7 @@ export function render(c, h) {
         app('contact'),
         h,
         `<div class="os-mail">
-            <p class="os-mail__row"><span>To:</span> <a class="os-field os-field--link" href="${h.esc(h.mailto(contact.email))}">${h.esc(contact.email)}</a></p>
-            <p class="os-mail__row"><span>Phone:</span> <a class="os-field os-field--link" href="${h.esc(contact.phone.href)}">${h.esc(contact.phone.label)}</a></p>
-            <p class="os-mail__row"><span>Where:</span> <span class="os-field">${h.esc(contact.location)}</span></p>
-            <p class="os-mail__body os-inset">${h.esc(contact.message)}</p>
-            <p class="os-mail__actions">
-                <a class="os-btn os-btn--default" href="${h.esc(h.mailto(contact.email))}">Write an email</a>
-                ${c.socials.map((s) => h.link({ href: s.href, text: s.label, external: true, cls: 'os-btn' })).join('')}
-            </p>
+            ${h.contactCard(c, { design: 'os' })}
         </div>`
     );
 

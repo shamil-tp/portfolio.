@@ -222,11 +222,7 @@ export function render(c, h, variation) {
         <section id="contact" class="gn-section gn-contact" aria-labelledby="contact-title">
             <h2 id="contact-title">Contact</h2>
             <p class="gn-contact__lead">${h.esc(contact.message)}</p>
-            <a class="gn-contact__email" href="${h.esc(h.mailto(contact.email))}">${h.esc(contact.email)}</a>
-            <ul class="gn-contact__list">
-                <li><a class="gn-link" href="${h.esc(contact.phone.href)}">${h.icon('telephone')} ${h.esc(contact.phone.label)}</a></li>
-                ${c.socials.map((s) => `<li>${h.link({ href: s.href, inner: `${h.icon(s.id)} ${h.esc(s.label)}`, external: true, cls: 'gn-link' })}</li>`).join('')}
-            </ul>
+            ${h.contactCard(c, { design: 'generative' })}
         </section>
     </main>
 

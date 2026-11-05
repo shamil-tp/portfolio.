@@ -86,6 +86,7 @@ function mount(design, mod, link, variation = null) {
     try {
         const teardown = mod.init?.(app, ctx);
         ctx.onCleanup(teardown);
+        helpers.initContactCard(app, ctx);
     } catch (err) {
         ctx.dispose();
         throw err;

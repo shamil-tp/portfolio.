@@ -224,12 +224,7 @@ export function render(c, h) {
         <section id="contact" class="dp-section dp-contact" aria-labelledby="contact-title">
             <h2 id="contact-title">Get in touch</h2>
             <p class="dp-contact__lead">${h.esc(contact.message)}</p>
-            <a class="dp-contact__email" href="${h.esc(h.mailto(contact.email))}">${h.esc(contact.email)}</a>
-            <ul class="dp-contact__list">
-                <li><a class="dp-link" href="${h.esc(contact.phone.href)}">${h.icon('telephone')} ${h.esc(contact.phone.label)}</a></li>
-                <li class="dp-contact__loc">${h.icon('geo-alt')} ${h.esc(contact.location)}</li>
-                ${c.socials.map((s) => `<li>${h.link({ href: s.href, inner: `${h.icon(s.id)} ${h.esc(s.label)}`, external: true, cls: 'dp-link' })}</li>`).join('')}
-            </ul>
+            ${h.contactCard(c, { design: 'depth' })}
         </section>
     </main>
 

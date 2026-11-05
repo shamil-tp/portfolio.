@@ -227,11 +227,7 @@ export function render(c, h, variation) {
         <section id="contact" class="gd-section gd-contact" aria-labelledby="contact-title">
             <h2 id="contact-title">Get in touch</h2>
             <p class="gd-contact__lead">${h.esc(contact.message)}</p>
-            <a class="gd-contact__email" href="${h.esc(h.mailto(contact.email))}">${h.esc(contact.email)}</a>
-            <ul class="gd-contact__list">
-                <li><a class="gd-link" href="${h.esc(contact.phone.href)}">${h.icon('telephone')} ${h.esc(contact.phone.label)}</a></li>
-                ${c.socials.map((s) => `<li>${h.link({ href: s.href, inner: `${h.icon(s.id)} ${h.esc(s.label)}`, external: true, cls: 'gd-link' })}</li>`).join('')}
-            </ul>
+            ${h.contactCard(c, { design: 'garden' })}
         </section>
     </main>
 

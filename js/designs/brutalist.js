@@ -130,11 +130,7 @@ export function render(c, h) {
         <section id="contact" class="br-section br-contact" aria-labelledby="contact-title">
             <h2 id="contact-title" class="br-title">Say hello</h2>
             <p class="br-contact__lead">${h.esc(contact.message)}</p>
-            <a class="br-contact__email" href="${h.esc(h.mailto(contact.email))}">${h.esc(contact.email)}</a>
-            <ul class="br-contact__list">
-                <li><a class="br-btn" href="${h.esc(contact.phone.href)}">${h.icon('telephone')} ${h.esc(contact.phone.label)}</a></li>
-                ${c.socials.map((s) => `<li>${h.link({ href: s.href, inner: `${h.icon(s.id)} ${h.esc(s.label)}`, external: true, cls: 'br-btn' })}</li>`).join('')}
-            </ul>
+            ${h.contactCard(c, { design: 'brutalist' })}
         </section>
     </main>
 

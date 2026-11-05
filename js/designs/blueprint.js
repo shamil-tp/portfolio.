@@ -208,11 +208,7 @@ export function render(c, h) {
                     <h2 id="contact-title">Issued for contact</h2>
                 </header>
                 <p class="bp-contact__lead">${h.esc(contact.message)}</p>
-                <dl class="bp-contact__list">
-                    <div><dt>Email</dt><dd><a class="bp-link" href="${h.esc(h.mailto(contact.email))}">${h.esc(contact.email)}</a></dd></div>
-                    <div><dt>Phone</dt><dd><a class="bp-link" href="${h.esc(contact.phone.href)}">${h.esc(contact.phone.label)}</a></dd></div>
-                    ${c.socials.map((s) => `<div><dt>${h.esc(s.label)}</dt><dd>${h.link({ href: s.href, text: s.href.replace(/^https?:\/\/(www\.)?/, ''), external: true, cls: 'bp-link' })}</dd></div>`).join('')}
-                </dl>
+                ${h.contactCard(c, { design: 'blueprint' })}
             </section>
         </main>
 

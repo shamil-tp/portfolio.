@@ -282,3 +282,328 @@ html:not(.js) .design-dock {
         animation: none;
     }
 }
+
+/* ---------- 3D Flippable Contact Card ---------- */
+
+.card-3d-section {
+    width: 100%;
+    max-width: 620px;
+    margin: 2rem auto 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.card-3d-scene {
+    width: 100%;
+    perspective: 1400px;
+    -webkit-perspective: 1400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 0 1rem;
+}
+
+.card-3d {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    aspect-ratio: 700 / 420;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    transition: transform 0.65s cubic-bezier(0.34, 1.35, 0.64, 1);
+    cursor: pointer;
+    border-radius: 20px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    outline: none;
+}
+
+.card-3d:focus-visible {
+    outline: var(--focus-width, 3px) solid var(--focus, #18141e);
+    outline-offset: 8px;
+}
+
+.card-3d__face {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    background: #18181f;
+    box-shadow:
+        0 18px 45px -12px rgba(0, 0, 0, 0.38),
+        0 4px 16px -4px rgba(0, 0, 0, 0.22),
+        0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+    transition: box-shadow 0.3s ease;
+}
+
+.card-3d:hover .card-3d__face {
+    box-shadow:
+        0 24px 55px -12px rgba(0, 0, 0, 0.45),
+        0 6px 20px -4px rgba(0, 0, 0, 0.28),
+        0 0 0 1px rgba(255, 255, 255, 0.14) inset;
+}
+
+.card-3d__face--front {
+    transform: rotateY(0deg);
+}
+
+.card-3d__face--back {
+    transform: rotateY(180deg);
+}
+
+.card-3d__img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.card-3d__glare {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255, 255, 255, 0.22) 0%, transparent 65%);
+    pointer-events: none;
+    opacity: 0;
+    mix-blend-mode: overlay;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+
+.card-3d:hover .card-3d__glare {
+    opacity: 1;
+}
+
+/* Controls Toolbar */
+.card-3d-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.card-3d-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 40px;
+    padding: 0.45rem 0.95rem;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #141414;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card-3d-btn:hover {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+}
+
+.card-3d-btn:active {
+    transform: scale(0.97);
+}
+
+.card-3d-kbd {
+    display: inline-block;
+    padding: 0.1em 0.45em;
+    font-size: 0.75rem;
+    font-family: inherit;
+    font-weight: 500;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+    color: inherit;
+}
+
+.card-3d-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.84rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.06);
+    color: currentColor;
+    letter-spacing: 0.01em;
+}
+
+.card-3d-indicator__sep {
+    opacity: 0.4;
+}
+
+.card-3d-indicator__side {
+    text-transform: uppercase;
+    font-size: 0.76rem;
+    letter-spacing: 0.06em;
+    opacity: 0.75;
+}
+
+/* Hint */
+.card-3d-hint {
+    margin-top: 0.6rem;
+    font-size: 0.82rem;
+    opacity: 0.65;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.card-3d-hint kbd {
+    font-size: 0.78rem;
+    padding: 0.05em 0.35em;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.07);
+}
+
+/* Quick Action Links */
+.card-3d-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+    width: 100%;
+}
+
+.card-3d-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 38px;
+    padding: 0.4rem 0.9rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.65);
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.card-3d-chip:hover {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.28);
+    transform: translateY(-1px);
+}
+
+.card-3d-chip--primary {
+    font-weight: 600;
+}
+
+/* Design-specific adaptations */
+[data-design="brutalist"] .card-3d__face {
+    border-radius: 0;
+    border: 3px solid #000;
+    box-shadow: 8px 8px 0 #000;
+}
+[data-design="brutalist"] .card-3d {
+    border-radius: 0;
+}
+[data-design="brutalist"] .card-3d-btn {
+    border-radius: 0;
+    border: 2px solid #000;
+    box-shadow: 3px 3px 0 #000;
+    background: var(--br-yellow, #fff200);
+    color: #000;
+}
+[data-design="brutalist"] .card-3d-chip {
+    border-radius: 0;
+    border: 2px solid #000;
+    box-shadow: 2px 2px 0 #000;
+}
+
+[data-design="blueprint"] .card-3d__face {
+    border: 1.5px solid var(--bp-blue, #0d3b66);
+    box-shadow: 0 12px 30px rgba(13, 59, 102, 0.18);
+}
+[data-design="blueprint"] .card-3d-btn,
+[data-design="blueprint"] .card-3d-indicator {
+    font-family: var(--bp-mono, 'Chivo Mono', monospace);
+    border-radius: 4px;
+}
+
+[data-design="terminal"] .card-3d-btn,
+[data-design="terminal"] .card-3d-indicator {
+    font-family: 'Fira Code', monospace;
+    background: #1e222b;
+    color: #e5e9f0;
+    border-color: #3b4252;
+}
+[data-design="terminal"] .card-3d-chip {
+    background: #1e222b;
+    color: #e5e9f0;
+    border-color: #3b4252;
+}
+
+[data-design="depth"] .card-3d__face {
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6);
+}
+[data-design="depth"] .card-3d-btn,
+[data-design="depth"] .card-3d-chip {
+    background: rgba(255, 255, 255, 0.1);
+    color: #f0f0f0;
+    border-color: rgba(255, 255, 255, 0.15);
+}
+[data-design="depth"] .card-3d-indicator {
+    background: rgba(255, 255, 255, 0.08);
+    color: #f0f0f0;
+}
+
+@media (max-width: 600px) {
+    .card-3d-section {
+        margin: 1.75rem auto 1rem;
+    }
+    .card-3d {
+        border-radius: 14px;
+    }
+    .card-3d__face {
+        border-radius: 14px;
+    }
+    .card-3d-toolbar {
+        gap: 0.5rem;
+    }
+    .card-3d-btn {
+        min-height: 36px;
+        padding: 0.35rem 0.75rem;
+        font-size: 0.82rem;
+    }
+    .card-3d-kbd {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card-3d {
+        transition: transform 0.25s ease-out;
+    }
+    .card-3d__glare {
+        display: none;
+    }
+}

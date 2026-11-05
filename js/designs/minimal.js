@@ -137,12 +137,7 @@ export function render(c, h) {
             <div class="sw-section__label"><h2 id="contact-title">Contact</h2></div>
             <div class="sw-contact__body">
                 <p class="sw-contact__lead">${h.esc(contact.message)}</p>
-                <a class="sw-contact__email" href="${h.esc(h.mailto(contact.email))}">${h.esc(contact.email)}</a>
-                <ul class="sw-contact__list">
-                    <li><a class="sw-link" href="${h.esc(contact.phone.href)}">${h.esc(contact.phone.label)}</a></li>
-                    <li>${h.esc(contact.location)}</li>
-                    ${c.socials.map((s) => `<li>${h.link({ href: s.href, text: s.label, external: true, cls: 'sw-link' })}</li>`).join('')}
-                </ul>
+                ${h.contactCard(c, { design: 'minimal' })}
             </div>
         </section>
     </main>

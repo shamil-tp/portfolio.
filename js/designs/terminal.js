@@ -89,12 +89,7 @@ function experienceOut(c, h, { headingLevel = 3 } = {}) {
 function contactOut(c, h) {
     return `
         <p>${h.esc(c.contact.message)}</p>
-        <dl class="tm-kv">
-            <div><dt>email</dt><dd>${h.link({ href: h.mailto(c.contact.email), text: c.contact.email, cls: 'tm-link' })}</dd></div>
-            <div><dt>phone</dt><dd>${h.link({ href: c.contact.phone.href, text: c.contact.phone.label, cls: 'tm-link' })}</dd></div>
-            ${c.socials.map((s) => `<div><dt>${h.esc(s.label.toLowerCase())}</dt><dd>${h.link({ href: s.href, text: s.href.replace(/^https?:\/\/(www\.)?/, ''), external: true, cls: 'tm-link' })}</dd></div>`).join('')}
-            <div><dt>resume</dt><dd>${h.link({ href: c.person.resume.href, text: c.person.resume.label, cls: 'tm-link' })}</dd></div>
-        </dl>`;
+        ${h.contactCard(c, { design: 'terminal' })}`;
 }
 
 const COMMANDS = [

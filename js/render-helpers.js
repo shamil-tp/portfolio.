@@ -5,6 +5,8 @@
  * content.js goes through esc() (or a helper that calls it).
  */
 
+import { renderContactCard, initContactCard } from './contact-card.js';
+
 const ENTITIES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
 
 export const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ENTITIES[ch]);
@@ -126,3 +128,7 @@ export function prng(seed) {
         return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
     };
 }
+
+/** 3D Flippable Contact Card helper for the last section of the homepage. */
+export const contactCard = (c, opts) => renderContactCard(c, { esc, link, mailto }, opts);
+export { initContactCard };

@@ -135,11 +135,7 @@ export function render(c, h) {
         <section id="contact" class="ed-wrap ed-section ed-letters" aria-labelledby="contact-title">
             <header class="ed-section__flag"><h2 id="contact-title">Contact</h2></header>
             <p class="ed-letters__text">${h.esc(contact.message)}</p>
-            <p class="ed-letters__write">Write to <a href="${h.esc(h.mailto(contact.email))}">${h.esc(contact.email)}</a></p>
-            <ul class="ed-letters__list">
-                <li><a href="${h.esc(contact.phone.href)}">${h.esc(contact.phone.label)}</a></li>
-                ${c.socials.map((s) => `<li>${h.link({ href: s.href, text: s.label, external: true })}</li>`).join('')}
-            </ul>
+            ${h.contactCard(c, { design: 'editorial' })}
         </section>
     </main>
 
