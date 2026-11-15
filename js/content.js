@@ -63,7 +63,7 @@ export const content = {
     // Standalone pages (crawlable HTML, styled by the active design like the case studies).
     aboutHref: 'about/',
     achievementsHref: 'achievements/',
-    contactHref: 'contact/',
+    contactHref: 'contact/index.html',
 
     projects: [
         {

@@ -85,7 +85,7 @@ function chapterHTML(ch, c, h, i, total) {
     }
     return `${n}<h2 class="dp-chapter__title">The mast: get in touch</h2>
         <p>${h.esc(c.contact.message)}</p>
-        <p class="dp-chapter__links"><a class="dp-btn dp-btn--small dp-btn--solid" href="${h.esc(c.contactHref || 'contact/')}">Contact page ${h.icon('arrow-right')}</a><a class="dp-btn dp-btn--small" href="${h.esc(h.mailto(c.contact.email))}">${h.esc(c.contact.email)}</a></p>`;
+        <p class="dp-chapter__links"><a class="dp-btn dp-btn--small dp-btn--solid" href="${h.esc(c.contactHref || 'contact/index.html')}">Contact page ${h.icon('arrow-right')}</a><a class="dp-btn dp-btn--small" href="${h.esc(h.mailto(c.contact.email))}">${h.esc(c.contact.email)}</a></p>`;
 }
 
 export function render(c, h) {
@@ -268,7 +268,7 @@ function panelHTML(id, c, h) {
             <h2 id="dp-panel-title" class="dp-panel__title">Contact</h2>
             <p>${h.esc(c.contact.message)}</p>
             <p class="dp-panel__links">
-                <a class="dp-btn dp-btn--small dp-btn--solid" href="${h.esc(c.contactHref || 'contact/')}">Contact page ${h.icon('arrow-right')}</a>
+                <a class="dp-btn dp-btn--small dp-btn--solid" href="${h.esc(c.contactHref || 'contact/index.html')}">Contact page ${h.icon('arrow-right')}</a>
                 <a class="dp-btn dp-btn--small" href="${h.esc(h.mailto(c.contact.email))}">${h.esc(c.contact.email)}</a>
                 <a class="dp-btn dp-btn--small" href="${h.esc(c.contact.phone.href)}">${h.esc(c.contact.phone.label)}</a>
                 ${c.socials.map((s) => h.link({ href: s.href, text: s.label, external: true, cls: 'dp-btn dp-btn--small' })).join('')}

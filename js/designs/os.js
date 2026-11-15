@@ -202,7 +202,7 @@ export function render(c, h) {
         <nav class="os-icons" aria-label="Primary">
             <ul>
                 ${desktopIcons}
-                <li><a class="os-icon" href="${h.esc(c.contactHref || 'contact/')}">${pixelIcon('mail')}<span>Contact</span></a></li>
+                <li><a class="os-icon" href="${h.esc(c.contactHref || 'contact/index.html')}">${pixelIcon('mail')}<span>Contact</span></a></li>
                 <li><a class="os-icon" href="${h.esc(person.resume.href)}" type="application/pdf">${pixelIcon('pdf')}<span>Resume<span class="os-icon__ext">.pdf</span></span></a></li>
                 <li><a class="os-icon" href="${h.esc(c.caseStudiesHref)}">${pixelIcon('globe')}<span>Case studies</span></a></li>
             </ul>
@@ -219,7 +219,7 @@ export function render(c, h) {
             <p class="os-startmenu__side" aria-hidden="true">${h.esc(person.name)}</p>
             <ul>
                 ${startItems}
-                <li><a href="${h.esc(c.contactHref || 'contact/')}">${pixelIcon('mail')}Contact</a></li>
+                <li><a href="${h.esc(c.contactHref || 'contact/index.html')}">${pixelIcon('mail')}Contact</a></li>
                 <li><a href="${h.esc(person.resume.href)}" type="application/pdf">${pixelIcon('pdf')}Resume (PDF)</a></li>
                 <li><a href="${h.esc(c.caseStudiesHref)}">${pixelIcon('globe')}All case studies</a></li>
             </ul>

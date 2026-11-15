@@ -84,7 +84,7 @@ export function baselineHTML(c, h) {
                     <p>${h.esc(contact.message)}</p>
                     <p><a href="mailto:${h.esc(contact.email)}">${h.esc(contact.email)}</a> · <a href="${h.esc(contact.phone.href)}">${h.esc(contact.phone.label)}</a> · ${h.esc(contact.location)}</p>
                     <p>${socials}</p>
-                    <p><a href="${h.esc(c.contactHref || 'contact/')}">Direct message terminal &amp; contact form</a></p>
+                    <p><a href="${h.esc(c.contactHref || 'contact/index.html')}">Direct message terminal &amp; contact form</a></p>
                 </section>
             </main>
         </div>

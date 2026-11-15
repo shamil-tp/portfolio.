@@ -42,7 +42,7 @@ export function render(c, h) {
         { id: 'about', label: 'General notes' },
         { id: 'skills', label: 'Legend' },
         { id: 'experience', label: 'Revision history' },
-        { id: 'contact', label: 'Issued for contact', href: 'contact/' },
+        { id: 'contact', label: 'Issued for contact', href: 'contact/index.html' },
     ];
 
     const node = (p, i) => `

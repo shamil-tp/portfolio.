@@ -66,7 +66,7 @@ def head(path, title, desc, og_title, og_image, og_alt, ld):
                 <li><a href="../about/"{' aria-current="page"' if path == 'about/' else ''}>About</a></li>
                 <li><a href="../myProjectDetails/mycontributions.html">Projects</a></li>
                 <li><a href="../achievements/"{' aria-current="page"' if path == 'achievements/' else ''}>Achievements</a></li>
-                <li><a href="../contact/"{' aria-current="page"' if path == 'contact/' else ''}>Contact</a></li>
+                <li><a href="../contact/index.html"{' aria-current="page"' if path == 'contact/' else ''}>Contact</a></li>
             </ul>
         </div>
     </nav>
@@ -84,7 +84,7 @@ def breadcrumb_ld(name, path):
 def footer():
     return '''    <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 Shamil TP · <a href="../">shamiltp.me</a> · <a href="../about/">About</a> · <a href="../myProjectDetails/mycontributions.html">Projects</a> · <a href="../achievements/">Achievements</a> · <a href="../contact/">Contact</a></p>
+            <p>&copy; 2026 Shamil TP · <a href="../">shamiltp.me</a> · <a href="../about/">About</a> · <a href="../myProjectDetails/mycontributions.html">Projects</a> · <a href="../achievements/">Achievements</a> · <a href="../contact/index.html">Contact</a></p>
         </div>
     </footer>
 
