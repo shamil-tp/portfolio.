@@ -24,7 +24,6 @@ const APPS = [
     { id: 'about', title: 'About', ext: '.txt', icon: 'doc' },
     { id: 'skills', title: 'Skills', ext: '.cfg', icon: 'chip' },
     { id: 'experience', title: 'Experience', ext: '.log', icon: 'case' },
-    { id: 'contact', title: 'Contact', ext: '', icon: 'mail' },
 ];
 
 const DESKTOP_MQ = '(min-width: 1024px) and (min-height: 620px)';
@@ -172,7 +171,7 @@ export function render(c, h) {
     );
 
     const mail = windowShell(
-        app('contact'),
+        { id: 'contact', title: 'Contact', ext: '', icon: 'mail' },
         h,
         `<div class="os-mail">
             ${h.contactCard(c, { design: 'os' })}
@@ -203,6 +202,7 @@ export function render(c, h) {
         <nav class="os-icons" aria-label="Primary">
             <ul>
                 ${desktopIcons}
+                <li><a class="os-icon" href="${h.esc(c.contactHref || 'contact/')}">${pixelIcon('mail')}<span>Contact</span></a></li>
                 <li><a class="os-icon" href="${h.esc(person.resume.href)}" type="application/pdf">${pixelIcon('pdf')}<span>Resume<span class="os-icon__ext">.pdf</span></span></a></li>
                 <li><a class="os-icon" href="${h.esc(c.caseStudiesHref)}">${pixelIcon('globe')}<span>Case studies</span></a></li>
             </ul>
@@ -219,7 +219,7 @@ export function render(c, h) {
             <p class="os-startmenu__side" aria-hidden="true">${h.esc(person.name)}</p>
             <ul>
                 ${startItems}
-                <li><a href="${h.esc(c.contactHref || 'contact/')}">${pixelIcon('mail')}Direct message page</a></li>
+                <li><a href="${h.esc(c.contactHref || 'contact/')}">${pixelIcon('mail')}Contact</a></li>
                 <li><a href="${h.esc(person.resume.href)}" type="application/pdf">${pixelIcon('pdf')}Resume (PDF)</a></li>
                 <li><a href="${h.esc(c.caseStudiesHref)}">${pixelIcon('globe')}All case studies</a></li>
             </ul>
@@ -342,14 +342,14 @@ export function init(root, ctx) {
             about: { x: left, y: H * 0.08, w: Math.min(W * 0.36, 520), h: H * 0.7, minimized: false },
             skills: { x: left + 40, y: H * (three ? 0.26 : 0.14), w: Math.min(W * 0.42, 600), h: H * (three ? 0.6 : 0.72), minimized: !three },
             experience: { x: left + 80, y: H * 0.06, w: Math.min(W * 0.5, 700), h: H * 0.86, minimized: true },
-            contact: { x: W * 0.42, y: H * 0.22, w: Math.min(W * 0.4, 520), h: 0, minimized: true },
+            contact: { x: W * 0.42, y: H * 0.22, w: Math.min(W * 0.4, 520), h: 0, minimized: true, open: false },
         };
         // Icons on the right: the whole arrangement mirrors so windows stay clear of them.
         const mirror = v.icons === 'right';
         for (const [id, p] of Object.entries(plan)) {
             const s = state.get(id);
             const x = mirror ? W - p.x - p.w : p.x;
-            Object.assign(s, { x: Math.round(x), y: Math.round(p.y), w: Math.round(p.w), h: Math.round(p.h), minimized: p.minimized, open: true, maximized: false });
+            Object.assign(s, { x: Math.round(x), y: Math.round(p.y), w: Math.round(p.w), h: Math.round(p.h), minimized: p.minimized, open: p.open ?? true, maximized: false });
         }
     }
 

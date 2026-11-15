@@ -159,5 +159,9 @@ export function trackActiveSection(root, links, ctx, { rootMargin = '-45% 0px -5
         const section = root.querySelector(`#${CSS.escape(id)}`);
         if (section) io.observe(section);
     });
+    const contactSection = root.querySelector('#contact');
+    if (contactSection && !byId.has('contact')) {
+        io.observe(contactSection);
+    }
     ctx.onCleanup(() => io.disconnect());
 }

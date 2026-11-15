@@ -82,7 +82,7 @@ export function render(c, h) {
     <main id="main" tabindex="-1">
         <section class="ed-wrap ed-cover" aria-label="Introduction">
             <p class="ed-cover__dek">${h.esc(person.tagline)}</p>
-            <p class="ed-cover__byline">${h.esc(person.status)}. <a href="#contact">Get in touch</a>.</p>
+            <p class="ed-cover__byline">${h.esc(person.status)}. <a href="${h.esc(c.contactHref || 'contact/')}">Get in touch</a>.</p>
         </section>
 
         <section id="projects" class="ed-wrap ed-section" aria-labelledby="projects-title">
