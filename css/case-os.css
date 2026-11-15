@@ -445,3 +445,50 @@ body > main > .container,
     body { padding-top: 0; }
     .nav-links a { padding: 0 0.5rem; }
 }
+
+/* OS Contact Form: beveled window dialog, classic 90s inset input fields */
+.contact-form {
+    background: var(--os-face);
+    box-shadow: inset 1px 1px var(--os-light), inset -1px -1px var(--os-dark), inset 2px 2px var(--os-face), inset -2px -2px var(--os-shade);
+    border: 1px solid var(--os-dark);
+    padding: 1.25rem;
+    border-radius: 0;
+}
+
+.form-label {
+    font-family: var(--cs-meta-font);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #000;
+}
+
+.form-input, .form-textarea {
+    background: #fff;
+    color: #000;
+    border: 1px solid var(--os-shade);
+    box-shadow: inset 1px 1px #000, inset -1px -1px var(--os-light), inset 2px 2px var(--os-shade);
+    border-radius: 0;
+    font-family: var(--cs-mono);
+    font-size: 0.85rem;
+}
+
+.form-input:focus, .form-textarea:focus {
+    outline: 1px dotted #000;
+    outline-offset: -2px;
+}
+
+.form-submit {
+    background: var(--os-face);
+    color: #000;
+    box-shadow: var(--os-raised);
+    border: 1px solid var(--os-dark);
+    border-radius: 0;
+    font-family: var(--cs-meta-font);
+    font-weight: 700;
+    min-height: 36px;
+}
+
+.form-submit:active {
+    box-shadow: var(--os-pressed);
+    transform: translate(1px, 1px);
+}

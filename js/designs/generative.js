@@ -100,7 +100,7 @@ export function render(c, h, variation) {
     const { seed, palette, paletteName, composition, grid, tile } = settings(variation);
     const year = new Date().getFullYear();
 
-    const nav = h.sections.map((s, i) => `<li><a href="#${s.id}" style="--k:${i}">${h.esc(s.label)}</a></li>`).join('');
+    const nav = h.sections.map((s, i) => `<li><a href="${s.href || `#${s.id}`}" style="--k:${i}">${h.esc(s.label)}</a></li>`).join('');
 
     const projects = c.projects
         .map(

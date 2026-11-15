@@ -19,7 +19,7 @@ export const sections = [
     { id: 'projects', label: 'Projects' },
     { id: 'skills', label: 'Skills' },
     { id: 'experience', label: 'Experience' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'contact', label: 'Contact', href: 'contact/' },
 ];
 
 /** Reference to a symbol in the inline SVG sprite in index.html. */

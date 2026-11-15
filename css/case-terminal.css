@@ -177,3 +177,50 @@ body { font-size: clamp(0.8125rem, 0.78rem + 0.2vw, 0.9375rem); line-height: 1.6
 @media (max-width: 600px) {
     .card-content { grid-template-columns: minmax(0, 1fr); gap: 0; }
 }
+
+/* Terminal Contact Form: authentic console styling, green prompts and borders */
+.contact-form {
+    background: var(--tm-bg);
+    border: 1px solid var(--tm-line);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.form-label {
+    font-family: var(--cs-mono);
+    font-size: 0.8rem;
+    color: var(--tm-path);
+    text-transform: uppercase;
+}
+
+.form-label::before {
+    content: '> ';
+    color: var(--tm-user);
+}
+
+.form-input, .form-textarea {
+    background: var(--tm-bg-2);
+    border: 1px solid var(--tm-line);
+    border-radius: 0;
+    font-family: var(--cs-mono);
+    font-size: 0.875rem;
+    color: var(--tm-fg);
+    caret-color: var(--tm-path);
+}
+
+.form-input:focus, .form-textarea:focus {
+    border-color: var(--tm-path);
+    box-shadow: 0 0 8px rgb(0 230 118 / 0.25);
+    outline: none;
+}
+
+.form-submit {
+    background: var(--tm-path);
+    color: var(--tm-bg);
+    border: 1px solid var(--tm-path);
+    border-radius: 0;
+    font-family: var(--cs-mono);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}

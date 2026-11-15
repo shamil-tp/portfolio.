@@ -22,7 +22,7 @@ export function render(c, h, variation) {
     const { person, contact } = c;
     const LAYOUTS = RHYTHMS[variation?.layout.rhythm] ?? RHYTHMS.a;
     const year = new Date().getFullYear();
-    const nav = h.sections.map((s, i) => `<li><a href="#${s.id}" data-tone="${TONES[i % TONES.length]}">${h.esc(s.label)}</a></li>`).join('');
+    const nav = h.sections.map((s, i) => `<li><a href="${s.href || `#${s.id}`}" data-tone="${TONES[i % TONES.length]}">${h.esc(s.label)}</a></li>`).join('');
 
     const card = (p, i) => {
         const layout = LAYOUTS[i % LAYOUTS.length];

@@ -87,7 +87,7 @@ export function render(c, h, variation) {
     const density = Number(variation?.layout.density) || 5;
     const bedSeed = variation ? variation.seed : newSeed();
     const year = new Date().getFullYear();
-    const nav = h.sections.map((s) => `<li><a href="#${s.id}">${h.esc(s.label)}</a></li>`).join('');
+    const nav = h.sections.map((s) => `<li><a href="${s.href || `#${s.id}`}">${h.esc(s.label)}</a></li>`).join('');
 
     const specimens = c.projects
         .map(

@@ -63,9 +63,10 @@ def head(path, title, desc, og_title, og_image, og_alt, ld):
             <a href="../" class="logo">shamiltp<span class="highlight">.me</span></a>
             <ul class="nav-links">
                 <li><a href="../">Home</a></li>
-                <li><a href="../about/">About</a></li>
+                <li><a href="../about/"{' aria-current="page"' if path == 'about/' else ''}>About</a></li>
                 <li><a href="../myProjectDetails/mycontributions.html">Projects</a></li>
-                <li><a href="../achievements/">Achievements</a></li>
+                <li><a href="../achievements/"{' aria-current="page"' if path == 'achievements/' else ''}>Achievements</a></li>
+                <li><a href="../contact/"{' aria-current="page"' if path == 'contact/' else ''}>Contact</a></li>
             </ul>
         </div>
     </nav>
@@ -83,7 +84,7 @@ def breadcrumb_ld(name, path):
 def footer():
     return '''    <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 Shamil TP · <a href="../">shamiltp.me</a> · <a href="../about/">About</a> · <a href="../myProjectDetails/mycontributions.html">Projects</a> · <a href="../achievements/">Achievements</a></p>
+            <p>&copy; 2026 Shamil TP · <a href="../">shamiltp.me</a> · <a href="../about/">About</a> · <a href="../myProjectDetails/mycontributions.html">Projects</a> · <a href="../achievements/">Achievements</a> · <a href="../contact/">Contact</a></p>
         </div>
     </footer>
 
@@ -402,9 +403,239 @@ ach_body = f'''    <nav class="breadcrumb" aria-label="Breadcrumb">
 
 '''
 
+# ------------------------------------------------------------------ contact
+contact_path = 'contact/'
+contact_desc = 'Contact Shamil TP (shamil-tp). Official direct messaging terminal, email, phone, location and communication channels for software engineering projects and collaboration.'
+
+contact_ld = {
+    '@context': 'https://schema.org',
+    '@graph': [
+        breadcrumb_ld('Contact', contact_path),
+        {
+            '@type': 'ContactPage',
+            '@id': SITE + contact_path + '#page',
+            'url': SITE + contact_path,
+            'name': 'Contact Shamil TP',
+            'description': contact_desc,
+            'isPartOf': {'@id': SITE + '#website'},
+            'about': {'@id': PERSON_ID},
+            'inLanguage': 'en',
+            'potentialAction': {
+                '@type': 'CommunicateAction',
+                'name': 'Send a direct message to Shamil TP',
+                'target': SITE + contact_path + '#contact-form',
+            },
+        },
+        {**PERSON, 'mainEntityOfPage': {'@id': SITE + contact_path + '#page'}},
+    ],
+}
+
+contact_body = f'''    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <div class="container"><ol><li><a href="../">Home</a></li><li><span aria-current="page">Contact</span></li></ol></div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">Contact &amp; Inquiries</h1>
+            <p class="page-subtitle">Send a direct message or connect across official channels for engineering roles, freelance builds, and technical collaboration.</p>
+        </div>
+    </header>
+
+    <main id="main" class="main-content">
+        <div class="container content-grid">
+            <div class="main-column">
+
+                <section class="content-section" id="direct-message">
+                    <h2 class="section-heading">Send a direct message</h2>
+                    <div class="prose">
+                        <p>Have a project in mind, an engineering inquiry, or want to discuss full-stack and backend opportunities? Send a message directly to my inbox using the form below.</p>
+                    </div>
+
+                    <form id="contact-form" class="contact-form" novalidate>
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label for="name" class="form-label">Your Name <span class="required" aria-hidden="true">*</span></label>
+                                <input type="text" id="name" name="name" class="form-input" placeholder="e.g. Alex Rivera" required autocomplete="name">
+                            </div>
+                            <div class="form-field">
+                                <label for="email" class="form-label">Email Address <span class="required" aria-hidden="true">*</span></label>
+                                <input type="email" id="email" name="email" class="form-input" placeholder="you@example.com" required autocomplete="email">
+                            </div>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="subject" class="form-label">Subject / Inquiry Type</label>
+                            <input type="text" id="subject" name="subject" class="form-input" placeholder="e.g. Full-time opportunity / Freelance build / Technical inquiry">
+                        </div>
+
+                        <div class="form-field">
+                            <label for="message" class="form-label">Message <span class="required" aria-hidden="true">*</span></label>
+                            <textarea id="message" name="message" class="form-textarea" rows="6" placeholder="Describe the project, scope, tech stack, timeline, or questions..." required></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="link-btn primary form-submit" id="submit-btn">
+                                <i class="bi bi-send" aria-hidden="true"></i> <span>Send message</span>
+                            </button>
+                            <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+                        </div>
+
+                        <p class="form-note">
+                            <i class="bi bi-shield-check" aria-hidden="true"></i> Direct delivery to Shamil TP. No marketing trackers or third-party mailing lists.
+                        </p>
+                    </form>
+                </section>
+
+                <hr class="section-divider">
+
+                <section class="content-section" id="availability">
+                    <h2 class="section-heading">Response times &amp; working hours</h2>
+                    <div class="prose">
+                        <p>I monitor inquiries daily and aim for prompt, substantive communication.</p>
+                    </div>
+                    <table class="info-table">
+                        <tr><td>Status</td><td><strong>Open to opportunities</strong> (Full Stack, Backend, Systems, Freelance)</td></tr>
+                        <tr><td>Typical Turnaround</td><td>Within <strong>24 hours</strong> on business days</td></tr>
+                        <tr><td>Timezone</td><td>India Standard Time (IST, UTC +5:30)</td></tr>
+                        <tr><td>Location</td><td>Kerala, India · Available for remote work worldwide</td></tr>
+                        <tr><td>Preferred Inquiries</td><td>Detailed project scopes, job descriptions with tech stack, or clear collaboration proposals</td></tr>
+                    </table>
+                </section>
+
+                <hr class="section-divider">
+
+                <section class="content-section" id="verification">
+                    <h2 class="section-heading">Verified communication nodes</h2>
+                    <div class="prose">
+                        <p>To prevent impersonation, all official communications originate strictly from these verified endpoints:</p>
+                    </div>
+                    <table class="info-table">
+                        <tr><td>Direct Email</td><td><a class="mono-link" href="mailto:shamiltp073@gmail.com">shamiltp073@gmail.com</a></td></tr>
+                        <tr><td>Phone</td><td><a class="mono-link" href="tel:+917902786927">+91 79027 86927</a></td></tr>
+                        <tr><td>GitHub</td><td><a class="mono-link" href="https://github.com/shamil-tp" target="_blank" rel="noopener noreferrer">github.com/shamil-tp</a></td></tr>
+                        <tr><td>LinkedIn</td><td><a class="mono-link" href="https://www.linkedin.com/in/shamil-tp/" target="_blank" rel="noopener noreferrer">linkedin.com/in/shamil-tp</a></td></tr>
+                        <tr><td>X / Twitter</td><td><a class="mono-link" href="https://x.com/ShamilTp6" target="_blank" rel="noopener noreferrer">@ShamilTp6</a></td></tr>
+                        <tr><td>Official Domain</td><td><a class="mono-link" href="https://shamiltp.me">shamiltp.me</a></td></tr>
+                    </table>
+                </section>
+
+            </div>
+
+            <aside class="sidebar-column">
+                <div class="sidebar-widget">
+                    <h2 class="widget-title">Direct channels</h2>
+                    <div class="stack">
+                        <a href="mailto:shamiltp073@gmail.com" class="link-btn primary link-btn--block"><i class="bi bi-envelope-fill"></i> shamiltp073@gmail.com</a>
+                        <a href="tel:+917902786927" class="link-btn link-btn--block"><i class="bi bi-telephone-fill"></i> +91 79027 86927</a>
+                        <a href="https://github.com/shamil-tp" class="link-btn link-btn--block" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i> GitHub: shamil-tp</a>
+                        <a href="https://www.linkedin.com/in/shamil-tp/" class="link-btn link-btn--block" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i> LinkedIn: shamil-tp</a>
+                        <a href="https://x.com/ShamilTp6" class="link-btn link-btn--block" target="_blank" rel="noopener noreferrer"><i class="bi bi-twitter-x"></i> X: @ShamilTp6</a>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h2 class="widget-title">Live project demos</h2>
+                    <div class="stack">
+                        <a href="https://opspilot.shamiltp.me" class="link-btn link-btn--block" target="_blank" rel="noopener noreferrer"><i class="bi bi-robot"></i> opspilot.shamiltp.me</a>
+                        <a href="https://regret-map.shamiltp.me/" class="link-btn link-btn--block" target="_blank" rel="noopener noreferrer"><i class="bi bi-geo-alt"></i> regret-map.shamiltp.me</a>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h2 class="widget-title">Resume &amp; credentials</h2>
+                    <div class="stack">
+                        <a href="../Shamil_TP_Resume_ATS(1).pdf" class="link-btn link-btn--block" type="application/pdf"><i class="bi bi-file-earmark-pdf"></i> Resume (PDF)</a>
+                        <a href="../achievements/" class="link-btn link-btn--block"><i class="bi bi-award"></i> Verified certificates</a>
+                        <a href="../about/" class="link-btn link-btn--block"><i class="bi bi-person"></i> About Shamil TP</a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script>
+        (function() {{
+            const form = document.getElementById('contact-form');
+            if (!form) return;
+            const submitBtn = document.getElementById('submit-btn');
+            const formStatus = document.getElementById('form-status');
+            const defaultContent = submitBtn ? submitBtn.innerHTML : 'Send message';
+
+            form.addEventListener('submit', async function(event) {{
+                event.preventDefault();
+                if (!form.reportValidity()) return;
+
+                const nameEl = document.getElementById('name');
+                const emailEl = document.getElementById('email');
+                const subjectEl = document.getElementById('subject');
+                const messageEl = document.getElementById('message');
+
+                const name = nameEl ? nameEl.value.trim() : '';
+                const email = emailEl ? emailEl.value.trim() : '';
+                const subject = subjectEl ? subjectEl.value.trim() : '';
+                const message = messageEl ? messageEl.value.trim() : '';
+
+                if (!name || !email || !message) {{
+                    if (formStatus) {{
+                        formStatus.textContent = 'Please complete all required fields.';
+                        formStatus.className = 'form-status is-error';
+                    }}
+                    return;
+                }}
+
+                const payload = {{
+                    name: name,
+                    email: email,
+                    subject: subject || 'Portfolio Contact Inquiry',
+                    message: message
+                }};
+
+                if (submitBtn) {{
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Transmitting...';
+                }}
+                if (formStatus) {{
+                    formStatus.textContent = 'Transmitting message to endpoint...';
+                    formStatus.className = 'form-status';
+                }}
+
+                try {{
+                    const response = await fetch('https://contact.shamiltp.me/api/contact', {{
+                        method: 'POST',
+                        headers: {{ 'Content-Type': 'application/json', 'Accept': 'application/json' }},
+                        body: JSON.stringify(payload)
+                    }});
+
+                    if (!response.ok) {{
+                        throw new Error('Contact endpoint rejected the request: ' + response.status);
+                    }}
+
+                    form.reset();
+                    if (formStatus) {{
+                        formStatus.textContent = 'Message delivered successfully! Shamil TP will get back to you shortly.';
+                        formStatus.className = 'form-status is-success';
+                    }}
+                }} catch (error) {{
+                    console.error('Contact form submission failed:', error);
+                    if (formStatus) {{
+                        formStatus.innerHTML = 'Transmission failed. Please email directly at <a href="mailto:shamiltp073@gmail.com">shamiltp073@gmail.com</a>.';
+                        formStatus.className = 'form-status is-error';
+                    }}
+                }} finally {{
+                    if (submitBtn) {{
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = defaultContent;
+                    }}
+                }}
+            }});
+        }})();
+    </script>
+'''
+
 for path, title, desc, ogt, ogimg, ogalt, ld, body in [
     (about_path, 'About Shamil TP: Developer, MCA Student and Self-Hoster', about_desc, 'About Shamil TP', SITE + 'assets/og/home.png', 'Shamil TP — portfolio', about_ld, about_body),
     (ach_path, 'Achievements and Certificates | Shamil TP', ach_desc, 'Achievements and certificates of Shamil TP', SITE + 'assets/og/home.png', 'Shamil TP — portfolio', ach_ld, ach_body),
+    (contact_path, 'Contact Shamil TP | Full Stack Developer', contact_desc, 'Contact Shamil TP', SITE + 'assets/og/home.png', 'Contact Shamil TP — Direct Message Terminal', contact_ld, contact_body),
 ]:
     os.makedirs(path, exist_ok=True)
     html = head(path, title, desc, ogt, ogimg, ogalt, ld) + body + footer() + tail

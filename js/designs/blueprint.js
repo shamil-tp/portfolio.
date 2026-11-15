@@ -42,7 +42,7 @@ export function render(c, h) {
         { id: 'about', label: 'General notes' },
         { id: 'skills', label: 'Legend' },
         { id: 'experience', label: 'Revision history' },
-        { id: 'contact', label: 'Issued for contact' },
+        { id: 'contact', label: 'Issued for contact', href: 'contact/' },
     ];
 
     const node = (p, i) => `
@@ -117,7 +117,7 @@ export function render(c, h) {
             </dl>
             <button class="bp-menu-btn" type="button" aria-expanded="false" aria-controls="bp-nav">Sheet index</button>
             <nav class="bp-nav" id="bp-nav" aria-label="Primary">
-                <ol>${sheets.map((s, i) => `<li><a href="#${s.id}"><span class="bp-mono">${String(i + 1).padStart(2, '0')}</span> ${h.esc(s.label)}</a></li>`).join('')}</ol>
+                <ol>${sheets.map((s, i) => `<li><a href="${s.href || `#${s.id}`}"><span class="bp-mono">${String(i + 1).padStart(2, '0')}</span> ${h.esc(s.label)}</a></li>`).join('')}</ol>
             </nav>
         </header>
 

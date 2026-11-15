@@ -191,3 +191,47 @@ body { line-height: 1.7; }
 @media (max-width: 600px) {
     .project-card:nth-child(n) { transform: none; }
 }
+
+/* Garden Contact Form: botanical calm, soft natural paper, Young Serif headers */
+.contact-form {
+    border: 1.5px solid var(--gd-line);
+    border-radius: 14px;
+    background: var(--gd-sand);
+    box-shadow: 0 4px 20px rgb(44 53 39 / 0.04);
+}
+
+.form-label {
+    font-family: var(--cs-display);
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--gd-moss);
+}
+
+.form-input, .form-textarea {
+    border: 1.5px solid var(--gd-line);
+    border-radius: 10px;
+    background: var(--gd-paper);
+    font-family: var(--cs-text);
+    color: var(--gd-moss);
+}
+
+.form-input:focus, .form-textarea:focus {
+    border-color: var(--gd-fern);
+    box-shadow: 0 0 0 2px rgb(133 169 71 / 0.25);
+    outline: none;
+}
+
+.form-submit {
+    border-radius: 10px;
+    background: var(--gd-moss);
+    color: var(--gd-paper);
+    font-family: var(--cs-text);
+    font-weight: 700;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .form-submit:hover {
+        background: var(--gd-fern);
+        border-color: var(--gd-fern);
+    }
+}

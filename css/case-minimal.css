@@ -311,3 +311,52 @@ body {
 @media (max-width: 600px) {
     .project-card { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
 }
+
+/* Swiss Contact Form: restrained hairline rules, mono labels, red focus */
+.contact-form {
+    border-top: 1px solid var(--sw-ink);
+    border-bottom: 1px solid var(--sw-ink);
+    padding: 1.5rem 0;
+}
+
+.form-label {
+    font-family: var(--cs-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sw-mid);
+}
+
+.form-input, .form-textarea {
+    background: transparent;
+    border: 1px solid var(--sw-rule);
+    border-radius: 0;
+    font-family: var(--cs-mono);
+    font-size: 0.875rem;
+    color: var(--sw-ink);
+}
+
+.form-input:focus, .form-textarea:focus {
+    border-color: var(--sw-red);
+    box-shadow: none;
+    outline: none;
+}
+
+.form-submit {
+    border-radius: 0;
+    font-family: var(--cs-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.8125rem;
+    background: var(--sw-ink);
+    color: var(--sw-paper);
+    border: 1px solid var(--sw-ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .form-submit:hover {
+        background: var(--sw-red);
+        border-color: var(--sw-red);
+        color: #fff;
+    }
+}

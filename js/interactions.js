@@ -143,7 +143,8 @@ export function frameLoop(ctx, tick) {
 /** Highlight the nav link of the section currently in view (aria-current="true"). */
 export function trackActiveSection(root, links, ctx, { rootMargin = '-45% 0px -50% 0px' } = {}) {
     if (!('IntersectionObserver' in window) || !links.length) return;
-    const byId = new Map(links.map((a) => [a.getAttribute('href').slice(1), a]));
+    const hashLinks = links.filter((a) => a.getAttribute('href')?.startsWith('#'));
+    const byId = new Map(hashLinks.map((a) => [a.getAttribute('href').slice(1), a]));
     const io = new IntersectionObserver(
         (entries) => {
             for (const entry of entries) {

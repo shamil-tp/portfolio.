@@ -91,7 +91,7 @@ function chapterHTML(ch, c, h, i, total) {
 export function render(c, h) {
     const { person, contact } = c;
     const year = new Date().getFullYear();
-    const nav = h.sections.map((s) => `<li><a href="#${s.id}">${h.esc(s.label)}</a></li>`).join('');
+    const nav = h.sections.map((s) => `<li><a href="${s.href || `#${s.id}`}">${h.esc(s.label)}</a></li>`).join('');
 
     const labels = [
         ...c.projects.map(

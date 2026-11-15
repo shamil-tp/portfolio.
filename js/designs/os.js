@@ -219,6 +219,7 @@ export function render(c, h) {
             <p class="os-startmenu__side" aria-hidden="true">${h.esc(person.name)}</p>
             <ul>
                 ${startItems}
+                <li><a href="${h.esc(c.contactHref || 'contact/')}">${pixelIcon('mail')}Direct message page</a></li>
                 <li><a href="${h.esc(person.resume.href)}" type="application/pdf">${pixelIcon('pdf')}Resume (PDF)</a></li>
                 <li><a href="${h.esc(c.caseStudiesHref)}">${pixelIcon('globe')}All case studies</a></li>
             </ul>

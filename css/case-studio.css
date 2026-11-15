@@ -219,3 +219,35 @@ body { font-optical-sizing: auto; }
     .project-card,
     .project-card:nth-child(n) { grid-column: 1 / -1; }
 }
+
+/* Studio Contact Form: playful, chunky tactile cards, Bricolage Grotesque */
+.contact-form {
+    border: 2px solid var(--st-ink);
+    border-radius: var(--st-rad);
+    background: #fff;
+    box-shadow: 4px 4px 0 var(--st-ink);
+}
+
+.form-label {
+    font-family: var(--cs-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.form-input, .form-textarea {
+    border: 2px solid var(--st-ink);
+    border-radius: calc(var(--st-rad) - 4px);
+    font-size: 0.95rem;
+}
+
+.form-input:focus, .form-textarea:focus {
+    border-color: var(--st-cobalt);
+    box-shadow: 0 0 0 3px rgb(43 65 240 / 0.2);
+}
+
+.form-submit {
+    border-radius: 999px;
+    font-family: var(--cs-display);
+    font-weight: 700;
+    padding: 0 1.5rem;
+}

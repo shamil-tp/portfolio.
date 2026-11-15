@@ -120,7 +120,7 @@ export function render(c, h, variation) {
     const readme = v.intro === 'readme';
     const short = v.listing === 'compact';
     const year = new Date().getFullYear();
-    const windows = h.sections.map((s, i) => `<li><a href="#${s.id}"><span aria-hidden="true">${i}:</span>${h.esc(s.label.toLowerCase())}</a></li>`).join('');
+    const windows = h.sections.map((s, i) => `<li><a href="${s.href || `#${s.id}`}"><span aria-hidden="true">${i}:</span>${h.esc(s.label.toLowerCase())}</a></li>`).join('');
     const block = (id, cmd, title, body) => `
         <section id="${id}" class="tm-block" aria-labelledby="${id}-title">
             <p class="tm-cmd">${PS1} <span class="tm-cmd__text">${h.esc(cmd)}</span></p>

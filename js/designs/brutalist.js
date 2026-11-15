@@ -14,7 +14,7 @@ export function render(c, h) {
     const tickerItems = c.skills.flatMap((g) => g.items);
     const ticker = tickerItems.map((t) => `<li>${h.esc(t)}</li>`).join('');
 
-    const nav = h.sections.map((s) => `<li><a href="#${s.id}">${h.esc(s.label)}</a></li>`).join('');
+    const nav = h.sections.map((s) => `<li><a href="${s.href || `#${s.id}`}">${h.esc(s.label)}</a></li>`).join('');
 
     const projects = c.projects
         .map(

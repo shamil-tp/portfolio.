@@ -394,3 +394,61 @@ body { font-weight: 450; }
     .info-table td:first-child { border-right: 0; padding-top: 0.45rem; }
     .info-table tr { padding: 0; border-bottom: 2px solid var(--br-ink); }
 }
+
+/* Brutalist Contact Form: loud colour block, 3px borders, hard offset shadows */
+.contact-form {
+    background: var(--br-yellow);
+    border: 3px solid var(--br-ink);
+    box-shadow: 6px 6px 0 var(--br-ink);
+    border-radius: 0;
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+}
+
+.form-label {
+    font-family: var(--cs-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--br-ink);
+}
+
+.form-input, .form-textarea {
+    background: #fff;
+    border: 3px solid var(--br-ink);
+    box-shadow: 4px 4px 0 var(--br-ink);
+    border-radius: 0;
+    font-family: var(--cs-mono);
+    font-size: 0.9rem;
+    color: var(--br-ink);
+}
+
+.form-input:focus, .form-textarea:focus {
+    transform: translate3d(-2px, -2px, 0);
+    box-shadow: 6px 6px 0 var(--br-orange);
+    border-color: var(--br-ink);
+    outline: none;
+}
+
+.form-submit {
+    background: var(--br-ink);
+    color: var(--br-yellow);
+    border: 3px solid var(--br-ink);
+    box-shadow: 4px 4px 0 var(--br-orange);
+    font-family: var(--cs-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .form-submit:hover {
+        transform: translate3d(-2px, -2px, 0);
+        box-shadow: 6px 6px 0 var(--br-orange);
+    }
+}
+
+.form-submit:active {
+    transform: translate3d(4px, 4px, 0);
+    box-shadow: 0 0 0 var(--br-ink);
+}

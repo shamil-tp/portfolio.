@@ -383,3 +383,52 @@ body {
     .project-grid { grid-template-columns: minmax(0, 1fr); }
     body { font-size: 1.0625rem; }
 }
+
+/* Editorial Magazine Contact Form: elegant serif typography, ruled lines, refined borders */
+.contact-form {
+    background: var(--cs-surface-2);
+    border: 1px solid var(--cs-line);
+    border-top: 3px solid var(--ed-ink);
+    border-radius: 0;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.form-label {
+    font-family: var(--cs-display);
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--ed-ink);
+}
+
+.form-input, .form-textarea {
+    background: var(--ed-paper);
+    border: 1px solid var(--ed-hair);
+    border-radius: 0;
+    font-family: var(--cs-text);
+    font-size: 1.05rem;
+    color: var(--ed-ink);
+}
+
+.form-input:focus, .form-textarea:focus {
+    border-color: var(--ed-red);
+    box-shadow: 0 0 0 1px var(--ed-red);
+    outline: none;
+}
+
+.form-submit {
+    border-radius: 0;
+    font-family: var(--cs-display);
+    font-style: italic;
+    font-size: 1rem;
+    background: var(--ed-ink);
+    color: var(--ed-paper);
+    border: 1px solid var(--ed-ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .form-submit:hover {
+        background: var(--ed-red);
+        border-color: var(--ed-red);
+        color: #fff;
+    }
+}

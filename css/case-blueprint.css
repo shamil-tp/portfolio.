@@ -232,3 +232,44 @@ body {
 .card-desc { margin: 0; }
 
 [data-v-medium='cyanotype'] { color-scheme: dark; }
+
+/* Blueprint Contact Form: technical drawing schematic, Chivo Mono metadata */
+.contact-form {
+    border: 1.5px solid var(--bp-ink);
+    background: var(--bp-vellum);
+    border-radius: 0;
+}
+
+.form-label {
+    font-family: var(--cs-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--bp-ink);
+}
+
+.form-input, .form-textarea {
+    border: 1px solid var(--bp-line);
+    background: #fff;
+    border-radius: 0;
+    font-family: var(--cs-mono);
+    font-size: 0.85rem;
+    color: var(--bp-ink);
+}
+
+.form-input:focus, .form-textarea:focus {
+    border-color: var(--bp-ink);
+    outline: 1px dashed var(--bp-ink);
+    outline-offset: 1px;
+    box-shadow: none;
+}
+
+.form-submit {
+    border-radius: 0;
+    border: 1.5px solid var(--bp-ink);
+    background: var(--bp-ink);
+    color: var(--bp-vellum);
+    font-family: var(--cs-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}

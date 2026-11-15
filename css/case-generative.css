@@ -253,3 +253,44 @@ body { transition: background-color 600ms var(--ease-out), color 600ms var(--eas
 @media (prefers-reduced-motion: reduce) {
     .gn-case-field .gn-arc { transition: stroke 200ms ease; }
 }
+
+/* Generative Contact Form: seeded procedural accent stripe, bold Syne labels */
+.contact-form {
+    border: 1px solid var(--g-line);
+    border-radius: var(--g-rad);
+    box-shadow: inset 0 4px var(--g-a), 0 8px 24px -12px rgb(0 0 0 / 0.08);
+}
+
+.form-label {
+    font-family: var(--cs-display);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--g-ink);
+}
+
+.form-input, .form-textarea {
+    border: 1px solid var(--g-line);
+    border-radius: var(--g-rad);
+    font-family: var(--cs-text);
+}
+
+.form-input:focus, .form-textarea:focus {
+    border-color: var(--g-a);
+    box-shadow: 0 0 0 2px var(--g-a);
+    outline: none;
+}
+
+.form-submit {
+    border-radius: var(--g-rad);
+    background: var(--g-ink);
+    color: var(--g-paper);
+    font-family: var(--cs-display);
+    font-weight: 700;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .form-submit:hover {
+        background: var(--g-a);
+        color: #16161d;
+    }
+}

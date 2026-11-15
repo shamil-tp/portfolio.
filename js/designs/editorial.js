@@ -13,7 +13,7 @@ export function render(c, h) {
     const edition = now.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
     const [lead, ...rest] = c.projects;
 
-    const nav = h.sections.map((s) => `<li><a href="#${s.id}">${h.esc(s.label)}</a></li>`).join('');
+    const nav = h.sections.map((s) => `<li><a href="${s.href || `#${s.id}`}">${h.esc(s.label)}</a></li>`).join('');
 
     const story = (p, i) => `
         <li class="ed-story${i % 5 === 0 ? ' ed-story--wide' : ''}" data-reveal>

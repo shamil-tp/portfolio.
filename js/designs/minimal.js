@@ -14,7 +14,7 @@ export function render(c, h) {
     const order = ['projects', 'about', 'skills', 'experience', 'contact'];
     const nav = order
         .map((id) => h.sections.find((s) => s.id === id))
-        .map((s) => `<li><a href="#${s.id}">${s.id === 'projects' ? 'Work' : h.esc(s.label)}</a></li>`)
+        .map((s) => `<li><a href="${s.href || `#${s.id}`}">${s.id === 'projects' ? 'Work' : h.esc(s.label)}</a></li>`)
         .join('');
 
     const projects = c.projects
